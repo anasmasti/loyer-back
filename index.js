@@ -1,4 +1,3 @@
-const { urlencoded, json } = require('express')
 const express = require('express')
 const http = require('http')
 const app = express()
@@ -6,11 +5,12 @@ const server = http.createServer(app)
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-require('dotenv').config()
-
-
+const dotenv = require('dotenv')
 const ProprietaireRouter = require('./routes/proprietaire')
+const HomeRouter = require('./routes/home')
 
+// Globale fichier .env configuration 
+dotenv.config()
 
 const PORT = process.env.PORT
 const DB_URL = process.env.DB_URL
@@ -28,7 +28,9 @@ app.use(cors({
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+app.use('/', HomeRouter)
 app.use('/api/proprietaire', ProprietaireRouter)
+
 
 
 
