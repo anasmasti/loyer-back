@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const uniqueValidator = require('mongoose-unique-validator')
 
 
 
@@ -7,7 +8,7 @@ const Schema = mongoose.Schema
 const MandataireSchema = new Schema({
     cin: {
         type: String,
-        unique: true,
+        unique: true
     },
     nom: {
         type: String
@@ -37,15 +38,15 @@ const MandataireSchema = new Schema({
 const ProtrietaireSchema = new Schema({
     cin: {
         type: String,
-        unique: true,
+        unique: true
     },
     passport: {
         type: String,
-        unique: true,
+        unique: true
     },
     carte_sejour: {
         type: String,
-        unique: true,
+        unique: true
     },
     nom: {
         type: String,
@@ -93,6 +94,7 @@ const ProtrietaireSchema = new Schema({
 );
 
 const Propietaire = mongoose.model('Propietaire', ProtrietaireSchema)
-
+MandataireSchema.plugin(uniqueValidator)
+ProtrietaireSchema.plugin(uniqueValidator)
 
 module.exports = Propietaire
