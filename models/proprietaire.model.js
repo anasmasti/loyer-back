@@ -10,10 +10,7 @@ const MandataireSchema = new Schema({
         type: String,
         unique: true
     },
-    nom: {
-        type: String
-    },
-    prenom: {
+    nom_prenom: {
         type: String
     },
     raison_social: {
@@ -48,10 +45,7 @@ const ProtrietaireSchema = new Schema({
         type: String,
         unique: true
     },
-    nom: {
-        type: String,
-    },
-    prenom: {
+    nom_prenom: {
         type: String,
     },
     raison_social: {

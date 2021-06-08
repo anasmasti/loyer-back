@@ -154,7 +154,7 @@ router.put('/:Id', async (req, res) => {
     }
 });
 
-//
+//Chercher touts les propriétaires
 router.get('/', async (req, res) => {
     await Proprietaire.find()
         .then((data) => {
@@ -165,6 +165,7 @@ router.get('/', async (req, res) => {
         })
 });
 
+//Chercher propriétaires par ID
 router.get('/:Id', async (req, res) => {
     await Proprietaire.findById(req.params.Id)
         .then((data) => {
@@ -175,6 +176,7 @@ router.get('/:Id', async (req, res) => {
         })
 });
 
+//Supprimer propriétaires par ID
 router.delete('/:Id', async (req, res) => {
     await Proprietaire.findByIdAndDelete(req.params.Id)
         .then(() => {

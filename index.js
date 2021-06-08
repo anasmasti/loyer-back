@@ -25,15 +25,14 @@ app.use(cors({
     allowedHeaders: 'Content-Type, X-Requested-With, Accept, Origin, Authorization'
 }))
 
+//
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use('/', HomeRouter)
 app.use('/api/proprietaire', ProprietaireRouter)
 
-
-
-
+//Database configuration
 mongoose.connect(DB_URL,
     {
         useNewUrlParser: true,
@@ -42,4 +41,5 @@ mongoose.connect(DB_URL,
         useFindAndModify: false
     }, () => console.log('connected to DB'))
 
+//running server
 server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
