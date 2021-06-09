@@ -6,26 +6,26 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 
 const MandataireSchema = new Schema({
-    cin: {
+    cin_mandataire: {
         type: String,
         unique: true
     },
-    nom_prenom: {
+    nom_prenom_mandataire: {
         type: String
     },
-    raison_social: {
+    raison_social_mandataire: {
         type: String,
     },
-    telephone: {
+    telephone_mandataire: {
         type: Number,
     },
-    fax: {
+    fax_mandataire: {
         type: Number,
     },
-    adresse: {
+    adresse_mandataire: {
         type: String,
     },
-    n_compte_bancaire: {
+    n_compte_bancaire_mandataire: {
         type: Number,
         unique: true
     },

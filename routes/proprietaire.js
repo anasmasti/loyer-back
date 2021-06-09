@@ -27,13 +27,13 @@ router.post('/', async (req, res) => {
                     nom_agence_bancaire: req.body.nom_agence_bancaire,
                     has_mandataire: req.body.has_mandataire,
                     mandataire: {
-                        cin: req.body.mandataire.cin_mandataire,
-                        nom_prenom: req.body.mandataire.nom_prenom_mandataire,
-                        raison_social: req.body.mandataire.raison_social_mandataire,
-                        telephone: req.body.mandataire.telephone_mandataire,
-                        fax: req.body.mandataire.fax_mandataire,
-                        adresse: req.body.mandataire.adresse_mandataire,
-                        n_compte_bancaire: req.body.mandataire.n_compte_bancaire_mandataire
+                        cin_mandataire: req.body.mandataire.cin_mandataire,
+                        nom_prenom_mandataire: req.body.mandataire.nom_prenom_mandataire,
+                        raison_social_mandataire: req.body.mandataire.raison_social_mandataire,
+                        telephone_mandataire: req.body.mandataire.telephone_mandataire,
+                        fax_mandataire: req.body.mandataire.fax_mandataire,
+                        adresse_mandataire: req.body.mandataire.adresse_mandataire,
+                        n_compte_bancaire_mandataire: req.body.mandataire.n_compte_bancaire_mandataire
                     }
                 }
             )
@@ -43,9 +43,9 @@ router.post('/', async (req, res) => {
                 })
                 .catch((error) => {
                     if (error.name == 'ValidationError') {
-                        res.send('CIN ou Passport ou Carte séjour et déja utilisé')
+                        res.send('CIN ou Passport ou Carte séjour et déja pris')
                     } else {
-                        res.status(500).json(`Cant send data : ${error}`)
+                        res.status(500).json(`Error d'ajouter un propriétaire: ${error}`)
 
                     }
                 })
@@ -72,7 +72,11 @@ router.post('/', async (req, res) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    res.status(500).json(`Cant send data${error}`)
+                    if (error.name == 'ValidationError') {
+                        res.send('CIN ou Passport ou Carte séjour et déja pris')
+                    } else {
+                        res.status(500).json(`Error d'ajouter un propriétaire: ${error}`)
+                    }
                 })
         }
     } catch (error) {
@@ -86,7 +90,7 @@ router.post('/', async (req, res) => {
 // Modifier un propriétaire 
 router.put('/:Id', async (req, res) => {
 
-    if (Object.keys(req.body).length === 0) return res.status(500).json(`Content can't be empty`)
+    if (Object.keys(req.body).length === 0) return res.status(500).json(`Contenu ne pas être vide`)
     try {
 
         const validatedProprietaire = await ProprietaireValidation.validateAsync(req.body)
@@ -107,20 +111,24 @@ router.put('/:Id', async (req, res) => {
                 nom_agence_bancaire: req.body.nom_agence_bancaire,
                 has_mandataire: req.body.has_mandataire,
                 mandataire: {
-                    cin: req.body.mandataire.cin_mandataire,
-                    nom_prenom: req.body.mandataire.nom_prenom_mandataire,
-                    raison_social: req.body.mandataire.raison_social_mandataire,
-                    telephone: req.body.mandataire.telephone_mandataire,
-                    fax: req.body.mandataire.fax_mandataire,
-                    adresse: req.body.mandataire.adresse_mandataire,
-                    n_compte_bancaire: req.body.mandataire.n_compte_bancaire_mandataire
+                    cin_mandataire: req.body.mandataire.cin_mandataire,
+                    nom_prenom_mandataire: req.body.mandataire.nom_prenom_mandataire,
+                    raison_social_mandataire: req.body.mandataire.raison_social_mandataire,
+                    telephone_mandataire: req.body.mandataire.telephone_mandataire,
+                    fax_mandataire: req.body.mandataire.fax_mandataire,
+                    adresse_mandataire: req.body.mandataire.adresse_mandataire,
+                    n_compte_bancaire_mandataire: req.body.mandataire.n_compte_bancaire_mandataire
                 }
             })
                 .then((data) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    res.status(500).json(`Cannot modify with Id : ${req.params.Id}` + error)
+                    if (error.name == 'ValidationError') {
+                        res.send('CIN ou Passport ou Carte séjour et déja pris')
+                    } else {
+                        res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
+                    }
                 })
         }
         else {
@@ -144,7 +152,12 @@ router.put('/:Id', async (req, res) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    res.status(500).json(`Cannot modify with Id : ${req.params.Id}` + error)
+                    if (error.name == 'ValidationError') {
+                        res.send('CIN ou Passport ou Carte séjour et déja pris')
+                    } else {
+                        res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
+
+                    }
                 })
         }
     } catch (error) {
@@ -161,7 +174,7 @@ router.get('/', async (req, res) => {
             res.json(data)
         })
         .catch((error) => {
-            res.status(200).json(`Cannot get data Or no data found :  ${error}`)
+            res.status(200).json(`Aucun Propriétaire trouvé :  ${error}`)
         })
 });
 
@@ -172,7 +185,7 @@ router.get('/:Id', async (req, res) => {
             res.json(data)
         })
         .catch((error) => {
-            res.status(500).json(`Not found with Id : ${req.params.Id}` + error)
+            res.status(500).json(`Aucun Propriétaire trouvé : ${req.params.Id}` + error)
         })
 });
 
@@ -183,7 +196,7 @@ router.delete('/:Id', async (req, res) => {
             res.json(`Deleted`)
         })
         .catch(error => {
-            res.status(400).json(`Cannot delete with Id : ${req.params.Id}` + error)
+            res.status(400).json(`Error de suppression le propriétaire : ${req.params.Id}` + error)
         })
 })
 
