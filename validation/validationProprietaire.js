@@ -1,6 +1,6 @@
 
 const Joi = require('joi')
-const mandataireValidation = require('./validationMandataire')
+
 
 const ProprietaireValidation = Joi.object({
     // Proprietaire validation
@@ -84,7 +84,7 @@ const ProprietaireValidation = Joi.object({
         .number()
         .integer()
         .required()
-        .min(1)
+        .min(0)
         .max(999999999999999999999999999999)
         .messages({
             'number.base': 'Numéro de compte bancaire contient juste des chiffres',
@@ -105,14 +105,18 @@ const ProprietaireValidation = Joi.object({
     has_mandataire: Joi
         .boolean(),
     mandataire: Joi
-        .when('has_mandataire', {
+        .array()
+        .default(null)
+        .when('has_mandataire',{
             is: true,
-            then: mandataireValidation
+            then: Joi
+                .required()
+                .messages({
+                    'any.required': 'Mandataire est Obligatoir'
+                })
         })
-        .error(new Error(`Ce propriétaire ne peut pas pris un mandataire`))
+})
 
-}).or('cin', 'passport', 'carte_sejour')
-  .required()
-  .error(new Error(`Vous devez remplire au moins Cin, Passeport, Carte séjour`))
+
 
 module.exports = ProprietaireValidation;

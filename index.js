@@ -14,13 +14,14 @@ dotenv.config()
 
 const PORT = process.env.PORT
 const DB_URL = process.env.DB_URL
+const DB_LOCAL = process.env.DB_LOCAL
 
 //use Cors
 app.use(cors({
     origin: '*',
     credentials: true,
     methods: [
-        'GET', 'POST', 'PUT', 'DELETE'
+        'GET', 'POST', 'PUT'
     ],
     allowedHeaders: 'Content-Type, X-Requested-With, Accept, Origin, Authorization'
 }))
@@ -33,7 +34,7 @@ app.use('/', HomeRouter)
 app.use('/api/proprietaire', ProprietaireRouter)
 
 //Database configuration
-mongoose.connect(DB_URL,
+mongoose.connect(DB_LOCAL,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,

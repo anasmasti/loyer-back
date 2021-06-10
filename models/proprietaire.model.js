@@ -2,13 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const uniqueValidator = require('mongoose-unique-validator')
 
-
-
-
+//Mandataire Schema
 const MandataireSchema = new Schema({
     cin_mandataire: {
         type: String,
-        unique: true
     },
     nom_prenom_mandataire: {
         type: String
@@ -27,23 +24,20 @@ const MandataireSchema = new Schema({
     },
     n_compte_bancaire_mandataire: {
         type: Number,
-        unique: true
     },
 });
 
-
+//Protrietaire Schema
 const ProtrietaireSchema = new Schema({
+
     cin: {
-        type: String,
-        unique: true
+        type: String
     },
     passport: {
         type: String,
-        unique: true
     },
     carte_sejour: {
         type: String,
-        unique: true
     },
     nom_prenom: {
         type: String,
@@ -75,20 +69,29 @@ const ProtrietaireSchema = new Schema({
     nom_agence_bancaire: {
         type: String,
     },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
     has_mandataire: {
         type: Boolean,
         default: false
     },
     mandataire: {
         type: [MandataireSchema],
+        index: false,
+        default: null,
         required: false,
     },
 },
-    { timestamps: true, }
+    { timestamps: true, },
 );
+
 
 const Propietaire = mongoose.model('Propietaire', ProtrietaireSchema)
 MandataireSchema.plugin(uniqueValidator)
 ProtrietaireSchema.plugin(uniqueValidator)
+
+
 
 module.exports = Propietaire
