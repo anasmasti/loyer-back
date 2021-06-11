@@ -11,7 +11,8 @@ router.post('/', async (req, res, next) => {
 
         // L'obligation d'au moin un cin ou passport ou carte sejour
         if ((req.body.cin == '' && req.body.passport == '' && req.body.carte_sejour == '')) {
-            return res.status(422).send(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`)
+            return res.status(422).send({message : `Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour` }
+            )
             // return (error) => res.send(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour` || {message: error.message})
         }
 
