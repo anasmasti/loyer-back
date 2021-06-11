@@ -104,6 +104,8 @@ const ProprietaireValidation = Joi.object({
         }),
     has_mandataire: Joi
         .boolean(),
+    deleted: Joi
+        .boolean(),
     mandataire: Joi
         .array()
         .default(null)
