@@ -34,7 +34,7 @@ app.use('/', HomeRouter)
 app.use('/api/proprietaire', ProprietaireRouter)
 
 //Database configuration
-mongoose.connect(DB_URL, {
+mongoose.connect(DB_LOCAL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,

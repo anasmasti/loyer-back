@@ -11,7 +11,8 @@ router.post('/', async (req, res, next) => {
 
         // L'obligation d'au moin un cin ou passport ou carte sejour
         if ((req.body.cin == '' && req.body.passport == '' && req.body.carte_sejour == '')) {
-            return res.json(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`)
+            return res.status(422).send(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`)
+            // return (error) => res.send(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour` || {message: error.message})
         }
 
         // Lancer Joi Validation
@@ -23,13 +24,13 @@ router.post('/', async (req, res, next) => {
         const ValidateCarteSejourProprietaire = await Proprietaire.findOne({ carte_sejour: req.body.carte_sejour })
 
         if (ValidateCinProprietaire) {
-            if (ValidateCinProprietaire.cin != '') return res.json(`Cin est déja pris`)
+            if (ValidateCinProprietaire.cin != '') return res.status(422).send(`Cin est déja pris`)
         }
         if (ValidatePassportProprietaire) {
-            if (ValidatePassportProprietaire.passport != '') return res.json(`Passport est déja pris`)
+            if (ValidatePassportProprietaire.passport != '') return res.status(422).send(`Passport est déja pris`)
         }
         if (ValidateCarteSejourProprietaire) {
-            if (ValidateCarteSejourProprietaire.carte_sejour != '') return res.json(`Carte séjour est déja pris`)
+            if (ValidateCarteSejourProprietaire.carte_sejour != '') return res.status(422).send(`Carte séjour est déja pris`)
         }
 
         // Sauvgarder et envoyer  Proprietaire
@@ -45,9 +46,9 @@ router.post('/', async (req, res, next) => {
                 const ValidateCinMandataire = await Proprietaire.findOne({ "mandataire.cin_mandataire": req.body.mandataire[item].cin_mandataire })
                 const ValidateNumBancaireMandataire = await Proprietaire.findOne({ "mandataire.n_compte_bancaire_mandataire": req.body.mandataire[item].n_compte_bancaire_mandataire })
 
-                if (ValidateCinMandataire) return res.json(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
+                if (ValidateCinMandataire) return res.status(422).send(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
 
-                if (ValidateNumBancaireMandataire) return res.json(`Numéro compte bancaire de mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
+                if (ValidateNumBancaireMandataire) return res.status(422).send(`Numéro compte bancaire de mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
 
                 // Ajouter touts les mandataires dans un tableau
                 await mandataires.push({
@@ -81,13 +82,13 @@ router.post('/', async (req, res, next) => {
 
             await proprietaire.save()
                 .then((data) => {
-                    res.json(data)
+                    res.send(data)
                 })
                 .catch((error) => {
                     if (error.name == 'ValidationError') {
-                        if (error.errors.n_compte_bancaire) return res.json(`Numéro compte bancaire est déja pris`)
+                        if (error.errors.n_compte_bancaire) return res.status(422).send(`Numéro compte bancaire est déja pris`)
                     } else {
-                        res.status(500).json(`Error d'ajouter un propriétaire: ${error}`)
+                        res.status(500).send(`Error d'ajouter un propriétaire: ${error}`)
                     }
                 })
         }
@@ -112,13 +113,13 @@ router.post('/', async (req, res, next) => {
 
             await proprietaire.save()
                 .then((data) => {
-                    res.json(data)
+                    res.send(data)
                 })
                 .catch((error) => {
                     if (error.name == 'ValidationError') {
-                        if (error.errors.n_compte_bancaire) return res.json(`Numéro compte bancaire est déja pris`)
+                        if (error.errors.n_compte_bancaire) return res.status(422).send(`Numéro compte bancaire est déja pris`)
                     } else {
-                        res.status(500).json(`Error d'ajouter un propriétaire: ${error}`)
+                        res.status(500).send(`Error d'ajouter un propriétaire: ${error}`)
                     }
                 })
         }
@@ -135,11 +136,11 @@ router.put('/:Id', async (req, res, next) => {
 
     try {
 
-        if (Object.keys(req.body).length === 0) return res.status(500).json(`Contenu ne pas être vide`)
+        if (Object.keys(req.body).length === 0) return res.status(500).send(`Contenu ne pas être vide`)
 
         // L'obligation d'au moin un cin ou passport ou carte sejour
         if ((req.body.cin && req.body.passport && req.body.carte_sejour) == null) {
-            return res.json(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`)
+            return res.status(422).send(`Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`)
         }
 
         // Joi Validation
@@ -155,7 +156,7 @@ router.put('/:Id', async (req, res, next) => {
                 ValidateCinProprietaire.cin != '' &&
                 ValidateCinProprietaire._id != req.params.Id) {
 
-                return res.json('CIN est déja pris')
+                return res.status(422).send('CIN est déja pris')
             }
         }
 
@@ -164,7 +165,7 @@ router.put('/:Id', async (req, res, next) => {
                 ValidatePassportProprietaire.passport != '' &&
                 ValidatePassportProprietaire._id != req.params.Id) {
 
-                return res.json('Passport est déja pris')
+                return res.status(422).send('Passport est déja pris')
             }
         }
 
@@ -173,7 +174,7 @@ router.put('/:Id', async (req, res, next) => {
                 ValidateCarteSejourProprietaire.carte_sejour != '' &&
                 ValidateCarteSejourProprietaire._id != req.params.Id) {
 
-                return res.json('Carte séjour est déja pris')
+                return res.status(422).send('Carte séjour est déja pris')
             }
         }
 
@@ -191,7 +192,7 @@ router.put('/:Id', async (req, res, next) => {
                     for (let element = 0; element < ValidateCinMandataire.mandataire.length; element++) {
                         if (ValidateCinMandataire.mandataire[element].cin_mandataire == req.body.mandataire[item].cin_mandataire && ValidateCinMandataire._id != req.params.Id) {
 
-                            return res.json(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
+                            return res.status(422).send(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
                         }
                     }
                 }
@@ -200,7 +201,7 @@ router.put('/:Id', async (req, res, next) => {
                     for (let element = 0; element < ValidateNumBancaireMandataire.mandataire.length; element++) {
                         if (ValidateNumBancaireMandataire.mandataire[element].n_compte_bancaire_mandataire == req.body.mandataire[item].n_compte_bancaire_mandataire && ValidateNumBancaireMandataire._id != req.params.Id) {
 
-                            return res.json(`Numéro compte bancaire de Mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
+                            return res.status(422).send(`Numéro compte bancaire de Mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
                         }
                     }
                 }
@@ -233,15 +234,15 @@ router.put('/:Id', async (req, res, next) => {
                 mandataire: mandataires
             })
                 .then((data) => {
-                    res.json(data)
+                    res.send(data)
                 })
                 .catch((error) => {
                     if (error.code === 11000) {
 
-                        return res.json(`Numéro compte bancaire est déja pris`)
+                        return res.status(422).send(`Numéro compte bancaire est déja pris`)
 
                     } else {
-                        return res.status(500).json(`Error de modification le propriétaire : ${req.params.Id} ` + error)
+                        return res.status(500).send(`Error de modification le propriétaire : ${req.params.Id} ` + error)
                     }
                 })
         }
@@ -263,15 +264,15 @@ router.put('/:Id', async (req, res, next) => {
                 mandataire: []
             })
                 .then((data) => {
-                    res.json(data)
+                    res.send(data)
                 })
                 .catch((error) => {
                     if (error.code == 11000) {
 
-                        return res.json(`Numéro compte bancaire est déja pris`)
+                        return res.status(422).send(`Numéro compte bancaire est déja pris`)
 
                     } else {
-                        return res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
+                        return res.status(500).send(`Error de modification le propriétaire : ${req.params.Id}` + error)
                     }
                 })
         }
@@ -287,10 +288,10 @@ router.put('/:Id', async (req, res, next) => {
 router.get('/', async (req, res) => {
     await Proprietaire.find({ deleted : false })
         .then((data) => {
-            res.json(data)
+            res.send(data)
         })
         .catch((error) => {
-            res.status(200).json(`Aucun Propriétaire trouvé :  ${error}`)
+            res.status(200).send(`Aucun Propriétaire trouvé :  ${error}`)
         })
 });
 
@@ -298,10 +299,10 @@ router.get('/', async (req, res) => {
 router.get('/:Id', async (req, res) => {
     await Proprietaire.findById(req.params.Id)
         .then((data) => {
-            res.json(data)
+            res.send(data)
         })
         .catch((error) => {
-            res.status(500).json(`Aucun Propriétaire trouvé : ${req.params.Id}` + error)
+            res.status(500).send(`Aucun Propriétaire trouvé : ${req.params.Id}` + error)
         })
 });
 
@@ -311,10 +312,10 @@ router.put('/delete/:Id', async (req, res) => {
         deleted: req.body.deleted
     })
     .then(() => {
-        res.json(`Deleted`)
+        res.send(`Deleted`)
     })
     .catch(error => {
-        res.status(400).json(`Error de suppression le propriétaire : ${req.params.Id}` + error)
+        res.status(400).send(`Error de suppression le propriétaire : ${req.params.Id}` + error)
     })
 })
 
