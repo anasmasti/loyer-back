@@ -33,7 +33,7 @@ router.post('/', async (req, res, next) => {
         }
 
         // Sauvgarder et envoyer  Proprietaire
-        if (req.body.has_mandataire == true) {
+        if (req.body.has_mandataire === true) {
 
             const mandataires = []
             let item = 0
@@ -132,9 +132,9 @@ router.post('/', async (req, res, next) => {
 // Modifier un propriétaire 
 router.put('/:Id', async (req, res, next) => {
 
-    if (Object.keys(req.body).length === 0) return res.status(500).json(`Contenu ne pas être vide`)
-
     try {
+
+        if (Object.keys(req.body).length === 0) return res.status(500).json(`Contenu ne pas être vide`)
 
         // L'obligation d'au moin un cin ou passport ou carte sejour
         if ((req.body.cin && req.body.passport && req.body.carte_sejour) == null) {
@@ -176,19 +176,34 @@ router.put('/:Id', async (req, res, next) => {
             }
         }
 
-        if (req.body.has_mandataire == true) {
-
-            // La validation d'unicité du Mandataire
-            const ValidateCinMandataire = await Proprietaire.findOne({ "mandataire.cin_mandataire": req.body.mandataire[item].cin_mandataire })
-            const ValidateNumBancaireMandataire = await Proprietaire.findOne({ "mandataire.n_compte_bancaire_mandataire": req.body.mandataire[item].n_compte_bancaire_mandataire })
-
-            if (ValidateCinMandataire) return res.json(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
-
-            if (ValidateNumBancaireMandataire) return res.json(`Numéro compte bancaire de mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
+        if (req.body.has_mandataire === true) {
 
             const mandataires = []
             let item = 0
             for (item in req.body.mandataire) {
+
+                // La validation d'unicité du Mandataire
+                const ValidateCinMandataire = await Proprietaire.findOne({ "mandataire.cin_mandataire": req.body.mandataire[item].cin_mandataire })
+                const ValidateNumBancaireMandataire = await Proprietaire.findOne({ "mandataire.n_compte_bancaire_mandataire": req.body.mandataire[item].n_compte_bancaire_mandataire })
+
+                if (ValidateCinMandataire) {
+                    for (let element = 0; element < ValidateCinMandataire.mandataire.length; element++) {
+                        if (ValidateCinMandataire.mandataire[element].cin_mandataire == req.body.mandataire[item].cin_mandataire && ValidateCinMandataire._id != req.params.Id) {
+
+                            return res.json(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
+                        }
+                    }
+                }
+
+                if (ValidateNumBancaireMandataire) {
+                    for (let element = 0; element < ValidateNumBancaireMandataire.mandataire.length; element++) {
+                        if (ValidateNumBancaireMandataire.mandataire[element].n_compte_bancaire_mandataire == req.body.mandataire[item].n_compte_bancaire_mandataire && ValidateNumBancaireMandataire._id != req.params.Id) {
+
+                            return res.json(`Numéro compte bancaire de Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
+                        }
+                    }
+                }
+
                 await mandataires.push({
                     cin_mandataire: req.body.mandataire[item].cin_mandataire,
                     nom_prenom_mandataire: req.body.mandataire[item].nom_prenom_mandataire,
@@ -220,12 +235,12 @@ router.put('/:Id', async (req, res, next) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    if (error.code == 11000) {
+                    if (error.code === 11000) {
 
                         return res.json(`Numéro compte bancaire est déja pris`)
 
                     } else {
-                        res.status(500).json(`Error de modification le propriétaire : ${req.params.Id} ` + error)
+                        return res.status(500).json(`Error de modification le propriétaire : ${req.params.Id} ` + error)
                     }
                 })
         }
@@ -255,7 +270,7 @@ router.put('/:Id', async (req, res, next) => {
                         return res.json(`Numéro compte bancaire est déja pris`)
 
                     } else {
-                        res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
+                        return res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
                     }
                 })
         }
@@ -264,11 +279,12 @@ router.put('/:Id', async (req, res, next) => {
             message: error.message || `Validation error: ${error}`
         })
     }
+
 });
 
 //Chercher touts les propriétaires
 router.get('/', async (req, res) => {
-    await Proprietaire.find()
+    await Proprietaire.find({ deleted : false })
         .then((data) => {
             res.json(data)
         })
@@ -289,14 +305,16 @@ router.get('/:Id', async (req, res) => {
 });
 
 //Supprimer propriétaires par ID
-router.delete('/:Id', async (req, res) => {
-    await Proprietaire.findByIdAndDelete(req.params.Id)
-        .then(() => {
-            res.json(`Deleted`)
-        })
-        .catch(error => {
-            res.status(400).json(`Error de suppression le propriétaire : ${req.params.Id}` + error)
-        })
+router.put('/delete/:Id', async (req, res) => {
+    await Proprietaire.findByIdAndUpdate(req.params.Id, {
+        deleted: req.body.deleted
+    })
+    .then(() => {
+        res.json(`Deleted`)
+    })
+    .catch(error => {
+        res.status(400).json(`Error de suppression le propriétaire : ${req.params.Id}` + error)
+    })
 })
 
 module.exports = router;
