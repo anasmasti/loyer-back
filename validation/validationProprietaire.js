@@ -1,8 +1,8 @@
 
 const Joi = require('joi')
 
-
 const ProprietaireValidation = Joi.object({
+
     // Proprietaire validation
     cin: Joi
         .string()
@@ -105,7 +105,8 @@ const ProprietaireValidation = Joi.object({
     has_mandataire: Joi
         .boolean(),
     deleted: Joi
-        .boolean(),
+        .boolean()
+        .default(false),
     mandataire: Joi
         .array()
         .default(null)

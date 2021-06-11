@@ -62,7 +62,7 @@ router.post('/', async (req, res, next) => {
             }
 
             const proprietaire = new Proprietaire(
-                {
+                {   deleted: false,
                     cin: req.body.cin,
                     passport: req.body.passport,
                     carte_sejour: req.body.carte_sejour,
@@ -94,6 +94,7 @@ router.post('/', async (req, res, next) => {
         else {
 
             const proprietaire = new Proprietaire({
+                deleted:false,
                 cin: req.body.cin,
                 passport: req.body.passport,
                 carte_sejour: req.body.carte_sejour,
@@ -199,7 +200,7 @@ router.put('/:Id', async (req, res, next) => {
                     for (let element = 0; element < ValidateNumBancaireMandataire.mandataire.length; element++) {
                         if (ValidateNumBancaireMandataire.mandataire[element].n_compte_bancaire_mandataire == req.body.mandataire[item].n_compte_bancaire_mandataire && ValidateNumBancaireMandataire._id != req.params.Id) {
 
-                            return res.json(`Numéro compte bancaire de Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
+                            return res.json(`Numéro compte bancaire de Mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
                         }
                     }
                 }

@@ -89,9 +89,6 @@ const ProtrietaireSchema = new Schema({
 
 
 const Propietaire = mongoose.model('Propietaire', ProtrietaireSchema)
-MandataireSchema.plugin(uniqueValidator)
 ProtrietaireSchema.plugin(uniqueValidator)
-
-
 
 module.exports = Propietaire
