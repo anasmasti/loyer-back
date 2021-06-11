@@ -12,7 +12,8 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'string.base': 'CIN doit être text et numéro',
             'string.min': 'CIN doit être 4 charactères au minimum',
-            'string.max': 'CIN doit être 8 charactères au maximum'
+            'string.max': 'CIN doit être 8 charactères au maximum',
+            'string.empty': 'CIN ne peut pas être vide'
         }),
     passport: Joi
         .string()
@@ -22,7 +23,8 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'string.base': 'passport doit être text et numéro',
             'string.min': 'passport doit être 4 charactères au minimum',
-            'string.max': 'passport doit être 8 charactères au maximum'
+            'string.max': 'passport doit être 8 charactères au maximum',
+            'string.empty': 'Passport ne peut pas être vide'
         }),
     carte_sejour: Joi
         .string()
@@ -32,7 +34,8 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'string.base': 'carte séjour doit être text et numéro',
             'string.min': 'carte séjour doit être 4 charactères au minimum',
-            'string.max': 'carte séjour doit être 8 charactères au maximum'
+            'string.max': 'carte séjour doit être 8 charactères au maximum',
+            'string.empty': 'Carte séjour ne peut pas être vide'
         }),
     nom_prenom: Joi
         .string()
