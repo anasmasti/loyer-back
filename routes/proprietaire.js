@@ -44,9 +44,9 @@ router.post('/', async (req, res, next) => {
                 // La validation d'unicité du Mandataire
                 const ValidateCinMandataire = await Proprietaire.findOne({ "mandataire.cin_mandataire": req.body.mandataire[item].cin_mandataire })
                 const ValidateNumBancaireMandataire = await Proprietaire.findOne({ "mandataire.n_compte_bancaire_mandataire": req.body.mandataire[item].n_compte_bancaire_mandataire })
-    
+
                 if (ValidateCinMandataire) return res.json(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
-    
+
                 if (ValidateNumBancaireMandataire) return res.json(`Numéro compte bancaire de mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
 
                 // Ajouter touts les mandataires dans un tableau
@@ -142,37 +142,49 @@ router.put('/:Id', async (req, res, next) => {
         }
 
         // Joi Validation
-        // const validatedProprietaire = await ProprietaireValidation.validateAsync(req.body)
+        const validatedProprietaire = await ProprietaireValidation.validateAsync(req.body)
 
         // La validation d'unicité du Proprietaire
         const ValidateCinProprietaire = await Proprietaire.findOne({ cin: req.body.cin })
-        const ValidatePassportProprietaire = await Proprietaire.find({ passport: req.body.passport })
-        const ValidateCarteSejourProprietaire = await Proprietaire.find({ carte_sejour: req.body.carte_sejour })
+        const ValidatePassportProprietaire = await Proprietaire.findOne({ passport: req.body.passport })
+        const ValidateCarteSejourProprietaire = await Proprietaire.findOne({ carte_sejour: req.body.carte_sejour })
 
         if (ValidateCinProprietaire) {
-            if (ValidateCinProprietaire.cin == req.body.cin && ValidateCinProprietaire.cin != '')  return res.json('CIN ALREADY EXIST') 
+            if (ValidateCinProprietaire.cin == req.body.cin &&
+                ValidateCinProprietaire.cin != '' &&
+                ValidateCinProprietaire._id != req.params.Id) {
+
+                return res.json('CIN est déja pris')
+            }
         }
 
         if (ValidatePassportProprietaire) {
-            if (ValidatePassportProprietaire.passport == req.body.passport && ValidatePassportProprietaire.passport != '')  return res.json('PASSPORT ALREADY EXIST') 
+            if (ValidatePassportProprietaire.passport == req.body.passport &&
+                ValidatePassportProprietaire.passport != '' &&
+                ValidatePassportProprietaire._id != req.params.Id) {
+
+                return res.json('Passport est déja pris')
+            }
         }
 
         if (ValidateCarteSejourProprietaire) {
-            if (ValidateCarteSejourProprietaire.carte_sejour == req.body.carte_sejour && ValidateCarteSejourProprietaire.carte_sejour != '')  return res.json('CARTE SEJOUR ALREADY EXIST') 
-        }
-       
-        // La validation d'unicité du Mandataire
-        // const ValidateCinMandataire = await Proprietaire.findOne({ cin_mandataire: req.body.mandataire.cin_mandataire })
-        // const ValidateNumBancaireMandataire = await Proprietaire.findOne({ n_compte_bancaire_mandataire: req.body.mandataire.n_compte_bancaire_mandataire })
+            if (ValidateCarteSejourProprietaire.carte_sejour == req.body.carte_sejour &&
+                ValidateCarteSejourProprietaire.carte_sejour != '' &&
+                ValidateCarteSejourProprietaire._id != req.params.Id) {
 
-        // if (ValidateCinMandataire) {
-        //     return res.json(`CIN Mandataire est déja pris`)
-        // }
-        // if (ValidateNumBancaireMandataire) {
-        //     return res.json(`Numéro compte bancaire de mandataire est déja pris`)
-        // }
+                return res.json('Carte séjour est déja pris')
+            }
+        }
 
         if (req.body.has_mandataire == true) {
+
+            // La validation d'unicité du Mandataire
+            const ValidateCinMandataire = await Proprietaire.findOne({ "mandataire.cin_mandataire": req.body.mandataire[item].cin_mandataire })
+            const ValidateNumBancaireMandataire = await Proprietaire.findOne({ "mandataire.n_compte_bancaire_mandataire": req.body.mandataire[item].n_compte_bancaire_mandataire })
+
+            if (ValidateCinMandataire) return res.json(`CIN Mandataire: ${req.body.mandataire[item].cin_mandataire} est déja pris`)
+
+            if (ValidateNumBancaireMandataire) return res.json(`Numéro compte bancaire de mandataire: ${req.body.mandataire[item].n_compte_bancaire_mandataire} est déja pris`)
 
             const mandataires = []
             let item = 0
@@ -208,10 +220,12 @@ router.put('/:Id', async (req, res, next) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    if (error.name == 'ValidationError') {
-                        res.send('CIN ou Passport ou Carte séjour et déja pris')
+                    if (error.code == 11000) {
+
+                        return res.json(`Numéro compte bancaire est déja pris`)
+
                     } else {
-                        res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
+                        res.status(500).json(`Error de modification le propriétaire : ${req.params.Id} ` + error)
                     }
                 })
         }
@@ -236,12 +250,12 @@ router.put('/:Id', async (req, res, next) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    if (error.name == 'ValidationError') {
-                        res.json(error)
-                        // res.send('CIN ou Passport ou Carte séjour et déja pris')
+                    if (error.code == 11000) {
+
+                        return res.json(`Numéro compte bancaire est déja pris`)
+
                     } else {
                         res.status(500).json(`Error de modification le propriétaire : ${req.params.Id}` + error)
-
                     }
                 })
         }
