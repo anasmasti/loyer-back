@@ -23,7 +23,7 @@ app.use(cors({
     methods: [
         'GET', 'POST', 'PUT'
     ],
-    allowedHeaders: 'Content-Type, X-Requested-With, Accept, Origin, Authorization'
+    allowedHeaders: 'Content-Type, X-Requested-With, Accept, Origin, Authorization, Application/json'
 }))
 
 //
