@@ -314,7 +314,7 @@ router.put('/delete/:Id', async (req, res) => {
         deleted: req.body.deleted
     })
         .then(() => {
-            res.json({ message: "Deleted" })
+            res.send({ message: "Deleted" })
         })
         .catch(error => {
             res.status(400).send({ message: `Error de suppression le propriétaire` || error })
