@@ -2,44 +2,41 @@ const express = require('express')
 const http = require('http')
 const app = express()
 const server = http.createServer(app)
-const mongoose = require('mongoose')
+const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const dotenv = require('dotenv')
-const ProprietaireRouter = require('./routes/proprietaire')
-const HomeRouter = require('./routes/home')
+const db_config = require('./helpers/db.config')
+const routes = require('./helpers/routes.config.js')
+const ApiKeyVerify = require('./middleware/Api_key.verify')
+
 
 // Globale fichier .env configuration 
 dotenv.config()
-
 const PORT = process.env.PORT
-const DB_URL = process.env.DB_URL
-const DB_LOCAL = process.env.DB_LOCAL
+
+//securing Api with Helmet
+app.use(helmet())
 
 //use Cors
 app.use(cors({
     origin: '*',
     credentials: true,
-    methods: [
-        'GET', 'POST', 'PUT'
-    ],
-    allowedHeaders: 'Content-Type, X-Requested-With, Accept, Origin, Authorization'
+    methods: ['GET', 'POST', 'PUT'],
+    allowedHeaders: ['Content-Type', 'X-Requested-With', 'Accept', 'Origin', 'Authorization'],
 }))
 
-//
+//data parser as json
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use('/', HomeRouter)
-app.use('/api/proprietaire', ProprietaireRouter)
+//routes configuration
+app.use('/api', ApiKeyVerify ,routes);
 
-//Database configuration
-mongoose.connect(DB_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-    }, () => console.log('connected to DB'))
+//database connection
+db_config;
+
+
 
 //running server
 server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
