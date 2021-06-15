@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const db_config = require('./helpers/db.config')
-const routes = require('./helpers/routes.config.js')
-const ApiKeyVerify = require('./middleware/Api_key.verify')
+const routes = require('./routes/routes.js')
+const checkApiKey = require('./middleware/api-key.verify')
 
 
 // Globale fichier .env configuration 
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 //routes configuration
-app.use('/api', ApiKeyVerify ,routes);
+app.use('/api', checkApiKey ,routes);
 
 //database connection
 db_config;

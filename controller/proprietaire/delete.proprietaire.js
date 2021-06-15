@@ -1,9 +1,9 @@
-const Proprietaire = require('../../models/proprietaire.model')
+const Proprietaire = require('../../models/proprietaire/proprietaire.model')
 
 module.exports = {
 
     //Supprimer propriétaires par ID
-    DeleteProprietaire: async (req, res) => {
+    deleteProprietaire: async (req, res) => {
         await Proprietaire.findByIdAndUpdate(req.params.Id, {
             deleted: req.body.deleted
         })

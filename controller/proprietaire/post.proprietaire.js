@@ -1,10 +1,10 @@
-const Proprietaire = require('../../models/proprietaire.model')
-const ProprietaireValidation = require('../../validation/validationProprietaire')
+const Proprietaire = require('../../models/proprietaire/proprietaire.model')
+const ProprietaireValidation = require('../../validation/proprietaire.validation')
 
 module.exports = {
 
     // Ajouter un propriétaire 
-    PostProprietaire: async (req, res) => {
+    postProprietaire: async (req, res) => {
 
         try {
 

@@ -49,23 +49,21 @@ const ProprietaireValidation = Joi.object({
         }),
     raison_social: Joi
         .string()
-        .empty()
+        .empty('')
         .min(2)
         .max(250)
         .messages({
             'string.min': 'Raison Social Propriétaire doit être 2 charactères au minimum',
-            'string.max': 'Raison Social Propriétaire doit être 250 charactères au maximum',
-            'string.empty': 'Raison Social ne peut pas être vide'
+            'string.max': 'Raison Social Propriétaire doit être 250 charactères au maximum'
         }),
     n_registre_commerce: Joi
         .string()
-        .empty()
+        .empty('')
         .min(2)
         .max(50)
         .messages({
             'string.min': 'Numéro de registre commerce de Propriétaire doit être 2 charactères au minimum',
-            'string.max': 'Numéro de registre commerce de Propriétaire doit être 50 charactères au maximum',
-            'string.empty': 'Numéro de registre commerce ne peut pas être vide'
+            'string.max': 'Numéro de registre commerce de Propriétaire doit être 50 charactères au maximum'
         }),
     telephone: Joi
         .number()
@@ -79,21 +77,19 @@ const ProprietaireValidation = Joi.object({
         }),
     fax: Joi
         .number()
-        .empty()
+        .empty('')
         .integer()
         .min(1)
         .max(99999999999)
         .messages({
-            'number.base': 'Fax peut contient seulement des chiffres',
-            'string.empty': 'Fax ne peut pas être vide'
+            'number.base': 'Fax peut contient seulement des chiffres'
         }),
     adresse: Joi
         .string()
-        .empty()
+        .empty('')
         .max(250)
         .messages({
-            'string.max': 'Adresse peut contient seulement 250 charactères au maximum',
-            'string.empty': 'Adresse ne peut pas être vide'
+            'string.max': 'Adresse peut contient seulement 250 charactères au maximum'
         }),
     n_compte_bancaire: Joi
         .number()
@@ -117,12 +113,11 @@ const ProprietaireValidation = Joi.object({
         }),
     nom_agence_bancaire: Joi
         .string()
-        .empty()
+        .empty('')
         .max(250)
         .messages({
             'string.max': `Nom d'agence bancaire peut contient seulement 250 charactères au maximum`,
-            'any.empty': `Le champs nom de l'agence bancaire de Propriétaire ne peut pas être vide`,
-            'string.empty': `Nom de l'agence ne peut pas être vide`
+            'any.empty': `Le champs nom de l'agence bancaire de Propriétaire ne peut pas être vide`
         }),
     has_mandataire: Joi
         .boolean(),

@@ -1,9 +1,9 @@
-const Proprietaire = require('../../models/proprietaire.model')
+const Proprietaire = require('../../models/proprietaire/proprietaire.model')
 
 module.exports = {
 
     //Chercher touts les propriétaires
-    GetAllProprietaire: async (req, res) => {
+    getAllProprietaire: async (req, res) => {
         await Proprietaire.find({ deleted: false })
             .then((data) => {
                 res.send(data)
@@ -14,7 +14,7 @@ module.exports = {
     },
 
     //Chercher propriétaires par ID
-    GetProprietairePerID: async (req, res) => {
+    getProprietairePerID: async (req, res) => {
         await Proprietaire.findById(req.params.Id)
             .then((data) => {
                 res.send(data)

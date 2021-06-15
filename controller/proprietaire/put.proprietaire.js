@@ -1,17 +1,17 @@
-const Proprietaire = require('../../models/proprietaire.model')
-const ProprietaireValidation = require('../../validation/validationProprietaire')
+const Proprietaire = require('../../models/proprietaire/proprietaire.model')
+const ProprietaireValidation = require('../../validation/proprietaire.validation')
 
 module.exports = {
 
     // Modifier un propriétaire 
-    PutProprietaire: async (req, res, next) => {
+    putProprietaire: async (req, res, next) => {
 
         try {
 
             if (Object.keys(req.body).length === 0) return res.status(500).send({ message: `Contenu ne pas être vide` })
 
             // L'obligation d'au moin un cin ou passport ou carte sejour
-            if ((req.body.cin && req.body.passport && req.body.carte_sejour) == null) {
+            if (req.body.cin == '' && req.body.passport == '' && req.body.carte_sejour == '') {
                 return res.status(422).send({ message: `Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour` })
             }
 
