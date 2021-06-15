@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 //routes configuration
-app.use('/api', checkApiKey ,routes);
+app.use('/api/v1', checkApiKey ,routes);
 
 //database connection
 db_config;

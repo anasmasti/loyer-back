@@ -11,11 +11,11 @@ const router = express.Router()
 router.route('/home').get(HomeRouter.getHome);
 
 //Proprietaire routes
-router.route('/propietaire/tous').get(getProprietaire.getAllProprietaire);
-router.route('/propietaire/:Id').get(getProprietaire.getProprietairePerID);
-router.route('/propietaire/ajouter').post(postProprietaire.postProprietaire);
-router.route('/propietaire/modifier/:Id').put(putProprietaire.putProprietaire);
-router.route('/propietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
+router.route('/proprietaire/tous').get(getProprietaire.getAllProprietaire);
+router.route('/proprietaire/:Id').get(getProprietaire.getProprietairePerID);
+router.route('/proprietaire/ajouter').post(postProprietaire.postProprietaire);
+router.route('/proprietaire/modifier/:Id').put(putProprietaire.putProprietaire);
+router.route('/proprietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
 
 
 
