@@ -17,7 +17,7 @@ router.route('/proprietaire/ajouter').post(postProprietaire.postProprietaire);
 router.route('/proprietaire/modifier/:Id').put(putProprietaire.putProprietaire);
 router.route('/proprietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
 
-
+// Aménagements routes
 
 module.exports = router;
 
