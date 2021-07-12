@@ -12,6 +12,8 @@ module.exports = {
         await userRoles.findByIdAndUpdate(req.params.Id,
             {
                 userMatricul: req.body.userMatricul,
+                name: req.body.nom,
+                prenom: req.body.prenom,
                 userRoles: allUserRoles
             })
             .then((data) => {

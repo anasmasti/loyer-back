@@ -14,6 +14,14 @@ const userRoleSchema = new Schema({
         type: String,
         required: true
     },
+    name:{
+        type: String,
+        required: true
+    },
+    prenom: {
+        type:String,
+        required: true
+    },
     userRoles: [RoleSchema]
 },
     { timestamps: true }
