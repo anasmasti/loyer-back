@@ -20,7 +20,7 @@ module.exports = {
                 res.json(data)
             })
             .catch((error => {
-                res.status(400).json({ message: error.message } || "Can't Update User Roles")
+                res.status(400).send({ message: error.message } || "Can't Update User Roles")
             }))
     }
 }

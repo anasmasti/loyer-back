@@ -3,7 +3,7 @@ const userRoles = require('../../models/roles/roles.model')
 module.exports = {
 
     getAllUserRoles: async (req, res) => {
-        await userRoles.find()
+        await userRoles.find({deleted: false})
             .then((data) => {
                 res.json(data)
             })

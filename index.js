@@ -40,3 +40,4 @@ db_config;
 
 //running server
 server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
+

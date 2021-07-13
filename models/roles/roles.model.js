@@ -22,7 +22,11 @@ const userRoleSchema = new Schema({
         type:String,
         required: true
     },
-    userRoles: [RoleSchema]
+    userRoles: [RoleSchema],
+    deleted:{
+        type: Boolean,
+        default: false
+    }
 },
     { timestamps: true }
 )
