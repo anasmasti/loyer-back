@@ -22,7 +22,9 @@ const userRoleSchema = new Schema({
         type:String,
         required: true
     },
-    userRoles: [RoleSchema],
+    userRoles: {
+        type:[RoleSchema]
+    },
     deleted:{
         type: Boolean,
         default: false
