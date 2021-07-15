@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 //routes configuration
-app.use('/api/v1', checkApiKey ,routes);
+app.use('/api/v1', routes);
 
 //database connection
 db_config;
@@ -39,5 +39,5 @@ db_config;
 
 
 //running server
-server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
+server.listen(PORT, '192.168.11.104' ,() => console.log(`Server listening on http://localhost:${PORT}`))
 

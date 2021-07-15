@@ -1,14 +1,10 @@
 const mongoose = require('mongoose')
 const Schmea = mongoose.Schema
 
-
 const imageSchema = new Schmea({
     image: {
-        data: Buffer,
-        contentType: String
+        type: String,
     }
 })
 
-const Image = mongoose.model('Image', imageSchema)
-
-module.exports = Image
+module.exports = imageSchema

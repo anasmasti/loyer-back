@@ -1,4 +1,5 @@
 const express = require('express')
+const upload = require('../middleware/upload')
 
 //Home
 const HomeRouter = require('../controller/home/home')
@@ -14,6 +15,9 @@ const postUserRoles = require('../controller/user-roles/post.roles')
 const updateUserRoles = require('../controller/user-roles/put.roles')
 const getUserRoles = require('../controller/user-roles/get.roles')
 const deleteUserRoles = require('../controller/user-roles/delete.roles')
+
+//Lieu
+const postLieu = require('../controller/lieu/post.lieu')
 
 //Router
 const router = express.Router()
@@ -35,7 +39,12 @@ router.route('/userRoles/all-userRoles').get(getUserRoles.getAllUserRoles);
 router.route('/userRoles/userRoles-PerId/:Id').get(getUserRoles.getUserRolesPerId);
 router.route('/userRoles/delete-userRoles/:Id').put(deleteUserRoles.DeleteRoles)
 
-
+//Lieu routes
+router.route('/lieu/ajouter').post(upload.fields([
+    { name: 'imgs_lieu_entrer', maxCount: 5 },
+    { name: 'imgs_amenagement', maxCount: 5 },
+    { name: 'imgs_croquis', maxCount: 2 }]),
+    postLieu.ajouterLieu)
 
 
 

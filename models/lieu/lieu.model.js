@@ -1,34 +1,33 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const imageSchema = require('./image.model')
-const amenagementSchema = require('./amenagement.model')
+const imageSchema = require('./image.schema')
+const amenagementSchema = require('./amenagement.schema')
 
 
 const lieuSchema = new Schema({
-    code_lieu:{
-        type:String,
-        unique:true
+    code_lieu: {
+        type: String,
     },
-    intitule_lieu:{
-        type:String,
+    intitule_lieu: {
+        type: String,
     },
-    intitule_DR:{
-        type:String
+    intitule_DR: {
+        type: String
     },
-    adresse:{
-        type:String
+    adresse: {
+        type: String
     },
-    ville:{
-        type:String
+    ville: {
+        type: String
     },
-    code_localite:{
-        type:String
+    code_localite: {
+        type: String
     },
-    desc_lieu_entrer:{
-        type:String
+    desc_lieu_entrer: {
+        type: String
     },
-    imgs_lieu_entrer:{
-        type:[imageSchema]
+    imgs_lieu_entrer: {
+        type: [imageSchema]
     },
     has_amenagement:{
         type:Boolean,
@@ -67,4 +66,11 @@ const lieuSchema = new Schema({
     categorie_pointVente:{
         type:String
     }
-})
+
+},
+    { timestamps: true }
+)
+
+const Lieu = mongoose.model('Lieu', lieuSchema)
+
+module.exports = Lieu

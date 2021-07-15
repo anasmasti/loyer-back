@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const imageSchema = require('./image.model')
+const imageSchema = require('./image.schema')
 
 const amenagementSchema = new Schema({
     nature_amenagement: {
@@ -24,9 +24,9 @@ const amenagementSchema = new Schema({
     date_passation_commande:{
         type:String
     },
-    fournisseurs: {
-        type:[fournisseur]
-    },
+    // fournisseurs: {
+    //     type:[fournisseur]
+    // },
     evaluation_fournisseur:{
         type:String
     },
@@ -47,6 +47,6 @@ const amenagementSchema = new Schema({
 
 })
 
-const Amenagements = mongoose.model('Amenagements', amenagementSchema)
 
-module.exports = Amenagements
+
+module.exports = amenagementSchema
