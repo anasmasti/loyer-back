@@ -18,6 +18,7 @@ const deleteUserRoles = require('../controller/user-roles/delete.roles')
 
 //Lieu
 const postLieu = require('../controller/lieu/post.lieu')
+const modifierLieu = require('../controller/lieu/put.lieu')
 
 //Router
 const router = express.Router()
@@ -40,11 +41,19 @@ router.route('/userRoles/userRoles-PerId/:Id').get(getUserRoles.getUserRolesPerI
 router.route('/userRoles/delete-userRoles/:Id').put(deleteUserRoles.DeleteRoles)
 
 //Lieu routes
-router.route('/lieu/ajouter').post(upload.fields([
-    { name: 'imgs_lieu_entrer', maxCount: 5 },
-    { name: 'imgs_amenagement', maxCount: 5 },
-    { name: 'imgs_croquis', maxCount: 2 }]),
-    postLieu.ajouterLieu)
+router.route('/lieu/ajouter').post(
+    upload.fields([
+        { name: 'imgs_lieu_entrer', maxCount: 5 },
+        { name: 'imgs_amenagement', maxCount: 5 },
+        { name: 'imgs_croquis', maxCount: 2 }]),
+    postLieu.ajouterLieu);
+
+router.route('/lieu/modifier/:Id').put(
+    upload.fields([
+        { name: 'imgs_lieu_entrer', maxCount: 5 },
+        { name: 'imgs_amenagement', maxCount: 5 },
+        { name: 'imgs_croquis', maxCount: 2 }]),
+        modifierLieu.modifierLieu)
 
 
 

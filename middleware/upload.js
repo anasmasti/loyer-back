@@ -3,22 +3,24 @@ const multer = require('multer')
 
 
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+    destination: function (req, file, callback) {
+        callback(null, 'uploads/')
     },
-    filename: function (req, file, cb) {
+    filename: function (req, file, callback) {
         let ext = path.extname(file.originalname)
-        cb(null, Date.now() + ext)
+        console.log('--ext--',ext);
+        console.log('--date Now--',Date.now());
+        callback(null, new Date().getTime() + ext)
     }
 })
 
 var upload = multer({
     storage: storage,
     fileFilter: function (req, file, callback) {
-        if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
+        if (file.mimetype === "application/vnd.rar" || file.mimetype === "application/zip") {
             callback(null, true)
         } else {
-            console.log('les images doit etre jpg et png');
+            console.log('les fichiers doit etre rar ou zip');
             callback(null, false)
         }
     },
@@ -27,4 +29,4 @@ var upload = multer({
     }
 })
 
-module.exports = upload
+module.exports = upload;

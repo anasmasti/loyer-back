@@ -4,12 +4,19 @@ const Lieu = require('../../models/lieu/lieu.model')
 module.exports = {
     ajouterLieu: async (req, res, next) => {
 
+        const codeLieuExist = await Lieu.findOne({code_lieu: req.body.code_lieu})
+
+
+        if (codeLieuExist) {
+            return res.status(422).send({message:'Le code lieu et deja pris'})
+        }
+
         if (req.body.has_amenagements == true) {
             let imagesLieu = []
             let imagesAmenagement = []
             let imagesCroquis = []
             let amenagements = []
-            let item = 0
+            let item = 0 
 
             if (req.files.imgs_lieu_entrer) {
                 for (item in req.files.imgs_lieu_entrer) {
@@ -28,6 +35,7 @@ module.exports = {
                     await imagesCroquis.push({ img_Croquis: req.files.imgs_croquis[item].path })
                 }
             }
+
 
 
             for (item in req.body.amenagements) {
@@ -67,27 +75,29 @@ module.exports = {
                 code_rattahce_SUP: req.body.code_rattahce_SUP,
                 intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
                 centre_cout_siege: req.body.centre_cout_siege,
-                categorie_pointVente: req.body.categorie_pointVente
+                categorie_pointVente: req.body.categorie_pointVente,
+                deleted: false
             })
             await lieu.save()
                 .then((data) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    res.status(402).json({ message: error.message })
+                    res.status(402).send({ message: error.message })
                 })
-        
-            } else {
+
+        } else {
 
             let imagesLieu = []
             let item = 0
-
-            if (req.files.imgs_lieu_entrer) {
-                for (item in req.files.imgs_lieu_entrer) {
-                    await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+            // if(req.files){
+                if (req.files.imgs_lieu_entrer) {
+                    for (item in req.files.imgs_lieu_entrer) {
+                        await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+                    }
                 }
-            }
-
+            // }
+        
             const lieu = new Lieu({
                 code_lieu: req.body.code_lieu,
                 intitule_lieu: req.body.intitule_lieu,
@@ -107,14 +117,15 @@ module.exports = {
                 code_rattahce_SUP: req.body.code_rattahce_SUP,
                 intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
                 centre_cout_siege: req.body.centre_cout_siege,
-                categorie_pointVente: req.body.categorie_pointVente
+                categorie_pointVente: req.body.categorie_pointVente,
+                deleted: false
             })
             await lieu.save()
                 .then((data) => {
                     res.json(data)
                 })
                 .catch((error) => {
-                    res.status(402).json({ message: error.message })
+                    res.status(402).send({ message: error.message })
                 })
         }
     }

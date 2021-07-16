@@ -65,8 +65,11 @@ const lieuSchema = new Schema({
     },
     categorie_pointVente:{
         type:String
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
-
 },
     { timestamps: true }
 )

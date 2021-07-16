@@ -15,6 +15,8 @@ const checkApiKey = require('./middleware/api-key.verify')
 dotenv.config()
 const PORT = process.env.PORT
 
+app.use('/uploads', express.static('./uploads'));
+
 //securing Api with Helmet
 app.use(helmet())
 
@@ -39,5 +41,5 @@ db_config;
 
 
 //running server
-server.listen(PORT, '192.168.11.104' ,() => console.log(`Server listening on http://localhost:${PORT}`))
+server.listen(PORT, '192.168.11.124' ,() => console.log(`Server listening on http://localhost:${PORT}`))
 
