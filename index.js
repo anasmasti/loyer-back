@@ -41,5 +41,5 @@ db_config;
 
 
 //running server
-server.listen(PORT, '192.168.11.124' ,() => console.log(`Server listening on http://localhost:${PORT}`))
+server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
 

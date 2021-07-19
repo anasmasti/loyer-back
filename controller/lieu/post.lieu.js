@@ -4,11 +4,11 @@ const Lieu = require('../../models/lieu/lieu.model')
 module.exports = {
     ajouterLieu: async (req, res, next) => {
 
-        const codeLieuExist = await Lieu.findOne({code_lieu: req.body.code_lieu})
+        const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu })
 
 
         if (codeLieuExist) {
-            return res.status(422).send({message:'Le code lieu et deja pris'})
+            return res.status(422).send({ message: 'Le code lieu et deja pris' })
         }
 
         if (req.body.has_amenagements == true) {
@@ -16,29 +16,41 @@ module.exports = {
             let imagesAmenagement = []
             let imagesCroquis = []
             let amenagements = []
-            let item = 0 
+            let fournisseur = []
+            let item = 0
+            let j = 0
 
-            if (req.files.imgs_lieu_entrer) {
-                for (item in req.files.imgs_lieu_entrer) {
-                    await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+            //if there is an uploaded files
+            if (req.files) {
+                if (req.files.imgs_lieu_entrer) {
+                    for (item in req.files.imgs_lieu_entrer) {
+                        await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+                    }
+                }
+
+                if (req.files.imgs_amenagement) {
+                    for (item in req.files.imgs_amenagement) {
+                        await imagesAmenagement.push({ img_Amenagement: req.files.imgs_amenagement[item].path })
+                    }
+                }
+
+                if (req.files.imgs_croquis) {
+                    for (item in req.files.imgs_croquis) {
+                        await imagesCroquis.push({ img_Croquis: req.files.imgs_croquis[item].path })
+                    }
                 }
             }
 
-            if (req.files.imgs_amenagement) {
-                for (item in req.files.imgs_amenagement) {
-                    await imagesAmenagement.push({ img_Amenagement: req.files.imgs_amenagement[item].path })
-                }
-            }
-
-            if (req.files.imgs_croquis) {
-                for (item in req.files.imgs_croquis) {
-                    await imagesCroquis.push({ img_Croquis: req.files.imgs_croquis[item].path })
-                }
-            }
-
-
-
+            //add amenagements in array
             for (item in req.body.amenagements) {
+                //add fournisseurs in amenagements array
+                for (j in req.body.amenagements[item].fournisseurs) {
+                    await fournisseur.push({
+                        nom: req.body.amenagements[item].fournisseurs[j].nom,
+                        prenom: req.body.amenagements[item].fournisseurs[j].prenom,
+                        amenagements_effectuer: req.body.amenagements[item].fournisseurs[j].amenagements_effectuer
+                    })
+                }
                 await amenagements.push({
                     nature_amenagement: req.body.amenagements[item].nature_amenagement,
                     montant_amenagement: req.body.amenagements[item].montant_amenagement,
@@ -51,8 +63,11 @@ module.exports = {
                     date_fin_travaux: req.body.amenagements[item].date_fin_travaux,
                     date_livraison_local: req.body.amenagements[item].date_livraison_local,
                     images_apres_travaux: imagesAmenagement,
-                    images_croquis: imagesCroquis
+                    images_croquis: imagesCroquis,
+                    fournisseurs: fournisseur
+
                 })
+                fournisseur = []
             }
 
             const lieu = new Lieu({
@@ -90,14 +105,14 @@ module.exports = {
 
             let imagesLieu = []
             let item = 0
-            // if(req.files){
+            if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
                     for (item in req.files.imgs_lieu_entrer) {
                         await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
                     }
                 }
-            // }
-        
+            }
+
             const lieu = new Lieu({
                 code_lieu: req.body.code_lieu,
                 intitule_lieu: req.body.intitule_lieu,

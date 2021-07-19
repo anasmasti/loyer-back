@@ -29,42 +29,60 @@ const lieuSchema = new Schema({
     imgs_lieu_entrer: {
         type: [imageSchema]
     },
-    has_amenagement:{
-        type:Boolean,
-        default:false
+    has_amenagement: {
+        type: Boolean,
+        default: false
     },
-    superficie:{
-        type:String
+    superficie: {
+        type: String
     },
-    telephone:{
-        type:Number
+    telephone: {
+        type: Number
     },
-    fax:{
-        type:Number,
+    fax: {
+        type: Number,
     },
-    etage:{
-        type:String
+    etage: {
+        type: String
     },
-    type_lieu:{
-        type:String
+    type_lieu: {
+        type: String
     },
-    code_rattache_DR:{
-        type:String
+    code_rattache_DR: {
+        type: String
     },
-    code_rattache_SUP:{
-        type:String
+    code_rattache_SUP: {
+        type: String
     },
-    amenagements:{
-        type:[amenagementSchema]
+    amenagements: {
+        type: [amenagementSchema]
     },
-    intitule_rattache_SUP_PV:{
-        type:String
+    intitule_rattache_SUP_PV: {
+        type: String
     },
-    centre_cout_siege:{
-        type:String
+    centre_cout_siege: {
+        type: String
     },
-    categorie_pointVente:{
-        type:String
+    categorie_pointVente: {
+        type: String
+    },
+    etat_logement_fonction: {
+        type: String
+    },
+    directeur_regional: {
+        matricule: {
+            type: String
+        },
+        nom: {
+            type: String
+        },
+        prenom: {
+            type: String
+        },
+        deleted_directeur: {
+            type: Boolean,
+            default: false
+        }
     },
     deleted: {
         type: Boolean,

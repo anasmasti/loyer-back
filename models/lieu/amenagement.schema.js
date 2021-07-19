@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const imageSchema = require('./image.schema')
+const fournisseurSchema = require('../../models/lieu/fournisseur.schema')
 
 const amenagementSchema = new Schema({
     nature_amenagement: {
@@ -24,9 +25,9 @@ const amenagementSchema = new Schema({
     date_passation_commande:{
         type:String
     },
-    // fournisseurs: {
-    //     type:[fournisseur]
-    // },
+    fournisseurs: {
+        type:[fournisseurSchema]
+    },
     evaluation_fournisseur:{
         type:String
     },
