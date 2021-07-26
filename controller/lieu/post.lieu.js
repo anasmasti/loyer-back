@@ -43,6 +43,7 @@ module.exports = {
 
             //add amenagements in array
             for (item in req.body.amenagements) {
+                
                 //add fournisseurs in amenagements array
                 for (j in req.body.amenagements[item].fournisseurs) {
                     await fournisseur.push({
