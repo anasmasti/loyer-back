@@ -20,6 +20,12 @@ const deleteUserRoles = require('../controller/user-roles/delete.roles')
 const postLieu = require('../controller/lieu/post.lieu')
 const modifierLieu = require('../controller/lieu/put.lieu')
 
+//contrat
+const postcontrat = require('../controller/contrat/post.contrat')
+const getcontrat = require('../controller/contrat/get.contrat')
+const putcontrat = require('../controller/contrat/put.contrat')
+const deletecontrat = require('../controller/contrat/delete.contrat')
+
 //Router
 const router = express.Router()
 
@@ -55,8 +61,11 @@ router.route('/lieu/modifier/:Id').put(
         { name: 'imgs_croquis', maxCount: 2 }]),
         modifierLieu.modifierLieu)
 
-
-
+//contrat routes 
+router.route('/contrat/ajouter').post(postcontrat.ajouterContrat);
+router.route('/contrat/tous').get(getcontrat.getContrats);
+router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
+router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
 module.exports = router;
 
 
