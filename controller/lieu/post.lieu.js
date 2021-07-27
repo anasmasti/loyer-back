@@ -11,14 +11,17 @@ module.exports = {
             return res.status(422).send({ message: 'Le code lieu et deja pris' })
         }
 
+
         if (req.body.has_amenagements == true) {
             let imagesLieu = []
             let imagesAmenagement = []
             let imagesCroquis = []
             let amenagements = []
             let fournisseur = []
+            let directeurRegional = []
             let item = 0
             let j = 0
+            
 
             //if there is an uploaded files
             if (req.files) {
@@ -27,49 +30,66 @@ module.exports = {
                         await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
                     }
                 }
+                console.log('*/| 1111*',imagesLieu);
 
                 if (req.files.imgs_amenagement) {
                     for (item in req.files.imgs_amenagement) {
-                        await imagesAmenagement.push({ img_Amenagement: req.files.imgs_amenagement[item].path })
+                        await imagesAmenagement.push({ image: req.files.imgs_amenagement[item].path })
                     }
                 }
+                console.log('*/| 2222*',imagesAmenagement);
 
                 if (req.files.imgs_croquis) {
                     for (item in req.files.imgs_croquis) {
-                        await imagesCroquis.push({ img_Croquis: req.files.imgs_croquis[item].path })
+                        await imagesCroquis.push({ image: req.files.imgs_croquis[item].path })
                     }
                 }
+                console.log('*/| 3333*',imagesCroquis);
             }
 
             //add amenagements in array
-            for (item in req.body.amenagements) {
-                
+            for (item in req.body.amenagement) { 
+
                 //add fournisseurs in amenagements array
-                for (j in req.body.amenagements[item].fournisseurs) {
+                for (j in req.body.amenagement[item].fournisseur) {
                     await fournisseur.push({
-                        nom: req.body.amenagements[item].fournisseurs[j].nom,
-                        prenom: req.body.amenagements[item].fournisseurs[j].prenom,
-                        amenagements_effectuer: req.body.amenagements[item].fournisseurs[j].amenagements_effectuer
+                        nom: req.body.amenagement[item].fournisseur[j].nom,
+                        prenom: req.body.amenagement[item].fournisseur[j].prenom,
+                        amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer
                     })
                 }
+
                 await amenagements.push({
-                    nature_amenagement: req.body.amenagements[item].nature_amenagement,
-                    montant_amenagement: req.body.amenagements[item].montant_amenagement,
-                    valeur_nature_chargeProprietaire: req.body.amenagements[item].valeur_nature_chargeProprietaire,
-                    valeur_nature_chargeFondation: req.body.amenagements[item].valeur_nature_chargeFondation,
-                    numero_facture: req.body.amenagements[item].numero_facture,
-                    numero_bon_commande: req.body.amenagements[item].numero_bon_commande,
-                    date_passation_commande: req.body.amenagements[item].date_passation_commande,
-                    evaluation_fournisseur: req.body.amenagements[item].evaluation_fournisseur,
-                    date_fin_travaux: req.body.amenagements[item].date_fin_travaux,
-                    date_livraison_local: req.body.amenagements[item].date_livraison_local,
+                    nature_amenagement: req.body.amenagement[item].nature_amenagement,
+                    montant_amenagement: req.body.amenagement[item].montant_amenagement,
+                    valeur_nature_chargeProprietaire: req.body.amenagement[item].valeur_nature_chargeProprietaire,
+                    valeur_nature_chargeFondation: req.body.amenagement[item].valeur_nature_chargeFondation,
+                    numero_facture: req.body.amenagement[item].numero_facture,
+                    numero_bon_commande: req.body.amenagement[item].numero_bon_commande,
+                    date_passation_commande: req.body.amenagement[item].date_passation_commande,
+                    evaluation_fournisseur: req.body.amenagement[item].evaluation_fournisseur,
+                    date_fin_travaux: req.body.amenagement[item].date_fin_travaux,
+                    date_livraison_local: req.body.amenagement[item].date_livraison_local,
                     images_apres_travaux: imagesAmenagement,
                     images_croquis: imagesCroquis,
-                    fournisseurs: fournisseur
+                    fournisseurs: fournisseur,
+                    
 
                 })
                 fournisseur = []
+                imagesAmenagement = []
+                imagesCroquis = []
             }
+
+            for(item in req.body.directeur_regional){
+                await directeurRegional.push({
+                    matricule: req.body.directeur_regional[item].matricule,
+                    nom: req.body.directeur_regional[item].nom,
+                    prenom: req.body.directeur_regional[item].prenom,
+                    deleted_directeur: false
+                })
+            }
+           
 
             const lieu = new Lieu({
                 code_lieu: req.body.code_lieu,
@@ -80,7 +100,7 @@ module.exports = {
                 code_localite: req.body.code_localite,
                 desc_lieu_entrer: req.body.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
-                has_amenagements: req.body.amenagements,
+                has_amenagements: req.body.has_amenagements,
                 amenagements: amenagements,
                 superficie: req.body.superficie,
                 telephone: req.body.telephone,
@@ -92,6 +112,8 @@ module.exports = {
                 intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
                 centre_cout_siege: req.body.centre_cout_siege,
                 categorie_pointVente: req.body.categorie_pointVente,
+                etat_logement_fonction:req.body.etat_logement_fonction,
+                directeur_regional: directeurRegional,
                 deleted: false
             })
             await lieu.save()
@@ -105,13 +127,24 @@ module.exports = {
         } else {
 
             let imagesLieu = []
+            let directeurRegional = []
             let item = 0
+
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
                     for (item in req.files.imgs_lieu_entrer) {
                         await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
                     }
                 }
+            }
+
+            for(item in req.body.directeur_regional){
+                await directeurRegional.push({
+                    matricule: req.body.directeur_regional[item].matricule,
+                    nom: req.body.directeur_regional[item].nom,
+                    prenom: req.body.directeur_regional[item].prenom,
+                    deleted_directeur: false
+                })
             }
 
             const lieu = new Lieu({
@@ -123,7 +156,7 @@ module.exports = {
                 code_localite: req.body.code_localite,
                 desc_lieu_entrer: req.body.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
-                has_amenagements: req.body.amenagements,
+                has_amenagements: req.body.has_amenagements,
                 superficie: req.body.superficie,
                 telephone: req.body.telephone,
                 fax: req.body.fax,
@@ -134,6 +167,8 @@ module.exports = {
                 intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
                 centre_cout_siege: req.body.centre_cout_siege,
                 categorie_pointVente: req.body.categorie_pointVente,
+                etat_logement_fonction:req.body.etat_logement_fonction,
+                directeur_regional: directeurRegional,
                 deleted: false
             })
             await lieu.save()

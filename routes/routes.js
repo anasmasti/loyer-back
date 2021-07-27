@@ -19,6 +19,7 @@ const deleteUserRoles = require('../controller/user-roles/delete.roles')
 //Lieu
 const postLieu = require('../controller/lieu/post.lieu')
 const modifierLieu = require('../controller/lieu/put.lieu')
+const getLieu = require('../controller/lieu/get.lieu')
 
 //Router
 const router = express.Router()
@@ -55,7 +56,10 @@ router.route('/lieu/modifier/:Id').put(
         { name: 'imgs_croquis', maxCount: 2 }]),
         modifierLieu.modifierLieu)
 
-
+router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
+router.route('/lieu/lieu-by-Id/:Id').get(getLieu.getLieuById);
+router.route('/lieu/amenagement/:IdLieu/:IdAmng').get(getLieu.getAmenagementById);
+router.route('/lieu/amenagement/all-amenagements').get(getLieu.getAllAmenagement);
 
 module.exports = router;
 
