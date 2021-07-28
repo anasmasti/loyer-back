@@ -25,7 +25,7 @@ const amenagementSchema = new Schema({
     date_passation_commande:{
         type:String
     },
-    fournisseurs: {
+    fournisseur: {
         type:[fournisseurSchema]
     },
     evaluation_fournisseur:{

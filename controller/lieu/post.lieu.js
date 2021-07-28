@@ -72,7 +72,7 @@ module.exports = {
                     date_livraison_local: req.body.amenagement[item].date_livraison_local,
                     images_apres_travaux: imagesAmenagement,
                     images_croquis: imagesCroquis,
-                    fournisseurs: fournisseur,
+                    fournisseur: fournisseur,
                     
 
                 })
@@ -101,7 +101,7 @@ module.exports = {
                 desc_lieu_entrer: req.body.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
                 has_amenagements: req.body.has_amenagements,
-                amenagements: amenagements,
+                amenagement: amenagements,
                 superficie: req.body.superficie,
                 telephone: req.body.telephone,
                 fax: req.body.fax,

@@ -44,10 +44,12 @@ module.exports = {
                     await fournisseur.push({
                         nom: req.body.amenagement[item].fournisseur[j].nom,
                         prenom: req.body.amenagement[item].fournisseur[j].prenom,
-                        amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer
+                        amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer,
+                        deleted: req.body.amenagement[item].fournisseur[j].deleted || false
                     })
                 }
                 await amenagements.push({
+                    deleted: req.body.amenagement[item].deleted || false,
                     nature_amenagement: req.body.amenagement[item].nature_amenagement,
                     montant_amenagement: req.body.amenagement[item].montant_amenagement,
                     valeur_nature_chargeProprietaire: req.body.amenagement[item].valeur_nature_chargeProprietaire,
@@ -60,7 +62,7 @@ module.exports = {
                     date_livraison_local: req.body.amenagement[item].date_livraison_local,
                     images_apres_travaux: imagesAmenagement,
                     images_croquis: imagesCroquis,
-                    fournisseurs: fournisseur
+                    fournisseur: fournisseur
                 })
                 fournisseur = []
             }
@@ -70,7 +72,7 @@ module.exports = {
                     matricule: req.body.directeur_regional[item].matricule,
                     nom: req.body.directeur_regional[item].nom,
                     prenom: req.body.directeur_regional[item].prenom,
-                    deleted_directeur: false
+                    deleted_directeur: req.body.directeur_regional[item].deleted_directeur || false
                 })
             }
 
@@ -84,7 +86,7 @@ module.exports = {
                 desc_lieu_entrer: req.body.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
                 has_amenagements: req.body.has_amenagements,
-                amenagements: amenagements,
+                amenagement: amenagements,
                 superficie: req.body.superficie,
                 telephone: req.body.telephone,
                 fax: req.body.fax,
@@ -124,7 +126,7 @@ module.exports = {
                     matricule: req.body.directeur_regional[item].matricule,
                     nom: req.body.directeur_regional[item].nom,
                     prenom: req.body.directeur_regional[item].prenom,
-                    deleted_directeur: false
+                    deleted_directeur: req.body.directeur_regional[item].deleted_directeur
                 })
             }
 

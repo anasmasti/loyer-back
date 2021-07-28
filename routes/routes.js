@@ -21,6 +21,12 @@ const postLieu = require('../controller/lieu/post.lieu')
 const modifierLieu = require('../controller/lieu/put.lieu')
 const getLieu = require('../controller/lieu/get.lieu')
 
+//contrat
+const postcontrat = require('../controller/contrat/post.contrat')
+const getcontrat = require('../controller/contrat/get.contrat')
+const putcontrat = require('../controller/contrat/put.contrat')
+const deletecontrat = require('../controller/contrat/delete.contrat')
+
 //Router
 const router = express.Router()
 
@@ -57,9 +63,19 @@ router.route('/lieu/modifier/:Id').put(
         modifierLieu.modifierLieu)
 
 router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
-router.route('/lieu/lieu-by-Id/:Id').get(getLieu.getLieuById);
-router.route('/lieu/amenagement/:IdLieu/:IdAmng').get(getLieu.getAmenagementById);
+router.route('/lieu/:Id').get(getLieu.getLieuById);
+router.route('/lieu/amenagement-byId/:IdLieu/:IdAmng').get(getLieu.getAmenagementById);
 router.route('/lieu/amenagement/all-amenagements').get(getLieu.getAllAmenagement);
+router.route('/lieu/fournisseur-byId/:IdLieu').get(getLieu.getFournisseursOfLieu);
+
+
+
+//contrat routes 
+router.route('/contrat/ajouter').post(postcontrat.ajouterContrat);
+router.route('/contrat/tous').get(getcontrat.getContrats);
+router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
+router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
+
 
 module.exports = router;
 

@@ -55,7 +55,7 @@ const lieuSchema = new Schema({
     code_rattache_SUP: {
         type: String
     },
-    amenagements: {
+    amenagement: {
         type: [amenagementSchema]
     },
     intitule_rattache_SUP_PV: {
