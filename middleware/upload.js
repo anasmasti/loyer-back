@@ -8,8 +8,6 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, callback) {
         let ext = path.extname(file.originalname)
-        console.log('--ext--',ext);
-        console.log('--date Now--',Date.now());
         callback(null, new Date().getTime() + ext)
     }
 })

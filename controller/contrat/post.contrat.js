@@ -11,6 +11,8 @@ module.exports = {
             return res.status(422).send({ message: 'Le numero de contrat et deja pris' });
         }
 
+        
+
             
         //remplissage  de etat_contrat 
          let nouveauEtatContrat ={

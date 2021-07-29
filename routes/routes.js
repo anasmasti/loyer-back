@@ -35,6 +35,7 @@ router.route('/home').get(HomeRouter.getHome);
 //Proprietaire routes
 router.route('/proprietaire/tous').get(getProprietaire.getAllProprietaire);
 router.route('/proprietaire/:Id').get(getProprietaire.getProprietairePerID);
+router.route('/proprietaire/count/all').get(getProprietaire.getCountProprietaire);
 router.route('/proprietaire/ajouter').post(postProprietaire.postProprietaire);
 router.route('/proprietaire/modifier/:Id').put(putProprietaire.putProprietaire);
 router.route('/proprietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
@@ -60,8 +61,16 @@ router.route('/lieu/modifier/:Id').put(
         { name: 'imgs_amenagement', maxCount: 5 },
         { name: 'imgs_croquis', maxCount: 2 }]),
         modifierLieu.modifierLieu)
-router.route('/lieu/get').get(getLieu.getLieux);
 
+
+
+router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
+router.route('/lieu/:Id').get(getLieu.getLieuById);
+router.route('/lieu/amenagement-byId/:IdLieu/:IdAmng').get(getLieu.getAmenagementById);
+router.route('/lieu/amenagement/all-amenagements').get(getLieu.getAllAmenagement);
+router.route('/lieu/fournisseur-byId/:IdLieu').get(getLieu.getFournisseursOfLieu);
+router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
+router.route('/lieu/count/all').get(getLieu.getCountLieu);
 
 
 //contrat routes 
@@ -70,6 +79,8 @@ router.route('/contrat/tous').get(getcontrat.getContrats);
 router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
 router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
 router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
+
+
 module.exports = router;
 
 

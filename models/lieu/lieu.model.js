@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const imageSchema = require('./image.schema')
 const amenagementSchema = require('./amenagement.schema')
+const directeurRegional = require('./directeur.schema')
 
 
 const lieuSchema = new Schema({
@@ -29,7 +30,7 @@ const lieuSchema = new Schema({
     imgs_lieu_entrer: {
         type: [imageSchema]
     },
-    has_amenagement: {
+    has_amenagements: {
         type: Boolean,
         default: false
     },
@@ -37,10 +38,10 @@ const lieuSchema = new Schema({
         type: String
     },
     telephone: {
-        type: Number
+        type: String
     },
     fax: {
-        type: Number,
+        type: String,
     },
     etage: {
         type: String
@@ -54,7 +55,7 @@ const lieuSchema = new Schema({
     code_rattache_SUP: {
         type: String
     },
-    amenagements: {
+    amenagement: {
         type: [amenagementSchema]
     },
     intitule_rattache_SUP_PV: {
@@ -70,19 +71,7 @@ const lieuSchema = new Schema({
         type: String
     },
     directeur_regional: {
-        matricule: {
-            type: String
-        },
-        nom: {
-            type: String
-        },
-        prenom: {
-            type: String
-        },
-        deleted_directeur: {
-            type: Boolean,
-            default: false
-        }
+        type: [directeurRegional]
     },
     deleted: {
         type: Boolean,

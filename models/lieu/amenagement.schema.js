@@ -25,17 +25,17 @@ const amenagementSchema = new Schema({
     date_passation_commande:{
         type:String
     },
-    fournisseurs: {
+    fournisseur: {
         type:[fournisseurSchema]
     },
     evaluation_fournisseur:{
         type:String
     },
     date_fin_travaux:{
-        type:Date
+        type:String
     },
     date_livraison_local:{
-        type:Date
+        type:String
     },
     images_apres_travaux:{
         type:[imageSchema],
@@ -45,7 +45,10 @@ const amenagementSchema = new Schema({
         type:[imageSchema],
         required: false
     },
-
+    deleted:{
+        type:Boolean,
+        default: false
+    }
 })
 
 

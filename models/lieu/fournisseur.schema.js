@@ -11,7 +11,11 @@ const SchemaFournisseur = new Schema({
         type:String
     },
     amenagements_effectuer: {
-        type:[String]
+        type:String
+    },
+    deleted:{
+        type: Boolean,
+        default: false
     }
 
 })
