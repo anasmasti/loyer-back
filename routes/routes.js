@@ -36,6 +36,7 @@ router.route('/home').get(HomeRouter.getHome);
 //Proprietaire routes
 router.route('/proprietaire/tous').get(getProprietaire.getAllProprietaire);
 router.route('/proprietaire/:Id').get(getProprietaire.getProprietairePerID);
+router.route('/proprietaire/count/all').get(getProprietaire.getCountProprietaire);
 router.route('/proprietaire/ajouter').post(postProprietaire.postProprietaire);
 router.route('/proprietaire/modifier/:Id').put(putProprietaire.putProprietaire);
 router.route('/proprietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
@@ -67,7 +68,8 @@ router.route('/lieu/:Id').get(getLieu.getLieuById);
 router.route('/lieu/amenagement-byId/:IdLieu/:IdAmng').get(getLieu.getAmenagementById);
 router.route('/lieu/amenagement/all-amenagements').get(getLieu.getAllAmenagement);
 router.route('/lieu/fournisseur-byId/:IdLieu').get(getLieu.getFournisseursOfLieu);
-
+router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
+router.route('/lieu/count/all').get(getLieu.getCountLieu);
 
 
 //contrat routes 

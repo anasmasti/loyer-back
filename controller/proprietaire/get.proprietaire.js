@@ -24,4 +24,14 @@ module.exports = {
             })
     },
 
+    getCountProprietaire: async (req, res) => {
+        await Proprietaire.countDocuments({deleted: false})
+            .then((data) => {
+                res.json(data)
+            })
+            .catch((error) => {
+                res.status(402).send({message: error.message})
+            })
+    }
+
 }
