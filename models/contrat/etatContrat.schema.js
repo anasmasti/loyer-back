@@ -24,9 +24,6 @@ const EtatContratSchema = new Schema({
     lettre_resiliation_pj: {
         type: String,
     },
-    type_etat: {
-        type: String,
-    },
     date_suspension: {
         type: Date,
     },

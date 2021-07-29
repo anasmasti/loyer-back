@@ -5,10 +5,10 @@ module.exports = {
     supprimerContrat: async (req, res) => {
         
         //chercher si  existe 
-        const numeroContrat = await Contrat.findOne({ numero_contrat: req.params.ID });
-        if (!numeroContrat) {
-            return res.status(422).send({ message: 'cette contrat n existe pas' });
-        }
+        // const numeroContrat = await Contrat.findOne({ numero_contrat: req.params.ID });
+        // if (!numeroContrat) {
+        //     return res.status(422).send({ message: 'cette contrat n existe pas' });
+        // }
 
             
       

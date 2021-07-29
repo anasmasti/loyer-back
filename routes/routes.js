@@ -19,7 +19,7 @@ const deleteUserRoles = require('../controller/user-roles/delete.roles')
 //Lieu
 const postLieu = require('../controller/lieu/post.lieu')
 const modifierLieu = require('../controller/lieu/put.lieu')
-
+const getLieu = require('../controller/lieu/get.lieu')
 //contrat
 const postcontrat = require('../controller/contrat/post.contrat')
 const getcontrat = require('../controller/contrat/get.contrat')
@@ -60,10 +60,14 @@ router.route('/lieu/modifier/:Id').put(
         { name: 'imgs_amenagement', maxCount: 5 },
         { name: 'imgs_croquis', maxCount: 2 }]),
         modifierLieu.modifierLieu)
+router.route('/lieu/get').get(getLieu.getLieux);
+
+
 
 //contrat routes 
 router.route('/contrat/ajouter').post(postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);
+router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
 router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
 router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
 module.exports = router;
