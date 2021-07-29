@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
+const ObjectId = Schema.Types.ObjectId;
 
 //contrat Schema
 const ContratSchema = new Schema({
@@ -70,14 +71,16 @@ const ContratSchema = new Schema({
     echeance_revision_loyer: {
         type: String,
     },
-    proprietaire: {
-        type: String,
-    },
     type_lieu: {
         type: String,
     },
     lieu: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Lieu',
+    },
+    proprietaire: {
+        type:Schema.Types.ObjectId,
+        ref: 'Proprietaire',
     },
     etat_contrat: {
         libelle:{

@@ -28,7 +28,7 @@ const MandataireSchema = new Schema({
 });
 
 //Protrietaire Schema
-const ProtrietaireSchema = new Schema({
+const ProprietaireSchema = new Schema({
 
     cin: {
         type: String
@@ -87,8 +87,6 @@ const ProtrietaireSchema = new Schema({
     { timestamps: true, },
 );
 
-
-const Propietaire = mongoose.model('Propietaire', ProtrietaireSchema)
-ProtrietaireSchema.plugin(uniqueValidator)
-
-module.exports = Propietaire
+ProprietaireSchema.plugin(uniqueValidator);
+const Proprietaire = mongoose.model('Proprietaire', ProprietaireSchema);
+module.exports = Proprietaire;
