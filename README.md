@@ -2,6 +2,3 @@
 
 # Gestion des loyers API 🚀
 
-#### Technology used:
-
-- Node Js.
