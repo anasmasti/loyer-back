@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const imageSchema = require('./image.schema')
 
 //contrat Schema
 const EtatContratSchema = new Schema({
@@ -15,13 +16,8 @@ const EtatContratSchema = new Schema({
     etat_lieu_sortie: {
         type: String,
     },
-    images_etat_lieu_sortie: {
-        type: String,
-    },
+   
     preavis: {
-        type: String,
-    },
-    lettre_resiliation_pj: {
         type: String,
     },
     date_suspension: {
@@ -44,6 +40,15 @@ const EtatContratSchema = new Schema({
     },
     signaletique_successeur: {
         type: String,
+    },
+    images_etat_lieu_sortie: {
+        type: [imageSchema],
+    },
+    lettre_res_piece_jointe: {
+        type: [imageSchema],
+    },
+    piece_jointe_avenant: {
+        type: [imageSchema],
     },
 });
 module.exports = EtatContratSchema;

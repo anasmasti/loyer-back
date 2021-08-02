@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
-const ObjectId = Schema.Types.ObjectId;
+const imageSchema = require('./image.schema')
 
 //contrat Schema
 const ContratSchema = new Schema({
@@ -90,8 +90,8 @@ const ContratSchema = new Schema({
             type: EtatContratSchema
         }
     },
-    piece_joint:{
-        type:String,
+    piece_joint_contrat:{
+        type:[imageSchema],
     },
     deleted: {
         type: Boolean,

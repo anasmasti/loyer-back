@@ -24,7 +24,7 @@ app.use(helmet())
 app.use(cors({
     origin: '*',
     credentials: true,
-    methods: ['GET', 'POST', 'PUT'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH'],
     allowedHeaders: ['Content-Type', 'X-Requested-With', 'Accept', 'Origin', 'Authorization', 'Api-Key-Access'],
 }))
 
@@ -41,5 +41,5 @@ db_config;
 
 
 //running server
-server.listen(PORT, () => console.log(`Server listening on http:// 192.168.11.129:${PORT}`))
+server.listen(PORT, '192.168.11.124' ,() => console.log(`Server listening on http:// 192.168.11.124:${PORT}`))
 

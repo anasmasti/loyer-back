@@ -60,19 +60,26 @@ router.route('/lieu/modifier/:Id').patch(
         { name: 'imgs_lieu_entrer', maxCount: 5 },
         { name: 'imgs_amenagement', maxCount: 5 },
         { name: 'imgs_croquis', maxCount: 2 }]),
-        modifierLieu.modifierLieu)
+    modifierLieu.modifierLieu)
 
 
 
 router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
-router.route('/lieu/:Id').get(getLieu.getLieuById);
+router.route('/lieu/lieu-by-id/:Id').get(getLieu.getLieuById);
 router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
 router.route('/lieu/count/all').get(getLieu.getCountLieu);
 
 
 
 //contrat routes 
-router.route('/contrat/ajouter').post(postcontrat.ajouterContrat);
+router.route('/contrat/ajouter').post(
+    upload.fields([
+        { name: 'piece_joint_contrat', maxCount: 1 },
+        { name: 'images_etat_lieu_sortie', maxCount: 1 },
+        { name: 'lettre_res_piece_jointe', maxCount: 1 },
+        { name: 'piece_jointe_avenant', maxCount: 1 },
+    ]),
+    postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);
 router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
 router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);

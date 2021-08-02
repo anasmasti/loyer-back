@@ -7,28 +7,12 @@ module.exports = {
         
         //chercher si  existe deja
         const numeroContrat = await Contrat.findOne({ numero_contrat: req.body.numero_contrat });
-        if (numeroContrat) {
+        if (numeroContrat && numeroContrat.code_lieu != "") {
             return res.status(422).send({ message: 'Le numero de contrat et deja pris' });
         }
 
-        
-
-            
         //remplissage  de etat_contrat 
-         let nouveauEtatContrat ={
-            n_avenant: '',
-            motif: '', 
-            montant_nouveau_loyer: '', 
-            signaletique_successeur: '',
-            intitule_lieu: '',
-            date_suspension: '', 
-            duree_suspension:'', 
-            motif_suspension:'',
-            reprise_caution: '', 
-            date_resiliation:'', 
-            etat_lieu_sortie:'',
-            preavis: ''
-         };
+         let nouveauEtatContrat ={};
          try{
                 //remplissage
                 if(req.body.etat_contrat.libelle == 'Avenant'){
