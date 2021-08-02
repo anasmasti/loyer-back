@@ -42,12 +42,21 @@ module.exports = {
 
                 //update fournisseurs in amenagements array
                 for (j in req.body.amenagement[item].fournisseur) {
-                    await fournisseur.push({
-                        nom: req.body.amenagement[item].fournisseur[j].nom,
-                        prenom: req.body.amenagement[item].fournisseur[j].prenom,
-                        amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer,
-                        deleted: req.body.amenagement[item].fournisseur[j].deleted || false
-                    })
+                    if (req.body.amenagement[item].deleted == false) {
+                        await fournisseur.push({
+                            nom: req.body.amenagement[item].fournisseur[j].nom,
+                            prenom: req.body.amenagement[item].fournisseur[j].prenom,
+                            amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer,
+                            deleted: req.body.amenagement[item].fournisseur[j].deleted || false
+                        })
+                    } else if (req.body.amenagement[item].deleted == true) {
+                        await fournisseur.push({
+                            nom: req.body.amenagement[item].fournisseur[j].nom,
+                            prenom: req.body.amenagement[item].fournisseur[j].prenom,
+                            amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer,
+                            deleted: true
+                        })
+                    }
                 }
                 await amenagements.push({
                     deleted: req.body.amenagement[item].deleted || false,
@@ -78,6 +87,7 @@ module.exports = {
             }
 
             await Lieu.findByIdAndUpdate(req.params.Id, {
+
                 code_lieu: req.body.code_lieu,
                 intitule_lieu: req.body.intitule_lieu,
                 intitule_DR: req.body.intitule_DR,
@@ -87,6 +97,8 @@ module.exports = {
                 desc_lieu_entrer: req.body.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
                 has_amenagements: req.body.has_amenagements,
+                // $set: {'$amenagement': amenagements},
+                // $push: { amenagement: amenagements },
                 amenagement: amenagements,
                 superficie: req.body.superficie,
                 telephone: req.body.telephone,
@@ -101,14 +113,15 @@ module.exports = {
                 etat_logement_fonction: req.body.etat_logement_fonction,
                 directeur_regional: directeurRegional,
                 deleted: false
-            })
+
+            },{new: true})
                 .then((data) => {
                     res.json(data)
                 })
                 .catch((error) => {
                     res.status(402).send({ message: error.message })
                 })
-        //else        
+            //else        
         } else if (req.body.has_amenagements == false) {
 
             if (req.files) {
@@ -179,6 +192,7 @@ module.exports = {
                 categorie_pointVente: req.body.categorie_pointVente,
                 etat_logement_fonction: req.body.etat_logement_fonction,
                 directeur_regional: directeurRegional,
+                amenagement: amenagements,
                 deleted: false
             })
                 .then((data) => {
