@@ -3,20 +3,21 @@ const Lieu = require('../../models/lieu/lieu.model')
 module.exports = {
     modifierLieu: async (req, res, next) => {
 
+        let imagesLieu = []
+        let imagesAmenagement = []
+        let imagesCroquis = []
+        let amenagements = []
+        let fournisseur = []
+        let directeurRegional = []
+        let item = 0
+        let j = 0
+
         const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu })
 
-        if (codeLieuExist && codeLieuExist._id != req.params.Id) return res.status(422).send({ message: 'Le code lieu et deja pris' })
+        // if (codeLieuExist && codeLieuExist._id != req.params.Id) return res.status(422).send({ message: 'Le code lieu et deja pris' })
 
 
         if (req.body.has_amenagements == true) {
-            let imagesLieu = []
-            let imagesAmenagement = []
-            let imagesCroquis = []
-            let amenagements = []
-            let fournisseur = []
-            let directeurRegional = []
-            let item = 0
-            let j = 0
 
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
@@ -67,7 +68,7 @@ module.exports = {
                 fournisseur = []
             }
 
-            for(item in req.body.directeur_regional){
+            for (item in req.body.directeur_regional) {
                 await directeurRegional.push({
                     matricule: req.body.directeur_regional[item].matricule,
                     nom: req.body.directeur_regional[item].nom,
@@ -97,7 +98,7 @@ module.exports = {
                 intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
                 centre_cout_siege: req.body.centre_cout_siege,
                 categorie_pointVente: req.body.categorie_pointVente,
-                etat_logement_fonction:req.body.etat_logement_fonction,
+                etat_logement_fonction: req.body.etat_logement_fonction,
                 directeur_regional: directeurRegional,
                 deleted: false
             })
@@ -107,11 +108,8 @@ module.exports = {
                 .catch((error) => {
                     res.status(402).send({ message: error.message })
                 })
-        } else {
-
-            let imagesLieu = []
-            let directeurRegional = []
-            let item = 0
+        //else        
+        } else if (req.body.has_amenagements == false) {
 
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
@@ -121,7 +119,36 @@ module.exports = {
                 }
             }
 
-            for(item in req.body.directeur_regional){
+            for (item in req.body.amenagement) {
+                //update fournisseurs in amenagements array
+                for (j in req.body.amenagement[item].fournisseur) {
+                    await fournisseur.push({
+                        nom: req.body.amenagement[item].fournisseur[j].nom,
+                        prenom: req.body.amenagement[item].fournisseur[j].prenom,
+                        amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer,
+                        deleted: true
+                    })
+                }
+                await amenagements.push({
+                    deleted: true,
+                    nature_amenagement: req.body.amenagement[item].nature_amenagement,
+                    montant_amenagement: req.body.amenagement[item].montant_amenagement,
+                    valeur_nature_chargeProprietaire: req.body.amenagement[item].valeur_nature_chargeProprietaire,
+                    valeur_nature_chargeFondation: req.body.amenagement[item].valeur_nature_chargeFondation,
+                    numero_facture: req.body.amenagement[item].numero_facture,
+                    numero_bon_commande: req.body.amenagement[item].numero_bon_commande,
+                    date_passation_commande: req.body.amenagement[item].date_passation_commande,
+                    evaluation_fournisseur: req.body.amenagement[item].evaluation_fournisseur,
+                    date_fin_travaux: req.body.amenagement[item].date_fin_travaux,
+                    date_livraison_local: req.body.amenagement[item].date_livraison_local,
+                    images_apres_travaux: imagesAmenagement,
+                    images_croquis: imagesCroquis,
+                    fournisseur: fournisseur
+                })
+                fournisseur = []
+            }
+
+            for (item in req.body.directeur_regional) {
                 await directeurRegional.push({
                     matricule: req.body.directeur_regional[item].matricule,
                     nom: req.body.directeur_regional[item].nom,
@@ -150,7 +177,7 @@ module.exports = {
                 intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
                 centre_cout_siege: req.body.centre_cout_siege,
                 categorie_pointVente: req.body.categorie_pointVente,
-                etat_logement_fonction:req.body.etat_logement_fonction,
+                etat_logement_fonction: req.body.etat_logement_fonction,
                 directeur_regional: directeurRegional,
                 deleted: false
             })

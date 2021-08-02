@@ -55,7 +55,7 @@ router.route('/lieu/ajouter').post(
         { name: 'imgs_croquis', maxCount: 2 }]),
     postLieu.ajouterLieu);
 
-router.route('/lieu/modifier/:Id').put(
+router.route('/lieu/modifier/:Id').patch(
     upload.fields([
         { name: 'imgs_lieu_entrer', maxCount: 5 },
         { name: 'imgs_amenagement', maxCount: 5 },
@@ -66,11 +66,9 @@ router.route('/lieu/modifier/:Id').put(
 
 router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
 router.route('/lieu/:Id').get(getLieu.getLieuById);
-router.route('/lieu/amenagement-byId/:IdLieu/:IdAmng').get(getLieu.getAmenagementById);
-router.route('/lieu/amenagement/all-amenagements').get(getLieu.getAllAmenagement);
-router.route('/lieu/fournisseur-byId/:IdLieu').get(getLieu.getFournisseursOfLieu);
 router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
 router.route('/lieu/count/all').get(getLieu.getCountLieu);
+
 
 
 //contrat routes 
@@ -79,6 +77,11 @@ router.route('/contrat/tous').get(getcontrat.getContrats);
 router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
 router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
 router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
+
+
+//TESTS
+
+
 
 
 module.exports = router;
