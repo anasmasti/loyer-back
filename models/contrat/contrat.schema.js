@@ -1,3 +1,4 @@
+const { boolean } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
@@ -82,14 +83,18 @@ const ContratSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref: 'Proprietaire',
     },
-    etat_contrat: {
+    etat_contrat: [{
         libelle:{
             type:String
+        },
+        updated:{
+            type:Boolean,
+            default:false
         },
         etat:{
             type: EtatContratSchema
         }
-    },
+    }],
     piece_joint:{
         type:String,
     },
