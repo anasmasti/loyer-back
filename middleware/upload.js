@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
 var upload = multer({
     storage: storage,
     fileFilter: function (req, file, callback) {
-        if (file.mimetype === "application/vnd.rar" || file.mimetype === "application/zip") {
+        if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
             callback(null, true)
         } else {
             console.log('les fichiers doit etre rar ou zip');

@@ -14,7 +14,6 @@ module.exports = {
         // if (codeLieuExist && codeLieuExist.code_lieu != "") {
         //     return res.status(422).send({ message: 'Le code lieu et deja pris' })
         // }
-
         if (req.files) {
             if (req.files.imgs_lieu_entrer) {
                 for (item in req.files.imgs_lieu_entrer) {

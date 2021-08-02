@@ -20,6 +20,7 @@ const deleteUserRoles = require('../controller/user-roles/delete.roles')
 const postLieu = require('../controller/lieu/post.lieu')
 const modifierLieu = require('../controller/lieu/put.lieu')
 const getLieu = require('../controller/lieu/get.lieu')
+const deleteLieu = require('../controller/lieu/delete.lieu')
 //contrat
 const postcontrat = require('../controller/contrat/post.contrat')
 const getcontrat = require('../controller/contrat/get.contrat')
@@ -68,6 +69,7 @@ router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
 router.route('/lieu/lieu-by-id/:Id').get(getLieu.getLieuById);
 router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
 router.route('/lieu/count/all').get(getLieu.getCountLieu);
+router.route('/lieu/delete/:Id').patch(deleteLieu.deletedLieu)
 
 
 
@@ -82,8 +84,20 @@ router.route('/contrat/ajouter').post(
     postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);
 router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
-router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
-router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
+router.route('/contrat/modifier/:ID').put(
+    upload.fields([
+        { name: 'piece_joint_contrat', maxCount: 1 },
+        { name: 'images_etat_lieu_sortie', maxCount: 1 },
+        { name: 'lettre_res_piece_jointe', maxCount: 1 },
+        { name: 'piece_jointe_avenant', maxCount: 1 },
+    ]), putcontrat.modifierContrat);
+router.route('/contrat/supprimer/:ID').put(
+    upload.fields([
+        { name: 'piece_joint_contrat', maxCount: 1 },
+        { name: 'images_etat_lieu_sortie', maxCount: 1 },
+        { name: 'lettre_res_piece_jointe', maxCount: 1 },
+        { name: 'piece_jointe_avenant', maxCount: 1 },
+    ]), deletecontrat.supprimerContrat);
 
 
 //TESTS
