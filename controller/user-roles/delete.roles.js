@@ -4,7 +4,7 @@ const userRoles = require('../../models/roles/roles.model')
 module.exports = {
     DeleteRoles: async (req, res) => {
         await userRoles.findByIdAndUpdate(req.params.Id, {
-            deleted: req.body.deleted
+            deleted: true
         })
         .then((data) => {
             res.json(data)

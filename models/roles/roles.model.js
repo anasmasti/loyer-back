@@ -6,6 +6,10 @@ const RoleSchema = new Schema({
     roleName: {
         type: String,
         required: true
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -14,7 +18,7 @@ const userRoleSchema = new Schema({
         type: String,
         required: true
     },
-    name:{
+    nom:{
         type: String,
         required: true
     },

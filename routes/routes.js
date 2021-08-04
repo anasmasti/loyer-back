@@ -27,6 +27,13 @@ const getcontrat = require('../controller/contrat/get.contrat')
 const putcontrat = require('../controller/contrat/put.contrat')
 const deletecontrat = require('../controller/contrat/delete.contrat')
 
+//Foncier 
+const postFoncier = require('../controller/foncier/post.foncier')
+const putFoncier = require('../controller/foncier/put.foncier')
+const getFoncier = require('../controller/foncier/get.foncier')
+const deleteFoncier = require('../controller/foncier/delete.foncier')
+
+
 //Router
 const router = express.Router()
 
@@ -42,11 +49,11 @@ router.route('/proprietaire/modifier/:Id').put(putProprietaire.putProprietaire);
 router.route('/proprietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
 
 //User Roles 
-router.route('/userRoles/ajouter').post(postUserRoles.addUserRoles);
-router.route('/userRoles/update/:Id').put(updateUserRoles.updateUserRoles);
-router.route('/userRoles/all-userRoles').get(getUserRoles.getAllUserRoles);
-router.route('/userRoles/userRoles-PerId/:Id').get(getUserRoles.getUserRolesPerId);
-router.route('/userRoles/delete-userRoles/:Id').put(deleteUserRoles.DeleteRoles)
+router.route('/user/ajouter').post(postUserRoles.addUserRoles);
+router.route('/user/update/:Id').put(updateUserRoles.updateUserRoles);
+router.route('/user/all').get(getUserRoles.getAllUserRoles);
+router.route('/user/detail/:Id').get(getUserRoles.getUserRolesPerId);
+router.route('/user/delete/:Id').put(deleteUserRoles.DeleteRoles)
 
 //Lieu routes
 router.route('/lieu/ajouter').post(
@@ -98,6 +105,13 @@ router.route('/contrat/supprimer/:ID').put(
         { name: 'lettre_res_piece_jointe', maxCount: 1 },
         { name: 'piece_jointe_avenant', maxCount: 1 },
     ]), deletecontrat.supprimerContrat);
+
+//Foncier routes
+router.route('/foncier/ajouter').post(postFoncier.postFoncier) 
+router.route('/foncier/modifier/:Id').patch(putFoncier.putFoncier)
+router.route('/foncier/all').get(getFoncier.allFoncier)
+router.route('/foncier/:Id').get(getFoncier.foncierById)
+router.route('/foncier/delete/:Id').patch(deleteFoncier.deleteFoncier)
 
 
 //TESTS

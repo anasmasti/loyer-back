@@ -10,11 +10,12 @@ module.exports = {
 
         const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu })
 
-
         // if (codeLieuExist && codeLieuExist.code_lieu != "") {
         //     return res.status(422).send({ message: 'Le code lieu et deja pris' })
         // }
+        console.log(req.files);
         if (req.files) {
+
             if (req.files.imgs_lieu_entrer) {
                 for (item in req.files.imgs_lieu_entrer) {
                     await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
@@ -38,14 +39,8 @@ module.exports = {
         }
 
         if (req.body.has_amenagements == true) {
-            // let imagesLieu = []
-            // let imagesAmenagement = []
-            // let imagesCroquis = []
-            let amenagements = []
-            let fournisseur = []
-            let directeurRegional = []
-            let item = 0
-            let j = 0
+
+            let amenagements = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
 
             //add amenagements in array
             for (item in req.body.amenagement) {
@@ -57,6 +52,21 @@ module.exports = {
                         prenom: req.body.amenagement[item].fournisseur[j].prenom,
                         amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer
                     })
+                }
+                if (req.files) {
+                    if (req.files.imgs_amenagement) {
+                        for (i in req.files.imgs_amenagement) {
+                            if (req.files.imgs_amenagement[i].originalname === req.body.amenagement[item].idm)
+                                await imagesAmenagement.push({ image: req.files.imgs_amenagement[item].File.path })
+                        }
+                    }
+                    if (req.files.imgs_croquis) {
+                        for (k in req.files.imgs_croquis) {
+                            if (req.files.imgs_croquis[k].originalname === req.body.amenagement[item].idm) {
+                                await imagesCroquis.push({mage: req.files.imgs_amenagement[item].File.path})
+                            }
+                        }
+                    }
                 }
 
                 await amenagements.push({
@@ -73,6 +83,8 @@ module.exports = {
                     images_apres_travaux: imagesAmenagement,
                     images_croquis: imagesCroquis,
                     fournisseur: fournisseur,
+                    idm: req.body.amenagement[item].idm
+                    
 
 
                 })
@@ -90,6 +102,7 @@ module.exports = {
                 })
             }
 
+            console.log("-*AM*-",amenagements);
 
             const lieu = new Lieu({
                 code_lieu: req.body.code_lieu,
