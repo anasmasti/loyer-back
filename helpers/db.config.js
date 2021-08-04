@@ -10,7 +10,7 @@ const DB_LOCAL = process.env.DB_LOCAL
 
 
 //Database configuration
-const db_config = mongoose.connect(DB_LOCAL, {
+const db_config = mongoose.connect(DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
