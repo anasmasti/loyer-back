@@ -1,0 +1,19 @@
+const Proprietaire = require('../../models/proprietaire/proprietaire.model')
+const Lieu = require('../../models/lieu/lieu.model')
+
+module.exports = {
+    getProprietaireAndLieu: async (req, res) => {
+        try {
+            const proprietaire = await Proprietaire.find({}, { _id: 1 })
+
+            const lieu = await Lieu.find({}, { _id: 1 })
+
+            res.json({
+                proprietaire,
+                lieu
+            })
+        } catch (error) {
+            res.status(403).send({message: error.message})
+        }
+    }
+}

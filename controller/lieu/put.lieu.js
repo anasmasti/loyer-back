@@ -11,10 +11,10 @@ module.exports = {
         let directeurRegional = []
         let item = 0
         let j = 0
-
+        
         const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu })
 
-        // if (codeLieuExist && codeLieuExist._id != req.params.Id) return res.status(422).send({ message: 'Le code lieu et deja pris' })
+        if (codeLieuExist && codeLieuExist._id != req.params.Id) return res.status(422).send({ message: 'Le code lieu et deja pris' })
 
 
         if (req.body.has_amenagements == true) {

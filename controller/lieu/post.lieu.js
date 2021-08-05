@@ -10,9 +10,9 @@ module.exports = {
 
         const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu })
 
-        // if (codeLieuExist && codeLieuExist.code_lieu != "") {
-        //     return res.status(422).send({ message: 'Le code lieu et deja pris' })
-        // }
+        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
+            return res.status(422).send({ message: 'Le code lieu et deja pris' })
+        }
         console.log(req.files);
         if (req.files) {
 

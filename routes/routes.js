@@ -33,6 +33,8 @@ const putFoncier = require('../controller/foncier/put.foncier')
 const getFoncier = require('../controller/foncier/get.foncier')
 const deleteFoncier = require('../controller/foncier/delete.foncier')
 
+//Shared
+const getProprietaireAndLieu = require('../controller/shared/get.proprietaire.lieu')
 
 //Router
 const router = express.Router()
@@ -112,6 +114,9 @@ router.route('/foncier/modifier/:Id').patch(putFoncier.putFoncier)
 router.route('/foncier/all').get(getFoncier.allFoncier)
 router.route('/foncier/:Id').get(getFoncier.foncierById)
 router.route('/foncier/delete/:Id').patch(deleteFoncier.deleteFoncier)
+
+//Shared route
+router.route('/proprietaire-lieu').get(getProprietaireAndLieu.getProprietaireAndLieu)
 
 
 //TESTS
