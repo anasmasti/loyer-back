@@ -35,6 +35,7 @@ const deleteFoncier = require('../controller/foncier/delete.foncier')
 
 //Shared
 const getProprietaireAndLieu = require('../controller/shared/get.proprietaire.lieu')
+const countAll = require('../controller/shared/get.countAll')
 
 //Router
 const router = express.Router()
@@ -62,14 +63,14 @@ router.route('/lieu/ajouter').post(
     upload.fields([
         { name: 'imgs_lieu_entrer', maxCount: 5 },
         { name: 'imgs_amenagement', maxCount: 5 },
-        { name: 'imgs_croquis', maxCount: 2 }]),
-    postLieu.ajouterLieu);
+        { name: 'imgs_croquis', maxCount: 5 }])
+    , postLieu.ajouterLieu);
 
 router.route('/lieu/modifier/:Id').patch(
     upload.fields([
         { name: 'imgs_lieu_entrer', maxCount: 5 },
         { name: 'imgs_amenagement', maxCount: 5 },
-        { name: 'imgs_croquis', maxCount: 2 }]),
+        { name: 'imgs_croquis', maxCount: 5 }]),
     modifierLieu.modifierLieu)
 
 
@@ -79,8 +80,6 @@ router.route('/lieu/lieu-by-id/:Id').get(getLieu.getLieuById);
 router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
 router.route('/lieu/count/all').get(getLieu.getCountLieu);
 router.route('/lieu/delete/:Id').patch(deleteLieu.deletedLieu)
-
-
 
 //contrat routes 
 router.route('/contrat/ajouter').post(
@@ -109,7 +108,7 @@ router.route('/contrat/supprimer/:ID').put(
     ]), deletecontrat.supprimerContrat);
 
 //Foncier routes
-router.route('/foncier/ajouter').post(postFoncier.postFoncier) 
+router.route('/foncier/ajouter').post(postFoncier.postFoncier)
 router.route('/foncier/modifier/:Id').patch(putFoncier.putFoncier)
 router.route('/foncier/all').get(getFoncier.allFoncier)
 router.route('/foncier/:Id').get(getFoncier.foncierById)
@@ -117,6 +116,7 @@ router.route('/foncier/delete/:Id').patch(deleteFoncier.deleteFoncier)
 
 //Shared route
 router.route('/proprietaire-lieu').get(getProprietaireAndLieu.getProprietaireAndLieu)
+router.route('/count-all').get(countAll.countAll)
 
 
 //TESTS

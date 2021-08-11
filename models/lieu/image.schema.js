@@ -3,8 +3,8 @@ const Schmea = mongoose.Schema
 
 const imageSchema = new Schmea({
     image: {
-        type: String,
-    }
-})
+        type: String
+    },
+}, { timestamps: true })
 
 module.exports = imageSchema

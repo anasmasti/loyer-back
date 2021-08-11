@@ -1,131 +1,103 @@
+const { json } = require('body-parser');
 const Lieu = require('../../models/lieu/lieu.model')
 
 
 module.exports = {
     ajouterLieu: async (req, res, next) => {
 
-        let imagesLieu = []
-        let imagesAmenagement = []
-        let imagesCroquis = []
+        let data = await JSON.parse(req.body.data)
 
-        const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu })
+        // const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
 
-        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
-            return res.status(422).send({ message: 'Le code lieu et deja pris' })
-        }
-        console.log(req.files);
-        if (req.files) {
+        // if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
+        //     return res.status(422).send({ message: 'Le code lieu et deja pris' })
+        // }
 
-            if (req.files.imgs_lieu_entrer) {
-                for (item in req.files.imgs_lieu_entrer) {
-                    await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+        if (data.has_amenagements == true) {
+            let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
+            if (req.files) {
+                if (req.files.imgs_lieu_entrer) {
+                    for (item in req.files.imgs_lieu_entrer) {
+                        imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+                    }
                 }
             }
-            console.log('*/| 1111*', imagesLieu);
-
-            if (req.files.imgs_amenagement) {
-                for (item in req.files.imgs_amenagement) {
-                    await imagesAmenagement.push({ image: req.files.imgs_amenagement[item].path })
-                }
-            }
-            console.log('*/| 2222*', imagesAmenagement);
-
-            if (req.files.imgs_croquis) {
-                for (item in req.files.imgs_croquis) {
-                    await imagesCroquis.push({ image: req.files.imgs_croquis[item].path })
-                }
-            }
-            console.log('*/| 3333*', imagesCroquis);
-        }
-
-        if (req.body.has_amenagements == true) {
-
-            let amenagements = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
-
             //add amenagements in array
-            for (item in req.body.amenagement) {
-
+            for (item in data.amenagement) {
                 //add fournisseurs in amenagements array
-                for (j in req.body.amenagement[item].fournisseur) {
-                    await fournisseur.push({
-                        nom: req.body.amenagement[item].fournisseur[j].nom,
-                        prenom: req.body.amenagement[item].fournisseur[j].prenom,
-                        amenagements_effectuer: req.body.amenagement[item].fournisseur[j].amenagements_effectuer
+                for (j in data.amenagement[item].fournisseur) {
+                    fournisseur.push({
+                        nom: data.amenagement[item].fournisseur[j].nom,
+                        prenom: data.amenagement[item].fournisseur[j].prenom,
+                        amenagements_effectuer: data.amenagement[item].fournisseur[j].amenagements_effectuer
                     })
                 }
                 if (req.files) {
                     if (req.files.imgs_amenagement) {
                         for (i in req.files.imgs_amenagement) {
-                            if (req.files.imgs_amenagement[i].originalname === req.body.amenagement[item].idm)
-                                await imagesAmenagement.push({ image: req.files.imgs_amenagement[item].File.path })
+                            if (req.files.imgs_amenagement[i].originalname == data.amenagement[item].idm)
+                                imagesAmenagement.push({ image: req.files.imgs_amenagement[i].path })
                         }
                     }
                     if (req.files.imgs_croquis) {
                         for (k in req.files.imgs_croquis) {
-                            if (req.files.imgs_croquis[k].originalname === req.body.amenagement[item].idm) {
-                                await imagesCroquis.push({mage: req.files.imgs_amenagement[item].File.path})
+                            if (req.files.imgs_croquis[k].originalname == data.amenagement[item].idm) {
+                                imagesCroquis.push({ image: req.files.imgs_croquis[k].path })
                             }
                         }
                     }
                 }
-
-                await amenagements.push({
-                    nature_amenagement: req.body.amenagement[item].nature_amenagement,
-                    montant_amenagement: req.body.amenagement[item].montant_amenagement,
-                    valeur_nature_chargeProprietaire: req.body.amenagement[item].valeur_nature_chargeProprietaire,
-                    valeur_nature_chargeFondation: req.body.amenagement[item].valeur_nature_chargeFondation,
-                    numero_facture: req.body.amenagement[item].numero_facture,
-                    numero_bon_commande: req.body.amenagement[item].numero_bon_commande,
-                    date_passation_commande: req.body.amenagement[item].date_passation_commande,
-                    evaluation_fournisseur: req.body.amenagement[item].evaluation_fournisseur,
-                    date_fin_travaux: req.body.amenagement[item].date_fin_travaux,
-                    date_livraison_local: req.body.amenagement[item].date_livraison_local,
+                amenagements.push({
+                    nature_amenagement: data.amenagement[item].nature_amenagement,
+                    montant_amenagement: data.amenagement[item].montant_amenagement,
+                    valeur_nature_chargeProprietaire: data.amenagement[item].valeur_nature_chargeProprietaire,
+                    valeur_nature_chargeFondation: data.amenagement[item].valeur_nature_chargeFondation,
+                    numero_facture: data.amenagement[item].numero_facture,
+                    numero_bon_commande: data.amenagement[item].numero_bon_commande,
+                    date_passation_commande: data.amenagement[item].date_passation_commande,
+                    evaluation_fournisseur: data.amenagement[item].evaluation_fournisseur,
+                    date_fin_travaux: data.amenagement[item].date_fin_travaux,
+                    date_livraison_local: data.amenagement[item].date_livraison_local,
                     images_apres_travaux: imagesAmenagement,
-                    images_croquis: imagesCroquis,
-                    fournisseur: fournisseur,
-                    idm: req.body.amenagement[item].idm
-                    
-
-
+                    croquis_travaux: imagesCroquis,
+                    fournisseur: fournisseur
                 })
                 fournisseur = []
                 imagesAmenagement = []
                 imagesCroquis = []
             }
 
-            for (item in req.body.directeur_regional) {
-                await directeurRegional.push({
-                    matricule: req.body.directeur_regional[item].matricule,
-                    nom: req.body.directeur_regional[item].nom,
-                    prenom: req.body.directeur_regional[item].prenom,
+            for (item in data.directeur_regional) {
+                directeurRegional.push({
+                    matricule: data.directeur_regional[item].matricule,
+                    nom: data.directeur_regional[item].nom,
+                    prenom: data.directeur_regional[item].prenom,
                     deleted_directeur: false
                 })
             }
 
-            console.log("-*AM*-",amenagements);
-
             const lieu = new Lieu({
-                code_lieu: req.body.code_lieu,
-                intitule_lieu: req.body.intitule_lieu,
-                intitule_DR: req.body.intitule_DR,
-                adresse: req.body.adresse,
-                ville: req.body.ville,
-                code_localite: req.body.code_localite,
-                desc_lieu_entrer: req.body.desc_lieu_entrer,
+                code_lieu: data.code_lieu,
+                intitule_lieu: data.intitule_lieu,
+                intitule_DR: data.intitule_DR,
+                adresse: data.adresse,
+                ville: data.ville,
+                code_localite: data.code_localite,
+                desc_lieu_entrer: data.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
-                has_amenagements: req.body.has_amenagements,
+                has_amenagements: data.has_amenagements,
                 amenagement: amenagements,
-                superficie: req.body.superficie,
-                telephone: req.body.telephone,
-                fax: req.body.fax,
-                etage: req.body.etage,
-                type_lieu: req.body.type_lieu,
-                code_rattache_DR: req.body.code_rattache_DR,
-                code_rattahce_SUP: req.body.code_rattahce_SUP,
-                intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
-                centre_cout_siege: req.body.centre_cout_siege,
-                categorie_pointVente: req.body.categorie_pointVente,
-                etat_logement_fonction: req.body.etat_logement_fonction,
+                superficie: data.superficie,
+                telephone: data.telephone,
+                fax: data.fax,
+                etage: data.etage,
+                type_lieu: data.type_lieu,
+                code_rattache_DR: data.code_rattache_DR,
+                code_rattahce_SUP: data.code_rattahce_SUP,
+                intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
+                centre_cout_siege: data.centre_cout_siege,
+                categorie_pointVente: data.categorie_pointVente,
+                etat_logement_fonction: data.etat_logement_fonction,
                 directeur_regional: directeurRegional,
                 deleted: false
             })
@@ -139,48 +111,46 @@ module.exports = {
 
         } else {
 
-            let imagesLieu = []
-            let directeurRegional = []
-            let item = 0
+            let directeurRegional = [], imagesLieu = [], item = 0
 
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
                     for (item in req.files.imgs_lieu_entrer) {
-                        await imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
+                        imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
                     }
                 }
             }
 
-            for (item in req.body.directeur_regional) {
-                await directeurRegional.push({
-                    matricule: req.body.directeur_regional[item].matricule,
-                    nom: req.body.directeur_regional[item].nom,
-                    prenom: req.body.directeur_regional[item].prenom,
+            for (item in data.directeur_regional) {
+                directeurRegional.push({
+                    matricule: data.directeur_regional[item].matricule,
+                    nom: data.directeur_regional[item].nom,
+                    prenom: data.directeur_regional[item].prenom,
                     deleted_directeur: false
                 })
             }
 
             const lieu = new Lieu({
-                code_lieu: req.body.code_lieu,
-                intitule_lieu: req.body.intitule_lieu,
-                intitule_DR: req.body.intitule_DR,
-                adresse: req.body.adresse,
-                ville: req.body.ville,
-                code_localite: req.body.code_localite,
-                desc_lieu_entrer: req.body.desc_lieu_entrer,
+                code_lieu: data.code_lieu,
+                intitule_lieu: data.intitule_lieu,
+                intitule_DR: data.intitule_DR,
+                adresse: data.adresse,
+                ville: data.ville,
+                code_localite: data.code_localite,
+                desc_lieu_entrer: data.desc_lieu_entrer,
                 imgs_lieu_entrer: imagesLieu,
-                has_amenagements: req.body.has_amenagements,
-                superficie: req.body.superficie,
-                telephone: req.body.telephone,
-                fax: req.body.fax,
-                etage: req.body.etage,
-                type_lieu: req.body.type_lieu,
-                code_rattache_DR: req.body.code_rattache_DR,
-                code_rattahce_SUP: req.body.code_rattahce_SUP,
-                intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
-                centre_cout_siege: req.body.centre_cout_siege,
-                categorie_pointVente: req.body.categorie_pointVente,
-                etat_logement_fonction: req.body.etat_logement_fonction,
+                has_amenagements: data.has_amenagements,
+                superficie: data.superficie,
+                telephone: data.telephone,
+                fax: data.fax,
+                etage: data.etage,
+                type_lieu: data.type_lieu,
+                code_rattache_DR: data.code_rattache_DR,
+                code_rattahce_SUP: data.code_rattahce_SUP,
+                intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
+                centre_cout_siege: data.centre_cout_siege,
+                categorie_pointVente: data.categorie_pointVente,
+                etat_logement_fonction: data.etat_logement_fonction,
                 directeur_regional: directeurRegional,
                 deleted: false
             })

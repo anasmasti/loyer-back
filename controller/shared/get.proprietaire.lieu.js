@@ -4,9 +4,9 @@ const Lieu = require('../../models/lieu/lieu.model')
 module.exports = {
     getProprietaireAndLieu: async (req, res) => {
         try {
-            const proprietaire = await Proprietaire.find({}, { _id: 1 })
+            const proprietaire = await Proprietaire.find({}, { _id: 1, cin:1 })
 
-            const lieu = await Lieu.find({}, { _id: 1 })
+            const lieu = await Lieu.find({}, { _id: 1, code_lieu:1 })
 
             res.json({
                 proprietaire,

@@ -31,7 +31,7 @@ module.exports = {
     //get all Directions regionals and Supervision
     getAllDirectionsAndSupervions: async (req, res) => {
         try {
-            const DR = await Lieu.find({ type_lieu: 'Direction régionale' }, { _id:0,code_lieu:1,intitule_lieu: 1})
+            const DR = await Lieu.find({ type_lieu: 'Direction régionale' }, { _id:1,code_lieu:1,intitule_lieu: 1})
 
             const SUP = await Lieu.find({ type_lieu: 'Supervision' }, { _id:0,code_lieu:1,intitule_lieu: 1})
 
@@ -55,7 +55,6 @@ module.exports = {
                 res.status(402).send({ message: error.message })
             })
     },  
-
 
      //get all lieus
     // getAllLieu: async (req, res) => {

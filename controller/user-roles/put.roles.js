@@ -6,7 +6,8 @@ module.exports = {
         let allUserRoles = []
         for (item in req.body.userRoles) {
             await allUserRoles.push({
-                roleName: req.body.userRoles[item].roleName
+                roleName: req.body.userRoles[item].roleName,
+                deleted:req.body.deleted
             })
         }
         await userRoles.findByIdAndUpdate(req.params.Id,
@@ -14,7 +15,8 @@ module.exports = {
                 userMatricul: req.body.userMatricul,
                 nom: req.body.nom,
                 prenom: req.body.prenom,
-                userRoles: allUserRoles
+                userRoles: allUserRoles,
+                deleted:req.body.deleted
             })
             .then((data) => {
                 res.json(data)
