@@ -24,6 +24,8 @@ module.exports = {
             }
             //add amenagements in array
             for (item in data.amenagement) {
+                let idmData = data.amenagement[item].idm
+                let idm = idmData.replace('.zip', '')
                 //add fournisseurs in amenagements array
                 for (j in data.amenagement[item].fournisseur) {
                     fournisseur.push({
@@ -36,18 +38,25 @@ module.exports = {
                     if (req.files.imgs_amenagement) {
                         for (i in req.files.imgs_amenagement) {
                             if (req.files.imgs_amenagement[i].originalname == data.amenagement[item].idm)
-                                imagesAmenagement.push({ image: req.files.imgs_amenagement[i].path })
+                                imagesAmenagement.push({
+                                    image: req.files.imgs_amenagement[i].path,
+                                    image_idm: idm
+                                })
                         }
                     }
                     if (req.files.imgs_croquis) {
                         for (k in req.files.imgs_croquis) {
                             if (req.files.imgs_croquis[k].originalname == data.amenagement[item].idm) {
-                                imagesCroquis.push({ image: req.files.imgs_croquis[k].path })
+                                imagesCroquis.push({
+                                    image: req.files.imgs_croquis[k].path,
+                                    image_idm: idm
+                                })
                             }
                         }
                     }
                 }
                 amenagements.push({
+                    idm: idm,
                     nature_amenagement: data.amenagement[item].nature_amenagement,
                     montant_amenagement: data.amenagement[item].montant_amenagement,
                     valeur_nature_chargeProprietaire: data.amenagement[item].valeur_nature_chargeProprietaire,

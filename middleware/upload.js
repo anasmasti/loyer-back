@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, callback) {
         let ext = path.extname(file.originalname)
-        let name = new Date().toJSON().slice(0,10).toString()
+        let name = new Date().toJSON().slice(0,10).toString() + '-' + new Date().getTime()
         callback(null, name + ext)
     }
 })

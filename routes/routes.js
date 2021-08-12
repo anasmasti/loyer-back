@@ -79,6 +79,7 @@ router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
 router.route('/lieu/lieu-by-id/:Id').get(getLieu.getLieuById);
 router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
 router.route('/lieu/count/all').get(getLieu.getCountLieu);
+router.route('/lieu/detail/:Id').get(getLieu.detailLieu);
 router.route('/lieu/delete/:Id').patch(deleteLieu.deletedLieu)
 
 //contrat routes 

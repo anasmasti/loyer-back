@@ -6,10 +6,10 @@ const Contrat = require('../../models/contrat/contrat.model')
 module.exports = {
     countAll: async (req, res) => {
         try {
-            const countProprietaire = await Proprietaire.countDocuments()
-            const countLieu = await Lieu.countDocuments()
-            const countFoncier = await Foncier.countDocuments()
-            const countContrat = await Contrat.countDocuments()
+            const countProprietaire = await Proprietaire.countDocuments({deleted: false})
+            const countLieu = await Lieu.countDocuments({deleted: false})
+            const countFoncier = await Foncier.countDocuments({deleted: false})
+            const countContrat = await Contrat.countDocuments({deleted: false})
 
             res.json({
                 countProprietaire,

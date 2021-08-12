@@ -15,14 +15,18 @@ module.exports = {
 
 
         if (data.has_amenagements == true) {
-            let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
-
+            let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = []
+            let item = 0, j = 0, i = 0, k = 0, h = 0, t = 0
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
                     for (item in req.files.imgs_lieu_entrer) {
                         imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path })
                     }
                 }
+            }
+            //add the existing file paths
+            for (item in data.imgs_lieu_entrer) {
+                imagesLieu.push(data.imgs_lieu_entrer[item])
             }
 
             for (item in data.amenagement) {
@@ -48,7 +52,9 @@ module.exports = {
                 if (req.files) {
                     if (req.files.imgs_amenagement) {
                         for (i in req.files.imgs_amenagement) {
-                            if (req.files.imgs_amenagement[i].originalname == data.amenagement[item].idm) {
+                            let fileData = req.files.imgs_amenagement[i].originalname
+                            let originalName = fileData.replace('.zip', '')
+                            if (originalName == data.amenagement[item].idm) {
                                 if (data.amenagement[item].deleted == false) {
                                     imagesAmenagement.push({ image: req.files.imgs_amenagement[i].path })
                                 }
@@ -64,7 +70,9 @@ module.exports = {
                     }
                     if (req.files.imgs_croquis) {
                         for (k in req.files.imgs_croquis) {
-                            if (req.files.imgs_croquis[k].originalname == data.amenagement[item].idm) {
+                            let fileData = req.files.imgs_croquis[k].originalname
+                            let originalName = fileData.replace('.zip', '')
+                            if (originalName == data.amenagement[item].idm) {
                                 if (data.amenagement[item].deleted == false) {
                                     imagesCroquis.push({ image: req.files.imgs_croquis[k].path })
                                 }
@@ -78,7 +86,16 @@ module.exports = {
                         }
                     }
                 }
+
+                for (h in data.amenagement[item].images_apres_travaux) {
+                    imagesAmenagement.push(data.amenagement[item].images_apres_travaux[h])
+                }
+
+                for (t in data.amenagement[item].croquis_travaux) {
+                    imagesCroquis.push(data.amenagement[item].croquis_travaux[t])
+                }
                 amenagements.push({
+                    idm: data.amenagement[item].idm,
                     deleted: data.amenagement[item].deleted || false,
                     nature_amenagement: data.amenagement[item].nature_amenagement,
                     montant_amenagement: data.amenagement[item].montant_amenagement,

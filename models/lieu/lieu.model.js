@@ -6,9 +6,6 @@ const directeurRegional = require('./directeur.schema')
 
 
 const lieuSchema = new Schema({
-    idm: {
-        type: String
-    },
     code_lieu: {
         type: String,
     },
