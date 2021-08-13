@@ -41,9 +41,9 @@ router.route('/proprietaire/modifier/:Id').put(putProprietaire.putProprietaire);
 router.route('/proprietaire/supprimer/:Id').put(deleteProprietaire.deleteProprietaire);
 
 //User Roles 
-router.route('/userRoles/ajouter').post(postUserRoles.addUserRoles);
+router.route('/user/ajouter').post(postUserRoles.addUserRoles);
 router.route('/userRoles/update/:Id').put(updateUserRoles.updateUserRoles);
-router.route('/userRoles/all-userRoles').get(getUserRoles.getAllUserRoles);
+router.route('/user/all').get(getUserRoles.getAllUserRoles);
 router.route('/userRoles/userRoles-PerId/:Id').get(getUserRoles.getUserRolesPerId);
 router.route('/userRoles/delete-userRoles/:Id').put(deleteUserRoles.DeleteRoles)
 
@@ -84,6 +84,8 @@ router.route('/contrat/tous').get(getcontrat.getContrats);
 router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
 router.route('/contrat/modifier/:ID').put(putcontrat.modifierContrat);
 router.route('/contrat/supprimer/:ID').put(deletecontrat.supprimerContrat);
+router.route('/contrat/modifierNvEtat/:ID').put(putcontrat.modifierContratUpdatedEtat);
+
 
 
 //TESTS

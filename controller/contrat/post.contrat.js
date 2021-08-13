@@ -12,32 +12,45 @@ module.exports = {
         }
 
         //remplissage  de etat_contrat 
-         let nouveauEtatContrat ={};
+         let nouveauEtatContrat ={ 
+                n_avenant: '',
+                motif: '', 
+                montant_nouveau_loyer: '', 
+                signaletique_successeur: '',
+                intitule_lieu: '',
+                date_suspension: '', 
+                duree_suspension:'', 
+                motif_suspension:'',
+                reprise_caution: '', 
+                date_resiliation:'', 
+                etat_lieu_sortie:'',
+                preavis: ''
+             };
          try{
                 //remplissage
-                if(req.body.etat_contrat.libelle == 'Avenant'){
+                if(req.body.etat_contrat[0].libelle == 'Avenant'){
                      nouveauEtatContrat = {
-                        n_avenant: req.body.etat_contrat.etat.n_avenant,
-                        motif: req.body.etat_contrat.etat.motif, 
-                        montant_nouveau_loyer: req.body.etat_contrat.etat.montant_nouveau_loyer, 
-                        signaletique_successeur: req.body.etat_contrat.etat.signaletique_successeur
+                        n_avenant: req.body.etat_contrat[0].etat.n_avenant,
+                        motif: req.body.etat_contrat[0].etat.motif, 
+                        montant_nouveau_loyer: req.body.etat_contrat[0].etat.montant_nouveau_loyer, 
+                        signaletique_successeur: req.body.etat_contrat[0].etat.signaletique_successeur
                     };
                 }
-                else if(req.body.etat_contrat.libelle == 'Suspension'){
+                else if(req.body.etat_contrat[0].libelle == 'Suspension'){
                      nouveauEtatContrat = {
-                        intitule_lieu: req.body.etat_contrat.etat.intitule_lieu,
-                        date_suspension: req.body.etat_contrat.etat.date_suspension, 
-                        duree_suspension: req.body.etat_contrat.etat.duree_suspension, 
-                        motif_suspension: req.body.etat_contrat.etat.motif_suspension
+                        intitule_lieu: req.body.etat_contrat[0].etat.intitule_lieu,
+                        date_suspension: req.body.etat_contrat[0].etat.date_suspension, 
+                        duree_suspension: req.body.etat_contrat[0].etat.duree_suspension, 
+                        motif_suspension: req.body.etat_contrat[0].etat.motif_suspension
                     };
                 }
-                else if(req.body.etat_contrat.libelle == 'Résiliation'){
+                else if(req.body.etat_contrat[0].libelle == 'Résiliation'){
                     nouveauEtatContrat = {
-                       intitule_lieu: req.body.etat_contrat.etat.intitule_lieu,
-                       reprise_caution: req.body.etat_contrat.etat.reprise_caution, 
-                       date_resiliation: req.body.etat_contrat.etat.date_resiliation, 
-                       etat_lieu_sortie: req.body.etat_contrat.etat.etat_lieu_sortie,
-                       preavis: req.body.etat_contrat.etat.preavis
+                       intitule_lieu: req.body.etat_contrat[0].etat.intitule_lieu,
+                       reprise_caution: req.body.etat_contrat[0].etat.reprise_caution, 
+                       date_resiliation: req.body.etat_contrat[0].etat.date_resiliation, 
+                       etat_lieu_sortie: req.body.etat_contrat[0].etat.etat_lieu_sortie,
+                       preavis: req.body.etat_contrat[0].etat.preavis
                    };
                }
             
@@ -77,7 +90,7 @@ module.exports = {
                  type_lieu: req.body.type_lieu,
                  lieu: req.body.lieu,
                  etat_contrat:{
-                    libelle: req.body.etat_contrat.libelle,
+                    libelle: req.body.etat_contrat[0].libelle,
                     etat: nouveauEtatContrat
                  } ,
                  piece_joint: req.body.piece_joint

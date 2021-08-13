@@ -83,6 +83,10 @@ const ContratSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref: 'Proprietaire',
     },
+    etat_contrat_isUpdated:{
+        type:Boolean,
+            default:false
+    },
     etat_contrat: [{
         libelle:{
             type:String
