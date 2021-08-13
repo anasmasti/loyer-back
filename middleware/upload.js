@@ -8,17 +8,18 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, callback) {
         let ext = path.extname(file.originalname)
-        callback(null, new Date().getTime() + ext)
+        let name = new Date().toJSON().slice(0,10).toString() + '-' + new Date().getTime()
+        callback(null, name + ext)
     }
 })
 
 var upload = multer({
     storage: storage,
     fileFilter: function (req, file, callback) {
-        if (file.mimetype === "application/vnd.rar" || file.mimetype === "application/zip") {
+        if (file.mimetype === "application/zip" || file.mimetype === "application/x-zip-compressed" || file.mimetype === "image/jpeg") {
             callback(null, true)
         } else {
-            console.log('les fichiers doit etre rar ou zip');
+            console.log('les fichiers doit etre au format compresse zip');
             callback(null, false)
         }
     },

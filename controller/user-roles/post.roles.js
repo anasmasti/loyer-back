@@ -13,7 +13,7 @@ module.exports = {
         }
         const userR = new userRoles({
             userMatricul : req.body.userMatricul,
-            name: req.body.nom,
+            nom: req.body.nom,
             prenom: req.body.prenom,
             userRoles : allUserRoles
         })

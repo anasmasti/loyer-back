@@ -1,5 +1,5 @@
 const  mongoose  = require('mongoose');
-const Contrat = require('../../models/contrat/contrat.schema');
+const Contrat = require('../../models/contrat/contrat.model');
 
 
 module.exports = {

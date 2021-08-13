@@ -4,6 +4,9 @@ const imageSchema = require('./image.schema')
 const fournisseurSchema = require('../../models/lieu/fournisseur.schema')
 
 const amenagementSchema = new Schema({
+    idm: {
+        type: String
+    },
     nature_amenagement: {
         type:String
     },
