@@ -6,12 +6,14 @@ module.exports = {
     ajouterLieu: async (req, res, next) => {
 
         let data = await JSON.parse(req.body.data)
+        console.log(req.body);
+        console.log(req.files);
 
-        // const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
+        const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
 
-        // if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
-        //     return res.status(422).send({ message: 'Le code lieu et deja pris' })
-        // }
+        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
+            return res.status(422).send({ message: 'Le code lieu et deja pris' })
+        }
 
         if (data.has_amenagements == true) {
             let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
@@ -26,6 +28,7 @@ module.exports = {
             for (item in data.amenagement) {
                 let idmData = data.amenagement[item].idm
                 let idm = idmData.replace('.zip', '')
+                console.log(idm);
                 //add fournisseurs in amenagements array
                 for (j in data.amenagement[item].fournisseur) {
                     fournisseur.push({

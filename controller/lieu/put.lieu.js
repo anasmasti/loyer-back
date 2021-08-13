@@ -2,17 +2,16 @@ const Lieu = require('../../models/lieu/lieu.model')
 
 module.exports = {
     modifierLieu: async (req, res, next) => {
-        // console.log('-->body',req.body);
-        // console.log('-->files',req.files);
 
         let data = await JSON.parse(req.body.data)
-        // console.log(data);
 
-
-        // const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
-
-        // if (codeLieuExist && codeLieuExist._id != req.params.Id) return res.status(422).send({ message: 'Le code lieu et deja pris' })
-
+        const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
+       
+        if (codeLieuExist) {
+            if (codeLieuExist._id != req.params.Id && codeLieuExist.code_lieu != "") {
+                return res.status(422).send({ message: 'Le code lieu et deja pris' })
+            }
+        }
 
         if (data.has_amenagements == true) {
             let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = []
@@ -56,11 +55,15 @@ module.exports = {
                             let originalName = fileData.replace('.zip', '')
                             if (originalName == data.amenagement[item].idm) {
                                 if (data.amenagement[item].deleted == false) {
-                                    imagesAmenagement.push({ image: req.files.imgs_amenagement[i].path })
+                                    imagesAmenagement.push({
+                                        image: req.files.imgs_amenagement[i].path,
+                                        image_idm: data.amenagement[item].idm
+                                    })
                                 }
                                 else if (data.amenagement[item].deleted == true) {
                                     imagesAmenagement.push({
                                         image: req.files.imgs_amenagement[i].path,
+                                        image_idm: data.amenagement[item].idm,
                                         deleted: true
                                     })
                                 }
@@ -74,11 +77,15 @@ module.exports = {
                             let originalName = fileData.replace('.zip', '')
                             if (originalName == data.amenagement[item].idm) {
                                 if (data.amenagement[item].deleted == false) {
-                                    imagesCroquis.push({ image: req.files.imgs_croquis[k].path })
+                                    imagesCroquis.push({
+                                        image: req.files.imgs_croquis[k].path,
+                                        image_idm: data.amenagement[item].idm
+                                    })
                                 }
                                 else if (data.amenagement[item].deleted == true) {
                                     imagesCroquis.push({
                                         image: req.files.imgs_croquis[k].path,
+                                        image_idm: data.amenagement[item].idm,
                                         deleted: true
                                     })
                                 }

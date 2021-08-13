@@ -43,9 +43,8 @@ module.exports = {
             
 
          }catch(error){
-             res.send(error.message);
+             res.send({message: error.message});
          }
-
 
         // remplissage et enregistrement de contrat 
         try{
@@ -79,7 +78,7 @@ module.exports = {
                  etat_contrat:{
                     libelle: req.body.etat_contrat.libelle,
                     etat: nouveauEtatContrat
-                 } ,
+                 },
                  piece_joint: req.body.piece_joint
              });
              //enregistrement 

@@ -16,7 +16,6 @@ const EtatContratSchema = new Schema({
     etat_lieu_sortie: {
         type: String,
     },
-   
     preavis: {
         type: String,
     },
@@ -50,5 +49,9 @@ const EtatContratSchema = new Schema({
     piece_jointe_avenant: {
         type: [imageSchema],
     },
+    deleted:{
+        type: Boolean,
+        default: false
+    }
 });
 module.exports = EtatContratSchema;

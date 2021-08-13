@@ -2,7 +2,7 @@ const { boolean } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
-const imageSchema = require('./image.schema')
+
 
 //contrat Schema
 const ContratSchema = new Schema({

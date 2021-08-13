@@ -38,8 +38,6 @@ app.use('/api/v1', routes);
 //database connection
 db_config;
 
-
-
 //running server
-server.listen(PORT, '192.168.11.118' ,() => console.log(`Server listening on http:// 192.168.11.124:${PORT}`))
+server.listen(PORT, '192.168.11.121' ,() => console.log(`Server listening on http:// 192.168.11.124:${PORT}`))
 
