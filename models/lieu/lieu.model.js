@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const imageSchema = require('./image.schema')
+const fileSchema = require('../shared/file.schema')
 const amenagementSchema = require('./amenagement.schema')
 const directeurRegional = require('./directeur.schema')
 
@@ -28,7 +28,7 @@ const lieuSchema = new Schema({
         type: String
     },
     imgs_lieu_entrer: {
-        type: [imageSchema]
+        type: [fileSchema]
     },
     has_amenagements: {
         type: Boolean,
@@ -77,9 +77,7 @@ const lieuSchema = new Schema({
         type: Boolean,
         default: false
     }
-},
-    { timestamps: true }
-)
+}, { timestamps: true })
 
 const Lieu = mongoose.model('Lieu', lieuSchema)
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const imageSchema = require('./image.schema')
+const fileSchema = require('../shared/file.schema')
 
 //contrat Schema
 const EtatContratSchema = new Schema({
@@ -41,15 +41,15 @@ const EtatContratSchema = new Schema({
         type: String,
     },
     images_etat_lieu_sortie: {
-        type: [imageSchema],
+        type: [fileSchema],
     },
     lettre_res_piece_jointe: {
-        type: [imageSchema],
+        type: [fileSchema],
     },
     piece_jointe_avenant: {
-        type: [imageSchema],
+        type: [fileSchema],
     },
-    deleted:{
+    deleted: {
         type: Boolean,
         default: false
     }

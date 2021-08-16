@@ -19,6 +19,16 @@ module.exports = {
         }catch(error){
             res.send(error.message);
         }
+    },
+
+    countContrat: async (req, res) => {
+        await Contrat.countDocuments()
+            .then((data) => {
+                res.json(data)
+            })
+            .catch((error) => {
+                res.status(400).send({message: error.message})
+            })
     }
 
 

@@ -2,7 +2,7 @@ const Lieu = require('../../models/lieu/lieu.model')
 
 module.exports = {
     modifierLieu: async (req, res, next) => {
-
+       
         let data = await JSON.parse(req.body.data)
 
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
@@ -12,7 +12,7 @@ module.exports = {
                 return res.status(422).send({ message: 'Le code lieu et deja pris' })
             }
         }
-
+        
         if (data.has_amenagements == true) {
             let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = []
             let item = 0, j = 0, i = 0, k = 0, h = 0, t = 0
@@ -29,7 +29,8 @@ module.exports = {
             }
 
             for (item in data.amenagement) {
-
+                let idmData = data.amenagement[item].idm
+                let idm = idmData.replace('.zip', '')
                 //update fournisseurs in amenagements array
                 for (j in data.amenagement[item].fournisseur) {
                     if (data.amenagement[item].deleted == false) {
@@ -53,17 +54,17 @@ module.exports = {
                         for (i in req.files.imgs_amenagement) {
                             let fileData = req.files.imgs_amenagement[i].originalname
                             let originalName = fileData.replace('.zip', '')
-                            if (originalName == data.amenagement[item].idm) {
+                            if (originalName == idm) {
                                 if (data.amenagement[item].deleted == false) {
                                     imagesAmenagement.push({
                                         image: req.files.imgs_amenagement[i].path,
-                                        image_idm: data.amenagement[item].idm
+                                        image_idm: idm
                                     })
                                 }
                                 else if (data.amenagement[item].deleted == true) {
                                     imagesAmenagement.push({
                                         image: req.files.imgs_amenagement[i].path,
-                                        image_idm: data.amenagement[item].idm,
+                                        image_idm: idm,
                                         deleted: true
                                     })
                                 }
@@ -75,17 +76,17 @@ module.exports = {
                         for (k in req.files.imgs_croquis) {
                             let fileData = req.files.imgs_croquis[k].originalname
                             let originalName = fileData.replace('.zip', '')
-                            if (originalName == data.amenagement[item].idm) {
+                            if (originalName == idm) {
                                 if (data.amenagement[item].deleted == false) {
                                     imagesCroquis.push({
                                         image: req.files.imgs_croquis[k].path,
-                                        image_idm: data.amenagement[item].idm
+                                        image_idm: idm
                                     })
                                 }
                                 else if (data.amenagement[item].deleted == true) {
                                     imagesCroquis.push({
                                         image: req.files.imgs_croquis[k].path,
-                                        image_idm: data.amenagement[item].idm,
+                                        image_idm: idm,
                                         deleted: true
                                     })
                                 }
@@ -101,8 +102,9 @@ module.exports = {
                 for (t in data.amenagement[item].croquis_travaux) {
                     imagesCroquis.push(data.amenagement[item].croquis_travaux[t])
                 }
+                
                 amenagements.push({
-                    idm: data.amenagement[item].idm,
+                    idm: idm,
                     deleted: data.amenagement[item].deleted || false,
                     nature_amenagement: data.amenagement[item].nature_amenagement,
                     montant_amenagement: data.amenagement[item].montant_amenagement,

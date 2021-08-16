@@ -74,7 +74,6 @@ router.route('/lieu/modifier/:Id').patch(
     modifierLieu.modifierLieu)
 
 
-
 router.route('/lieu/all-lieu').get(getLieu.getAllLieu);
 router.route('/lieu/lieu-by-id/:Id').get(getLieu.getLieuById);
 router.route('/lieu/Dr/Sup').get(getLieu.getAllDirectionsAndSupervions);
@@ -86,9 +85,6 @@ router.route('/lieu/delete/:Id').patch(deleteLieu.deletedLieu)
 router.route('/contrat/ajouter').post(
     upload.fields([
         { name: 'piece_joint_contrat', maxCount: 1 },
-        { name: 'images_etat_lieu_sortie', maxCount: 1 },
-        { name: 'lettre_res_piece_jointe', maxCount: 1 },
-        { name: 'piece_jointe_avenant', maxCount: 1 },
     ]),
     postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);

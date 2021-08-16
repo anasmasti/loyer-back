@@ -1,28 +1,28 @@
-const { boolean } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
+const fileSchema = require('../shared/file.schema');
 
 
 //contrat Schema
 const ContratSchema = new Schema({
     numero_contrat: {
-        type: String,
+        type: String
     },
     date_debut_loyer: {
-        type: Date,
+        type: String,
     },
     date_fin_contrat: {
-        type: Date,
+        type: String,
     },
     date_reprise_caution: {
-        type: Date,
+        type: String,
     },
     date_fin_avance: {
-        type: Date,
+        type: String,
     },
     date_premier_paiement: {
-        type: Date,
+        type: String,
     },
     Montant_loyer: {
         type: Number,
@@ -37,7 +37,7 @@ const ContratSchema = new Schema({
         type: String,
     },
     duree_location: {
-        type: Number,
+        type: String,
     },
     declaration_option: {
         type: String,
@@ -64,7 +64,7 @@ const ContratSchema = new Schema({
         type: Number,
     },
     duree_avance: {
-        type: Number,
+        type: String,
     },
     N_engagement_depense: {
         type: String,
@@ -80,33 +80,49 @@ const ContratSchema = new Schema({
         ref: 'Lieu',
     },
     proprietaire: {
-        type:Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Proprietaire',
     },
-    etat_contrat_isUpdated:{
-        type:Boolean,
-            default:false
+    etat_contrat_isUpdated: {
+        type: Boolean,
+        default: false
     },
     etat_contrat: [{
-        libelle:{
-            type:String
+        libelle: {
+            type: String
         },
-        updated:{
-            type:Boolean,
-            default:false
+        updated: {
+            type: Boolean,
+            default: false
         },
-        etat:{
+        etat: {
             type: EtatContratSchema
         }
     }],
-    piece_joint:{
-        type:String,
+    piece_joint: {
+        type: [fileSchema],
     },
     deleted: {
         type: Boolean,
         default: false
+    },
+    validation1_DMG: {
+        type: Boolean,
+        default: false
+    },
+    validaotion2_DAJC: {
+        type: Boolean,
+        default: false
+    },
+    contrats_resilier: {
+        type: Array
+    },
+    contrats_suspendu: {
+        type: Array
+    },
+    contrat_avener: {
+        type: Array
     }
-
 });
 
 

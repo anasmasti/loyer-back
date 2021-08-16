@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schmea = mongoose.Schema
 
-const imageSchema = new Schmea({
+const fileSchema = new Schmea({
     image: {
         type: String
     },
@@ -10,4 +10,4 @@ const imageSchema = new Schmea({
     }
 }, { timestamps: true })
 
-module.exports = imageSchema
+module.exports = fileSchema
