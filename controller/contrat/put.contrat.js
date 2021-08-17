@@ -1,30 +1,191 @@
+const { findById } = require("../../models/contrat/contrat.model");
 const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
   modifierContrat: async (req, res) => {
-    let item = 0, piece_joint = [], images_etat_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = []
+    let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = {}, updateContrat = {},
+      contrats_suspendu = [], contrat_avener = []
 
+    let data = JSON.parse(req.body.data)
+    console.log(req.files);
+    console.log(req.body);
+    //store files
     if (req.files) {
-      if (req.files.piece_joint) {
-        piece_joint.push({
-          image: req.files.piece_joint.path
+      if (req.files.piece_joint_contrat) {
+        piece_joint_contrat.push({
+          image: req.files.piece_joint_contrat[0].path
         })
       }
-      if (req.files.images_etat_lieu_sortie) {
-        images_etat_lieu_sortie.push({
-          image: req.files.images_etat_lieu_sortie.path
+      if (req.files.images_etat_res_lieu_sortie) {
+        images_etat_res_lieu_sortie.push({
+          image: req.files.images_etat_res_lieu_sortie[0].path
         })
       }
       if (req.files.lettre_res_piece_jointe) {
         lettre_res_piece_jointe.push({
-          image: req.files.lettre_res_piece_jointe.path
+          image: req.files.lettre_res_piece_jointe[0].path
         })
       }
       if (req.files.piece_jointe_avenant) {
         piece_jointe_avenant.push({
-          image: req.files.piece_jointe_avenant.path
+          image: req.files.piece_jointe_avenant[0].path
         })
       }
     }
+    //checking and store etats
+    if (data.etat_contrat.libelle === 'Avenant') {
+      etatContrat = {
+        libelle: data.etat_contrat.libelle,
+        etat: {
+          n_avenant: data.etat_contrat.etat.n_avenant,
+          motif: data.etat_contrat.etat.motif,
+          montant_nouveau_loyer: data.etat_contrat.etat.montant_nouveau_loyer,
+          signaletique_successeur: data.etat_contrat.etat.signaletique_successeur,
+          piece_jointe_avenant: piece_jointe_avenant
+        }
+      };
+    }
+    else if (data.etat_contrat.libelle === 'Suspension') {
+      etatContrat = {
+        libelle: data.etat_contrat.libelle,
+        etat: {
+          intitule_lieu: data.etat_contrat.etat.intitule_lieu,
+          date_suspension: data.etat_contrat.etat.date_suspension,
+          duree_suspension: data.etat_contrat.etat.duree_suspension,
+          motif_suspension: data.etat_contrat.etat.motif_suspension
+        }
+      };
+    }
+    else if (data.etat_contrat.libelle === 'Résiliation') {
+      etatContrat = {
+        libelle: data.etat_contrat.libelle,
+        etat: {
+          intitule_lieu: data.etat_contrat.etat.intitule_lieu,
+          reprise_caution: data.etat_contrat.etat.reprise_caution,
+          date_resiliation: data.etat_contrat.etat.date_resiliation,
+          etat_lieu_sortie: data.etat_contrat.etat.etat_lieu_sortie,
+          preavis: data.etat_contrat.etat.preavis,
+          images_etat_res_lieu_sortie: images_etat_res_lieu_sortie,
+          lettre_res_piece_jointe: lettre_res_piece_jointe
+        }
+      };
+    }
+
+    //search for requested contrat
+    let existedContrat = await Contrat.findById(req.params.Id)
+
+     // store the exited files
+     if (existedContrat.etat_contrat.etat.piece_joint_contrat) {
+      for (item in existedContrat.etat_contrat.etat.piece_joint_contrat) {
+        piece_joint_contrat.push({ image: existedContrat.etat_contrat.etat.piece_joint_contrat[item].image })
+      }
+    }
+    if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
+      for (item in existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
+        images_etat_res_lieu_sortie.push({ image: existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item].image })
+      }
+    }
+    if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+      for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+        lettre_res_piece_jointe.push({ image: existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item].image })
+      }
+    }
+    if (existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+      for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+        piece_jointe_avenant.push({ image: existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image })
+      }
+    }
+
+    // store existed Suspendu contrat
+    for (item in existedContrat.contrats_suspendu) {
+      contrats_suspendu.push(existedContrat.contrats_suspendu[item])
+    }
+    if (existedContrat.etat_contrat.libelle == 'Suspension') {
+      contrats_suspendu.push(existedContrat)
+    }
+
+    //store existed Avenant contrat
+    for (item in existedContrat.contrat_avener) {
+      contrat_avener.push(existedContrat.contrat_avener[item])
+    }
+    if (existedContrat.etat_contrat.libelle == "Avenant") {
+      contrat_avener.push(existedContrat)
+    }
+
+    //add attribute 'AV' in contrat if etat = Avenant
+    if (data.etat_contrat.libelle == 'Avenant') {
+      if (data.validation1_DMG == true && data.validaotion2_DAJC == true) {
+        updateContrat = {
+          numero_contrat: data.numero_contrat + 'AV',
+          date_debut_loyer: data.date_debut_loyer,
+          date_fin_contrat: data.date_fin_contrat,
+          date_reprise_caution: data.date_reprise_caution,
+          date_fin_avance: data.date_fin_avance,
+          date_premier_paiement: data.date_premier_paiement,
+          Montant_loyer: data.Montant_loyer,
+          taxe_edilite_loyer: data.taxe_edilite_loyer,
+          taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
+          periodicite_paiement: data.periodicite_paiement,
+          duree_location: data.duree_location,
+          declaration_option: data.declaration_option,
+          taux_impot: data.taux_impot,
+          retenue_source: data.retenue_source,
+          montant_apres_impot: data.montant_apres_impot,
+          montant_caution: data.montant_caution,
+          effort_caution: data.effort_caution,
+          statut_caution: data.statut_caution,
+          montant_avance: data.montant_avance,
+          duree_avance: data.duree_avance,
+          N_engagement_depense: data.N_engagement_depense,
+          echeance_revision_loyer: data.echeance_revision_loyer,
+          proprietaire: data.proprietaire,
+          type_lieu: data.type_lieu,
+          lieu: data.lieu,
+          etat_contrat: etatContrat,
+          piece_joint_contrat: piece_joint_contrat,
+          contrats_suspendu: contrats_suspendu,
+          contrat_avener: contrat_avener
+
+        }
+      }
+    } else {
+      updateContrat = {
+        date_debut_loyer: data.date_debut_loyer,
+        date_fin_contrat: data.date_fin_contrat,
+        date_reprise_caution: data.date_reprise_caution,
+        date_fin_avance: data.date_fin_avance,
+        date_premier_paiement: data.date_premier_paiement,
+        Montant_loyer: data.Montant_loyer,
+        taxe_edilite_loyer: data.taxe_edilite_loyer,
+        taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
+        periodicite_paiement: data.periodicite_paiement,
+        duree_location: data.duree_location,
+        declaration_option: data.declaration_option,
+        taux_impot: data.taux_impot,
+        retenue_source: data.retenue_source,
+        montant_apres_impot: data.montant_apres_impot,
+        montant_caution: data.montant_caution,
+        effort_caution: data.effort_caution,
+        statut_caution: data.statut_caution,
+        montant_avance: data.montant_avance,
+        duree_avance: data.duree_avance,
+        N_engagement_depense: data.N_engagement_depense,
+        echeance_revision_loyer: data.echeance_revision_loyer,
+        proprietaire: data.proprietaire,
+        type_lieu: data.type_lieu,
+        lieu: data.lieu,
+        etat_contrat: etatContrat,
+        piece_joint_contrat: piece_joint_contrat,
+        contrats_suspendu: contrats_suspendu,
+        contrat_avener: contrat_avener
+      }
+    }
+    await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+      .then((data) => {
+        res.json(data)
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message })
+      })
   },
 }

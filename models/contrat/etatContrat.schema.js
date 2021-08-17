@@ -11,7 +11,7 @@ const EtatContratSchema = new Schema({
         type: String,
     },
     date_resiliation: {
-        type: Date,
+        type: String,
     },
     etat_lieu_sortie: {
         type: String,
@@ -20,10 +20,10 @@ const EtatContratSchema = new Schema({
         type: String,
     },
     date_suspension: {
-        type: Date,
+        type: String,
     },
     duree_suspension: {
-        type: Number,
+        type: String,
     },
     motif_suspension: {
         type: String,
@@ -40,7 +40,7 @@ const EtatContratSchema = new Schema({
     signaletique_successeur: {
         type: String,
     },
-    images_etat_lieu_sortie: {
+    images_etat_res_lieu_sortie: {
         type: [fileSchema],
     },
     lettre_res_piece_jointe: {
@@ -53,5 +53,5 @@ const EtatContratSchema = new Schema({
         type: Boolean,
         default: false
     }
-});
+}, {timestamps: true});
 module.exports = EtatContratSchema;

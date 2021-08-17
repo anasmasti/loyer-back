@@ -1,16 +1,18 @@
 const Contrat = require('../../models/contrat/contrat.model');
 
 
-module.exports = { 
+module.exports = {
     ajouterContrat: async (req, res) => {
+        console.log(req.body);
+        console.log(req.files);
         // variables
         let piece_joint_contrat = [], item = 0
 
+        if (Object.keys(req.body).length === 0) return res.status(402).send({ message: "Please fill the required fields mother fucker :)" })
+
         //parse incoming data to json
         let data = await JSON.parse(req.body.data)
-        console.log(data);
 
-        
         //stock file in array
         if (req.files) {
             for (item in req.files.piece_joint_contrat) {
@@ -22,7 +24,7 @@ module.exports = {
 
         //store contrat
         const nouveauContrat = new Contrat({
-            numero_contrat: countContrat + 1 ,
+            numero_contrat: countContrat + 1,
             date_debut_loyer: data.date_debut_loyer,
             date_fin_contrat: data.date_fin_contrat,
             date_reprise_caution: data.date_reprise_caution,
@@ -50,8 +52,8 @@ module.exports = {
             etat_contrat: {
                 libelle: 'initié',
             },
-            piece_joint: piece_joint_contrat
-        }); 
+            piece_joint_contrat: piece_joint_contrat
+        });
         await nouveauContrat.save()
             .then((data) => {
                 res.json(data)

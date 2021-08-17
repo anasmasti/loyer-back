@@ -88,11 +88,11 @@ router.route('/contrat/ajouter').post(
     ]),
     postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);
-router.route('/contrat/details/:ID').get(getcontrat.getSelctedContrat);
-router.route('/contrat/modifier/:ID').put(
+router.route('/contrat/details/:Id').get(getcontrat.getSelctedContrat);
+router.route('/contrat/modifier/:Id').put(
     upload.fields([
         { name: 'piece_joint_contrat', maxCount: 1 },
-        { name: 'images_etat_lieu_sortie', maxCount: 1 },
+        { name: 'images_etat_res_lieu_sortie', maxCount: 1 },
         { name: 'lettre_res_piece_jointe', maxCount: 1 },
         { name: 'piece_jointe_avenant', maxCount: 1 },
     ]), putcontrat.modifierContrat);

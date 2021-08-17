@@ -83,23 +83,15 @@ const ContratSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Proprietaire',
     },
-    etat_contrat_isUpdated: {
-        type: Boolean,
-        default: false
-    },
-    etat_contrat: [{
+    etat_contrat: {
         libelle: {
             type: String
-        },
-        updated: {
-            type: Boolean,
-            default: false
         },
         etat: {
             type: EtatContratSchema
         }
-    }],
-    piece_joint: {
+    },
+    piece_joint_contrat: {
         type: [fileSchema],
     },
     deleted: {
@@ -114,16 +106,13 @@ const ContratSchema = new Schema({
         type: Boolean,
         default: false
     },
-    contrats_resilier: {
-        type: Array
-    },
     contrats_suspendu: {
         type: Array
     },
     contrat_avener: {
         type: Array
     }
-});
+},{timestamps: true});
 
 
 const Contrat = mongoose.model('Contrat', ContratSchema)
