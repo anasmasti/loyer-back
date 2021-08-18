@@ -74,8 +74,8 @@ module.exports = {
     //search for requested contrat
     let existedContrat = await Contrat.findById(req.params.Id)
 
-     // store the exited files
-     if (existedContrat.etat_contrat.etat.piece_joint_contrat) {
+    // store the exited files
+    if (existedContrat.etat_contrat.etat.piece_joint_contrat) {
       for (item in existedContrat.etat_contrat.etat.piece_joint_contrat) {
         piece_joint_contrat.push({ image: existedContrat.etat_contrat.etat.piece_joint_contrat[item].image })
       }
@@ -188,4 +188,9 @@ module.exports = {
         res.status(400).send({ message: error.message })
       })
   },
+
+  modifierValidationDMG: async (req, res) => {
+    await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true })
+  },
+  modifierValidationDAJC: async (req, res) => { await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true }) }
 }

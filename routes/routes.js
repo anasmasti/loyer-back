@@ -36,6 +36,7 @@ const deleteFoncier = require('../controller/foncier/delete.foncier')
 //Shared
 const getProprietaireAndLieu = require('../controller/shared/get.proprietaire.lieu')
 const countAll = require('../controller/shared/get.countAll')
+const putContrat = require('../controller/contrat/put.contrat')
 
 //Router
 const router = express.Router()
@@ -85,6 +86,9 @@ router.route('/lieu/delete/:Id').patch(deleteLieu.deletedLieu)
 router.route('/contrat/ajouter').post(
     upload.fields([
         { name: 'piece_joint_contrat', maxCount: 1 },
+        { name: 'images_etat_res_lieu_sortie', maxCount: 1 },
+        { name: 'lettre_res_piece_jointe', maxCount: 1 },
+        { name: 'piece_jointe_avenant', maxCount: 1 },
     ]),
     postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);
@@ -96,13 +100,15 @@ router.route('/contrat/modifier/:Id').put(
         { name: 'lettre_res_piece_jointe', maxCount: 1 },
         { name: 'piece_jointe_avenant', maxCount: 1 },
     ]), putcontrat.modifierContrat);
-router.route('/contrat/supprimer/:ID').put(
+router.route('/contrat/supprimer/:Id').put(
     upload.fields([
         { name: 'piece_joint_contrat', maxCount: 1 },
         { name: 'images_etat_lieu_sortie', maxCount: 1 },
         { name: 'lettre_res_piece_jointe', maxCount: 1 },
         { name: 'piece_jointe_avenant', maxCount: 1 },
     ]), deletecontrat.supprimerContrat);
+router.route('/contrat/validation1/:Id').put(putContrat.modifierValidationDMG)
+router.route('/contrat/validation2/:Id').put(putContrat.modifierValidationDAJC)
 
 //Foncier routes
 router.route('/foncier/ajouter').post(postFoncier.postFoncier)

@@ -15,8 +15,10 @@ module.exports = {
 
         //stock file in array
         if (req.files) {
-            for (item in req.files.piece_joint_contrat) {
-                piece_joint_contrat.push({ image: req.files.piece_joint_contrat[item].path })
+            if (req.files.piece_joint_contrat) {
+                for (item in req.files.piece_joint_contrat) {
+                    piece_joint_contrat.push({ image: req.files.piece_joint_contrat[item].path })
+                }
             }
         }
 
