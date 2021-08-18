@@ -6,9 +6,6 @@ module.exports = {
     ajouterLieu: async (req, res, next) => {
 
         let data = await JSON.parse(req.body.data)
-        console.log(req.body);
-        console.log(req.files);
-
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
 
         if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
@@ -28,7 +25,6 @@ module.exports = {
             for (item in data.amenagement) {
                 let idmData = data.amenagement[item].idm
                 let idm = idmData.replace('.zip', '')
-                console.log(idm);
                 //add fournisseurs in amenagements array
                 for (j in data.amenagement[item].fournisseur) {
                     fournisseur.push({

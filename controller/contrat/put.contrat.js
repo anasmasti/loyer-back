@@ -7,8 +7,6 @@ module.exports = {
       contrats_suspendu = [], contrat_avener = []
 
     let data = JSON.parse(req.body.data)
-    console.log(req.files);
-    console.log(req.body);
     //store files
     if (req.files) {
       if (req.files.piece_joint_contrat) {
@@ -122,7 +120,7 @@ module.exports = {
           date_reprise_caution: data.date_reprise_caution,
           date_fin_avance: data.date_fin_avance,
           date_premier_paiement: data.date_premier_paiement,
-          Montant_loyer: data.Montant_loyer,
+          montant_loyer: data.montant_loyer,
           taxe_edilite_loyer: data.taxe_edilite_loyer,
           taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
           periodicite_paiement: data.periodicite_paiement,
@@ -136,7 +134,7 @@ module.exports = {
           statut_caution: data.statut_caution,
           montant_avance: data.montant_avance,
           duree_avance: data.duree_avance,
-          N_engagement_depense: data.N_engagement_depense,
+          n_engagement_depense: data.n_engagement_depense,
           echeance_revision_loyer: data.echeance_revision_loyer,
           proprietaire: data.proprietaire,
           type_lieu: data.type_lieu,
@@ -169,7 +167,7 @@ module.exports = {
         statut_caution: data.statut_caution,
         montant_avance: data.montant_avance,
         duree_avance: data.duree_avance,
-        N_engagement_depense: data.N_engagement_depense,
+        n_engagement_depense: data.n_engagement_depense,
         echeance_revision_loyer: data.echeance_revision_loyer,
         proprietaire: data.proprietaire,
         type_lieu: data.type_lieu,
@@ -192,5 +190,7 @@ module.exports = {
   modifierValidationDMG: async (req, res) => {
     await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true })
   },
-  modifierValidationDAJC: async (req, res) => { await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true }) }
+  modifierValidationDAJC: async (req, res) => {
+    await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true })
+  }
 }

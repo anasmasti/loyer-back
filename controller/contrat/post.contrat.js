@@ -3,8 +3,6 @@ const Contrat = require('../../models/contrat/contrat.model');
 
 module.exports = {
     ajouterContrat: async (req, res) => {
-        console.log(req.body);
-        console.log(req.files);
         // variables
         let piece_joint_contrat = [], item = 0
 
@@ -32,7 +30,7 @@ module.exports = {
             date_reprise_caution: data.date_reprise_caution,
             date_fin_avance: data.date_fin_avance,
             date_premier_paiement: data.date_premier_paiement,
-            Montant_loyer: data.Montant_loyer,
+            montant_loyer: data.montant_loyer,
             taxe_edilite_loyer: data.taxe_edilite_loyer,
             taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
             periodicite_paiement: data.periodicite_paiement,
@@ -46,7 +44,7 @@ module.exports = {
             statut_caution: data.statut_caution,
             montant_avance: data.montant_avance,
             duree_avance: data.duree_avance,
-            N_engagement_depense: data.N_engagement_depense,
+            n_engagement_depense: data.n_engagement_depense,
             echeance_revision_loyer: data.echeance_revision_loyer,
             proprietaire: data.proprietaire,
             type_lieu: data.type_lieu,

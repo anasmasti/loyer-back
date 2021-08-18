@@ -13,7 +13,7 @@ module.exports = {
     },
     getSelctedContrat: async (req, res) => {
         try {
-            const allContrat = await Contrat.findOne({ _id: req.params.Id });
+            const allContrat = await Contrat.findById(req.params.Id);
             res.json(allContrat);
         } catch (error) {
             res.status(404).send({ message: error.message });

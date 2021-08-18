@@ -24,7 +24,7 @@ const ContratSchema = new Schema({
     date_premier_paiement: {
         type: String,
     },
-    Montant_loyer: {
+    montant_loyer: {
         type: Number,
     },
     taxe_edilite_loyer: {
@@ -66,7 +66,7 @@ const ContratSchema = new Schema({
     duree_avance: {
         type: String,
     },
-    N_engagement_depense: {
+    n_engagement_depense: {
         type: String,
     },
     echeance_revision_loyer: {
