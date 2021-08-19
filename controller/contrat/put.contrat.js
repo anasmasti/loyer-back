@@ -5,7 +5,7 @@ module.exports = {
   modifierContrat: async (req, res) => {
     let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = {}, updateContrat = {},
       contrats_suspendu = [], contrat_avener = []
-
+    console.log(req.body);
     let data = JSON.parse(req.body.data)
     //store files
     if (req.files) {
@@ -67,30 +67,34 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe
         }
       };
+    } else if (data.etat_contrat.libelle === 'initié') {
+      etatContrat = data.etat_contrat
     }
 
     //search for requested contrat
     let existedContrat = await Contrat.findById(req.params.Id)
 
     // store the exited files
-    if (existedContrat.etat_contrat.etat.piece_joint_contrat) {
-      for (item in existedContrat.etat_contrat.etat.piece_joint_contrat) {
-        piece_joint_contrat.push({ image: existedContrat.etat_contrat.etat.piece_joint_contrat[item].image })
+    if (existedContrat) {
+      if (existedContrat.etat_contrat.etat.piece_joint_contrat) {
+        for (item in existedContrat.etat_contrat.etat.piece_joint_contrat) {
+          piece_joint_contrat.push({ image: existedContrat.etat_contrat.etat.piece_joint_contrat[item].image })
+        }
       }
-    }
-    if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
-      for (item in existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
-        images_etat_res_lieu_sortie.push({ image: existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item].image })
+      if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
+        for (item in existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
+          images_etat_res_lieu_sortie.push({ image: existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item].image })
+        }
       }
-    }
-    if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
-      for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
-        lettre_res_piece_jointe.push({ image: existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item].image })
+      if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+        for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+          lettre_res_piece_jointe.push({ image: existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item].image })
+        }
       }
-    }
-    if (existedContrat.etat_contrat.etat.piece_jointe_avenant) {
-      for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
-        piece_jointe_avenant.push({ image: existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image })
+      if (existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+        for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+          piece_jointe_avenant.push({ image: existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image })
+        }
       }
     }
 
@@ -136,7 +140,7 @@ module.exports = {
           duree_avance: data.duree_avance,
           n_engagement_depense: data.n_engagement_depense,
           echeance_revision_loyer: data.echeance_revision_loyer,
-          proprietaire: data.proprietaire,
+          foncier: data.foncier,
           type_lieu: data.type_lieu,
           lieu: data.lieu,
           etat_contrat: etatContrat,
@@ -153,7 +157,7 @@ module.exports = {
         date_reprise_caution: data.date_reprise_caution,
         date_fin_avance: data.date_fin_avance,
         date_premier_paiement: data.date_premier_paiement,
-        Montant_loyer: data.Montant_loyer,
+        montant_loyer: data.montant_loyer,
         taxe_edilite_loyer: data.taxe_edilite_loyer,
         taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
         periodicite_paiement: data.periodicite_paiement,
@@ -169,7 +173,7 @@ module.exports = {
         duree_avance: data.duree_avance,
         n_engagement_depense: data.n_engagement_depense,
         echeance_revision_loyer: data.echeance_revision_loyer,
-        proprietaire: data.proprietaire,
+        foncier: data.foncier,
         type_lieu: data.type_lieu,
         lieu: data.lieu,
         etat_contrat: etatContrat,

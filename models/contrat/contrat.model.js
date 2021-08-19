@@ -79,9 +79,9 @@ const ContratSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Lieu',
     },
-    proprietaire: {
+    foncier: {
         type: Schema.Types.ObjectId,
-        ref: 'Proprietaire',
+        ref: 'Foncier',
     },
     etat_contrat: {
         libelle: {

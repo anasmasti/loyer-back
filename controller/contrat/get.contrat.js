@@ -3,7 +3,7 @@ const Contrat = require('../../models/contrat/contrat.model');
 
 module.exports = {
     getContrats: async (req, res) => {
-        await Contrat.find({ deleted: false })
+        await Contrat.find({ deleted: false }).populate("foncier", "_id adresse").populate("lieu", "_id intitule_lieu")
             .then((data) => {
                 res.json(data)
             })
@@ -13,7 +13,7 @@ module.exports = {
     },
     getSelctedContrat: async (req, res) => {
         try {
-            const allContrat = await Contrat.findById(req.params.Id);
+            const allContrat = await Contrat.findById(req.params.Id).populate(["foncier","lieu"])
             res.json(allContrat);
         } catch (error) {
             res.status(404).send({ message: error.message });

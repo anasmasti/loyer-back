@@ -46,11 +46,12 @@ module.exports = {
             duree_avance: data.duree_avance,
             n_engagement_depense: data.n_engagement_depense,
             echeance_revision_loyer: data.echeance_revision_loyer,
-            proprietaire: data.proprietaire,
+            foncier: data.foncier,
             type_lieu: data.type_lieu,
             lieu: data.lieu,
             etat_contrat: {
                 libelle: 'initié',
+                etat:{}
             },
             piece_joint_contrat: piece_joint_contrat
         });

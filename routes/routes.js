@@ -93,7 +93,7 @@ router.route('/contrat/ajouter').post(
     postcontrat.ajouterContrat);
 router.route('/contrat/tous').get(getcontrat.getContrats);
 router.route('/contrat/details/:Id').get(getcontrat.getSelctedContrat);
-router.route('/contrat/modifier/:Id').put(
+router.route('/contrat/modifier/:Id').patch(
     upload.fields([
         { name: 'piece_joint_contrat', maxCount: 1 },
         { name: 'images_etat_res_lieu_sortie', maxCount: 1 },
