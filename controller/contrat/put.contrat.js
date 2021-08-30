@@ -1,8 +1,8 @@
-const { findById } = require("../../models/contrat/contrat.model");
 const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
   modifierContrat: async (req, res) => {
+    console.log(req.files);
     let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = {}, updateContrat = {},
       contrats_suspendu = [], contrat_avener = []
     console.log(req.body);
@@ -67,7 +67,7 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe
         }
       };
-    } else if (data.etat_contrat.libelle === 'initié') {
+    } else if (data.etat_contrat.libelle === 'En cours') {
       etatContrat = data.etat_contrat
     }
 
@@ -76,9 +76,9 @@ module.exports = {
 
     // store the exited files
     if (existedContrat) {
-      if (existedContrat.etat_contrat.etat.piece_joint_contrat) {
-        for (item in existedContrat.etat_contrat.etat.piece_joint_contrat) {
-          piece_joint_contrat.push({ image: existedContrat.etat_contrat.etat.piece_joint_contrat[item].image })
+      if (existedContrat.piece_joint_contrat) {
+        for (item in existedContrat.piece_joint_contrat) {
+          piece_joint_contrat.push({ image: existedContrat.piece_joint_contrat[item].image })
         }
       }
       if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
@@ -116,9 +116,11 @@ module.exports = {
 
     //add attribute 'AV' in contrat if etat = Avenant
     if (data.etat_contrat.libelle == 'Avenant') {
-      if (data.validation1_DMG == true && data.validaotion2_DAJC == true) {
+      if (data.validation1_DMG == true && data.validation2_DAJC == true) {
+        let numContratData = data.numero_contrat
+        let numeroContrat = numContratData.replace('AV', '')
         updateContrat = {
-          numero_contrat: data.numero_contrat + 'AV',
+          numero_contrat: numeroContrat + 'AV',
           date_debut_loyer: data.date_debut_loyer,
           date_fin_contrat: data.date_fin_contrat,
           date_reprise_caution: data.date_reprise_caution,
@@ -194,6 +196,7 @@ module.exports = {
   modifierValidationDMG: async (req, res) => {
     await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true })
   },
+
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true })
   }

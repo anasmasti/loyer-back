@@ -102,7 +102,7 @@ const ContratSchema = new Schema({
         type: Boolean,
         default: false
     },
-    validaotion2_DAJC: {
+    validation2_DAJC: {
         type: Boolean,
         default: false
     },
