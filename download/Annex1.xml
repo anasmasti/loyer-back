@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2019</exerciceFiscalDu>
+  <exerciceFiscalAu>1978</exerciceFiscalAu>
+  <annee>2020</annee>
+  <mois>1</mois>
+  <totalMntBrutLoyer>6000</totalMntBrutLoyer>
+  <totalMntRetenueSource>300</totalMntRetenueSource>
+  <totalMntNetLoyer>5600</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>1</ifuBailleur>
+      <numCNIBailleur>HY123456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Badr El Azzaby</nomPrenomBailleur>
+      <adresseBailleur>MAARIF RUE AL FOURATE</adresseBailleur>
+      <adresseBien>BEAUSEJOUR QUARTIER BURGER</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000</mntBrutLoyer>
+      <mntRetenueSource>300</mntRetenueSource>
+      <mntNetLoyer>5600</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

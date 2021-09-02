@@ -38,6 +38,9 @@ const getProprietaireAndLieu = require('../controller/shared/get.proprietaire.li
 const countAll = require('../controller/shared/get.countAll')
 const putContrat = require('../controller/contrat/put.contrat')
 
+//files download
+const getAnnex1 = require('../controller/maquette Teledeclaration/paiement/m.teledeclaration')
+
 //Router
 const router = express.Router()
 
@@ -120,6 +123,10 @@ router.route('/foncier/delete/:Id').patch(deleteFoncier.deleteFoncier)
 //Shared route
 router.route('/proprietaire-lieu').get(getProprietaireAndLieu.getProprietaireAndLieu)
 router.route('/count-all').get(countAll.countAll)
+
+
+//download files routes
+router.route('/annex1').get(getAnnex1.createAnnex1)
 
 
 //TESTS

@@ -9,7 +9,7 @@ const dotenv = require('dotenv')
 const db_config = require('./helpers/db.config')
 const routes = require('./routes/routes.js')
 const checkApiKey = require('./middleware/api-key.verify')
-const EcritureComptableLoyer = require('./middleware/comtabilisationLoyer')
+const EcritureComptableLoyer = require('./controller/comptabilisation/comtabilisationLoyer')
 
 
 // Globale fichier .env configuration 
@@ -26,7 +26,7 @@ app.use(cors({
     origin: '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'X-Requested-With', 'Accept', 'Origin', 'Authorization', 'Api-Key-Access'],
+    allowedHeaders: ['Content-Type', 'X-Requested-With', 'Accept', 'Origin', 'Authorization', 'Api-Key-Access','text/xml'],
 }))
 
 //data parser as json
@@ -40,5 +40,5 @@ app.use('/api/v1', routes);
 db_config;
 
 //running server
-server.listen(PORT, () => console.log(`Server listening on http:// 192.168.11.111:${PORT}`))
+server.listen(PORT, '192.168.11.110' ,() => console.log(`Server listening on http:// 192.168.11.111:${PORT}`))
 

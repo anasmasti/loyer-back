@@ -1,4 +1,4 @@
-const Contrat = require('../models/contrat/contrat.model')
+const Contrat = require('../../models/contrat/contrat.model')
 const fs = require('fs');
 
 
