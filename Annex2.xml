@@ -19,9 +19,10 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>6000</mntBrutLoyer>
-      <mntRetenueSource>300</mntRetenueSource>
-      <mntNetLoyer>5600</mntNetLoyer>
+      <numTSC>N005</numTSC>
+      <mntBrutLoyerAnnuel>6000</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>300</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>5600</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

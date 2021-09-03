@@ -39,7 +39,9 @@ const countAll = require('../controller/shared/get.countAll')
 const putContrat = require('../controller/contrat/put.contrat')
 
 //files download
-const getAnnex1 = require('../controller/maquette Teledeclaration/paiement/m.teledeclaration')
+const getAnnex1 = require('../controller/maquette Tele declaration-paiement/maquette.teledeclaration')
+const getAnnex2 = require('../controller/maquette Tele declaration-paiement/maquette.telepaiement')
+const getFichierComptableLoyer = require('../controller/comptabilisation/comtabilisationLoyer') 
 
 //Router
 const router = express.Router()
@@ -127,6 +129,8 @@ router.route('/count-all').get(countAll.countAll)
 
 //download files routes
 router.route('/annex1').get(getAnnex1.createAnnex1)
+router.route('/annex2').get(getAnnex2.createAnnex2)
+router.route('/fichier-comptable-loyer').get(getFichierComptableLoyer.setComptabilisationLoyer)
 
 
 //TESTS

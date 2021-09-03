@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2019</exerciceFiscalDu>
-  <exerciceFiscalAu>1978</exerciceFiscalAu>
+  <exerciceFiscalDu>2021-1-1</exerciceFiscalDu>
+  <exerciceFiscalAu>2021-12-31</exerciceFiscalAu>
   <annee>2020</annee>
   <mois>1</mois>
   <totalMntBrutLoyer>6000</totalMntBrutLoyer>
