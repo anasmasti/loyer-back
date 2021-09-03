@@ -16,8 +16,8 @@ module.exports = {
                             'xsi:noNamespaceSchemaLocation': "VersementRASRF.xsd"
                         },
                         identifiantFiscal: "IF",
-                        exerciceFiscalDu: data.date_debut_loyer,
-                        exerciceFiscalAu: data.etat_contrat.libelle == 'Résiliation' ? data.etat_contrat.etat.date_resiliation : 2021 + '-' + 12 + '-' + 31,
+                        exerciceFiscalDu: data[0].date_debut_loyer,
+                        exerciceFiscalAu: data[0].etat_contrat.libelle == 'Résiliation' ? data[0].etat_contrat.etat.date_resiliation : 2021 + '-' + 12 + '-' + 31,
                         annee: 2020,
                         mois: 1,
                         totalMntBrutLoyer: 5000.00,
@@ -26,17 +26,17 @@ module.exports = {
                         listDetailRetenueRevFoncier: {
                             DetailRetenueRevFoncier: {
                                 ifuBailleur: 001,
-                                numCNIBailleur: data.foncier.proprietaire.cin,
-                                numCEBailleur: data.foncier.proprietaire.carte_sejour,
-                                nomPrenomBailleur: data.fonicer.proprietaire.nom_prenom,
-                                adresseBailleur: data.foncier.proprietaire.adresse,
-                                adresseBien: data.foncier.adresse,
+                                numCNIBailleur: data[0].foncier.proprietaire.cin,
+                                numCEBailleur: data[0].foncier.proprietaire.carte_sejour,
+                                nomPrenomBailleur: data[0].foncier.proprietaire.nom_prenom,
+                                adresseBailleur: data[0].foncier.proprietaire.adresse,
+                                adresseBien: data[0].foncier.adresse,
                                 typeBienBailleur: {
                                     code: 'LUC'
                                 },
-                                mntBrutLoyer: data.montant_loyer,
-                                mntRetenueSource: data.retenue_source,
-                                mntNetLoyer: data.montant_apres_impot,
+                                mntBrutLoyer: data[0].montant_loyer,
+                                mntRetenueSource: data[0].retenue_source,
+                                mntNetLoyer: data[0].montant_apres_impot,
                                 tauxRetenueRevFoncier: {
                                     code: 'TSR.10.2018'
                                 }
