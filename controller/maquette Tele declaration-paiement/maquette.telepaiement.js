@@ -9,6 +9,9 @@ module.exports = {
         Contrat.find({ _id: '612f5ab155473640bc2b2cb4' }).populate('lieu').populate('foncier').populate({ path: 'foncier', populate: { path: 'proprietaire' } })
             .then((data) => {
 
+                let date = new Date(data[0].date_debut_loyer)
+                let currentYear = date.getFullYear()
+
                 let Annex2 = {
                     VersementRASRF: {
                         $: {
@@ -18,11 +21,11 @@ module.exports = {
                         identifiantFiscal: "IF",
                         exerciceFiscalDu: data[0].date_debut_loyer,
                         exerciceFiscalAu: data[0].etat_contrat.libelle == 'Résiliation' ? data[0].etat_contrat.etat.date_resiliation : 2021 + '-' + 12 + '-' + 31,
-                        annee: 2020,
-                        mois: 1,
-                        totalMntBrutLoyer: 6000.00,
-                        totalMntRetenueSource: 300.00,
-                        totalMntNetLoyer: 5600.00,
+                        annee: currentYear,
+                        mois: data[0].duree,
+                        totalMntBrutLoyer: data[0].total.montant_brut_loyer,
+                        totalMntRetenueSource: data[0].retenue_source,
+                        totalMntNetLoyer: data[0].total.montant_net_loyer,
                         listDetailRetenueRevFoncier: {
                             DetailRetenueRevFoncier: {
                                 ifuBailleur: 001,
@@ -35,9 +38,9 @@ module.exports = {
                                     code: 'LUC'
                                 },
                                 numTSC: 'N005',
-                                mntBrutLoyerAnnuel: 6000.00,
-                                mntRetenueSourceAnnuel: 300.00,
-                                mntNetLoyerAnnuel: 5600.00,
+                                mntBrutLoyerAnnuel: data[0].total_montant_brut_loyer,
+                                mntRetenueSourceAnnuel: data[0].retenue_source,
+                                mntNetLoyerAnnuel: data[0].total_montant_net_loyer,
                                 tauxRetenueRevFoncier: {
                                     code: 'TSR.10.2018'
                                 }

@@ -3,7 +3,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 module.exports = {
   modifierContrat: async (req, res) => {
     console.log(req.files);
-    let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = {}, updateContrat = {},
+    let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = { }, updateContrat = { },
       contrats_suspendu = [], contrat_avener = []
     console.log(req.body);
     let data = JSON.parse(req.body.data)
@@ -131,6 +131,10 @@ module.exports = {
           taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
           periodicite_paiement: data.periodicite_paiement,
           duree_location: data.duree_location,
+          duree: data.duree,
+          retenue_source_par_mois: data.retenue_source_par_mois,
+          total_montant_brut_loyer: data.total_montant_brut_loyer,
+          total_montant_net_loyer: data.total_montant_net_loyer,
           declaration_option: data.declaration_option,
           taux_impot: data.taux_impot,
           retenue_source: data.retenue_source,
@@ -166,6 +170,10 @@ module.exports = {
         duree_location: data.duree_location,
         declaration_option: data.declaration_option,
         taux_impot: data.taux_impot,
+        duree: data.duree,
+        retenue_source_par_mois: data.retenue_source_par_mois,
+        total_montant_brut_loyer: data.total_montant_brut_loyer,
+        total_montant_net_loyer: data.total_montant_net_loyer,
         retenue_source: data.retenue_source,
         montant_apres_impot: data.montant_apres_impot,
         montant_caution: data.montant_caution,

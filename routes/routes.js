@@ -42,6 +42,7 @@ const putContrat = require('../controller/contrat/put.contrat')
 const getAnnex1 = require('../controller/maquette Tele declaration-paiement/maquette.teledeclaration')
 const getAnnex2 = require('../controller/maquette Tele declaration-paiement/maquette.telepaiement')
 const getFichierComptableLoyer = require('../controller/comptabilisation/comtabilisationLoyer') 
+const getFichierComptableCaution = require('../controller/comptabilisation/comptabilisationCautions') 
 
 //Router
 const router = express.Router()
@@ -131,6 +132,7 @@ router.route('/count-all').get(countAll.countAll)
 router.route('/annex1').get(getAnnex1.createAnnex1)
 router.route('/annex2').get(getAnnex2.createAnnex2)
 router.route('/fichier-comptable-loyer').get(getFichierComptableLoyer.setComptabilisationLoyer)
+router.route('/fichier-comptable-caution').get(getFichierComptableCaution.setComptabilisationCautions)
 
 
 //TESTS

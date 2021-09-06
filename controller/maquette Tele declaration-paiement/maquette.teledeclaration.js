@@ -6,8 +6,11 @@ const Contrat = require('../../models/contrat/contrat.model')
 module.exports = {
     createAnnex1: async (_, res) => {
 
-        Contrat.find({ _id: '612f5ab155473640bc2b2cb4' }).populate('lieu').populate('foncier').populate({ path: 'foncier', populate: { path: 'proprietaire' } })
+        Contrat.find({ _id: '6135f15c65c6b8345c64ae95' }).populate('lieu').populate('foncier').populate({ path: 'foncier', populate: { path: 'proprietaire' } })
             .then((data) => {
+
+                let date = new Date(data[0].date_debut_loyer)
+                let currentYear = date.getFullYear()
 
                 let Annex1 = {
                     VersementRASRF: {
@@ -18,11 +21,11 @@ module.exports = {
                         identifiantFiscal: "IF",
                         exerciceFiscalDu: data[0].date_debut_loyer,
                         exerciceFiscalAu: data[0].etat_contrat.libelle == 'Résiliation' ? data[0].etat_contrat.etat.date_resiliation : 2021 + '-' + 12 + '-' + 31,
-                        annee: 2020,
-                        mois: 1,
-                        totalMntBrutLoyer: 5000.00,
-                        totalMntRetenueSource: 300.00,
-                        totalMntNetLoyer: 5600.00,
+                        annee: currentYear,
+                        mois: data[0].duree,
+                        totalMntBrutLoyer: data[0].total_montant_brut_loyer,
+                        totalMntRetenueSource: data[0].retenue_source,
+                        totalMntNetLoyer: data[0].total_montant_net_loyer,
                         listDetailRetenueRevFoncier: {
                             DetailRetenueRevFoncier: {
                                 ifuBailleur: 001,
@@ -35,7 +38,7 @@ module.exports = {
                                     code: 'LUC'
                                 },
                                 mntBrutLoyer: data[0].montant_loyer,
-                                mntRetenueSource: data[0].retenue_source,
+                                mntRetenueSource: data[0].retenue_source_par_mois,
                                 mntNetLoyer: data[0].montant_apres_impot,
                                 tauxRetenueRevFoncier: {
                                     code: 'TSR.10.2018'

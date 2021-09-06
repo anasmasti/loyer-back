@@ -3,6 +3,7 @@ const Contrat = require('../../models/contrat/contrat.model');
 
 module.exports = {
     ajouterContrat: async (req, res) => {
+        console.log(req.body.data);
         // variables
         let piece_joint_contrat = [], item = 0
 
@@ -37,6 +38,10 @@ module.exports = {
             duree_location: data.duree_location,
             declaration_option: data.declaration_option,
             taux_impot: data.taux_impot,
+            duree: data.duree,
+            retenue_source_par_mois: data.retenue_source_par_mois,
+            total_montant_brut_loyer: data.total_montant_brut_loyer,
+            total_montant_net_loyer: data.total_montant_net_loyer,
             retenue_source: data.retenue_source,
             montant_apres_impot: data.montant_apres_impot,
             montant_caution: data.montant_caution,
@@ -51,7 +56,7 @@ module.exports = {
             lieu: data.lieu,
             etat_contrat: {
                 libelle: 'En cours',
-                etat:{}
+                etat: { }
             },
             piece_joint_contrat: piece_joint_contrat
         });
