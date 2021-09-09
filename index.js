@@ -9,7 +9,40 @@ const dotenv = require('dotenv')
 const db_config = require('./helpers/db.config')
 const routes = require('./routes/routes.js')
 const checkApiKey = require('./middleware/api-key.verify')
-const EcritureComptableLoyer = require('./controller/comptabilisation/comtabilisationLoyer')
+const nodemailer = require('nodemailer')
+
+let transporter = nodemailer.createTransport({
+    service: 'Hotmail',
+    auth: {
+        user: 'badreazz@hotmail.com',
+        pass: 'Badisa1983'
+    },
+    from: 'badreazz@hotmail.com'
+});
+
+var message = {
+    from: "badreazz@hotmail.com",
+    to: "anasmasti@hotmail.com",
+    subject: "Test title",
+    text: "Hello World",
+    html: `<!doctype html>
+    <html>
+      <head>
+        Hello Everyone
+      </head>
+      <body>
+       <p> this is just a test message mail from node mailer thank you </p>
+      </body>
+    </html>`
+};
+
+transporter.sendMail(message, (error, info) => {
+    if (err) {
+        return console.log(error.message);
+    } else {
+        console.log(info.messageId);
+    }
+})
 
 
 // Globale fichier .env configuration 
@@ -30,8 +63,8 @@ app.use(cors({
 }))
 
 //data parser as json
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: false, parameterLimit:50000 }))
-app.use(bodyParser.json({limit:'50mb'}))
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false, parameterLimit: 50000 }))
+app.use(bodyParser.json({ limit: '50mb' }))
 
 //routes configuration
 app.use('/api/v1', routes);
@@ -40,5 +73,5 @@ app.use('/api/v1', routes);
 db_config;
 
 //running server
-server.listen(PORT, '192.168.11.110' ,() => console.log(`Server listening on http:// 192.168.11.111:${PORT}`))
+server.listen(PORT, () => console.log(`Server listening on http:// 192.168.11.111:${PORT}`))
 
