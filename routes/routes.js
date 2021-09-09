@@ -44,6 +44,9 @@ const getAnnex2 = require('../controller/maquette Tele declaration-paiement/maqu
 const getFichierComptableLoyer = require('../controller/comptabilisation/comtabilisationLoyer') 
 const getFichierComptableCaution = require('../controller/comptabilisation/comptabilisationCautions') 
 
+//Auth
+const getUser = require('../auth/authentification')
+
 //Router
 const router = express.Router()
 
@@ -133,6 +136,9 @@ router.route('/annex1').get(getAnnex1.createAnnex1)
 router.route('/annex2').get(getAnnex2.createAnnex2)
 router.route('/fichier-comptable-loyer').get(getFichierComptableLoyer.setComptabilisationLoyer)
 router.route('/fichier-comptable-caution').get(getFichierComptableCaution.setComptabilisationCautions)
+
+//Auth routes
+router.route('/user').get(getUser.findUser)
 
 
 //TESTS
