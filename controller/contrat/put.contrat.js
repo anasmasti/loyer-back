@@ -2,10 +2,10 @@ const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
   modifierContrat: async (req, res) => {
-    console.log(req.files);
+  
     let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = { }, updateContrat = { },
       contrats_suspendu = [], contrat_avener = []
-    console.log(req.body);
+
     let data = JSON.parse(req.body.data)
     //store files
     if (req.files) {

@@ -10,6 +10,8 @@ const db_config = require("./helpers/db.config");
 const routes = require("./routes/routes.js");
 const checkApiKey = require("./middleware/api-key.verify");
 const nodemailer = require("nodemailer");
+const ntlm = require('express-ntlm');
+
 
 let transporter = nodemailer.createTransport({
   service: "Hotmail",
@@ -87,7 +89,7 @@ app.use("/api/v1", routes);
 db_config;
 
 //running server
-server.listen(PORT, (err) => {
+server.listen(PORT,'192.168.11.116',(err) => {
   if (err) {
     console.log("server error", err.message);
     return;
