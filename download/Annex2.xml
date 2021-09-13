@@ -3,11 +3,11 @@
   <identifiantFiscal>IF</identifiantFiscal>
   <exerciceFiscalDu>2021-09-01</exerciceFiscalDu>
   <exerciceFiscalAu>2021-12-31</exerciceFiscalAu>
-  <annee>2020</annee>
-  <mois>1</mois>
-  <totalMntBrutLoyer>6000</totalMntBrutLoyer>
-  <totalMntRetenueSource>300</totalMntRetenueSource>
-  <totalMntNetLoyer>5600</totalMntNetLoyer>
+  <annee>2021</annee>
+  <mois/>
+  <totalMntBrutLoyer/>
+  <totalMntRetenueSource>0</totalMntRetenueSource>
+  <totalMntNetLoyer/>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>1</ifuBailleur>
@@ -20,9 +20,9 @@
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>N005</numTSC>
-      <mntBrutLoyerAnnuel>6000</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>300</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>5600</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel/>
+      <mntRetenueSourceAnnuel>0</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel/>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
