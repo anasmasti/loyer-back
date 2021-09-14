@@ -9,42 +9,8 @@ const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
 const routes = require("./routes/routes.js");
 const checkApiKey = require("./middleware/api-key.verify");
-const nodemailer = require("nodemailer");
 
 
-
-let transporter = nodemailer.createTransport({
-  service: "Hotmail",
-  auth: {
-    user: "badreazz@hotmail.com",
-    pass: "Badisa1983",
-  },
-  from: "badreazz@hotmail.com",
-});
-
-var message = {
-  from: "badreazz@hotmail.com",
-  to: "anasmasti@hotmail.com",
-  subject: "Test title",
-  text: "Hello World",
-  html: `<!doctype html>
-    <html>
-      <head>
-        Hello Everyone
-      </head>
-      <body>
-       <p> this is just a test message mail from node mailer thank you! </p>
-      </body>
-    </html>`,
-};
-
-// transporter.sendMail(message, (error, info) => {
-//     if (err) {
-//         return console.log(error.message);
-//     } else {
-//         console.log(info.messageId);
-//     }
-// })
 
 // Globale fichier .env configuration
 dotenv.config();
@@ -89,11 +55,11 @@ app.use("/api/v1", routes);
 db_config;
 
 //running server
-server.listen(PORT,'192.168.11.116',(err) => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("server error", err.message);
     return;
   } else {
-    console.log(`Server listening on http://10.0.2.15:${PORT}`);
+    console.log(`Server listening on http://localhost:${PORT}`);
   }
 });
