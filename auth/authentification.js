@@ -9,10 +9,10 @@ module.exports = {
 
     let testUsername = "badr.azzaby";
 
-    ad.findUser(username, function (err, user) {
-      if (err) {
-        res.status(401).send({ message: err.message });
-        // console.log("ERROR: " + JSON.stringify(err.message));
+    ad.findUser(username, function (error, user) {
+      if (error) {
+        res.status(401).send({ message: error.message });
+        // console.log("ERROR: " + JSON.stringify(error.message));
         return;
       }
 

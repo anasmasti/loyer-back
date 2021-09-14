@@ -16,9 +16,9 @@ const db_config = mongoose.connect(
     useCreateIndex: true,
     useFindAndModify: false,
   },
-  (err) => {
-    if (err) {
-      console.log("database error", err.message);
+  (error) => {
+    if (error) {
+      console.log("database error", error.message);
       return;
     } else {
       console.log("connected to DB");

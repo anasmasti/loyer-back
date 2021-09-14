@@ -55,9 +55,9 @@ app.use("/api/v1", routes);
 db_config;
 
 //running server
-server.listen(PORT, (err) => {
-  if (err) {
-    console.log("server error", err.message);
+server.listen(PORT, (error) => {
+  if (error) {
+    console.log("server error", error.message);
     return;
   } else {
     console.log(`Server listening on http://localhost:${PORT}`);

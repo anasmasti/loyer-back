@@ -54,9 +54,9 @@ module.exports = {
                 var xml = builder.buildObject(Annex2);
                 console.dirxml(xml);
 
-                fs.writeFile('download/Annex2.xml', xml, (err) => {
-                    if (err) {
-                        res.json({ message: err.message })
+                fs.writeFile('download/Annex2.xml', xml, (error) => {
+                    if (error) {
+                        res.json({ message: error.message })
                     } else {
                         res.download('download/Annex2.xml')
                     }

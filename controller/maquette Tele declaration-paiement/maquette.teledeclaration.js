@@ -52,9 +52,9 @@ module.exports = {
                 var builder = new xml2js.Builder();
                 var xml = builder.buildObject(Annex1);
 
-                fs.writeFile('download/Annex1.xml', xml, (err) => {
-                    if (err) {
-                        res.status(403).json({ message: err.message });
+                fs.writeFile('download/Annex1.xml', xml, (error) => {
+                    if (error) {
+                        res.status(403).json({ message: error.message });
                     } else {
                         res.download('download/Annex1.xml')
                     }
