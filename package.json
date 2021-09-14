@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "express-ntlm": "^2.6.1",
     "helmet": "^4.6.0",
+    "ip": "^1.1.5",
     "joi": "^17.4.0",
     "mongoose": "^5.12.13",
     "mongoose-unique-validator": "^2.0.3",
