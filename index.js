@@ -18,6 +18,7 @@ let ipAdress = ip.address();
 dotenv.config();
 const PORT = process.env.PORT;
 
+
 app.use("/uploads", express.static("./uploads"));
 
 //securing Api with Helmet
@@ -59,7 +60,7 @@ db_config;
 //running server
 server.listen(PORT, ipAdress, (error) => {
   if (error) {
-    console.log("server error", error.message);
+    console.log(`Server error: ${error.message}`);
     return;
   } else {
     console.log(
