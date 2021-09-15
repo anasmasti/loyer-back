@@ -47,6 +47,8 @@ var message = {
 // Globale fichier .env configuration
 dotenv.config();
 const PORT = process.env.PORT;
+const IPv4_HOST = process.env.IPv4_HOST;
+const LOCAL_HOST = process.env.LOCAL_HOST;
 
 app.use("/uploads", express.static("./uploads"));
 
@@ -87,11 +89,13 @@ app.use("/api/v1", routes);
 db_config;
 
 //running server
-server.listen(PORT, (err) => {
-  if (err) {
-    console.log("server error", err.message);
-    return;
-  } else {
-    console.log(`Server listening on http://10.0.2.15:${PORT}`);
+server.listen(PORT, IPv4_HOST,
+  (err) => {
+    if (err) {
+      console.log(`Server error ${err.message}`);
+      return;
+    } else {
+      console.log(`Server listening on ${IPv4_HOST}:${PORT}`);
+    }
   }
-});
+);
