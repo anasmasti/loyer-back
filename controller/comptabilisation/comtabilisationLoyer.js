@@ -13,8 +13,8 @@ module.exports = {
         let dateWithDash = today.getFullYear() + '-' + ('0' + + (today.getMonth() + 1)).slice(-2) + '-' + '01';
 
         //delete data from file if exist
-        fs.writeFile('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', '', { flag: 'w' }, (err) => {
-            if (err) throw err
+        fs.writeFile('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
+            if (error) throw error
             console.log('existed data deleted !');
         })
 
@@ -59,8 +59,8 @@ module.exports = {
                     let fullMontant = pad(replacePointWithComma, 9)
                     let ecritureDebiterLoyer = 'FBPMC|A|FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|64200001|-|' + codeDr + '|' + codePv + '|-|-|-|-|-|-|-|-|' + fullMontant + '|D|Frais Loyer-|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-\n'
 
-                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (err) => {
-                        if (err) res.json({ message: error.message })
+                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
+                        if (error) res.json({ message: error.message })
                     })
                 }
 
@@ -81,8 +81,8 @@ module.exports = {
                     let fullMontantNet = pad(replacePointWithComma, 9)
                     let ecritureCrediterDuMontantNetLoyer = 'FBPMC|A|FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327008|NS|NS|S05|-|-|-|-|-|-|-|' + fullMontantNet + '|C|Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-\n'
 
-                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (err) => {
-                        if (err) res.json({ message: error.message })
+                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
+                        if (error) res.json({ message: error.message })
                     })
                 }
 
@@ -106,8 +106,8 @@ module.exports = {
 
                     let ecritureCrediterDuTaxLoyer = 'FBPMC|A|FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327007|NS|NS|S05|-|-|-|-|-|-|-|' + fullTax + '|C|Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-\n'
 
-                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (err) => {
-                        if (err) res.json({ message: error.message })
+                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
+                        if (error) res.json({ message: error.message })
                     })
                 }
                 

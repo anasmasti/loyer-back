@@ -138,7 +138,7 @@ router.route('/fichier-comptable-loyer').get(getFichierComptableLoyer.setComptab
 router.route('/fichier-comptable-caution').get(getFichierComptableCaution.setComptabilisationCautions)
 
 //Auth routes
-router.route('/user').get(getUser.findUser)
+router.route('/auth').get(getUser.findUser)
 
 
 //TESTS

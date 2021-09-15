@@ -1,7 +1,7 @@
 const xml2js = require('xml2js');
 const fs = require('fs')
 const Contrat = require('../../models/contrat/contrat.model');
-const { json } = require('body-parser');
+
 
 module.exports = {
     createAnnex2: async (_, res) => {
@@ -11,7 +11,7 @@ module.exports = {
 
                 let date = new Date(data[0].date_debut_loyer)
                 let currentYear = date.getFullYear()
-
+                console.log(data);
                 let Annex2 = {
                     VersementRASRF: {
                         $: {
@@ -23,9 +23,9 @@ module.exports = {
                         exerciceFiscalAu: data[0].etat_contrat.libelle == 'Résiliation' ? data[0].etat_contrat.etat.date_resiliation : 2021 + '-' + 12 + '-' + 31,
                         annee: currentYear,
                         mois: data[0].duree,
-                        totalMntBrutLoyer: data[0].total.montant_brut_loyer,
+                        totalMntBrutLoyer: data[0].total_montant_brut_loyer,
                         totalMntRetenueSource: data[0].retenue_source,
-                        totalMntNetLoyer: data[0].total.montant_net_loyer,
+                        totalMntNetLoyer: data[0].total_montant_net_loyer,
                         listDetailRetenueRevFoncier: {
                             DetailRetenueRevFoncier: {
                                 ifuBailleur: 001,
@@ -54,9 +54,9 @@ module.exports = {
                 var xml = builder.buildObject(Annex2);
                 console.dirxml(xml);
 
-                fs.writeFile('download/Annex2.xml', xml, (err) => {
-                    if (err) {
-                        res.json({ message: err.message })
+                fs.writeFile('download/Annex2.xml', xml, (error) => {
+                    if (error) {
+                        res.json({ message: error.message })
                     } else {
                         res.download('download/Annex2.xml')
                     }

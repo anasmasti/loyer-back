@@ -3,7 +3,7 @@ const Contrat = require('../../models/contrat/contrat.model');
 
 module.exports = {
     ajouterContrat: async (req, res) => {
-        console.log(req.body.data);
+      
         // variables
         let piece_joint_contrat = [], item = 0
 
