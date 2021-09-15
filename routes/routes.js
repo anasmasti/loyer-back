@@ -171,8 +171,9 @@ router.route("/auth").get(getUser.findUser);
 router.route("/countries").get(getAllCountries.listOfCountries);
 router.route("/cities/:isoCode").get(getCitiesByCountry.getCitiesByCountry);
 
-//TESTS
+//charts routes
 router.route('/chartLine').get(chartLineData.lineChartData)
 router.route('/chartBar').get(chartBarData.barChartData)
+router.route('/ChartCircl').get(chartCirclData.CirclChartData)
 
 module.exports = router;
