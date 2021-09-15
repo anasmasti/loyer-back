@@ -9,11 +9,10 @@ const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
 const routes = require("./routes/routes.js");
 const checkApiKey = require("./middleware/api-key.verify");
-const ip = require('ip')
-
+const ip = require("ip");
 
 //get local adress ip
-let ipAdress = ip.address()
+let ipAdress = ip.address();
 
 // Globale fichier .env configuration
 dotenv.config();
@@ -58,11 +57,13 @@ app.use("/api/v1", routes);
 db_config;
 
 //running server
-server.listen(PORT, ipAdress ,(error) => {
+server.listen(PORT, ipAdress, (error) => {
   if (error) {
     console.log("server error", error.message);
     return;
   } else {
-    console.log(`Server listening on http://localhost:${PORT} Or http://${ipAdress}:${PORT}`);
+    console.log(
+      `Server listening on http://localhost:${PORT} Or http://${ipAdress}:${PORT}`
+    );
   }
 });
