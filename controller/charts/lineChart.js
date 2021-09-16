@@ -7,10 +7,11 @@ module.exports = {
             let series = [], allLineChartData = []
 
             let allPointDeVente = await Contrat.find({ type_lieu: 'Point de vente' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
-            let allSupervision = await Contrat.find({ type_lieu: 'Supervision' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
+            let allSupervision = await Contrat.find({ type_lieu: 'Supervision' }, {}, { sort: { 'createdAt': -1 } }).limit(6) 
             let allLogementDeFonction = await Contrat.find({ type_lieu: 'Logement de fonction' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
             let allDirectionRegional = await Contrat.find({ type_lieu: 'Direction régionale' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
             let allSiege = await Contrat.find({ type_lieu: 'Siège' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
+            
 
 
             typeLieu.forEach(element => {
