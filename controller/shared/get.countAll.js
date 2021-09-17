@@ -2,6 +2,7 @@ const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Contrat = require("../../models/contrat/contrat.model");
+const User = require("../../models/roles/roles.model");
 
 module.exports = {
   countAll: async (req, res) => {
@@ -15,6 +16,7 @@ module.exports = {
       const countLieu = await Lieu.countDocuments({ deleted: false });
       const countFoncier = await Foncier.countDocuments({ deleted: false });
       const countContrat = await Contrat.countDocuments({ deleted: false });
+      const countUser = await User.countDocuments({ deleted: false });
       const countAmenagement = await Lieu.aggregate([
         { $match: { deleted: false, has_amenagements: true } },
         {
@@ -127,6 +129,7 @@ module.exports = {
         totalCountAmenagements,
         totalCountFournisseur,
         totalCountDirecteurRegional,
+        countUser,
       });
     } catch (error) {
       res.status(404).send({ message: error.message });
