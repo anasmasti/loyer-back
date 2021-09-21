@@ -18,7 +18,6 @@ let ipAdress = ip.address();
 dotenv.config();
 const PORT = process.env.PORT;
 
-
 app.use("/uploads", express.static("./uploads"));
 
 //securing Api with Helmet
