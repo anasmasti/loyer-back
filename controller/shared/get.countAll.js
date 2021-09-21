@@ -71,6 +71,7 @@ module.exports = {
           $match: {
             deleted: false,
             directeur_regional: { $exists: true, $not: { $size: 0 } },
+            "directeur_regional.deleted_directeur": false,
           },
         },
         {
@@ -80,10 +81,10 @@ module.exports = {
                 input: {
                   $filter: {
                     input: "$directeur_regional",
-                    as: "directeur_regionalFillter",
+                    as: "directeur_regionalFilter",
                     cond: {
                       $eq: [
-                        "$$directeur_regionalFillter.deleted_directeur",
+                        "$$directeur_regionalFilter.deleted_directeur",
                         false,
                       ],
                     },
