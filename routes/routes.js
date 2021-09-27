@@ -52,8 +52,8 @@ const getAllCountries = require("../controller/pays et villes/get.pays");
 const getCitiesByCountry = require("../controller/pays et villes/get.villesByPays");
 
 //charts data
-const chartLineData = require("../controller/charts/lineChart");
-const chartBarData = require("../controller/charts/barChart");
+const chartBarH = require("../controller/charts/barChartH");
+const chartBarV = require("../controller/charts/barChartV");
 const chartCirclData = require("../controller/charts/circlChart");
 
 //role verification
@@ -176,8 +176,8 @@ router.route("/countries").get(getAllCountries.listOfCountries);
 router.route("/cities/:isoCode").get(getCitiesByCountry.getCitiesByCountry);
 
 //charts routes
-router.route("/chartLine").get(chartLineData.lineChartData);
-router.route("/chartBar").get(chartBarData.barChartData);
-router.route("/ChartCircl").get(chartCirclData.CirclChartData);
+router.route("/chartBarH").get(chartBarH.barChartHorizontal);
+router.route("/chartBarV").get(chartBarV.barChartVertical);
+router.route("/ChartCircl").get(chartCirclData.CirclChart);
 
 module.exports = router;

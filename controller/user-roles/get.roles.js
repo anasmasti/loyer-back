@@ -1,4 +1,3 @@
-const { json } = require("body-parser");
 const userRoles = require("../../models/roles/roles.model");
 
 module.exports = {
@@ -8,7 +7,6 @@ module.exports = {
         {
           $match: {
             deleted: false,
-            userRoles: { $exists: true, $not: { $size: 0 } },
             "userRoles.deleted": false,
           },
         },
