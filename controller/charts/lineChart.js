@@ -12,6 +12,7 @@ module.exports = {
             let allDirectionRegional = await Contrat.find({ type_lieu: 'Direction régionale' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
             let allSiege = await Contrat.find({ type_lieu: 'Siège' }, {}, { sort: { 'createdAt': -1 } }).limit(6)
             
+            let today = new Date()
 
 
             typeLieu.forEach(element => {
@@ -23,11 +24,12 @@ module.exports = {
                                     : element == 'Direction régionale' ? allDirectionRegional[i].montant_loyer
                                         : element == 'Siège' ? allSiege[i].montant_loyer : '',
 
-                        "name": element == 'Point de vente' ? allPointDeVente[i].createdAt
-                            : element == 'Supervision' ? allSupervision[i].createdAt
-                                : element == 'Logement de fonction' ? allLogementDeFonction[i].createdAt
-                                    : element == 'Direction régionale' ? allDirectionRegional[i].createdAt
-                                        : element == 'Siège' ? allSiege[i].createdAt : '',
+                        "name": today,
+                        //element == 'Point de vente' ? allPointDeVente[i].createdAt
+                           // : element == 'Supervision' ? allSupervision[i].createdAt
+                             //   : element == 'Logement de fonction' ? allLogementDeFonction[i].createdAt
+                                  //  : element == 'Direction régionale' ? allDirectionRegional[i].createdAt
+                                     //   : element == 'Siège' ? allSiege[i].createdAt : '',
                     })
                 }
                 allLineChartData.push({
