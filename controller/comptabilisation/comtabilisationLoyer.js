@@ -15,7 +15,6 @@ module.exports = {
         //delete data from file if exist
         fs.writeFile('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
             if (error) throw error
-            console.log('existed data deleted !');
         })
 
 

@@ -9,7 +9,7 @@ const DB_LOCAL = process.env.DB_LOCAL;
 
 //Database configuration
 const db_config = mongoose.connect(
-  DB_LOCAL,
+  DB_URL,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -67,7 +67,7 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe
         }
       };
-    } else if (data.etat_contrat.libelle === 'En cours') {
+    } else if (data.etat_contrat.libelle === 'Active') {
       etatContrat = data.etat_contrat
     }
 

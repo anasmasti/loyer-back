@@ -11,7 +11,7 @@ module.exports = {
 
                 let date = new Date(data[0].date_debut_loyer)
                 let currentYear = date.getFullYear()
-                console.log(data);
+                
                 let Annex2 = {
                     VersementRASRF: {
                         $: {
