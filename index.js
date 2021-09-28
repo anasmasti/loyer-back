@@ -14,6 +14,7 @@ const ip = require('ip')
 
 //get local adress ip
 let ipAdress = ip.address()
+console.log(ipAdress);
 
 // Globale fichier .env configuration
 dotenv.config();
