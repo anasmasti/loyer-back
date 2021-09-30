@@ -21,7 +21,10 @@ const PORT = process.env.PORT;
 app.use("/uploads", express.static("./uploads"));
 
 //securing Api with Helmet
-app.use(helmet());
+app.use(helmet.frameguard({ action: "deny"}));
+app.use(helmet.hidePoweredBy());
+app.use(helmet.noSniff());
+app.use(helmet.xssFilter());
 
 //use Cors
 app.use(
