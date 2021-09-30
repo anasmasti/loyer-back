@@ -68,26 +68,26 @@ const router = express.Router();
 router.route("/home").get(HomeRouter.getHome);
 
 //Proprietaire routes
-router.route("/proprietaire/tous").get(getProprietaire.getAllProprietaire);
-router.route("/proprietaire/:Id").get(getProprietaire.getProprietairePerID);
+router.route("/proprietaire/tous/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getProprietaire.getAllProprietaire);
+router.route("/proprietaire/:Id/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getProprietaire.getProprietairePerID);
 router
   .route("/proprietaire/count/all")
   .get(getProprietaire.getCountProprietaire);
-router.route("/proprietaire/ajouter").post(postProprietaire.postProprietaire);
-router.route("/proprietaire/modifier/:Id").put(putProprietaire.putProprietaire);
+router.route("/proprietaire/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'), postProprietaire.postProprietaire);
+router.route("/proprietaire/modifier/:Id/:matricule").put(verifyRole.checkRoles('CDGSP', 'CSLA'), putProprietaire.putProprietaire);
 router
-  .route("/proprietaire/supprimer/:Id")
-  .put(deleteProprietaire.deleteProprietaire);
+  .route("/proprietaire/supprimer/:Id/:matricule")
+  .put(verifyRole.checkRoles('CDGSP', 'CSLA'), deleteProprietaire.deleteProprietaire);
 
 //User Roles
-router.route("/user/ajouter").post(postUserRoles.addUserRoles);
-router.route("/user/update/:Id").put(updateUserRoles.updateUserRoles);
-router.route("/user/all").get(getUserRoles.getAllUserRoles);
-router.route("/user/detail/:Id").get(getUserRoles.getUserRolesPerId);
-router.route("/user/delete/:Id").put(deleteUserRoles.DeleteRoles);
+router.route("/user/ajouter").post(verifyRole.checkRoles('Admin'), postUserRoles.addUserRoles);
+router.route("/user/update/:Id").put(verifyRole.checkRoles('Admin'), updateUserRoles.updateUserRoles);
+router.route("/user/all").get(verifyRole.checkRoles('Admin'), getUserRoles.getAllUserRoles);
+router.route("/user/detail/:Id").get(verifyRole.checkRoles('Admin'), getUserRoles.getUserRolesPerId);
+router.route("/user/delete/:Id").put(verifyRole.checkRoles('Admin'), deleteUserRoles.DeleteRoles);
 
 //Lieu routes
-router.route("/lieu/ajouter").post(
+router.route("/lieu/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'),
   upload.fields([
     { name: "imgs_lieu_entrer", maxCount: 5 },
     { name: "imgs_amenagement", maxCount: 5 },
@@ -96,7 +96,7 @@ router.route("/lieu/ajouter").post(
   postLieu.ajouterLieu
 );
 
-router.route("/lieu/modifier/:Id").patch(
+router.route("/lieu/modifier/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'),
   upload.fields([
     { name: "imgs_lieu_entrer", maxCount: 5 },
     { name: "imgs_amenagement", maxCount: 5 },
@@ -105,15 +105,15 @@ router.route("/lieu/modifier/:Id").patch(
   modifierLieu.modifierLieu
 );
 
-router.route("/lieu/all-lieu").get(getLieu.getAllLieu);
-router.route("/lieu/lieu-by-id/:Id").get(getLieu.getLieuById);
-router.route("/lieu/Dr/Sup").get(getLieu.getAllDirectionsAndSupervions);
-router.route("/lieu/count/all").get(getLieu.getCountLieu);
-router.route("/lieu/detail/:Id").get(getLieu.detailLieu);
-router.route("/lieu/delete/:Id").patch(deleteLieu.deletedLieu);
+router.route("/lieu/all-lieu/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.getAllLieu);
+router.route("/lieu/lieu-by-id/:Id:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.getLieuById);
+router.route("/lieu/Dr/Sup/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.getAllDirectionsAndSupervions);
+router.route("/lieu/count/all/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.getCountLieu);
+router.route("/lieu/detail/:Id/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.detailLieu);
+router.route("/lieu/delete/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'), deleteLieu.deletedLieu);
 
 //contrat routes
-router.route("/contrat/ajouter").post(
+router.route("/contrat/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'),
   upload.fields([
     { name: "piece_joint_contrat", maxCount: 1 },
     { name: "images_etat_res_lieu_sortie", maxCount: 1 },
@@ -133,7 +133,7 @@ router.route("/contrat/modifier/:Id").patch(
   ]),
   putcontrat.modifierContrat
 );
-router.route("/contrat/supprimer/:Id").put(
+router.route("/contrat/supprimer/:Id/:matricule").put(verifyRole.checkRoles('CDGSP', 'CSLA'),
   upload.fields([
     { name: "piece_joint_contrat", maxCount: 1 },
     { name: "images_etat_lieu_sortie", maxCount: 1 },
@@ -142,15 +142,15 @@ router.route("/contrat/supprimer/:Id").put(
   ]),
   deletecontrat.supprimerContrat
 );
-router.route("/contrat/validation1/:Id").put(putContrat.modifierValidationDMG);
-router.route("/contrat/validation2/:Id").put(putContrat.modifierValidationDAJC);
+router.route("/contrat/validation1/:Id/:matricule").put(verifyRole.checkRoles('CDGSP'), putContrat.modifierValidationDMG);
+router.route("/contrat/validation2/:Id/:matricule").put(verifyRole.checkRoles('DAJC'), putContrat.modifierValidationDAJC);
 
 //Foncier routes
-router.route("/foncier/ajouter").post(postFoncier.postFoncier);
-router.route("/foncier/modifier/:Id").patch(putFoncier.putFoncier);
-router.route("/foncier/all").get(getFoncier.allFoncier);
-router.route("/foncier/:Id").get(getFoncier.foncierById);
-router.route("/foncier/delete/:Id").patch(deleteFoncier.deleteFoncier);
+router.route("/foncier/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'), postFoncier.postFoncier);
+router.route("/foncier/modifier/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'), putFoncier.putFoncier);
+router.route("/foncier/all/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getFoncier.allFoncier);
+router.route("/foncier/:Id/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getFoncier.foncierById);
+router.route("/foncier/delete/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'), deleteFoncier.deleteFoncier);
 
 //Shared route
 router
@@ -169,7 +169,7 @@ router
   .get(getFichierComptableCaution.setComptabilisationCautions);
 
 //Auth routes
-router.route("/auth").get(getUser.findUser);
+router.route("/auth/:matricule").get(getUser.findUser);
 
 //countries and cities routes
 router.route("/countries").get(getAllCountries.listOfCountries);

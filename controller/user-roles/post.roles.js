@@ -15,8 +15,13 @@ module.exports = {
     }
 
     for (item in req.body.userRoles) {
-      await allUserRoles.push({
+      allUserRoles.push({
         roleName: req.body.userRoles[item].roleName,
+        roleCode: req.body.userRoles[item].roleName == 'Chargé de suivi des loyers et aménagements' ? 'CSLA'
+          : req.body.userRoles[item].roleName == 'Chef de Département Gestion et Suivi du Patrimoine' ? 'CDGSP'
+            : req.body.userRoles[item].roleName == 'Direction Affaires Juridiques et Conformité ' ? 'DAJC'
+              : req.body.userRoles[item].roleName == 'Département Comptable ' ? 'DC'
+                : ''
       });
     }
     const userR = new userRoles({

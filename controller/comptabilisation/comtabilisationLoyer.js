@@ -56,8 +56,8 @@ module.exports = {
                     let addTwoNumbersAfterComma = montantLoyer.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontant = pad(replacePointWithComma, 9)
-                    let ecritureDebiterLoyer = 'FBPMC|A|FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|64200001|-|' + codeDr + '|' + codePv + '|-|-|-|-|-|-|-|-|' + fullMontant + '|D|Frais Loyer-|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-\n'
-
+                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|\n'
+                    // Frais Loyer-|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
                     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
@@ -78,8 +78,8 @@ module.exports = {
                     let addTwoNumbersAfterComma = montantNet.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontantNet = pad(replacePointWithComma, 9)
-                    let ecritureCrediterDuMontantNetLoyer = 'FBPMC|A|FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327008|NS|NS|S05|-|-|-|-|-|-|-|' + fullMontantNet + '|C|Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-\n'
-
+                    let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '|01|10200000|NS|NS|S05|' + fullMontantNet + '|C|\n'
+                    // Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
                     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
@@ -103,7 +103,8 @@ module.exports = {
                     //cin proprietaire
                     cinProprietaire = data[index].foncier.proprietaire.cin
 
-                    let ecritureCrediterDuTaxLoyer = 'FBPMC|A|FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327007|NS|NS|S05|-|-|-|-|-|-|-|' + fullTax + '|C|Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-\n'
+                    let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327007|NS|NS|S05|-|-|-|-|-|-|-|' + fullTax + '|C|\n'
+                    //Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
 
                     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })

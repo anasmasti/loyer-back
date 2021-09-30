@@ -7,6 +7,10 @@ const RoleSchema = new Schema({
         type: String,
         required: true
     },
+    roleCode: {
+        type: String,
+        required: true
+    },
     deleted: {
         type: Boolean,
         default: false
