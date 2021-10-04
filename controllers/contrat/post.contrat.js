@@ -1,9 +1,10 @@
 const Contrat = require('../../models/contrat/contrat.model');
+const Lieu = require('../../models/lieu/lieu.model')
 
 
 module.exports = {
     ajouterContrat: async (req, res) => {
-      
+
         // variables
         let piece_joint_contrat = [], item = 0
 
@@ -51,17 +52,17 @@ module.exports = {
             duree_avance: data.duree_avance,
             n_engagement_depense: data.n_engagement_depense,
             echeance_revision_loyer: data.echeance_revision_loyer,
-            foncier: data.foncier,
             type_lieu: data.type_lieu,
             lieu: data.lieu,
             etat_contrat: {
                 libelle: 'Active',
-                etat: { }
+                etat: {}
             },
             piece_joint_contrat: piece_joint_contrat
         });
         await nouveauContrat.save()
-            .then((data) => {
+            .then(async (data) => {
+                await Lieu.findByIdAndUpdate({ _id: data.lieu }, { has_contrat: true })
                 res.json(data)
             })
             .catch((error) => {

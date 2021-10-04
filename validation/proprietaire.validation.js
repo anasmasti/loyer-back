@@ -13,7 +13,7 @@ const ProprietaireValidation = Joi.object({
             'string.base': 'CIN Propriétaire doit être text et numéro',
             'string.min': 'CIN Propriétaire doit être 4 charactères au minimum',
             'string.max': 'CIN Propriétaire doit être 8 charactères au maximum',
-            
+
         }),
     passport: Joi
         .string()
@@ -23,7 +23,7 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'string.base': 'passport Propriétaire doit être text et numéro',
             'string.min': 'passport Propriétaire doit être 4 charactères au minimum',
-            'string.max': 'passport Propriétaire doit être 8 charactères au maximum' 
+            'string.max': 'passport Propriétaire doit être 8 charactères au maximum'
         }),
     carte_sejour: Joi
         .string()
@@ -34,7 +34,7 @@ const ProprietaireValidation = Joi.object({
             'string.base': 'carte séjour Propriétaire doit être text et numéro',
             'string.min': 'carte séjour Propriétaire doit être 4 charactères au minimum',
             'string.max': 'carte séjour Propriétaire doit être 8 charactères au maximum'
-            
+
         }),
     nom_prenom: Joi
         .string()
@@ -45,7 +45,7 @@ const ProprietaireValidation = Joi.object({
             'string.min': 'Nom et Prénom de Propriétaire doit être 4 charactères au minimum',
             'string.max': 'Nom et Prénom de Propriétaire doit être 50 charactères au maximum',
             'string.empty': 'Nom et Prénom ne peut pas etre vide'
-           
+
         }),
     raison_social: Joi
         .string()
@@ -119,22 +119,18 @@ const ProprietaireValidation = Joi.object({
             'string.max': `Nom d'agence bancaire peut contient seulement 250 charactères au maximum`,
             'any.empty': `Le champs nom de l'agence bancaire de Propriétaire ne peut pas être vide`
         }),
-    has_mandataire: Joi
+    mandataire: Joi
         .boolean(),
     deleted: Joi
         .boolean()
         .default(false),
-    mandataire: Joi 
-        .array()
-        .default(null)
-        .when('has_mandataire',{
-            is: true,
-            then: Joi
-                .required()
-                .messages({
-                    'any.required': 'Mandataire est Obligatoir'
-                })
-        })
+    montant_loyer: Joi
+        .number()
+        .empty()
+        .integer()
+        .required()
+        .min(0)
+        .max(999999999999999999999999999999)
 })
 
 

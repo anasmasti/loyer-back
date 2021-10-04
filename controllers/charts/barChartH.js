@@ -12,12 +12,12 @@ module.exports = {
     try {
       let filtredContrat = await Contrat.find({
         deleted: false,
-      });
+      }).populate('lieu');
 
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
-          filtredContrat[i].type_lieu == "Point de vente" &&
-          (filtredContrat[i].etat_contrat.libelle == "En cours" || "Avenant")
+          filtredContrat[i].lieu.type_lieu == "Point de vente" &&
+          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
         ) {
           totalMontantLoyerPV += await filtredContrat[i].montant_loyer;
         }
@@ -31,8 +31,8 @@ module.exports = {
       });
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
-          filtredContrat[i].type_lieu == "Supervision" &&
-          (filtredContrat[i].etat_contrat.libelle == "En cours" || "Avenant")
+          filtredContrat[i].lieu.type_lieu == "Supervision" &&
+          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
         ) {
           totalMontantLoyerSUP += await filtredContrat[i].montant_loyer;
         }
@@ -46,8 +46,8 @@ module.exports = {
       });
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
-          filtredContrat[i].type_lieu == "Logement de fonction" &&
-          (filtredContrat[i].etat_contrat.libelle == "En cours" || "Avenant")
+          filtredContrat[i].lieu.type_lieu == "Logement de fonction" &&
+          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
         ) {
           totalMontantLoyerLGF += await filtredContrat[i].montant_loyer;
         }
@@ -61,8 +61,8 @@ module.exports = {
       });
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
-          filtredContrat[i].type_lieu == "Siège" &&
-          (filtredContrat[i].etat_contrat.libelle == "En cours" || "Avenant")
+          filtredContrat[i].lieu.type_lieu == "Siège" &&
+          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
         ) {
           totalMontantLoyerSG += await filtredContrat[i].montant_loyer;
         }
@@ -76,8 +76,8 @@ module.exports = {
       });
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
-          filtredContrat[i].type_lieu == "Direction régionale" &&
-          (filtredContrat[i].etat_contrat.libelle == "En cours" || "Avenant")
+          filtredContrat[i].lieu.type_lieu == "Direction régionale" &&
+          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
         ) {
           totalMontantLoyerDR += await filtredContrat[i].montant_loyer;
         }

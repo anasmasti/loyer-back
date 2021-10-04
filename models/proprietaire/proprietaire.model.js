@@ -2,31 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const uniqueValidator = require('mongoose-unique-validator')
 
-//Mandataire Schema
-const MandataireSchema = new Schema({
-    cin_mandataire: {
-        type: String,
-    },
-    nom_prenom_mandataire: {
-        type: String
-    },
-    raison_social_mandataire: {
-        type: String,
-    },
-    telephone_mandataire: {
-        type: Number,
-    },
-    fax_mandataire: {
-        type: Number,
-    },
-    adresse_mandataire: {
-        type: String,
-    },
-    n_compte_bancaire_mandataire: {
-        type: Number,
-    },
-});
-
 //Protrietaire Schema
 const ProprietaireSchema = new Schema({
 
@@ -66,6 +41,9 @@ const ProprietaireSchema = new Schema({
         type: String,
         required: true
     },
+    montant_loyer: {
+        type: Number,
+    },
     nom_agence_bancaire: {
         type: String,
     },
@@ -73,16 +51,10 @@ const ProprietaireSchema = new Schema({
         type: Boolean,
         default: false
     },
-    has_mandataire: {
+    mandataire: {
         type: Boolean,
         default: false
-    },
-    mandataire: {
-        type: [MandataireSchema],
-        index: false,
-        default: null,
-        required: false,
-    },
+    }
 },
     { timestamps: true, },
 );

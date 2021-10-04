@@ -7,19 +7,19 @@ module.exports = {
     // let ad = new activedirectory(adConfig);
     // let userMatricule = "badr.azzaby";
     
-    try {
+    
 
-      let existedUser = await User.findOne({ userMatricul: req.params.matricule, deleted: false});
+      let existedUser = await User.findOne({ userMatricul: req.params.matricule, deleted: false})
       
       if (existedUser) {
         res.json({
           isLogged: true,
           existedUser
         })
+      } else {
+        res.status(402).send({message: 'Votre matricule est invalid'})
       }
-    } catch (error) {
-      res.status(402).send({message: error.message})
-    }
+    
 
 
     // ad.findUser(userMatricule, function (error, user) {

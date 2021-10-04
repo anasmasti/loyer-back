@@ -24,6 +24,10 @@ const lieuSchema = new Schema({
     code_localite: {
         type: String
     },
+    proprietaire:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Proprietaire'
+    }],
     desc_lieu_entrer: {
         type: String
     },
@@ -75,6 +79,10 @@ const lieuSchema = new Schema({
     },
     deleted: {
         type: Boolean,
+        default: false
+    },
+    has_contrat:{
+        type:Boolean,
         default: false
     }
 }, { timestamps: true })

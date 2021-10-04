@@ -1,4 +1,4 @@
-const Foncier = require("../../models/foncier/foncier.model");
+const Lieu = require("../../models/lieu/lieu.model");
 module.exports = {
   barChartVertical: async (_, res) => {
     let topVilles = [
@@ -13,7 +13,7 @@ module.exports = {
 
     try {
       for (let i = 0; i < topVilles.length; i++) {
-        let nombreFoncierByVille = await Foncier.countDocuments({
+        let nombreFoncierByVille = await Lieu.countDocuments({
           ville: topVilles[i],
         });
         allBarChartData.push({
