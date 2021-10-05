@@ -6,21 +6,23 @@ module.exports = {
   findUser: async (req, res, next) => {
     // let ad = new activedirectory(adConfig);
     // let userMatricule = "badr.azzaby";
-    
-    
 
-      let existedUser = await User.findOne({ userMatricul: req.params.matricule, deleted: false})
-      
-      if (existedUser) {
-        res.json({
-          isLogged: true,
-          existedUser
-        })
-      } else {
-        res.status(402).send({message: 'Votre matricule est invalid'})
-      }
-    
+    let existedUser = await User.findOne({ userMatricul: req.body.matricule, deleted: false })
 
+    if (existedUser.password === "") {
+      await User.findOneAndUpdate({ userMatricul: req.body.matricule, deleted: false }, { password: req.body.password })
+    }
+
+    let fullUser = await User.findOne({userMatricul: req.body.matricule , deleted: false})
+
+    if (fullUser.userMatricul == req.body.matricule && fullUser.password == req.body.password) {
+      res.json({
+        isLogged: true,
+        existedUser
+      })
+    } else {
+      res.status(402).send({ message: 'Vos informations est invalide' })
+    }
 
     // ad.findUser(userMatricule, function (error, user) {
     //   if (error) {

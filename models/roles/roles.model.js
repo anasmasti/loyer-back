@@ -22,6 +22,9 @@ const userRoleSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+    },
     nom:{
         type: String,
         required: true

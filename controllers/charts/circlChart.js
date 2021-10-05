@@ -4,31 +4,31 @@ module.exports = {
   CirclChart: async (_, res) => {
     try {
       let countContratEnCours = await Contrat.countDocuments({
-        "etat_contrat.libelle": "En cours",
+        "etat_contrat.libelle": "Actif",
       });
       let countContratSuspendu = await Contrat.countDocuments({
-        "etat_contrat.libelle": "Suspension",
+        "etat_contrat.libelle": "Suspendu",
       });
       let countContratAvenant = await Contrat.countDocuments({
         "etat_contrat.libelle": "Avenant",
       });
       let countContratResilie = await Contrat.countDocuments({
-        "etat_contrat.libelle": "Résiliation",
+        "etat_contrat.libelle": "Résilié",
       });
 
       let allCirclChartData = [
         {
-          name: "Résiliation",
+          name: "Résilié",
           value: countContratResilie,
           extra: {
             code: "Rés",
           },
         },
         {
-          name: "En cours",
+          name: "Actif",
           value: countContratEnCours,
           extra: {
-            code: "Enc",
+            code: "Acf",
           },
         },
         {

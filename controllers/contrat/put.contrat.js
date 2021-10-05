@@ -2,7 +2,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
   modifierContrat: async (req, res) => {
-  
+
     let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = { }, updateContrat = { },
       contrats_suspendu = [], contrat_avener = []
 
@@ -43,7 +43,7 @@ module.exports = {
         }
       };
     }
-    else if (data.etat_contrat.libelle === 'Suspension') {
+    else if (data.etat_contrat.libelle === 'Suspendu') {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
@@ -54,7 +54,7 @@ module.exports = {
         }
       };
     }
-    else if (data.etat_contrat.libelle === 'Résiliation') {
+    else if (data.etat_contrat.libelle === 'Résilié') {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
@@ -67,7 +67,7 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe
         }
       };
-    } else if (data.etat_contrat.libelle === 'Active') {
+    } else if (data.etat_contrat.libelle === 'Actif') {
       etatContrat = data.etat_contrat
     }
 
@@ -102,7 +102,7 @@ module.exports = {
     for (item in existedContrat.contrats_suspendu) {
       contrats_suspendu.push(existedContrat.contrats_suspendu[item])
     }
-    if (existedContrat.etat_contrat.libelle == 'Suspension') {
+    if (existedContrat.etat_contrat.libelle == 'Suspendu') {
       contrats_suspendu.push(existedContrat)
     }
 

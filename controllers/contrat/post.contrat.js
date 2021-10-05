@@ -55,7 +55,7 @@ module.exports = {
             type_lieu: data.type_lieu,
             lieu: data.lieu,
             etat_contrat: {
-                libelle: 'Active',
+                libelle: 'Actif',
                 etat: {}
             },
             piece_joint_contrat: piece_joint_contrat

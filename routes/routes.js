@@ -169,7 +169,7 @@ router
     .get(getFichierComptableCaution.setComptabilisationCautions);
 
 //Auth routes
-router.route("/auth/:matricule").get(getUser.findUser);
+router.route("/auth").post(getUser.findUser);
 
 //countries and cities routes
 router.route("/countries").get(getAllCountries.listOfCountries);

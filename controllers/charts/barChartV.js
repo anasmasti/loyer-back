@@ -2,9 +2,9 @@ const Lieu = require("../../models/lieu/lieu.model");
 module.exports = {
   barChartVertical: async (_, res) => {
     let topVilles = [
-      "Tanger",
       "Rabat",
       "Agadir",
+      "Tanger‎",
       "Casablanca",
       "Marrakech",
       "Ouarzazate",
@@ -14,7 +14,7 @@ module.exports = {
     try {
       for (let i = 0; i < topVilles.length; i++) {
         let nombreFoncierByVille = await Lieu.countDocuments({
-          ville: topVilles[i],
+          ville: topVilles[i], deleted: false
         });
         allBarChartData.push({
           name: topVilles[i],

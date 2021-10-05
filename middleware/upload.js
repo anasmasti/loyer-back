@@ -19,7 +19,7 @@ var upload = multer({
         if (file.mimetype === "application/pdf") {
             callback(null, true)
         } else {
-            console.log('les fichiers doit etre au format compresse zip');
+            console.log('les fichiers doit etre au format PDF');
             callback(null, false)
         }
     },

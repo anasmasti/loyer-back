@@ -17,7 +17,7 @@ module.exports = {
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
           filtredContrat[i].lieu.type_lieu == "Point de vente" &&
-          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
         ) {
           totalMontantLoyerPV += await filtredContrat[i].montant_loyer;
         }
@@ -32,7 +32,7 @@ module.exports = {
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
           filtredContrat[i].lieu.type_lieu == "Supervision" &&
-          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
         ) {
           totalMontantLoyerSUP += await filtredContrat[i].montant_loyer;
         }
@@ -47,7 +47,7 @@ module.exports = {
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
           filtredContrat[i].lieu.type_lieu == "Logement de fonction" &&
-          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
         ) {
           totalMontantLoyerLGF += await filtredContrat[i].montant_loyer;
         }
@@ -62,7 +62,7 @@ module.exports = {
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
           filtredContrat[i].lieu.type_lieu == "Siège" &&
-          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
         ) {
           totalMontantLoyerSG += await filtredContrat[i].montant_loyer;
         }
@@ -77,7 +77,7 @@ module.exports = {
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
           filtredContrat[i].lieu.type_lieu == "Direction régionale" &&
-          (filtredContrat[i].etat_contrat.libelle == "Active" || "Avenant")
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
         ) {
           totalMontantLoyerDR += await filtredContrat[i].montant_loyer;
         }

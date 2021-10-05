@@ -3,7 +3,8 @@ const Lieu = require('../../models/lieu/lieu.model')
 
 
 module.exports = {
-    ajouterLieu: async (req, res, next) => {
+    ajouterLieu: async(req, res, next) => {
+        console.log(req.files);
         let data = await JSON.parse(req.body.data)
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
 
@@ -12,7 +13,16 @@ module.exports = {
         }
 
         if (data.has_amenagements == true) {
-            let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
+            let amenagements = [],
+                imagesLieu = [],
+                fournisseur = [],
+                imagesAmenagement = [],
+                imagesCroquis = [],
+                directeurRegional = [],
+                item = 0,
+                j = 0,
+                i = 0,
+                k = 0
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
                     for (item in req.files.imgs_lieu_entrer) {
@@ -23,8 +33,8 @@ module.exports = {
             //add amenagements in array
             for (item in data.amenagement) {
                 let idmData = data.amenagement[item].idm
-                let idm = idmData.replace('.zip', '')
-                //add fournisseurs in amenagements array
+                let idm = idmData.replace('.pdf', '')
+                    //add fournisseurs in amenagements array
                 for (j in data.amenagement[item].fournisseur) {
                     fournisseur.push({
                         nom: data.amenagement[item].fournisseur[j].nom,
@@ -118,7 +128,9 @@ module.exports = {
 
         } else {
 
-            let directeurRegional = [], imagesLieu = [], item = 0
+            let directeurRegional = [],
+                imagesLieu = [],
+                item = 0
 
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {

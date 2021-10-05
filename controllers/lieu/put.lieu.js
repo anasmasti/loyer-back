@@ -1,21 +1,31 @@
 const Lieu = require('../../models/lieu/lieu.model')
 
 module.exports = {
-    modifierLieu: async (req, res, next) => {
-       
+    modifierLieu: async(req, res, next) => {
+
         let data = await JSON.parse(req.body.data)
 
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
-       
+
         if (codeLieuExist) {
             if (codeLieuExist._id != req.params.Id && codeLieuExist.code_lieu != "") {
                 return res.status(422).send({ message: 'Le code lieu et deja pris' })
             }
         }
-        
+
         if (data.has_amenagements == true) {
-            let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = []
-            let item = 0, j = 0, i = 0, k = 0, h = 0, t = 0
+            let amenagements = [],
+                imagesLieu = [],
+                fournisseur = [],
+                imagesAmenagement = [],
+                imagesCroquis = [],
+                directeurRegional = []
+            let item = 0,
+                j = 0,
+                i = 0,
+                k = 0,
+                h = 0,
+                t = 0
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
                     for (item in req.files.imgs_lieu_entrer) {
@@ -30,8 +40,8 @@ module.exports = {
 
             for (item in data.amenagement) {
                 let idmData = data.amenagement[item].idm
-                let idm = idmData.replace('.zip', '')
-                //update fournisseurs in amenagements array
+                let idm = idmData.replace('.pdf', '')
+                    //update fournisseurs in amenagements array
                 for (j in data.amenagement[item].fournisseur) {
                     if (data.amenagement[item].deleted == false) {
                         fournisseur.push({
@@ -53,15 +63,14 @@ module.exports = {
                     if (req.files.imgs_amenagement) {
                         for (i in req.files.imgs_amenagement) {
                             let fileData = req.files.imgs_amenagement[i].originalname
-                            let originalName = fileData.replace('.zip', '')
+                            let originalName = fileData.replace('.pdf', '')
                             if (originalName == idm) {
                                 if (data.amenagement[item].deleted == false) {
                                     imagesAmenagement.push({
                                         image: req.files.imgs_amenagement[i].path,
                                         image_idm: idm
                                     })
-                                }
-                                else if (data.amenagement[item].deleted == true) {
+                                } else if (data.amenagement[item].deleted == true) {
                                     imagesAmenagement.push({
                                         image: req.files.imgs_amenagement[i].path,
                                         image_idm: idm,
@@ -75,15 +84,14 @@ module.exports = {
                     if (req.files.imgs_croquis) {
                         for (k in req.files.imgs_croquis) {
                             let fileData = req.files.imgs_croquis[k].originalname
-                            let originalName = fileData.replace('.zip', '')
+                            let originalName = fileData.replace('.pdf', '')
                             if (originalName == idm) {
                                 if (data.amenagement[item].deleted == false) {
                                     imagesCroquis.push({
                                         image: req.files.imgs_croquis[k].path,
                                         image_idm: idm
                                     })
-                                }
-                                else if (data.amenagement[item].deleted == true) {
+                                } else if (data.amenagement[item].deleted == true) {
                                     imagesCroquis.push({
                                         image: req.files.imgs_croquis[k].path,
                                         image_idm: idm,
@@ -102,7 +110,7 @@ module.exports = {
                 for (t in data.amenagement[item].croquis_travaux) {
                     imagesCroquis.push(data.amenagement[item].croquis_travaux[t])
                 }
-                
+
                 amenagements.push({
                     idm: idm,
                     deleted: data.amenagement[item].deleted || false,
@@ -134,40 +142,49 @@ module.exports = {
             }
 
             await Lieu.findByIdAndUpdate(req.params.Id, {
-                code_lieu: data.code_lieu,
-                intitule_lieu: data.intitule_lieu,
-                intitule_DR: data.intitule_DR,
-                adresse: data.adresse,
-                ville: data.ville,
-                code_localite: data.code_localite,
-                desc_lieu_entrer: data.desc_lieu_entrer,
-                imgs_lieu_entrer: imagesLieu,
-                has_amenagements: data.has_amenagements,
-                amenagement: amenagements,
-                superficie: data.superficie,
-                telephone: data.telephone,
-                fax: data.fax,
-                etage: data.etage,
-                type_lieu: data.type_lieu,
-                code_rattache_DR: data.code_rattache_DR,
-                code_rattahce_SUP: data.code_rattahce_SUP,
-                intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
-                centre_cout_siege: data.centre_cout_siege,
-                categorie_pointVente: data.categorie_pointVente,
-                etat_logement_fonction: data.etat_logement_fonction,
-                directeur_regional: directeurRegional,
-                deleted: false
+                    code_lieu: data.code_lieu,
+                    intitule_lieu: data.intitule_lieu,
+                    intitule_DR: data.intitule_DR,
+                    adresse: data.adresse,
+                    ville: data.ville,
+                    code_localite: data.code_localite,
+                    desc_lieu_entrer: data.desc_lieu_entrer,
+                    imgs_lieu_entrer: imagesLieu,
+                    has_amenagements: data.has_amenagements,
+                    amenagement: amenagements,
+                    superficie: data.superficie,
+                    telephone: data.telephone,
+                    fax: data.fax,
+                    etage: data.etage,
+                    type_lieu: data.type_lieu,
+                    code_rattache_DR: data.code_rattache_DR,
+                    code_rattahce_SUP: data.code_rattahce_SUP,
+                    intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
+                    centre_cout_siege: data.centre_cout_siege,
+                    categorie_pointVente: data.categorie_pointVente,
+                    etat_logement_fonction: data.etat_logement_fonction,
+                    directeur_regional: directeurRegional,
+                    deleted: false
 
-            }, { new: true })
+                }, { new: true })
                 .then((data) => {
                     res.json(data)
                 })
                 .catch((error) => {
                     res.status(402).send({ message: error.message })
                 })
-            //else        
+                //else        
         } else if (data.has_amenagements == false) {
-            let amenagements = [], imagesLieu = [], fournisseur = [], imagesAmenagement = [], imagesCroquis = [], directeurRegional = [], item = 0, j = 0, i = 0, k = 0
+            let amenagements = [],
+                imagesLieu = [],
+                fournisseur = [],
+                imagesAmenagement = [],
+                imagesCroquis = [],
+                directeurRegional = [],
+                item = 0,
+                j = 0,
+                i = 0,
+                k = 0
 
             if (req.files) {
                 if (req.files.imgs_lieu_entrer) {
@@ -232,30 +249,30 @@ module.exports = {
             }
 
             await Lieu.findByIdAndUpdate({ _id: req.params.Id }, {
-                code_lieu: data.code_lieu,
-                intitule_lieu: data.intitule_lieu,
-                intitule_DR: data.intitule_DR,
-                adresse: data.adresse,
-                ville: data.ville,
-                code_localite: data.code_localite,
-                desc_lieu_entrer: data.desc_lieu_entrer,
-                imgs_lieu_entrer: imagesLieu,
-                has_amenagements: data.has_amenagements,
-                superficie: data.superficie,
-                telephone: data.telephone,
-                fax: data.fax,
-                etage: data.etage,
-                type_lieu: data.type_lieu,
-                code_rattache_DR: data.code_rattache_DR,
-                code_rattahce_SUP: data.code_rattahce_SUP,
-                intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
-                centre_cout_siege: data.centre_cout_siege,
-                categorie_pointVente: data.categorie_pointVente,
-                etat_logement_fonction: data.etat_logement_fonction,
-                directeur_regional: directeurRegional,
-                amenagement: amenagements,
-                deleted: false
-            }, { new: true })
+                    code_lieu: data.code_lieu,
+                    intitule_lieu: data.intitule_lieu,
+                    intitule_DR: data.intitule_DR,
+                    adresse: data.adresse,
+                    ville: data.ville,
+                    code_localite: data.code_localite,
+                    desc_lieu_entrer: data.desc_lieu_entrer,
+                    imgs_lieu_entrer: imagesLieu,
+                    has_amenagements: data.has_amenagements,
+                    superficie: data.superficie,
+                    telephone: data.telephone,
+                    fax: data.fax,
+                    etage: data.etage,
+                    type_lieu: data.type_lieu,
+                    code_rattache_DR: data.code_rattache_DR,
+                    code_rattahce_SUP: data.code_rattahce_SUP,
+                    intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
+                    centre_cout_siege: data.centre_cout_siege,
+                    categorie_pointVente: data.categorie_pointVente,
+                    etat_logement_fonction: data.etat_logement_fonction,
+                    directeur_regional: directeurRegional,
+                    amenagement: amenagements,
+                    deleted: false
+                }, { new: true })
                 .then((data) => {
                     res.json(data)
                 })
