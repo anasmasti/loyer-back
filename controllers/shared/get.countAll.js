@@ -1,6 +1,5 @@
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const Lieu = require("../../models/lieu/lieu.model");
-const Foncier = require("../../models/foncier/foncier.model");
 const Contrat = require("../../models/contrat/contrat.model");
 const User = require("../../models/roles/roles.model");
 
@@ -14,7 +13,6 @@ module.exports = {
         deleted: false,
       });
       const countLieu = await Lieu.countDocuments({ deleted: false });
-      const countFoncier = await Foncier.countDocuments({ deleted: false });
       const countContrat = await Contrat.countDocuments({ deleted: false });
       const countUser = await User.countDocuments({ deleted: false });
       const countAmenagement = await Lieu.aggregate([
@@ -125,7 +123,6 @@ module.exports = {
       res.json({
         countProprietaire,
         countLieu,
-        countFoncier,
         countContrat,
         totalCountAmenagements,
         totalCountFournisseur,

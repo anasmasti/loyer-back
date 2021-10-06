@@ -9,7 +9,7 @@ const RoleSchema = new Schema({
     },
     roleCode: {
         type: String,
-        required: true
+        
     },
     deleted: {
         type: Boolean,

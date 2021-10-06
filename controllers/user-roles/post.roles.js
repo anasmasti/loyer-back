@@ -10,7 +10,7 @@ module.exports = {
     });
 
     if (matriculExist) {
-      res.status(409).send({ message: "le matricule est déja exist" });
+      res.status(409).send({ message: "le matricule est déja existe" });
       return;
     }
 

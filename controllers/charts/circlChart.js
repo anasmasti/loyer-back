@@ -9,9 +9,6 @@ module.exports = {
       let countContratSuspendu = await Contrat.countDocuments({
         "etat_contrat.libelle": "Suspendu",
       });
-      let countContratAvenant = await Contrat.countDocuments({
-        "etat_contrat.libelle": "Avenant",
-      });
       let countContratResilie = await Contrat.countDocuments({
         "etat_contrat.libelle": "Résilié",
       });
@@ -29,13 +26,6 @@ module.exports = {
           value: countContratEnCours,
           extra: {
             code: "Acf",
-          },
-        },
-        {
-          name: "Avenant",
-          value: countContratAvenant,
-          extra: {
-            code: "Av",
           },
         },
         {

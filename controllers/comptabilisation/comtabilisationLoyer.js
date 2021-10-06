@@ -23,7 +23,7 @@ module.exports = {
             return (1e15 + number + '').slice(-count);
         }
 
-        Contrat.find().populate('lieu').populate('foncier').populate({ path: 'foncier', populate: { path: 'proprietaire' } })
+        Contrat.find().populate('lieu').populate({path:'lieu', populate: {path:'proprietaire'}})
             .then((data) => {
                 let codeDr = "";
                 let codePv = "";
@@ -73,7 +73,12 @@ module.exports = {
                     let montantNet = data[index].montant_apres_impot
 
                     //cin proprietaire
-                    cinProprietaire = data[index].foncier.proprietaire.cin
+                    for (let j = 0; j < data[index].lieu.proprietaire.length; j++) {
+                        if(data[index].lieu.proprietaire[j].mandataire = true) {
+
+                            cinProprietaire = data[index].lieu.proprietaire[j].cin;
+                        }
+                    }
 
                     let addTwoNumbersAfterComma = montantNet.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
@@ -101,7 +106,10 @@ module.exports = {
                     let fullTax = pad(replacePointWithComma, 9)
 
                     //cin proprietaire
-                    cinProprietaire = data[index].foncier.proprietaire.cin
+                    for (let k = 0; k < data[index].lieu.proprietaire.length; k++) {
+                        if(data[index].lieu.proprietaire[k].mandataire == true)
+                        cinProprietaire = data[index].lieu.proprietaire[k].cin;
+                    }
 
                     let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327007|NS|NS|S05|-|-|-|-|-|-|-|' + fullTax + '|C|\n'
                     //Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
@@ -110,7 +118,7 @@ module.exports = {
                         if (error) res.json({ message: error.message })
                     })
                 }
-                
+               
                 res.download('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt')
 
             })

@@ -27,12 +27,6 @@ const getcontrat = require("../controllers/contrat/get.contrat");
 const putcontrat = require("../controllers/contrat/put.contrat");
 const deletecontrat = require("../controllers/contrat/delete.contrat");
 
-//Foncier
-const postFoncier = require("../controllers/foncier/post.foncier");
-const putFoncier = require("../controllers/foncier/put.foncier");
-const getFoncier = require("../controllers/foncier/get.foncier");
-const deleteFoncier = require("../controllers/foncier/delete.foncier");
-
 //Shared
 const getProprietaireAndLieu = require("../controllers/shared/get.proprietaire.lieu");
 const countAll = require("../controllers/shared/get.countAll");
@@ -80,11 +74,11 @@ router
     .put(verifyRole.checkRoles('CDGSP', 'CSLA'), deleteProprietaire.deleteProprietaire);
 
 //User Roles
-router.route("/user/ajouter").post(verifyRole.checkRoles('Admin'), postUserRoles.addUserRoles);
-router.route("/user/update/:Id").put(verifyRole.checkRoles('Admin'), updateUserRoles.updateUserRoles);
-router.route("/user/all").get(verifyRole.checkRoles('Admin'), getUserRoles.getAllUserRoles);
-router.route("/user/detail/:Id").get(verifyRole.checkRoles('Admin'), getUserRoles.getUserRolesPerId);
-router.route("/user/delete/:Id").put(verifyRole.checkRoles('Admin'), deleteUserRoles.DeleteRoles);
+router.route("/user/ajouter/:matricule").post(verifyRole.checkRoles('Admin'), postUserRoles.addUserRoles);
+router.route("/user/update/:Id/:matricule").put(verifyRole.checkRoles('Admin'), updateUserRoles.updateUserRoles);
+router.route("/user/all/:matricule").get(verifyRole.checkRoles('Admin'), getUserRoles.getAllUserRoles);
+router.route("/user/detail/:Id/:matricule").get(verifyRole.checkRoles('Admin'), getUserRoles.getUserRolesPerId);
+router.route("/user/delete/:Id/:matricule").put(verifyRole.checkRoles('Admin'), deleteUserRoles.DeleteRoles);
 
 //Lieu routes
 router.route("/lieu/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'),
@@ -145,12 +139,6 @@ router.route("/contrat/supprimer/:Id/:matricule").put(verifyRole.checkRoles('CDG
 router.route("/contrat/validation1/:Id/:matricule").put(verifyRole.checkRoles('CDGSP'), putContrat.modifierValidationDMG);
 router.route("/contrat/validation2/:Id/:matricule").put(verifyRole.checkRoles('DAJC'), putContrat.modifierValidationDAJC);
 
-//Foncier routes
-router.route("/foncier/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'), postFoncier.postFoncier);
-router.route("/foncier/modifier/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'), putFoncier.putFoncier);
-router.route("/foncier/all/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getFoncier.allFoncier);
-router.route("/foncier/:Id/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getFoncier.foncierById);
-router.route("/foncier/delete/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'), deleteFoncier.deleteFoncier);
 
 //Shared route
 router
