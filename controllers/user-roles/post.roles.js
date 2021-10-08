@@ -28,6 +28,7 @@ module.exports = {
       userMatricul: req.body.userMatricul,
       nom: req.body.nom,
       prenom: req.body.prenom,
+      code_dr: req.body.code_dr,
       userRoles: allUserRoles,
     });
     await userR
