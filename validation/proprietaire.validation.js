@@ -97,7 +97,7 @@ const ProprietaireValidation = Joi.object({
         .integer()
         .required()
         .min(0)
-        .max(999999999999999999999999999999)
+        .max(9999999999999999)
         .messages({
             'number.base': 'Numéro de compte bancaire contient juste des chiffres',
             'any.required': 'Numéro de compte bancaire est obligatoire',
@@ -111,6 +111,38 @@ const ProprietaireValidation = Joi.object({
             'string.max': 'La banque peut contient seulement 250 charactères au maximum',
             'string.empty': 'La banque ne peut pas être vide'
         }),
+    banque_rib: Joi
+        .number()
+        .empty()
+        .integer()
+        .required()
+        .max(999)
+        .messages({
+            'number.base': 'Banque rib contient juste des chiffres',
+            'any.required': 'Banque rib est obligatoire',
+            'string.empty': 'Banque rib ne peut pas être vide',
+            'string.max': 'Banque rib peut contient seulement 3 charactères au maximum',
+    }),
+    ville_rib: Joi
+        .number()
+        .empty()
+        .required()
+        .max(999)
+        .messages({
+            'any.required': 'Ville rib est obligatoire',
+            'string.empty': 'Ville rib ne peut pas être vide',
+    }),
+    cle_rib: Joi
+        .number()
+        .empty()
+        .integer()
+        .required()
+        .max(99)
+        .messages({
+            'number.base': 'Clé rib contient juste des chiffres',
+            'any.required': 'Clé rib est obligatoire',
+            'string.empty': 'Clé rib ne peut pas être vide',
+    }),
     nom_agence_bancaire: Joi
         .string()
         .empty('')
