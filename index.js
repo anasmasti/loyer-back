@@ -1,7 +1,5 @@
 const express = require("express");
 const http = require("http");
-const app = express();
-const server = http.createServer(app);
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -10,6 +8,10 @@ const db_config = require("./helpers/db.config");
 const routes = require("./routes/routes.js");
 const checkApiKey = require("./middleware/api-key.verify");
 const ip = require("ip");
+
+// Launch app
+const app = express();
+const server = http.createServer(app);
 
 //get local adress ip
 let ipAdress = ip.address();

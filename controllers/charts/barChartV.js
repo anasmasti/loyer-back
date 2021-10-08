@@ -9,6 +9,7 @@ module.exports = {
       "Marrakech",
       "Ouarzazate",
     ];
+    
     let allBarChartData = [];
 
     try {
