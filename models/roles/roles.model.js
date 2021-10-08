@@ -36,6 +36,10 @@ const userRoleSchema = new Schema({
     userRoles: {
         type:[RoleSchema]
     },
+    code_dr: {
+        type:String,
+        required: true
+    },
     deleted:{
         type: Boolean,
         default: false
