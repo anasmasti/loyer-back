@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
 const fileSchema = require('../shared/file.schema');
-const { number } = require('joi');
+
 
 
 //contrat Schema
@@ -113,6 +113,9 @@ const ContratSchema = new Schema({
     duree:{
         type:Number
     },
+    dates_avance:[{
+        type: String
+    }],
     retenue_source_par_mois:{
         type: Number
     },
@@ -121,6 +124,12 @@ const ContratSchema = new Schema({
     },
     total_montant_net_loyer:{
         type: Number
+    },
+    mois:{
+        type: String
+    },
+    annee: {
+        type:String
     }
 },{timestamps: true});
 
