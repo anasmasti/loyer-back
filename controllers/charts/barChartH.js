@@ -3,7 +3,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 module.exports = {
   barChartHorizontal: async (_, res) => {
     let totalMontantLoyerPV = 0,
-      totalMontantLoyerSUP = 0,
+      // totalMontantLoyerSUP = 0,
       totalMontantLoyerSG = 0,
       totalMontantLoyerLGF = 0,
       totalMontantLoyerDR = 0,
@@ -29,21 +29,21 @@ module.exports = {
           code: "PV",
         },
       });
-      for (let i = 0; i < filtredContrat.length; i++) {
-        if (
-          filtredContrat[i].lieu.type_lieu == "Supervision" &&
-          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
-        ) {
-          totalMontantLoyerSUP += await filtredContrat[i].montant_loyer;
-        }
-      }
-      allBarChartHorizontalData.push({
-        name: "Supervision",
-        value: totalMontantLoyerSUP,
-        extra: {
-          code: "SUP",
-        },
-      });
+      // for (let i = 0; i < filtredContrat.length; i++) {
+      //   if (
+      //     filtredContrat[i].lieu.type_lieu == "Supervision" &&
+      //     (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
+      //   ) {
+      //     totalMontantLoyerSUP += await filtredContrat[i].montant_loyer;
+      //   }
+      // }
+      // allBarChartHorizontalData.push({
+      //   name: "Supervision",
+      //   value: totalMontantLoyerSUP,
+      //   extra: {
+      //     code: "SUP",
+      //   },
+      // });
       for (let i = 0; i < filtredContrat.length; i++) {
         if (
           filtredContrat[i].lieu.type_lieu == "Logement de fonction" &&

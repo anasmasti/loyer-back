@@ -37,6 +37,18 @@ const ProprietaireSchema = new Schema({
         unique: true,
         required: true
     },
+    banque_rib: {
+        type: Number,
+        required: true
+    },
+    ville_rib: {
+        type: Number,
+        required: true
+    },
+    cle_rib: {
+        type: Number,
+        required: true
+    },
     banque: {
         type: String,
         required: true
