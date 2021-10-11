@@ -49,6 +49,15 @@ const ProprietaireSchema = new Schema({
         type: Number,
         required: true
     },
+    taux_impot: {
+        type: Number,
+    },
+    retenue_source: {
+        type: String,
+    },
+    montant_apres_impot: {
+        type: Number,
+    },
     banque: {
         type: String,
         required: true

@@ -1,6 +1,6 @@
 const Lieu = require("../../models/lieu/lieu.model");
 module.exports = {
-  barChartVertical: async (_, res) => {
+  advancedCircleChart: async (_, res) => {
     let liuex = [
       "Direction régionale",
       "Logement de fonction",

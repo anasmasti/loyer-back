@@ -143,6 +143,21 @@ const ProprietaireValidation = Joi.object({
             'any.required': 'Clé rib est obligatoire',
             'string.empty': 'Clé rib ne peut pas être vide',
     }),
+    taux_impot: Joi
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Taux de l\'impot contient juste des chiffres',
+    }),
+    retenue_source:  Joi
+        .string()
+        .empty(),
+    montant_apres_impot: Joi
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Montant apres l\'impot contient juste des chiffres',
+}),
     nom_agence_bancaire: Joi
         .string()
         .empty('')
