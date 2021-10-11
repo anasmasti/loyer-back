@@ -8,7 +8,7 @@ module.exports = {
         // variables
         let piece_joint_contrat = [], item = 0
 
-        if (Object.keys(req.body).length === 0) return res.status(402).send({ message: "Please fill the required fields mother fucker :)" })
+        if (Object.keys(req.body).length === 0) return res.status(402).send({ message: "Please fill the required :)" })
 
         //parse incoming data to json
         let data = await JSON.parse(req.body.data)
@@ -22,6 +22,14 @@ module.exports = {
             }
         }
 
+        let dureeAvanceToInt = parseInt(data.duree_avance)
+        console.log(dureeAvanceToInt)
+        let dateAvance
+        for (let i = 0; i < dureeAvanceToInt; i++) {
+            
+        }
+
+
         let countContrat = await Contrat.countDocuments()
 
         //store contrat
@@ -30,7 +38,6 @@ module.exports = {
             date_debut_loyer: data.date_debut_loyer,
             date_fin_contrat: data.date_fin_contrat,
             date_reprise_caution: data.date_reprise_caution,
-            date_fin_avance: data.date_fin_avance,
             date_premier_paiement: data.date_premier_paiement,
             montant_loyer: data.montant_loyer,
             taxe_edilite_loyer: data.taxe_edilite_loyer,
@@ -49,6 +56,7 @@ module.exports = {
             effort_caution: data.effort_caution,
             statut_caution: data.statut_caution,
             montant_avance: data.montant_avance,
+            date_fin_avance: data.date_fin_avance,
             duree_avance: data.duree_avance,
             n_engagement_depense: data.n_engagement_depense,
             echeance_revision_loyer: data.echeance_revision_loyer,
