@@ -56,7 +56,7 @@ module.exports = {
                     let addTwoNumbersAfterComma = montantLoyer.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontant = pad(replacePointWithComma, 9)
-                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|\n'
+                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + ' ' + dateWithSlash + '|01|64200001|NS|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|\n'
                     // Frais Loyer-|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
                     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
@@ -67,7 +67,7 @@ module.exports = {
                 for (let index = 0; index < data.length; index++) {
 
                     //set the code of DR and lieu intitulé
-                    lieuIntitule = data[index].lieu.intitule_lieu
+                    lieuIntitule = data[index].lieu.code_lieu
 
                     //montant net
                     let montantNet = data[index].montant_apres_impot
@@ -83,7 +83,7 @@ module.exports = {
                     let addTwoNumbersAfterComma = montantNet.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontantNet = pad(replacePointWithComma, 9)
-                    let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '|01|10200000|NS|NS|S05|' + fullMontantNet + '|C|\n'
+                    let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + ' ' + lieuIntitule + '|01|32700008|NS|NS|NS|' + fullMontantNet + '|C|\n'
                     // Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
                     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })
@@ -94,7 +94,7 @@ module.exports = {
                 for (let index = 0; index < data.length; index++) {
 
                     //set the code of DR and lieu intitulé
-                    lieuIntitule = data[index].lieu.intitule_lieu
+                    lieuIntitule = data[index].lieu.code_lieu
 
                     //calcule montant de Tax
                     let montantLoyer = data[index].montant_loyer
@@ -111,7 +111,7 @@ module.exports = {
                         cinProprietaire = data[index].lieu.proprietaire[k].cin;
                     }
 
-                    let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|327007|NS|NS|S05|-|-|-|-|-|-|-|' + fullTax + '|C|\n'
+                    let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '/' + lieuIntitule + '|01|32100007|NS|NS|NS|' + fullTax + '|C|\n'
                     //Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
 
                     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {

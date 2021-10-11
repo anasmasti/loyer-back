@@ -55,6 +55,7 @@ const chartCirclData = require("../controllers/charts/circlChart");
 const verifyRole = require("../middleware/verify-user-role");
 
 //test
+const test = require("../controllers/cloture/cloture")
 
 //Router
 const router = express.Router();
@@ -169,5 +170,8 @@ router.route("/chartBarH").get(chartBarH.barChartHorizontal);
 router.route("/chartBarV").get(chartBarV.barChartVertical);
 router.route("/chartAdvancedCircl").get(adChartCircle.advancedCircleChart);
 router.route("/ChartCircl").get(chartCirclData.CirclChart);
+
+//test
+router.route("/test").post(test.clotureDuMois);
 
 module.exports = router;
