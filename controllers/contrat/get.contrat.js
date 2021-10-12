@@ -3,7 +3,7 @@ const Contrat = require('../../models/contrat/contrat.model');
 
 module.exports = {
     getContrats: async (req, res) => {
-        await Contrat.find({ deleted: false }).populate("lieu", "_id intitule_lieu")
+        await Contrat.find({ deleted: false }).populate( "lieu" , "_id intitule_lieu" ).populate({path: 'lieu' , populate: { path : 'proprietaire'} })
             .then((data) => {
                 res.json(data)
             })
@@ -27,7 +27,7 @@ module.exports = {
             .catch((error) => {
                 res.status(400).send({ message: error.message })
             })
-    }
+        },
 
 
 }
