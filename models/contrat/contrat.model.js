@@ -11,19 +11,19 @@ const ContratSchema = new Schema({
         type: String
     },
     date_debut_loyer: {
-        type: String,
+        type: Date,
     },
     date_fin_contrat: {
-        type: String,
+        type: Date,
     },
     date_reprise_caution: {
-        type: String,
+        type: Date,
     },
     date_fin_avance: {
-        type: String,
+        type: Date,
     },
     date_premier_paiement: {
-        type: String,
+        type: Date,
     },
     montant_loyer: {
         type: Number,
@@ -114,7 +114,7 @@ const ContratSchema = new Schema({
         type:Number
     },
     dates_avance:[{
-        type: String
+        type: Date
     }],
     retenue_source_par_mois:{
         type: Number
@@ -126,10 +126,13 @@ const ContratSchema = new Schema({
         type: Number
     },
     mois:{
-        type: String
+        type: Number
     },
     annee: {
-        type:String
+        type:Number
+    },
+    date_comptabilisation:{
+        type:Date
     }
 },{timestamps: true});
 

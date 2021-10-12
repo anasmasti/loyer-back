@@ -23,10 +23,15 @@ module.exports = {
         }
 
         let dureeAvanceToInt = parseInt(data.duree_avance)
-        console.log(dureeAvanceToInt)
-        let dateAvance
-        for (let i = 0; i < dureeAvanceToInt; i++) {
-            
+        let dateFinAvanceData = data.date_fin_avance
+        let dateFinAvance = new Date(dateFinAvanceData)
+
+        console.log(dateFinAvance.getFullYear());
+        console.log(dateFinAvance.getDay());
+        console.log(dateFinAvance.getMonth());
+
+        for (let i = 1; i <= dureeAvanceToInt; i++) {
+            console.log(dateFinAvance.getFullYear() + "-" + ((dateFinAvance.getMonth() +1) - i)+ "-" + "01");
         }
 
 
@@ -60,6 +65,7 @@ module.exports = {
             duree_avance: data.duree_avance,
             n_engagement_depense: data.n_engagement_depense,
             echeance_revision_loyer: data.echeance_revision_loyer,
+            date_comptabilisation: new Date(),
             type_lieu: data.type_lieu,
             lieu: data.lieu,
             etat_contrat: {

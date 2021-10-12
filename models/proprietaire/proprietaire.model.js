@@ -77,10 +77,10 @@ const ProprietaireSchema = new Schema({
         default: false
     },
     mois: {
-        type: String
+        type: Number
     },
     annee: {
-        type: String
+        type: Number
     }
 },
     { timestamps: true, },

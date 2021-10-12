@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const archiveVirementSchema = new Schema({
-    archiveVirement: [{
+    archive_virement: [{
         type: String
     }],
      mois:{

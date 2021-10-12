@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const archiveComptabilisationCautionSchema = new Schema({
-    archiveComptabilisationCaution: [{
+    archive_comptabilisatio_caution: [{
         type: String
     }],
     mois:{
