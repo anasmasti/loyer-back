@@ -107,6 +107,7 @@ router.route("/lieu/Dr/Sup/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA
 router.route("/lieu/count/all/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.getCountLieu);
 router.route("/lieu/detail/:Id/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getLieu.detailLieu);
 router.route("/lieu/delete/:Id/:matricule").patch(verifyRole.checkRoles('CDGSP', 'CSLA'), deleteLieu.deletedLieu);
+router.route("/lieu/contratByLieu/:Id/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'),getLieu.getContratByLieu);
 
 //contrat routes
 router.route("/contrat/ajouter/:matricule").post(verifyRole.checkRoles('CDGSP', 'CSLA'),

@@ -65,7 +65,7 @@ module.exports = {
             duree_avance: data.duree_avance,
             n_engagement_depense: data.n_engagement_depense,
             echeance_revision_loyer: data.echeance_revision_loyer,
-            date_comptabilisation: new Date(),
+            date_comptabilisation: null,
             type_lieu: data.type_lieu,
             lieu: data.lieu,
             etat_contrat: {

@@ -1,5 +1,6 @@
 const Lieu = require('../../models/lieu/lieu.model')
 const mongoose = require('mongoose')
+const Contrat = require('../../models/contrat/contrat.model')
 
 
 
@@ -7,7 +8,7 @@ module.exports = {
 
     //get all lieu
     getAllLieu: (req, res) => {
-        Lieu.find({ deleted: false })
+        Lieu.find({ deleted: false }).sort( {updatedAt: 'desc'} )
             .then((data) => {
                 res.json(data)
             })
@@ -204,6 +205,17 @@ module.exports = {
         ])
             .then(data => {
                 res.json(data[0])
+            })
+            .catch(error => {
+                res.status(402).send({ message: error.message })
+            })
+    },
+    // get lieu by contrat
+    getContratByLieu: async (req, res) => {
+        var _id = mongoose.Types.ObjectId(req.params.Id)
+        await Contrat.findOne({ lieu:  _id , deleted: false } , 'taux_impot -_id')
+        .then(data => {
+                res.json(data)
             })
             .catch(error => {
                 res.status(402).send({ message: error.message })
