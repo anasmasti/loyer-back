@@ -100,7 +100,7 @@ const ProprietaireValidation = Joi.object({
         .max(9999999999999999)
         .messages({
             'number.base': 'Numéro de compte bancaire contient juste des chiffres',
-            // 'any.required': 'Numéro de compte bancaire est obligatoire',
+            'any.required': 'Numéro de compte bancaire est obligatoire',
             'string.empty': 'Numéro de compte bancaire ne peut pas être vide'
         }),
     banque: Joi
