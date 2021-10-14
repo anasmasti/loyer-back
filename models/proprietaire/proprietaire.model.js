@@ -75,12 +75,6 @@ const ProprietaireSchema = new Schema({
     mandataire: {
         type: Boolean,
         default: false
-    },
-    mois: {
-        type: Number
-    },
-    annee: {
-        type: Number
     }
 },
     { timestamps: true, },

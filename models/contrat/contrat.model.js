@@ -113,9 +113,6 @@ const ContratSchema = new Schema({
     duree:{
         type:Number
     },
-    dates_avance:[{
-        type: Date
-    }],
     retenue_source_par_mois:{
         type: Number
     },
@@ -125,11 +122,8 @@ const ContratSchema = new Schema({
     total_montant_net_loyer:{
         type: Number
     },
-    mois:{
+    montant_avance_tax: {
         type: Number
-    },
-    annee: {
-        type:Number
     },
     date_comptabilisation:{
         type:Date
