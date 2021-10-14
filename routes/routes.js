@@ -61,7 +61,7 @@ const test = require("../controllers/cloture/cloture")
 const router = express.Router();
 
 //Home routes
-router.route("/home").get(HomeRouter.getHome);
+router.route("/").get(HomeRouter.getHome);
 
 //Proprietaire routes
 router.route("/proprietaire/tous/:matricule").get(verifyRole.checkRoles('CDGSP', 'CSLA'), getProprietaire.getAllProprietaire);

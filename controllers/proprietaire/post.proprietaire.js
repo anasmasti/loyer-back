@@ -65,6 +65,7 @@ module.exports = {
                     .catch((error) => {
                         if (error.name == 'ValidationError') {
                             if (error.errors.n_compte_bancaire) return res.status(422).send({ message: `Numéro compte bancaire est déja pris` })
+                            // if (error.errors.n_compte_bancaire) return res.status(422).send({ message: error.message })
                         } else {
                             res.status(500).send({ message: `Error d'ajouter un propriétaire` || error })
                         }

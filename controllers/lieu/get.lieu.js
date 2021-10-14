@@ -215,7 +215,7 @@ module.exports = {
         var _id = mongoose.Types.ObjectId(req.params.Id)
         await Contrat.findOne({ lieu:  _id , deleted: false } , 'taux_impot -_id')
         .then(data => {
-                res.json(data)
+                res.json([data])
             })
             .catch(error => {
                 res.status(402).send({ message: error.message })

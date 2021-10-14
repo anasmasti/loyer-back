@@ -35,11 +35,11 @@ module.exports = {
         }
 
 
-        let countContrat = await Contrat.countDocuments()
+        // let countContrat = await Contrat.countDocuments()
 
         //store contrat
         const nouveauContrat = new Contrat({
-            numero_contrat: countContrat + 1,
+            numero_contrat: data.numero_contrat,
             date_debut_loyer: data.date_debut_loyer,
             date_fin_contrat: data.date_fin_contrat,
             date_reprise_caution: data.date_reprise_caution,
