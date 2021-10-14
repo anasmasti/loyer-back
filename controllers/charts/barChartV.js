@@ -14,7 +14,7 @@ module.exports = {
 
     try {
       for (let i = 0; i < topVilles.length; i++) {
-        let nombreFoncierByVille = await Lieu.countDocuments({
+        let nombreFoncierByVille = await Lieu.find({type_lieu: "Direction régionale" , deleted: false}).countDocuments({
           ville: topVilles[i], deleted: false
         });
         allBarChartData.push({

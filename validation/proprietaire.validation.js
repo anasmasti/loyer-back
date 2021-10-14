@@ -100,7 +100,7 @@ const ProprietaireValidation = Joi.object({
         .max(9999999999999999)
         .messages({
             'number.base': 'Numéro de compte bancaire contient juste des chiffres',
-            'any.required': 'Numéro de compte bancaire est obligatoire',
+            // 'any.required': 'Numéro de compte bancaire est obligatoire',
             'string.empty': 'Numéro de compte bancaire ne peut pas être vide'
         }),
     banque: Joi
@@ -150,7 +150,7 @@ const ProprietaireValidation = Joi.object({
             'number.base': 'Taux de l\'impot contient juste des chiffres',
     }),
     retenue_source:  Joi
-        .string()
+        .number()
         .empty(),
     montant_apres_impot: Joi
         .number()

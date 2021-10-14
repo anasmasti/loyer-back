@@ -4,7 +4,7 @@ module.exports = {
 
     //Chercher touts les propriétaires
     getAllProprietaire: async (req, res) => {
-        await Proprietaire.find({ deleted: false })
+        await Proprietaire.find({ deleted: false }).sort( {updatedAt: 'desc'} )
             .then((data) => {
                 res.send(data)
             })
