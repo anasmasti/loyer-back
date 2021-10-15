@@ -3,7 +3,9 @@ const loyerArchive = require('../../models/archive/archiveComptabilisationLoyer.
 
 module.exports = {
     clotureDuMois: async (req, res, next) => {
-        let comptabilisationLoyer = []
+        let comptabilisationLoyer = [];
+        let ordreVirement = [];
+
         let contrat = await Contrat
             .find({ deleted: false, 'etat_contrat.libelle': { $not: { $eq: 'Résilié' } } })
             .populate('lieu')
@@ -22,6 +24,18 @@ module.exports = {
             if (contrat[i].periodicite_paiement == 'Mensuelle') {
 
                 if (contrat[i].montant_avance > 0 && req.body.mois == (dateDebutLoyer.getMonth() + 1) && req.body.annee == dateDebutLoyer.getFullYear()) {
+                    let montant_brut = 0, montant_net = 0, montant_tax = 0
+
+                    for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+                        if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                            ordreVirement.push({
+                                cin: contrat[i].lieu.proprietaire[j].cin,
+                                nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                                
+                            })
+                        }
+                    }
+
                     comptabilisationLoyer.push({
                         nom_de_piece: 'test',
                         date_gl: 'test',
@@ -43,6 +57,7 @@ module.exports = {
                         date_comptabilisation: dateDebutLoyer
                     })
                     await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: null })
+
                 }
                 if (contrat[i].montant_avance == 0 && req.body.mois == (dateDebutLoyer.getMonth() + 1) && req.body.annee == (dateDebutLoyer.getFullYear())) {
                     comptabilisationLoyer.push({
@@ -296,16 +311,5 @@ module.exports = {
             .catch((error) => {
                 res.status(402).send({ message: error.message })
             })
-
-
-        //archiver l'ordre des virement
-        
-        for (let i = 0; i < contrat.length; i++) {
-            
-        }
-
-
-
-
     }
 }

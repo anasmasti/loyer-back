@@ -22,25 +22,6 @@ module.exports = {
             }
         }
 
-<<<<<<< HEAD
-        let countContrat = await Contrat.countDocuments()
-=======
-        let dureeAvanceToInt = parseInt(data.duree_avance)
-        let dateFinAvanceData = data.date_fin_avance
-        let dateFinAvance = new Date(dateFinAvanceData)
-
-        console.log(dateFinAvance.getFullYear());
-        console.log(dateFinAvance.getDay());
-        console.log(dateFinAvance.getMonth());
-
-        for (let i = 1; i <= dureeAvanceToInt; i++) {
-            console.log(dateFinAvance.getFullYear() + "-" + ((dateFinAvance.getMonth() +1) - i)+ "-" + "01");
-        }
-
-
-        // let countContrat = await Contrat.countDocuments()
->>>>>>> c84fa5e85bf9001cdcb27292b9477e7f9bd4c665
-
         //store contrat
         const nouveauContrat = new Contrat({
             numero_contrat: data.numero_contrat,
