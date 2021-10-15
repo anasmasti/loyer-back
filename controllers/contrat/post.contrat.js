@@ -24,72 +24,50 @@ module.exports = {
       }
     }
 
-    let dureeAvanceToInt = parseInt(data.duree_avance);
-    let dateFinAvanceData = data.date_fin_avance;
-    let dateFinAvance = new Date(dateFinAvanceData);
-
-    // console.log(dateFinAvance.getFullYear());
-    // console.log(dateFinAvance.getDay());
-    // console.log(dateFinAvance.getMonth());
-
-    // for (let i = 1; i <= dureeAvanceToInt; i++) {
-    //   console.log(
-    //     dateFinAvance.getFullYear() +
-    //       "-" +
-    //       (dateFinAvance.getMonth() + 1 - i) +
-    //       "-" +
-    //       "01"
-    //   );
-    // }
-
-    // let countContrat = await Contrat.countDocuments()
-
-    //store contrat
-    const nouveauContrat = new Contrat({
-      numero_contrat: data.numero_contrat,
-      date_debut_loyer: data.date_debut_loyer,
-      date_fin_contrat: data.date_fin_contrat,
-      date_reprise_caution: data.date_reprise_caution,
-      date_premier_paiement: data.date_premier_paiement,
-      montant_loyer: data.montant_loyer,
-      taxe_edilite_loyer: data.taxe_edilite_loyer,
-      taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
-      periodicite_paiement: data.periodicite_paiement,
-      duree_location: data.duree_location,
-      declaration_option: data.declaration_option,
-      taux_impot: data.taux_impot,
-      duree: data.duree,
-      retenue_source_par_mois: data.retenue_source_par_mois,
-      total_montant_brut_loyer: data.total_montant_brut_loyer,
-      total_montant_net_loyer: data.total_montant_net_loyer,
-      retenue_source: data.retenue_source,
-      montant_apres_impot: data.montant_apres_impot,
-      montant_caution: data.montant_caution,
-      effort_caution: data.effort_caution,
-      statut_caution: data.statut_caution,
-      montant_avance: data.montant_avance,
-      date_fin_avance: data.date_fin_avance,
-      duree_avance: data.duree_avance,
-      n_engagement_depense: data.n_engagement_depense,
-      echeance_revision_loyer: data.echeance_revision_loyer,
-      date_comptabilisation: null,
-      type_lieu: data.type_lieu,
-      montant_avance_tax: data.montant_avance_tax,
-      lieu: data.lieu,
-      etat_contrat: {
-        libelle: "Actif",
-        etat: {},
-      },
-      piece_joint_contrat: piece_joint_contrat,
-    });
-    await nouveauContrat
-      .save()
-      .then(async (data) => {
-        await Lieu.findByIdAndUpdate({ _id: data.lieu }, { has_contrat: true });
-        res.json(data);
-      })
-      .catch((error) => {
-        res.status(400).send({ message: error.message });
-      });
-  },
-};
+        //store contrat
+        const nouveauContrat = new Contrat({
+            numero_contrat: data.numero_contrat,
+            date_debut_loyer: data.date_debut_loyer,
+            date_fin_contrat: data.date_fin_contrat,
+            date_reprise_caution: data.date_reprise_caution,
+            date_premier_paiement: data.date_premier_paiement,
+            montant_loyer: data.montant_loyer,
+            taxe_edilite_loyer: data.taxe_edilite_loyer,
+            taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
+            periodicite_paiement: data.periodicite_paiement,
+            duree_location: data.duree_location,
+            declaration_option: data.declaration_option,
+            taux_impot: data.taux_impot,
+            duree: data.duree,
+            retenue_source_par_mois: data.retenue_source_par_mois,
+            total_montant_brut_loyer: data.total_montant_brut_loyer,
+            total_montant_net_loyer: data.total_montant_net_loyer,
+            retenue_source: data.retenue_source,
+            montant_apres_impot: data.montant_apres_impot,
+            montant_caution: data.montant_caution,
+            effort_caution: data.effort_caution,
+            statut_caution: data.statut_caution,
+            montant_avance: data.montant_avance,
+            date_fin_avance: data.date_fin_avance,
+            duree_avance: data.duree_avance,
+            n_engagement_depense: data.n_engagement_depense,
+            echeance_revision_loyer: data.echeance_revision_loyer,
+            date_comptabilisation: null,
+            type_lieu: data.type_lieu,
+            lieu: data.lieu,
+            etat_contrat: {
+                libelle: 'Actif',
+                etat: {}
+            },
+            piece_joint_contrat: piece_joint_contrat
+        });
+        await nouveauContrat.save()
+            .then(async (data) => {
+                await Lieu.findByIdAndUpdate({ _id: data.lieu }, { has_contrat: true })
+                res.json(data)
+            })
+            .catch((error) => {
+                res.status(400).send({ message: error.message })
+            })
+    }
+}
