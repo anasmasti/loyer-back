@@ -213,7 +213,7 @@ module.exports = {
     // get lieu by contrat
     getContratByLieu: async (req, res) => {
         var _id = mongoose.Types.ObjectId(req.params.Id)
-        await Contrat.findOne({ lieu:  _id , deleted: false } , 'taux_impot -_id')
+        await Contrat.findOne({ lieu:  _id , deleted: false })
         .then(data => {
                 res.json([data])
             })

@@ -38,7 +38,7 @@ const ContratSchema = new Schema({
         type: String,
     },
     duree_location: {
-        type: String,
+        type: Number,
     },
     declaration_option: {
         type: String,

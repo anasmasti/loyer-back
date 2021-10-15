@@ -3,16 +3,16 @@ const Contrat = require("../../models/contrat/contrat.model");
 module.exports = {
   CirclChart: async (_, res) => {
     try {
-      let countContratActif = await Contrat.countDocuments({
+      let countContratActif = await Contrat.find({deleted: false}).countDocuments({
         "etat_contrat.libelle": "Actif",
       });
-      let countContratAvenant = await Contrat.countDocuments({
+      let countContratAvenant = await Contrat.find({deleted: false}).countDocuments({
         "etat_contrat.libelle": "Avenant",
       });
-      let countContratSuspendu = await Contrat.countDocuments({
+      let countContratSuspendu = await Contrat.find({deleted: false}).countDocuments({
         "etat_contrat.libelle": "Suspendu",
       });
-      let countContratResilie = await Contrat.countDocuments({
+      let countContratResilie = await Contrat.find({deleted: false}).countDocuments({
         "etat_contrat.libelle": "Résilié",
       });
 
