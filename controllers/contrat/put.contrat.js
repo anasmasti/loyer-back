@@ -117,7 +117,6 @@ module.exports = {
     //add attribute 'AV' in contrat if etat = Avenant
     if (data.etat_contrat.libelle == 'Avenant') {
       if (data.validation1_DMG == true && data.validation2_DAJC == true) {
-        console.log(data)
         let numContratData = data.numero_contrat
         let numeroContrat = numContratData.replace('AV', '')
         updateContrat = {
