@@ -135,6 +135,8 @@ module.exports = {
 
     // get detail Lieu 
     detailLieu: async (req, res) => {
+        // console.log('param ID Lieu', req.params.Id)
+        console.log(mongoose.Types.ObjectId('')) 
         await Lieu.aggregate([
             {
                 $match: {

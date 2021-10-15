@@ -1,5 +1,7 @@
 module.exports = {
   getHome: async (req, res) => {
-    res.send(true);
+    let today = new Date()
+    res.send(today)
+    // res.send(true);
   },
 };

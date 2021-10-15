@@ -1,32 +1,34 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Lieu = require("../../models/lieu/lieu.model");
+const mongoose = require('mongoose')
 
 module.exports = {
-  ajouterContrat: async (req, res) => {
-    // variables
-    let piece_joint_contrat = [],
-      item = 0;
+    ajouterContrat: async (req, res) => {
+        // variables
+        let piece_joint_contrat = [],
+            item = 0;
 
-    if (Object.keys(req.body).length === 0)
-      return res.status(402).send({ message: "Please fill the required :)" });
+        if (Object.keys(req.body).length === 0)
+            return res.status(402).send({ message: "Please fill the required :)" });
 
-    //parse incoming data to json
-    let data = await JSON.parse(req.body.data);
+        //parse incoming data to json
+        let data = await JSON.parse(req.body.data);
 
-    //stock file in array
-    if (req.files) {
-      if (req.files.piece_joint_contrat) {
-        for (item in req.files.piece_joint_contrat) {
-          piece_joint_contrat.push({
-            image: req.files.piece_joint_contrat[item].path,
-          });
+        //stock file in array
+        if (req.files) {
+            if (req.files.piece_joint_contrat) {
+                for (item in req.files.piece_joint_contrat) {
+                    piece_joint_contrat.push({
+                        image: req.files.piece_joint_contrat[item].path,
+                    });
+                }
+            }
         }
-      }
-    }
-
+        let requestedLieu = await Lieu.findById({_id: mongoose.Types.ObjectId(data.lieu)})
+        let numeroContrat = requestedLieu.code_lieu +'/'+ requestedLieu.intitule_lieu
         //store contrat
         const nouveauContrat = new Contrat({
-            numero_contrat: data.numero_contrat,
+            numero_contrat: numeroContrat,
             date_debut_loyer: data.date_debut_loyer,
             date_fin_contrat: data.date_fin_contrat,
             date_reprise_caution: data.date_reprise_caution,
