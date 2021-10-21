@@ -8,6 +8,8 @@ module.exports = {
 
         try {
 
+            console.log(req.body);
+
             if (Object.keys(req.body).length === 0) return res.status(500).send({ message: `Contenu ne pas être vide` })
 
             // L'obligation d'au moin un cin ou passport ou carte sejour
@@ -65,6 +67,12 @@ module.exports = {
                 banque: req.body.banque,
                 montant_loyer:req.body.montant_loyer,
                 nom_agence_bancaire: req.body.nom_agence_bancaire,
+                taux_impot: req.body.taux_impot,
+                retenue_source: req.body.retenue_source,
+                montant_apres_impot: req.body.montant_apres_impot,
+                ville_rib: req.body.ville_rib,
+                cle_rib: req.body.cle_rib,
+                banque_rib: req.body.banque_rib,
                 mandataire: req.body.mandataire,
                
             })
