@@ -30,6 +30,7 @@ module.exports = {
       prenom: req.body.prenom,
       code_dr: req.body.code_dr,
       userRoles: allUserRoles,
+      password: ""
     });
     await userR
       .save()

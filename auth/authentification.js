@@ -8,8 +8,13 @@ module.exports = {
     // let userMatricule = "badr.azzaby";
 
     let existedUser = await User.findOne({ userMatricul: req.body.matricule, deleted: false })
+    
 
-    if (existedUser.password === "") {
+    if (existedUser == null) {
+      return res.status(401).send({ message: "L'utilisateur n'existe pas" });
+    }
+
+    if (existedUser.password.trim() === "") {
       await User.findOneAndUpdate({ userMatricul: req.body.matricule, deleted: false }, { password: req.body.password })
     }
 
@@ -21,7 +26,7 @@ module.exports = {
         existedUser
       })
     } else {
-      res.status(402).send({ message: 'Vos informations est invalide' })
+      res.status(400).send({ message: 'Matricule ou mot de passe incorrect. Veuillez réessayer.' })
     }
 
     // ad.findUser(userMatricule, function (error, user) {
