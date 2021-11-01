@@ -7,9 +7,9 @@ const chartCirclData = require("../controllers/charts/circlChart");
 
 const router = express.Router();
 
-router.route("/bar-h").get(chartBarH.barChartHorizontal);
-router.route("/bar-v").get(chartBarV.barChartVertical);
-router.route("/advanced-circl").get(adChartCircle.advancedCircleChart);
-router.route("/circl").get(chartCirclData.CirclChart);
+router.route("chart/bar-h").get(chartBarH.barChartHorizontal);
+router.route("chart/bar-v").get(chartBarV.barChartVertical);
+router.route("chart/advanced-circl").get(adChartCircle.advancedCircleChart);
+router.route("chart/circl").get(chartCirclData.CirclChart);
 
 module.exports = router;
