@@ -15,5 +15,5 @@ router
 router
   .route("/fichier-comptable-caution")
   .get(getFichierComptableCaution.setComptabilisationCautions);
-  
+
 module.exports = router;

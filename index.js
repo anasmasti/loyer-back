@@ -3,9 +3,20 @@ const http = require("http");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
+// Routes
+const proprietaireRoute = require("./routes/proprietaire.routes");
+const userRoute = require("./routes/user.routes");
+const lieuxRoute = require("./routes/lieux.routes");
+const homeRoute = require("./routes/home.routes");
+const chartsRoute = require("./routes/charts.routes");
+const sharedRoute = require("./routes/shared.routes");
+const contratRoute = require("./routes/contrat.routes");
+const downloadFilesRoute = require("./routes/download_files.routes");
+const authRoute = require("./routes/auth.routes");
+
 const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
-const mainRoutes = require("./routes/routes.js");
 const checkApiKey = require("./middleware/api-key.verify");
 const ip = require("ip");
 
@@ -23,7 +34,7 @@ const PORT = process.env.PORT;
 app.use("/uploads", express.static("./uploads"));
 
 //securing Api with Helmet
-app.use(helmet.frameguard({ action: "deny"}));
+app.use(helmet.frameguard({ action: "deny" }));
 app.use(helmet.hidePoweredBy());
 app.use(helmet.noSniff());
 app.use(helmet.xssFilter());
@@ -56,7 +67,21 @@ app.use(
 app.use(bodyParser.json({ limit: "50mb" }));
 
 //routes configuration
-app.use("/api/v1", mainRoutes);
+((...routes) => {
+  routes.forEach(route => {
+    return app.use("/api/v1/", [route]);
+  })
+})(
+  homeRoute,
+  proprietaireRoute,
+  lieuxRoute,
+  contratRoute,
+  userRoute,
+  chartsRoute,
+  downloadFilesRoute,
+  sharedRoute,
+  authRoute
+)
 
 //database connection
 db_config;
