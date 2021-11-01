@@ -8,31 +8,31 @@ const verifyRole = require("../middleware/verify-user-role");
 const router = express.Router();
 
 router
-  .route("/tous/:matricule")
+  .route("/proprietaire/tous/:matricule")
   .get(
     verifyRole.checkRoles("CDGSP", "CSLA"),
     getProprietaire.getAllProprietaire
   );
 router
-  .route("/:Id/:matricule")
+  .route("/proprietaire/:Id/:matricule")
   .get(
     verifyRole.checkRoles("CDGSP", "CSLA"),
     getProprietaire.getProprietairePerID
   );
 router
-  .route("/count/all")
+  .route("/proprietaire/count/all")
   .get(getProprietaire.getCountProprietaire);
 router
-  .route("/ajouter/:Id_lieu/:matricule")
+  .route("/proprietaire/ajouter/:Id_lieu/:matricule")
   .post(
     verifyRole.checkRoles("CDGSP", "CSLA"),
     postProprietaire.postProprietaire
   );
 router
-  .route("/modifier/:Id/:matricule")
+  .route("/proprietaire/modifier/:Id/:matricule")
   .put(verifyRole.checkRoles("CDGSP", "CSLA"), putProprietaire.putProprietaire);
 router
-  .route("/supprimer/:Id/:matricule")
+  .route("/proprietaire/supprimer/:Id/:matricule")
   .put(
     verifyRole.checkRoles("CDGSP", "CSLA"),
     deleteProprietaire.deleteProprietaire

@@ -8,7 +8,7 @@ const deleteLieu = require("../controllers/lieu/delete.lieu");
 const upload = require("../middleware/upload");
 const router = express.Router();
 
-router.route("/ajouter/:matricule").post(
+router.route("/lieu/ajouter/:matricule").post(
   verifyRole.checkRoles("CDGSP", "CSLA"),
   upload.fields([
     { name: "imgs_lieu_entrer", maxCount: 5 },
@@ -18,7 +18,7 @@ router.route("/ajouter/:matricule").post(
   postLieu.ajouterLieu
 );
 
-router.route("/modifier/:Id/:matricule").patch(
+router.route("/lieu/modifier/:Id/:matricule").patch(
   verifyRole.checkRoles("CDGSP", "CSLA"),
   upload.fields([
     { name: "imgs_lieu_entrer", maxCount: 5 },
@@ -29,28 +29,28 @@ router.route("/modifier/:Id/:matricule").patch(
 );
 
 router
-  .route("/all-lieu/:matricule")
+  .route("/lieu/all-lieu/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getAllLieu);
 router
-  .route("/lieu-by-id/:Id:matricule")
+  .route("/lieu/lieu-by-id/:Id:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuById);
 router
-  .route("/Dr/Sup/:matricule")
+  .route("/lieu/Dr/Sup/:matricule")
   .get(
     verifyRole.checkRoles("CDGSP", "CSLA"),
     getLieu.getAllDirectionsAndSupervions
   );
 router
-  .route("/count/all/:matricule")
+  .route("/lieu/count/all/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getCountLieu);
 router
-  .route("/detail/:Id/:matricule")
+  .route("/lieu/detail/:Id/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.detailLieu);
 router
-  .route("/delete/:Id/:matricule")
+  .route("/lieu/delete/:Id/:matricule")
   .patch(verifyRole.checkRoles("CDGSP", "CSLA"), deleteLieu.deletedLieu);
 router
-  .route("/contratByLieu/:Id/:matricule")
+  .route("/lieu/contratByLieu/:Id/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getContratByLieu);
 
 module.exports = router;
