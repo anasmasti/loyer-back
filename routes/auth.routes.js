@@ -4,6 +4,6 @@ const getUser = require("../auth/authentification");
 
 const router = express.Router();
 
-router.route("/auth").post(getUser.findUser);
+router.route("/").post(getUser.findUser);
 
 module.exports = router;
