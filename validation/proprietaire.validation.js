@@ -166,6 +166,24 @@ const ProprietaireValidation = Joi.object({
             'string.max': `Nom d'agence bancaire peut contient seulement 250 charactères au maximum`,
             'any.empty': `Le champs nom de l'agence bancaire de Propriétaire ne peut pas être vide`
         }),
+    montant_avance_proprietaire: Joi
+    .number()
+    .empty()
+    .messages({
+        'number.base': 'Montant avance proprietaire contient juste des chiffres',
+}),
+    tax_avance_proprietaire: Joi
+    .number()
+    .empty()
+    .messages({
+        'number.base': 'Tax avance proprietaire contient juste des chiffres',
+}),
+    tax_par_periodicite: Joi
+    .number()
+    .empty()
+    .messages({
+        'number.base': 'Tax par periodicite contient juste des chiffres',
+}),
     mandataire: Joi
         .boolean(),
     deleted: Joi

@@ -68,6 +68,15 @@ const ProprietaireSchema = new Schema({
     nom_agence_bancaire: {
         type: String,
     },
+    montant_avance_proprietaire: {
+        type: Number,
+    },
+    tax_avance_proprietaire: {
+        type: Number,
+    },
+    tax_par_periodicite: {
+        type: Number,
+    },
     deleted: {
         type: Boolean,
         default: false
