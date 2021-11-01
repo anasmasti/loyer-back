@@ -7,6 +7,8 @@ module.exports = {
     // Ajouter un propriétaire 
     postProprietaire: async (req, res) => {
 
+        console.log(req.body);
+
         try {
 
             // L'obligation d'au moin un cin ou passport ou carte sejour
@@ -54,6 +56,9 @@ module.exports = {
                     montant_apres_impot: req.body.montant_apres_impot,
                     montant_loyer:req.body.montant_loyer,
                     nom_agence_bancaire: req.body.nom_agence_bancaire,
+                    montant_avance_proprietaire: req.body.montant_avance_proprietaire,
+                    tax_avance_proprietaire: req.body.tax_avance_proprietaire,
+                    tax_par_periodicite: req.body.tax_par_periodicite,
                     mandataire: req.body.mandataire,
                 })
 

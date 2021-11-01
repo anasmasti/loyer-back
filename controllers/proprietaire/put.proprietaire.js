@@ -73,6 +73,9 @@ module.exports = {
                 ville_rib: req.body.ville_rib,
                 cle_rib: req.body.cle_rib,
                 banque_rib: req.body.banque_rib,
+                montant_avance_proprietaire: req.body.montant_avance_proprietaire,
+                tax_avance_proprietaire: req.body.tax_avance_proprietaire,
+                tax_par_periodicite: req.body.tax_par_periodicite,
                 mandataire: req.body.mandataire,
                
             })

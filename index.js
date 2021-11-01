@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
-const routes = require("./routes/routes.js");
+const mainRoutes = require("./routes/routes.js");
 const checkApiKey = require("./middleware/api-key.verify");
 const ip = require("ip");
 
@@ -56,7 +56,7 @@ app.use(
 app.use(bodyParser.json({ limit: "50mb" }));
 
 //routes configuration
-app.use("/api/v1", routes);
+app.use("/api/v1", mainRoutes);
 
 //database connection
 db_config;
