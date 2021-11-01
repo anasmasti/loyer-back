@@ -1,3 +1,5 @@
+const express = require('express')
+
 const chartBarH = require("../controllers/charts/barChartH");
 const chartBarV = require("../controllers/charts/barChartV");
 const adChartCircle = require("../controllers/charts/advancedCircleChart");

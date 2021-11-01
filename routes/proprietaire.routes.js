@@ -1,8 +1,10 @@
+const express = require('express')
+
 const getProprietaire = require("../controllers/proprietaire/get.proprietaire");
 const postProprietaire = require("../controllers/proprietaire/post.proprietaire");
 const putProprietaire = require("../controllers/proprietaire/put.proprietaire");
 const deleteProprietaire = require("../controllers/proprietaire/delete.proprietaire");
-
+const verifyRole = require("../middleware/verify-user-role");
 const router = express.Router();
 
 router

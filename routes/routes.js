@@ -8,33 +8,34 @@ const contratRoute = require("./contrat.routes");
 const downloadFilesRoute = require("./download_files.routes");
 const authRoute = require("./auth.routes");
 
-//Home
-homeRoute
+const mainRoutes = {//Home
+homeRoute,
 
 //Proprietaire
-proprietaireRoute
+proprietaireRoute,
 
 //user Roles
-userRoute
+userRoute,
 
 //Lieu
-lieuxRoute
+lieuxRoute,
 
 //contrat
-contratRoute
+contratRoute,
 
 //Shared
-sharedRoute
+sharedRoute,
 
 //files download
-downloadFilesRoute
+downloadFilesRoute,
 
 //Auth
-authRoute
+authRoute,
 
 
 //charts data
 chartsRoute
+}
 
 // //role verification
 
@@ -76,4 +77,4 @@ chartsRoute
 // //test
 // router.route("/test").post(test.clotureDuMois);
 
-module.exports = router;
+module.exports = mainRoutes;

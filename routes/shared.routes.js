@@ -1,3 +1,5 @@
+const express = require('express')
+
 const getProprietaireAndLieu = require("../controllers/shared/get.proprietaire.lieu");
 const countAll = require("../controllers/shared/get.countAll");
 const putContrat = require("../controllers/contrat/put.contrat");

@@ -1,8 +1,10 @@
+const express = require('express')
+const verifyRole = require("../middleware/verify-user-role");
 const postcontrat = require("../controllers/contrat/post.contrat");
 const getcontrat = require("../controllers/contrat/get.contrat");
 const putcontrat = require("../controllers/contrat/put.contrat");
 const deletecontrat = require("../controllers/contrat/delete.contrat");
-
+const upload = require("../middleware/upload");
 const router = express.Router();
 
 router.route("/contrat/ajouter/:matricule").post(
@@ -17,7 +19,7 @@ router.route("/contrat/ajouter/:matricule").post(
   );
   router.route("/contrat/tous").get(getcontrat.getContrats);
   router.route("/contrat/details/:Id").get(getcontrat.getSelctedContrat);
-  router.route("/contrat/caution-en-cours").get(getContrat.contratCautionEnCours);
+  router.route("/contrat/caution-en-cours").get(getcontrat.contratCautionEnCours);
   router.route("/contrat/modifier/:Id").patch(
     upload.fields([
       { name: "piece_joint_contrat", maxCount: 1 },
@@ -39,9 +41,9 @@ router.route("/contrat/ajouter/:matricule").post(
   );
   router
     .route("/contrat/validation1/:Id/:matricule")
-    .put(verifyRole.checkRoles("CDGSP"), putContrat.modifierValidationDMG);
+    .put(verifyRole.checkRoles("CDGSP"), putcontrat.modifierValidationDMG);
   router
     .route("/contrat/validation2/:Id/:matricule")
-    .put(verifyRole.checkRoles("DAJC"), putContrat.modifierValidationDAJC);
+    .put(verifyRole.checkRoles("DAJC"), putcontrat.modifierValidationDAJC);
     
 module.exports = router;
