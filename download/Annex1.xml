@@ -26,5 +26,39 @@
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
+     <DetailRetenueRevFoncier>
+      <ifuBailleur>1</ifuBailleur>
+      <numCNIBailleur/>
+      <numCEBailleur/>
+      <nomPrenomBailleur>hjjghjggggzgjghjg</nomPrenomBailleur>
+      <adresseBailleur>4d4d4f4fddddddddd</adresseBailleur>
+      <adresseBien>sth</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>8500</mntBrutLoyer>
+      <mntRetenueSource/>
+      <mntNetLoyer>7650</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+     <DetailRetenueRevFoncier>
+      <ifuBailleur>1</ifuBailleur>
+      <numCNIBailleur/>
+      <numCEBailleur/>
+      <nomPrenomBailleur>hjjghjggggzgjghjg</nomPrenomBailleur>
+      <adresseBailleur>4d4d4f4fddddddddd</adresseBailleur>
+      <adresseBien>sth</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>8500</mntBrutLoyer>
+      <mntRetenueSource/>
+      <mntNetLoyer>7650</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
 </VersementRASRF>

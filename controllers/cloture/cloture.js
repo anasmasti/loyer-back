@@ -31,7 +31,7 @@ module.exports = {
                             ordreVirement.push({
                                 cin: contrat[i].lieu.proprietaire[j].cin,
                                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
-                                
+
                             })
                         }
                     }
@@ -90,7 +90,9 @@ module.exports = {
                             res.status(402).send({ message: error.message })
                         })
                 }
-                if (req.body.mois == (premierDateDePaiement.getMonth() + 1) && req.body.annee == (premierDateDePaiement.getFullYear())) {
+                if (req.body.mois == (premierDateDePaiement.getMonth() + 1) &&
+                    req.body.annee == (premierDateDePaiement.getFullYear())) {
+                        
                     let dateComptabilisation = premierDateDePaiement
                     comptabilisationLoyer.push({
                         nom_de_piece: 'test',
