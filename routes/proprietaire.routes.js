@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require("express");
 
 const getProprietaire = require("../controllers/proprietaire/get.proprietaire");
 const postProprietaire = require("../controllers/proprietaire/post.proprietaire");
@@ -21,7 +21,14 @@ router
   );
 router
   .route("/proprietaire/count/all")
-  .get(getProprietaire.getCountProprietaire);
+  .get(getProprietaire.getCountProprietaire
+);
+router
+.route("/proprietaire/lieu/lieu-by-proprietaire/:Id/:matricule")
+.get(
+  verifyRole.checkRoles("CDGSP", "CSLA"),
+  getProprietaire.getIdLieuByProprietaire
+);
 router
   .route("/proprietaire/ajouter/:Id_lieu/:matricule")
   .post(
