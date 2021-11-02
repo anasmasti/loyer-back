@@ -24,7 +24,7 @@ router
   .get(getProprietaire.getCountProprietaire
 );
 router
-.route("/proprietaire/lieu/lieubyproprietaire/:Id/:matricule")
+.route("/proprietaire/lieu/lieu-by-proprietaire/:Id/:matricule")
 .get(
   verifyRole.checkRoles("CDGSP", "CSLA"),
   getProprietaire.getIdLieuByProprietaire
