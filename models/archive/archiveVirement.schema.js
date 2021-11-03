@@ -3,11 +3,14 @@ const Schema = mongoose.Schema;
 
 const archiveVirementSchema = new Schema({
     ordre_virement: [],
+    date_generation_de_virement: {
+        type: Date
+    },
      mois:{
-        type:String
+        type:Number
     },
     annee:{
-        type:String
+        type:Number
     }
 },{timestamps: true})
 
