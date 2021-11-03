@@ -186,6 +186,19 @@ const ProprietaireValidation = Joi.object({
 }),
     mandataire: Joi
         .boolean(),
+
+    pourcentage_caution: Joi
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Pourcentage caution contient juste des chiffres',
+}),
+    caution_par_proprietaire: Joi
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Caution par proprietaire contient juste des chiffres',
+}),
     deleted: Joi
         .boolean()
         .default(false),
