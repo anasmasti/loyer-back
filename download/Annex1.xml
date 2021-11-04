@@ -1,61 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2021-09-01</exerciceFiscalDu>
+  <exerciceFiscalDu>2021-1-1</exerciceFiscalDu>
   <exerciceFiscalAu>2021-12-31</exerciceFiscalAu>
   <annee>2021</annee>
-  <mois>4</mois>
-  <totalMntBrutLoyer>34000</totalMntBrutLoyer>
-  <totalMntRetenueSource>3400</totalMntRetenueSource>
-  <totalMntNetLoyer>30600</totalMntNetLoyer>
+  <mois>11</mois>
+  <totalMntBrutLoyer>28000</totalMntBrutLoyer>
+  <totalMntRetenueSource>99999</totalMntRetenueSource>
+  <totalMntNetLoyer>4416.666666666667</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur/>
-      <numCEBailleur/>
-      <nomPrenomBailleur>hjjghjggggzgjghjg</nomPrenomBailleur>
-      <adresseBailleur>4d4d4f4fddddddddd</adresseBailleur>
-      <adresseBien>sth</adresseBien>
+      <numCNIBailleur>bh15555</numCNIBailleur>
+      <numCEBailleur>111</numCEBailleur>
+      <nomPrenomBailleur>ted lasso</nomPrenomBailleur>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>8500</mntBrutLoyer>
-      <mntRetenueSource/>
-      <mntNetLoyer>7650</mntNetLoyer>
+      <mntBrutLoyer>5000</mntBrutLoyer>
+      <mntRetenueSource>00000</mntRetenueSource>
+      <mntNetLoyer>00000</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
-     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur/>
-      <numCEBailleur/>
-      <nomPrenomBailleur>hjjghjggggzgjghjg</nomPrenomBailleur>
-      <adresseBailleur>4d4d4f4fddddddddd</adresseBailleur>
-      <adresseBien>sth</adresseBien>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>2</ifuBailleur>
+      <numCNIBailleur>aqw156</numCNIBailleur>
+      <numCEBailleur>111</numCEBailleur>
+      <nomPrenomBailleur>bob marley</nomPrenomBailleur>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>8500</mntBrutLoyer>
-      <mntRetenueSource/>
-      <mntNetLoyer>7650</mntNetLoyer>
+      <mntBrutLoyer>10000</mntBrutLoyer>
+      <mntRetenueSource>00000</mntRetenueSource>
+      <mntNetLoyer>00000</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
-     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur/>
-      <numCEBailleur/>
-      <nomPrenomBailleur>hjjghjggggzgjghjg</nomPrenomBailleur>
-      <adresseBailleur>4d4d4f4fddddddddd</adresseBailleur>
-      <adresseBien>sth</adresseBien>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>3</ifuBailleur>
+      <numCNIBailleur>qs586</numCNIBailleur>
+      <numCEBailleur>111</numCEBailleur>
+      <nomPrenomBailleur>tom cruz</nomPrenomBailleur>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>8500</mntBrutLoyer>
-      <mntRetenueSource/>
-      <mntNetLoyer>7650</mntNetLoyer>
+      <mntBrutLoyer>10000</mntBrutLoyer>
+      <mntRetenueSource>00000</mntRetenueSource>
+      <mntNetLoyer>00000</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>4</ifuBailleur>
+      <numCNIBailleur>mp45</numCNIBailleur>
+      <numCEBailleur>111</numCEBailleur>
+      <nomPrenomBailleur>lina sara</nomPrenomBailleur>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000</mntBrutLoyer>
+      <mntRetenueSource>00000</mntRetenueSource>
+      <mntNetLoyer>00000</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
