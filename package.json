@@ -1,11 +1,12 @@
 {
   "name": "proprietaire-back-end",
-  "version": "1.0.0",
+  "version": "0.2.1",
   "description": "propreitaire example",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",

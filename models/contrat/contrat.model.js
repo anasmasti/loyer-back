@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EtatContratSchema = require('./etatContrat.schema');
 const fileSchema = require('../shared/file.schema');
+const { boolean } = require('joi');
 
 
 
@@ -121,6 +122,10 @@ const ContratSchema = new Schema({
     },
     total_montant_net_loyer:{
         type: Number
+    },
+    caution_versee: {
+        type: Boolean,
+        default: false
     },
     montant_avance_tax: {
         type: Number
