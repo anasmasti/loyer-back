@@ -4,15 +4,13 @@ const ordreVirementArchive = require('../../models/archive/archiveVirement.schem
 
 module.exports = {
     clotureDuMois: async (req, res, next) => {
-        let comptabilisationLoyer = [];
-        let ordreVirement = [];
+        let comptabilisationLoyer = [], ordreVirement = []
 
         //get current contrat of this month
         let contrat = await Contrat
-            .find({ deleted: false, 'etat_contrat.libelle': { $not: { $eq: 'Résilié' } } })
+            .find({ deleted: false, 'etat_contrat.etat.reprise_caution': { $not: { $eq: 'consommée' } } })
             .populate('lieu')
             .populate({ path: 'lieu', populate: { path: 'proprietaire' } })
-
 
         //traitement pour date generation de comptabilisation
         let dateGenerationDeComptabilisation = null;
@@ -29,7 +27,7 @@ module.exports = {
             let premierDateDePaiement = new Date(contrat[i].date_premier_paiement)
             let dateDeComptabilisation = new Date(contrat[i].date_comptabilisation)
             let dateFinDeContrat = contrat[i].date_fin_contrat
-
+            let montant_avance_net = 0, montant_avance_brut = 0, montant_loyer_net = 0, montant_loyer_brut = 0;
 
             //traitement du periodicite Mensuelle
             if (contrat[i].periodicite_paiement == 'mensuelle') {
@@ -37,7 +35,15 @@ module.exports = {
                 if (contrat[i].montant_avance > 0 && req.body.mois == (dateDebutLoyer.getMonth() + 1) && req.body.annee == dateDebutLoyer.getFullYear()) {
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-                            let montant_avance_net = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire - contrat[i].lieu.proprietaire[j].tax_avance_proprietaire
+
+                            if (contrat[i].caution_versee == false) {
+                                montant_avance_net = (contrat[i].lieu.proprietaire[j].montant_avance_proprietaire - contrat[i].lieu.proprietaire[j].tax_avance_proprietaire) + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_avance_brut = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_avance_net = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire - contrat[i].lieu.proprietaire[j].tax_avance_proprietaires
+                                montant_avance_brut = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire
+                            }
+
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -66,10 +72,10 @@ module.exports = {
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
                                 montant_net: montant_avance_net,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_avance_proprietaire,
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_avance_proprietaire,
+                                montant_brut: montant_avance_brut,
                                 date_comptabilisation: dateDebutLoyer
                             })
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: null })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: null, caution_versee: true })
                         }
                     }
 
@@ -78,7 +84,13 @@ module.exports = {
 
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-
+                            if (contrat[i].caution_versee == false) {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -89,7 +101,7 @@ module.exports = {
                                 cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
                                 mois: req.body.mois,
                                 annee: req.body.annee,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_net: montant_loyer_net
                             })
 
                             comptabilisationLoyer.push({
@@ -105,14 +117,14 @@ module.exports = {
                                 centre_de_cout: 'NS',
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_loyer,
+                                montant_brut: montant_loyer_brut,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_par_periodicite,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot,
+                                montant_net: montant_loyer_net,
                                 date_comptabilisation: dateDebutLoyer
                             })
 
                             let nextDateComptabilisation = dateDebutLoyer.setMonth(dateDebutLoyer.getMonth() + 1)
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation, caution_versee: true })
                                 .then(() => {
                                     console.log('Date Comptabilisation Changed !')
                                 })
@@ -127,7 +139,13 @@ module.exports = {
 
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-
+                            if (contrat[i].caution_versee == false) {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -138,7 +156,7 @@ module.exports = {
                                 cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
                                 mois: req.body.mois,
                                 annee: req.body.annee,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_net: montant_loyer_net
                             })
 
                             let dateComptabilisation = premierDateDePaiement
@@ -155,15 +173,15 @@ module.exports = {
                                 centre_de_cout: 'NS',
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_loyer,
+                                montant_brut: montant_loyer_brut,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_par_periodicite,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot,
+                                montant_net: montant_loyer_net,
                                 date_comptabilisation: dateComptabilisation
                             })
 
 
                             let nextDateComptabilisation = premierDateDePaiement.setMonth(premierDateDePaiement.getMonth() + 1);
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation, caution_versee: true })
                                 .then(() => {
                                     console.log('Date Comptabilisation Changed !')
                                 })
@@ -180,7 +198,13 @@ module.exports = {
                 ) {
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-
+                            if (contrat[i].caution_versee == false) {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -191,7 +215,7 @@ module.exports = {
                                 cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
                                 mois: req.body.mois,
                                 annee: req.body.annee,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_net: montant_loyer_net
                             })
                             comptabilisationLoyer.push({
                                 nom_de_piece: dateGenerationDeComptabilisation,
@@ -206,15 +230,15 @@ module.exports = {
                                 centre_de_cout: 'NS',
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_loyer,
+                                montant_brut: montant_loyer_brut,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_par_periodicite,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot,
+                                montant_net: montant_loyer_net,
                                 date_comptabilisation: dateDeComptabilisation
                             })
 
                             let nextDateComptabilisation = dateDeComptabilisation.setMonth(dateDeComptabilisation.getMonth() + 1)
 
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation, caution_versee: true })
                                 .then(() => {
                                     console.log('Date Comptabilisation Changed !')
                                 })
@@ -233,7 +257,13 @@ module.exports = {
 
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-                            let montant_avance_net = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire - contrat[i].lieu.proprietaire[j].tax_avance_proprietaire
+                            if (contrat[i].caution_versee == false) {
+                                montant_avance_net = (contrat[i].lieu.proprietaire[j].montant_avance_proprietaire - contrat[i].lieu.proprietaire[j].tax_avance_proprietaire) + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_avance_brut = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_avance_net = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire - contrat[i].lieu.proprietaire[j].tax_avance_proprietaires
+                                montant_avance_brut = contrat[i].lieu.proprietaire[j].montant_avance_proprietaire
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -261,11 +291,11 @@ module.exports = {
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_avance_proprietaire,
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_avance_proprietaire,
+                                montant_brut: montant_avance_brut,
                                 montant_net: montant_avance_net,
                                 date_comptabilisation: dateDebutLoyer
                             })
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: null })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: null, caution_versee: true })
                         }
                     }
                 }
@@ -273,7 +303,13 @@ module.exports = {
 
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-
+                            if (contrat[i].caution_versee == false) {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -284,7 +320,7 @@ module.exports = {
                                 cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
                                 mois: req.body.mois,
                                 annee: req.body.annee,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_loyer
+                                montant_net: montant_loyer_net
                             })
 
                             comptabilisationLoyer.push({
@@ -300,13 +336,13 @@ module.exports = {
                                 centre_de_cout: 'NS',
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_loyer,
+                                montant_brut: montant_loyer_brut,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_par_periodicite,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot,
+                                montant_net: montant_loyer_net,
                                 date_comptabilisation: dateDebutLoyer
                             })
                             let nextDateComptabilisation = dateDebutLoyer.setMonth(dateDebutLoyer.getMonth() + 3)
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation, caution_versee: true })
                                 .then(() => {
                                     console.log('Date Comptabilisation Changed !')
                                 })
@@ -320,7 +356,13 @@ module.exports = {
 
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-
+                            if (contrat[i].caution_versee == false) {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -331,7 +373,7 @@ module.exports = {
                                 cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
                                 mois: req.body.mois,
                                 annee: req.body.annee,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_loyer
+                                montant_net: montant_loyer_net
                             })
 
                             comptabilisationLoyer.push({
@@ -347,13 +389,13 @@ module.exports = {
                                 centre_de_cout: 'NS',
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_loyer,
+                                montant_brut: montant_loyer_brut,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_par_periodicite,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot,
+                                montant_net: montant_loyer_net,
                                 date_comptabilisation: premierDateDePaiement
                             })
                             let nextDateComptabilisation = premierDateDePaiement.setMonth(premierDateDePaiement.getMonth() + 3)
-                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation })
+                            await Contrat.findByIdAndUpdate({ _id: contrat[i]._id }, { date_comptabilisation: nextDateComptabilisation, caution_versee: true })
                                 .then(() => {
                                     console.log('Date Comptabilisation Changed !')
                                 })
@@ -371,7 +413,13 @@ module.exports = {
 
                     for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
                         if (contrat[i].lieu.proprietaire[j].mandataire == true) {
-
+                            if (contrat[i].caution_versee == false) {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer + contrat[i].lieu.proprietaire[j].caution_par_proprietaire
+                            } else {
+                                montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot
+                                montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer
+                            }
                             ordreVirement.push({
                                 type_enregistrement: "0602",
                                 cin: contrat[i].lieu.proprietaire[j].cin,
@@ -382,7 +430,7 @@ module.exports = {
                                 cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
                                 mois: req.body.mois,
                                 annee: req.body.annee,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_loyer
+                                montant_net: montant_loyer_net
                             })
 
                             comptabilisationLoyer.push({
@@ -398,9 +446,9 @@ module.exports = {
                                 centre_de_cout: 'NS',
                                 direction_regional: contrat[i].lieu.type_lieu == "Direction régionale" ? contrat[i].lieu.code_lieu : contrat[i].lieu.code_rattache_DR,
                                 point_de_vente: contrat[i].lieu.type_lieu == "Point de vente" ? contrat[i].lieu.code_lieu : "",
-                                montant_brut: contrat[i].lieu.proprietaire[j].montant_loyer,
+                                montant_brut: montant_loyer_brut,
                                 montant_tax: contrat[i].lieu.proprietaire[j].tax_par_periodicite,
-                                montant_net: contrat[i].lieu.proprietaire[j].montant_apres_impot,
+                                montant_net: montant_loyer_net,
                                 date_comptabilisation: premierDateDePaiement
                             })
 
@@ -422,7 +470,7 @@ module.exports = {
 
             }
         }
-        
+
         //post ordre de virement dans ordre de virement archive
         const ordeVirementLoyer = new ordreVirementArchive({
             ordre_virement: ordreVirement,
