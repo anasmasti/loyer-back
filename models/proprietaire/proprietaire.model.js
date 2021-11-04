@@ -1,94 +1,100 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const uniqueValidator = require('mongoose-unique-validator')
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const uniqueValidator = require("mongoose-unique-validator");
 
 //Protrietaire Schema
-const ProprietaireSchema = new Schema({
-
+const ProprietaireSchema = new Schema(
+  {
     cin: {
-        type: String
+      type: String,
     },
     passport: {
-        type: String,
+      type: String,
     },
     carte_sejour: {
-        type: String,
+      type: String,
     },
     nom_prenom: {
-        type: String,
+      type: String,
     },
     raison_social: {
-        type: String,
+      type: String,
     },
     n_registre_commerce: {
-        type: String,
+      type: String,
     },
     telephone: {
-        type: Number,
+      type: Number,
     },
     fax: {
-        type: Number,
+      type: Number,
     },
     adresse: {
-        type: String,
+      type: String,
     },
     n_compte_bancaire: {
-        type: Number,
-        unique: true,
-        required: true
+      type: Number,
+      unique: true,
+      required: true,
     },
     banque_rib: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     ville_rib: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     cle_rib: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     taux_impot: {
-        type: Number,
+      type: Number,
     },
     retenue_source: {
-        type: Number,
+      type: Number,
     },
     montant_apres_impot: {
-        type: Number,
+      type: Number,
     },
     banque: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     montant_loyer: {
-        type: Number,
+      type: Number,
     },
     nom_agence_bancaire: {
-        type: String,
+      type: String,
     },
     montant_avance_proprietaire: {
-        type: Number,
+      type: Number,
     },
     tax_avance_proprietaire: {
-        type: Number,
+      type: Number,
     },
     tax_par_periodicite: {
-        type: Number,
+      type: Number,
+    },
+    pourcentage_caution: {
+      type: Number,
+    },
+    caution_par_proprietaire: {
+      type: Number,
     },
     deleted: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     mandataire: {
-        type: Boolean,
-        default: false
-    }
-},
-    { timestamps: true, },
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
 );
 
 ProprietaireSchema.plugin(uniqueValidator);
-const Proprietaire = mongoose.model('Proprietaire', ProprietaireSchema);
+const Proprietaire = mongoose.model("Proprietaire", ProprietaireSchema);
 module.exports = Proprietaire;
