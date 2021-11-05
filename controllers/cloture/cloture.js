@@ -10,10 +10,13 @@ module.exports = {
     //get current contrat of this month
     let contrat = await Contrat.find({
       deleted: false,
-      "etat_contrat.etat.reprise_caution": { $not: { $eq: "consommée" } },
+      // "etat_contrat.etat.reprise_caution": { $not: { $eq: "consommée" } },
+      "etat_contrat.libelle": { $eq: "Actif" },
     })
       .populate("lieu")
       .populate({ path: "lieu", populate: { path: "proprietaire" } });
+
+    return res.json(contrat);
 
     //traitement pour date generation de comptabilisation
     let dateGenerationDeComptabilisation = null;
@@ -70,6 +73,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -85,7 +90,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -138,6 +148,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -153,7 +165,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].catre_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -218,6 +235,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -234,7 +253,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -301,6 +325,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire.carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -315,7 +341,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -388,6 +419,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -403,7 +436,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -456,6 +494,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -471,7 +511,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -535,6 +580,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -550,7 +597,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
@@ -616,6 +668,8 @@ module.exports = {
               ordreVirement.push({
                 type_enregistrement: "0602",
                 cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
                 numero_compte_bancaire:
                   contrat[i].lieu.proprietaire[j].n_compte_bancaire,
@@ -631,7 +685,12 @@ module.exports = {
                 nom_de_piece: dateGenerationDeComptabilisation,
                 date_gl: dateGenerationDeComptabilisation,
                 date_operation: dateGenerationDeComptabilisation,
+                cin: contrat[i].lieu.proprietaire[j].cin,
+                passport: contrat[i].lieu.proprietaire[j].passport,
+                carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
                 type: "LOY",
+                adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
                 origine: "PAISOFT",
                 devises: "MAD",
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
