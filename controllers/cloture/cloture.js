@@ -1,6 +1,7 @@
 const Contrat = require('../../models/contrat/contrat.model')
 const loyerArchive = require('../../models/archive/archiveComptabilisationLoyer.schema')
 const ordreVirementArchive = require('../../models/archive/archiveVirement.schema')
+const archiveComptabilisationLoyer = require('../../models/archive/archiveComptabilisationLoyer.schema')
 
 module.exports = {
     clotureDuMois: async (req, res, next) => {
@@ -500,5 +501,22 @@ module.exports = {
             })
 
 
+    },
+
+
+    getClotureDate: async (req, res) => {
+        let Result;
+        await archiveComptabilisationLoyer.find()
+        .sort({ date_generation_de_comptabilisation: "desc" })
+        .then((data) => {
+            Result = data[0]
+            // res.json({ mois: Result.mois , annee: Result.annee }) 
+            res.json({ nextCloture: Result.date_generation_de_comptabilisation}) 
+                
+        })
+        .catch((error) => {
+          res.status(402).send({ message: error.message });
+        });
     }
+
 }
