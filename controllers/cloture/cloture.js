@@ -1,6 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const loyerArchive = require("../../models/archive/archiveComptabilisationLoyer.schema");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
+const archiveComptabilisationLoyer = require("../../models/archive/archiveComptabilisationLoyer.schema");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
@@ -16,7 +17,7 @@ module.exports = {
       .populate("lieu")
       .populate({ path: "lieu", populate: { path: "proprietaire" } });
 
-    return res.json(contrat);
+    // return res.json(contrat);
 
     //traitement pour date generation de comptabilisation
     let dateGenerationDeComptabilisation = null;
@@ -732,39 +733,49 @@ module.exports = {
         }
       }
 
-      //traitement du periodicite Annuelle
-      if (contrat[i].periodicite_paiement == "annuelle") {
-      }
+      //post ordre de virement dans ordre de virement archive
+      const ordeVirementLoyer = new ordreVirementArchive({
+        ordre_virement: ordreVirement,
+        date_generation_de_virement: dateGenerationDeComptabilisation,
+        mois: req.body.mois,
+        annee: req.body.annee,
+      });
+      //post comptabilisation des loyer dans comptabilisation des loyer archive
+      const comptabilisationLoyerArchive = new archiveComptabilisationLoyer({
+        comptabilisation_paiement_loyer: comptabilisationLoyer,
+        date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
+        mois: req.body.mois,
+        annee: req.body.annee,
+      });
+      ordeVirementLoyer
+        .save()
+        .then(async (virementData) => {
+          await comptabilisationLoyerArchive
+            .save()
+            .then((comptabilisationData) => {
+              res.json([comptabilisationData, virementData]);
+            })
+            .catch((error) => {
+              res.status(402).send({ message: error.message });
+            });
+        })
+        .catch((error) => {
+          res.status(401).send({ message: error.message });
+        });
     }
-
-    //post ordre de virement dans ordre de virement archive
-    const ordeVirementLoyer = new ordreVirementArchive({
-      ordre_virement: ordreVirement,
-      date_generation_de_virement: dateGenerationDeComptabilisation,
-      mois: req.body.mois,
-      annee: req.body.annee,
-    });
-    //post comptabilisation des loyer dans comptabilisation des loyer archive
-    const comptabilisationLoyerArchive = new loyerArchive({
-      comptabilisation_paiement_loyer: comptabilisationLoyer,
-      date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
-      mois: req.body.mois,
-      annee: req.body.annee,
-    });
-    ordeVirementLoyer
-      .save()
-      .then(async (virementData) => {
-        await comptabilisationLoyerArchive
-          .save()
-          .then((comptabilisationData) => {
-            res.json([comptabilisationData, virementData]);
-          })
-          .catch((error) => {
-            res.status(402).send({ message: error.message });
-          });
+  },
+  getClotureDate: async (req, res) => {
+    let Result;
+    await archiveComptabilisationLoyer
+      .find()
+      .sort({ date_generation_de_comptabilisation: "desc" })
+      .then((data) => {
+        // Result = data[0];
+        // res.json({ mois: Result.mois , annee: Result.annee })
+        res.json({ nextCloture: data.date_generation_de_comptabilisation });
       })
       .catch((error) => {
-        res.status(401).send({ message: error.message });
+        res.status(402).send({ message: error.message });
       });
   },
 };
