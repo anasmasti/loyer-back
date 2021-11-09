@@ -505,18 +505,21 @@ module.exports = {
 
 
     getClotureDate: async (req, res) => {
-        let Result;
-        await archiveComptabilisationLoyer.find()
-        .sort({ date_generation_de_comptabilisation: "desc" })
-        .then((data) => {
-            Result = data[0]
-            // res.json({ mois: Result.mois , annee: Result.annee }) 
-            res.json({ nextCloture: Result.date_generation_de_comptabilisation}) 
+        // let Result;
+        // await archiveComptabilisationLoyer.find()
+        // .sort({ date_generation_de_comptabilisation: "desc" })
+        // .then((data) => {
+        //     Result = data[0]
+        //     let date = new Date(data[0].date_generation_de_comptabilisation);
+        //     res.json({mois: date.getMonth() + 1 , annee: date.getFullYear() }) 
+        //     // res.json({ nextCloture: Result.date_generation_de_comptabilisation}) 
                 
-        })
-        .catch((error) => {
-          res.status(402).send({ message: error.message });
-        });
+        // })
+        // .catch((error) => {
+        //   res.status(402).send({ message: error.message });
+        // });
+        let date = new Date();
+        res.json({mois: date.getMonth() + 1 , annee: date.getFullYear() }) 
     }
 
 }
