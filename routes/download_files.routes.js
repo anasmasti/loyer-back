@@ -18,5 +18,8 @@ router
   .get(getFichierComptableCaution.setComptabilisationCautions);
 router
   .route("/test-cloture")
-  .post(testClotureMois.clotureDuMois)
+  .post(testClotureMois.clotureDuMois);
+router
+  .route("/next-cloture")
+  .get(testClotureMois.getClotureDate)
 module.exports = router;

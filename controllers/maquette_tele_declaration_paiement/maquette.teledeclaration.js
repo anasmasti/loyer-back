@@ -39,12 +39,65 @@ module.exports = {
       });
 
     setTimeout(() => {
+      // Main Method
+      //   for (let i = 0; i < ArchVirmt.ordre_virement.length; i++) {
+      //     //Get Total Montant Brut/RAS/Aprés l'impot
+      //     TotalMntBrutLoyer +=
+      //       ArchCmptb.comptabilisation_paiement_loyer[i].montant_brut;
+      //     // TotalMntRetenueSource += ArchCmptb.comptabilisation_paiement_loyer[i].retenue_source;
+      //     // TotalMntApreImpot += ArchCmptb.comptabilisation_paiement_loyer[i].total_montant_net_loyer;
+
+      //     //List DetailRetenueRevFoncier
+      //     for (
+      //       let j = 0;
+      //       j < ArchCmptb.comptabilisation_paiement_loyer.length;
+      //       j++
+      //     ) {
+      //       // console.log(ArchCmptb.comptabilisation_paiement_loyer[j]);
+      //       if (
+      //         ArchVirmt.ordre_virement[i].cin ==
+      //           ArchCmptb.comptabilisation_paiement_loyer[j].cin ||
+      //         ArchVirmt.ordre_virement[i].passport ==
+      //           ArchCmptb.comptabilisation_paiement_loyer[j].passport ||
+      //         ArchVirmt.ordre_virement[i].carte_sejour ==
+      //           ArchCmptb.comptabilisation_paiement_loyer[j].carte_sejour
+      //       ) {
+      //         DetailRetenueRevFoncier.push({
+      //           ifuBailleur: i + 1,
+      //           numCNIBailleur: ArchVirmt.ordre_virement[i].cin,
+      //           // numCEBailleur: ArchVirmt.ordre_virement[i].carte_sejour,
+      //           numCEBailleur: 111,
+      //           nomPrenomBailleur: ArchVirmt.ordre_virement[i].nom_prenom,
+      //           // adresseBailleur: ArchVirmt.ordre_virement[i].adresse,
+      //           adresseBailleur: "Test adresse",
+      //           // adresseBien: data[0].foncier.adresse,
+      //           adresseBien: "Test adresse",
+      //           typeBienBailleur: {
+      //             code: "LUC",
+      //           },
+      //           mntBrutLoyer:
+      //             ArchCmptb.comptabilisation_paiement_loyer[j].montant_brut, //!!!!!!!
+      //           // mntRetenueSource: data[0].retenue_source_par_mois,
+      //           mntRetenueSource: "00000",
+      //           mntNetLoyer: "00000",
+      //           tauxRetenueRevFoncier: {
+      //             code: "TSR.10.2018",
+      //           },
+      //         });
+      //       }
+      //     }
+      //   }
+
+      // Initial Method
       for (let i = 0; i < ArchVirmt.ordre_virement.length; i++) {
         //Get Total Montant Brut/RAS/Aprés l'impot
-        TotalMntBrutLoyer += ArchCmptb.comptabilisation_paiement_loyer[i].montant_brut;
-            // TotalMntRetenueSource += ArchCmptb.comptabilisation_paiement_loyer[i].retenue_source;
-            // TotalMntApreImpot += ArchCmptb.comptabilisation_paiement_loyer[i].total_montant_net_loyer;
+        TotalMntBrutLoyer +=
+          ArchCmptb.comptabilisation_paiement_loyer[i].montant_brut;
+        // TotalMntRetenueSource += ArchCmptb.comptabilisation_paiement_loyer[i].retenue_source;
+        // TotalMntApreImpot += ArchCmptb.comptabilisation_paiement_loyer[i].total_montant_net_loyer;
+
         //List DetailRetenueRevFoncier
+
         DetailRetenueRevFoncier.push({
           ifuBailleur: i + 1,
           numCNIBailleur: ArchVirmt.ordre_virement[i].cin,
@@ -77,9 +130,9 @@ module.exports = {
             "xsi:noNamespaceSchemaLocation": "VersementRASRF.xsd",
           },
           identifiantFiscal: "IF",
-        //   exerciceFiscalDu: req.body.annee + '-' + '1' + '-' + '1',
-          exerciceFiscalDu: '2021' + '-' + '1' + '-' + '1',
-        //   exerciceFiscalAu: req.body.annee + "-" + 12 + "-" + 31,
+          //   exerciceFiscalDu: req.body.annee + '-' + '1' + '-' + '1',
+          exerciceFiscalDu: "2021" + "-" + "1" + "-" + "1",
+          //   exerciceFiscalAu: req.body.annee + "-" + 12 + "-" + 31,
           exerciceFiscalAu: 2021 + "-" + 12 + "-" + 31,
           annee: currentYear,
           mois: currentMonth,
@@ -87,31 +140,26 @@ module.exports = {
           totalMntRetenueSource: "99999",
           totalMntNetLoyer:
             ArchCmptb.comptabilisation_paiement_loyer[0].montant_net,
-          // listDetailRetenueRevFoncier: {
-          //     DetailRetenueRevFoncier
-          // },
-          listDetailRetenueRevFoncier:{
-            DetailRetenueRevFoncier
-          }
+            listDetailRetenueRevFoncier:{
+              DetailRetenueRevFoncier
+            }
         },
       };
       //   console.log(Annex1);
-    //   res.json(Annex1);
+      //   res.json(Annex1);
 
-      
-            var builder = new xml2js.Builder();
-            var xml = builder.buildObject(Annex1);
+      var builder = new xml2js.Builder();
+      var xml = builder.buildObject(Annex1);
 
-    fs.writeFile('download/Annex1.xml', xml, (error) => {
+      fs.writeFile("download/Annex1.xml", xml, (error) => {
         if (error) {
-                res.status(403).json({ message: error.message });
-            } else {
-                    res.download('download/Annex1.xml')
-                }
+          res.status(403).json({ message: error.message });
+        } else {
+          res.download("download/Annex1.xml");
+        }
+      });
 
-            })
-
-            // res.json([comptabilisationData, virementData])
+      // res.json([comptabilisationData, virementData])
     }, 1000);
     // res.json({ massage: "Gooood" });
 
@@ -181,10 +229,9 @@ module.exports = {
     //         // var builder = new xml2js.Builder();
     //         // var xml = builder.buildObject(Annex1);
 
-            
-        //             })
-        //             .catch((error) => {
-        //                 res.status(409).send({ message: error.message })
-        // })
+    //             })
+    //             .catch((error) => {
+    //                 res.status(409).send({ message: error.message })
+    // })
   },
 };
