@@ -2,59 +2,64 @@ const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
   modifierContrat: async (req, res) => {
+    let item = 0,
+      piece_joint_contrat = [],
+      images_etat_res_lieu_sortie = [],
+      lettre_res_piece_jointe = [],
+      piece_jointe_avenant = [],
+      etatContrat = {},
+      updateContrat = {},
+      contrats_suspendu = [],
+      contrat_avener = [];
 
-    let item = 0, piece_joint_contrat = [], images_etat_res_lieu_sortie = [], lettre_res_piece_jointe = [], piece_jointe_avenant = [], etatContrat = { }, updateContrat = { },
-      contrats_suspendu = [], contrat_avener = []
-
-    let data = JSON.parse(req.body.data)
+    let data = JSON.parse(req.body.data);
     //store files
     if (req.files) {
       if (req.files.piece_joint_contrat) {
         piece_joint_contrat.push({
-          image: req.files.piece_joint_contrat[0].path
-        })
+          image: req.files.piece_joint_contrat[0].path,
+        });
       }
       if (req.files.images_etat_res_lieu_sortie) {
         images_etat_res_lieu_sortie.push({
-          image: req.files.images_etat_res_lieu_sortie[0].path
-        })
+          image: req.files.images_etat_res_lieu_sortie[0].path,
+        });
       }
       if (req.files.lettre_res_piece_jointe) {
         lettre_res_piece_jointe.push({
-          image: req.files.lettre_res_piece_jointe[0].path
-        })
+          image: req.files.lettre_res_piece_jointe[0].path,
+        });
       }
       if (req.files.piece_jointe_avenant) {
         piece_jointe_avenant.push({
-          image: req.files.piece_jointe_avenant[0].path
-        })
+          image: req.files.piece_jointe_avenant[0].path,
+        });
       }
     }
     //checking and store etats
-    if (data.etat_contrat.libelle === 'Avenant') {
+    if (data.etat_contrat.libelle === "Avenant") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
           n_avenant: data.etat_contrat.etat.n_avenant,
           motif: data.etat_contrat.etat.motif,
           montant_nouveau_loyer: data.etat_contrat.etat.montant_nouveau_loyer,
-          signaletique_successeur: data.etat_contrat.etat.signaletique_successeur,
-          piece_jointe_avenant: piece_jointe_avenant
-        }
+          signaletique_successeur:
+            data.etat_contrat.etat.signaletique_successeur,
+          piece_jointe_avenant: piece_jointe_avenant,
+        },
       };
-    }
-    else if (data.etat_contrat.libelle === 'Suspendu') {
+    } else if (data.etat_contrat.libelle === "Suspendu") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
           intitule_lieu: data.etat_contrat.etat.intitule_lieu,
           date_suspension: data.etat_contrat.etat.date_suspension,
           duree_suspension: data.etat_contrat.etat.duree_suspension,
-          motif_suspension: data.etat_contrat.etat.motif_suspension
-        }
+          motif_suspension: data.etat_contrat.etat.motif_suspension,
+        },
       };
-    }
-    else if (data.etat_contrat.libelle === 'Résilié') {
+    } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
@@ -64,63 +69,77 @@ module.exports = {
           etat_lieu_sortie: data.etat_contrat.etat.etat_lieu_sortie,
           preavis: data.etat_contrat.etat.preavis,
           images_etat_res_lieu_sortie: images_etat_res_lieu_sortie,
-          lettre_res_piece_jointe: lettre_res_piece_jointe
-        }
+          lettre_res_piece_jointe: lettre_res_piece_jointe,
+        },
       };
-    } else if (data.etat_contrat.libelle === 'Actif') {
-      etatContrat = data.etat_contrat
+    } else if (data.etat_contrat.libelle === "Actif") {
+      etatContrat = data.etat_contrat;
     }
 
     //search for requested contrat
-    let existedContrat = await Contrat.findById(req.params.Id)
+    let existedContrat = await Contrat.findById(req.params.Id);
 
     // store the exited files
     if (existedContrat) {
       if (existedContrat.piece_joint_contrat) {
         for (item in existedContrat.piece_joint_contrat) {
-          piece_joint_contrat.push({ image: existedContrat.piece_joint_contrat[item].image })
+          piece_joint_contrat.push({
+            image: existedContrat.piece_joint_contrat[item].image,
+          });
         }
       }
       if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
-        for (item in existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
-          images_etat_res_lieu_sortie.push({ image: existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item].image })
+        for (item in existedContrat.etat_contrat.etat
+          .images_etat_res_lieu_sortie) {
+          images_etat_res_lieu_sortie.push({
+            image:
+              existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item]
+                .image,
+          });
         }
       }
       if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
         for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
-          lettre_res_piece_jointe.push({ image: existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item].image })
+          lettre_res_piece_jointe.push({
+            image:
+              existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item]
+                .image,
+          });
         }
       }
       if (existedContrat.etat_contrat.etat.piece_jointe_avenant) {
         for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
-          piece_jointe_avenant.push({ image: existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image })
+          piece_jointe_avenant.push({
+            image:
+              existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image,
+          });
         }
       }
     }
 
     // store existed Suspendu contrat
     for (item in existedContrat.contrats_suspendu) {
-      contrats_suspendu.push(existedContrat.contrats_suspendu[item])
+      contrats_suspendu.push(existedContrat.contrats_suspendu[item]);
     }
-    if (existedContrat.etat_contrat.libelle == 'Suspendu') {
-      contrats_suspendu.push(existedContrat)
+    if (existedContrat.etat_contrat.libelle == "Suspendu") {
+      contrats_suspendu.push(existedContrat);
     }
 
     //store existed Avenant contrat
     for (item in existedContrat.contrat_avener) {
-      contrat_avener.push(existedContrat.contrat_avener[item])
+      contrat_avener.push(existedContrat.contrat_avener[item]);
     }
     if (existedContrat.etat_contrat.libelle == "Avenant") {
-      contrat_avener.push(existedContrat)
+      contrat_avener.push(existedContrat);
     }
 
     //add attribute 'AV' in contrat if etat = Avenant
-    if (data.etat_contrat.libelle == 'Avenant') {
+    if (data.etat_contrat.libelle == "Avenant") {
       if (data.validation1_DMG == true && data.validation2_DAJC == true) {
-        let numContratData = data.numero_contrat
-        let numeroContrat = numContratData.replace('AV', '')
+        let numContratData = data.numero_contrat;
+        let numeroContrat = numContratData.replace("AV", "");
         updateContrat = {
-          numero_contrat: numeroContrat + 'AV',
+          numero_contrat: numeroContrat + "AV",
           date_debut_loyer: data.date_debut_loyer,
           date_fin_contrat: data.date_fin_contrat,
           date_reprise_caution: data.date_reprise_caution,
@@ -151,9 +170,8 @@ module.exports = {
           etat_contrat: etatContrat,
           piece_joint_contrat: piece_joint_contrat,
           contrats_suspendu: contrats_suspendu,
-          contrat_avener: contrat_avener
-
-        }
+          contrat_avener: contrat_avener,
+        };
       }
     } else {
       updateContrat = {
@@ -177,7 +195,10 @@ module.exports = {
         montant_apres_impot: data.montant_apres_impot,
         montant_caution: data.montant_caution,
         effort_caution: data.effort_caution,
-        statut_caution: data.statut_caution,
+        statut_caution:
+          data.etat_contrat.libelle == "Résilié"
+            ? data.etat_contrat.etat.reprise_caution
+            : data.statut_caution,
         montant_avance: data.montant_avance,
         duree_avance: data.duree_avance,
         n_engagement_depense: data.n_engagement_depense,
@@ -187,23 +208,23 @@ module.exports = {
         etat_contrat: etatContrat,
         piece_joint_contrat: piece_joint_contrat,
         contrats_suspendu: contrats_suspendu,
-        contrat_avener: contrat_avener
-      }
+        contrat_avener: contrat_avener,
+      };
     }
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
       .then((data) => {
-        res.json(data)
+        res.json(data);
       })
       .catch((error) => {
-        res.status(400).send({ message: error.message })
-      })
+        res.status(400).send({ message: error.message });
+      });
   },
 
   modifierValidationDMG: async (req, res) => {
-    await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true })
+    await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
   },
 
   modifierValidationDAJC: async (req, res) => {
-    await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true })
-  }
-}
+    await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true });
+  },
+};
