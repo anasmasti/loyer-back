@@ -1,41 +1,40 @@
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const Handlebars = require("handlebars");
+const { promisify } = require("util");
+const readFile = promisify(fs.readFile);
 
 module.exports = {
-  sendMail: (to, subject, html) => {
-    return async (req, res) => {
-      let transporter = nodemailer.createTransport({
-        service: "Hotmail",
-        auth: {
-          user: "badreazz@hotmail.com",
-          pass: "Badisa1983",
-        },
-        from: "badreazz@hotmail.com",
-      });
+  sendMail: async (to, subject, fileName, data) => {
+    var fileSource = await readFile(
+      `./templates/mails/${fileName}.html`,
+      "utf8"
+    );
+    var template = Handlebars.compile(fileSource);
+    var htmlToSend = template(data)
 
-      var message = {
-        from: "badreazz@hotmail.com",
-        to: to,
-        subject: subject,
-        // text: "Hello World",
-        // html: `<!doctype html>
-        //       <html>
-        //         <head>
-        //           Hello Everyone
-        //         </head>
-        //         <body>
-        //          <p> this is just a test message mail from node mailer thank you! </p>
-        //         </body>
-        //       </html>`,
-        html: html
-      };
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "mediexpertsapp@gmail.com",
+        pass: "Mediexperts2021",
+      },
+      from: "mediexpertsapp@gmail.com",
+    });
 
-      transporter.sendMail(message, (error, info) => {
-        if (error) {
-          return console.log("Can't send mail", error.message);
-        } else {
-          console.log(info.messageId);
-        }
-      });
-    }
-  }
+    var message = {
+      from: "mediexpertsapp@gmail.com",
+      to: to,
+      subject: subject,
+      html: htmlToSend,
+    };
+
+    await transporter.sendMail(message, (error, info) => {
+      if (error) {
+        return console.log("Can't send mail", error.message);
+      } else {
+        console.log(info.messageId);
+      }
+    });
+  },
 };

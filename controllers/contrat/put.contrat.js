@@ -1,6 +1,5 @@
 const Contrat = require("../../models/contrat/contrat.model");
-const mail = require('../../helpers/mail.send')
-
+const mail = require("../../helpers/mail.send");
 
 module.exports = {
   modifierContrat: async (req, res) => {
@@ -223,20 +222,18 @@ module.exports = {
   },
 
   modifierValidationDMG: async (req, res) => {
-    await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true })
+    let data = {
+      name: "Anas",
+    };
+
     mail.sendMail(
-      'anasmasti@hotmail.com',
-      'test',
-      `<!doctype html>
-        <html>
-          <head>
-            Hello Everyone
-          </head>
-          <body>
-           <p> this is just a test message mail from node mailer thank you! </p>
-          </body>
-        </html>`
-  )
+      "anasmasti@hotmail.com",
+      "Contrat validation",
+      "validation1",
+      data
+    );
+
+    await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
   },
 
   modifierValidationDAJC: async (req, res) => {
