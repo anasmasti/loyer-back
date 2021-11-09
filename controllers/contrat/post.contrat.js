@@ -24,8 +24,8 @@ module.exports = {
                 }
             }
         }
-        let requestedLieu = await Lieu.findById({_id: mongoose.Types.ObjectId(data.lieu)})
-        let numeroContrat = requestedLieu.code_lieu +'/'+ requestedLieu.intitule_lieu
+        let requestedLieu = await Lieu.findById({ _id: mongoose.Types.ObjectId(data.lieu) })
+        let numeroContrat = requestedLieu.code_lieu + '/' + requestedLieu.intitule_lieu
         //store contrat
         const nouveauContrat = new Contrat({
             numero_contrat: numeroContrat,
@@ -66,7 +66,7 @@ module.exports = {
         await nouveauContrat.save()
             .then(async (data) => {
                 await Lieu.findByIdAndUpdate({ _id: data.lieu }, { has_contrat: true })
-                res.json(data)
+                
             })
             .catch((error) => {
                 res.status(400).send({ message: error.message })
