@@ -29,6 +29,7 @@ module.exports = {
       nom: req.body.nom,
       prenom: req.body.prenom,
       code_dr: req.body.code_dr,
+      email: req.body.email,
       userRoles: allUserRoles,
       password: ""
     });

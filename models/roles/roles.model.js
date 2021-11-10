@@ -30,11 +30,14 @@ const userRoleSchema = new Schema({
         required: true
     },
     prenom: {
-        type:String,
+        type: String,
         required: true
     },
     userRoles: {
         type:[RoleSchema]
+    },
+    email: {
+        type: String,  
     },
     code_dr: {
         type:String,

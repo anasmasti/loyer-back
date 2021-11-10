@@ -167,22 +167,22 @@ const ProprietaireValidation = Joi.object({
             'any.empty': `Le champs nom de l'agence bancaire de Propriétaire ne peut pas être vide`
         }),
     montant_avance_proprietaire: Joi
-    .number()
-    .empty()
-    .messages({
-        'number.base': 'Montant avance proprietaire contient juste des chiffres',
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Montant avance proprietaire contient juste des chiffres',
 }),
     tax_avance_proprietaire: Joi
-    .number()
-    .empty()
-    .messages({
-        'number.base': 'Tax avance proprietaire contient juste des chiffres',
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Tax avance proprietaire contient juste des chiffres',
 }),
     tax_par_periodicite: Joi
-    .number()
-    .empty()
-    .messages({
-        'number.base': 'Tax par periodicite contient juste des chiffres',
+        .number()
+        .empty()
+        .messages({
+            'number.base': 'Tax par periodicite contient juste des chiffres',
 }),
     mandataire: Joi
         .boolean(),
@@ -199,6 +199,12 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'number.base': 'Caution par proprietaire contient juste des chiffres',
 }),
+    email: Joi
+        .string()
+        .empty('')
+        .messages({
+            'any.empty': `Le champs email ne peut pas être vide`
+        }),
     deleted: Joi
         .boolean()
         .default(false),
