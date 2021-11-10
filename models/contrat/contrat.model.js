@@ -58,7 +58,7 @@ const ContratSchema = new Schema({
         default: 0
     },
     effort_caution: {
-        type: String,
+        type: Number,
     },
     statut_caution: {
         type: String,

@@ -10,7 +10,7 @@ module.exports = {
     //get current contrat of this month
     let contrat = await Contrat.find({
       deleted: false,
-      "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
+      "etat_contrat.libelle": { $in: ["Résilié"] },
     })
       .populate("lieu")
       .populate({ path: "lieu", populate: { path: "proprietaire" } });
@@ -249,7 +249,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                let dateComptabilisation = premierDateDePaiement;
+                let dateDeComptabilisation = premierDateDePaiement;
                 comptabilisationLoyer.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
@@ -280,7 +280,7 @@ module.exports = {
                   montant_caution:
                     contrat[i].lieu.proprietaire[j].caution_par_proprietaire,
                   montant_net: montant_loyer_net,
-                  date_comptabilisation: dateComptabilisation,
+                  date_comptabilisation: dateDeComptabilisation,
                 });
 
                 let nextDateComptabilisation = premierDateDePaiement.setMonth(
@@ -733,16 +733,112 @@ module.exports = {
           }
         }
         //traitement pour la periodicite annuelle
-        if (contrat[i].periodicite_paiement == "annuelle"){
-          // ...
+        if (contrat[i].periodicite_paiement == "annuelle") {
+          //...
         }
       }//end if
+      
       //traitement pour comptabiliser les contrats Resilier (cas des cautions)
-      if (contrat[i].etat_contrat.libelle == "Résilié"){
-        //....
-      } 
-    }//end for
+      if (contrat[i].etat_contrat.libelle == "Résilié") {
+        if (contrat[i].statut_caution == "Récupérée") {
+          
+          if (contrat[i].periodicite_paiement == "mensuelle") {
+            if (
+              req.body.mois == dateDeComptabilisation.getMonth() &&
+              req.body.annee == dateDeComptabilisation.getFullYear() &&
+              dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
+            ) {
+              for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+                if (contrat[i].lieu.proprietaire[j].mandataire == true) {
 
+                  montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot;
+                  montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer;
+
+                  ordreVirement.push({
+                    type_enregistrement: "0602",
+                    cin: contrat[i].lieu.proprietaire[j].cin,
+                    passport: contrat[i].lieu.proprietaire[j].passport,
+                    carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                    nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                    numero_compte_bancaire:
+                      contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                    banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                    ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                    cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                    mois: req.body.mois,
+                    annee: req.body.annee,
+                    montant_net: montant_loyer_net,
+                  });
+
+                  comptabilisationLoyer.push({
+                    nom_de_piece: dateGenerationDeComptabilisation,
+                    date_gl: dateGenerationDeComptabilisation,
+                    date_operation: dateGenerationDeComptabilisation,
+                    cin: contrat[i].lieu.proprietaire[j].cin,
+                    passport: contrat[i].lieu.proprietaire[j].passport,
+                    carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                    type: "LOY",
+                    adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                    adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                    origine: "PAISOFT",
+                    devises: "MAD",
+                    intitule_lieu: contrat[i].lieu.intitule_lieu,
+                    code_lieu: contrat[i].lieu.code_lieu,
+                    etablissement: "01",
+                    centre_de_cout: "NS",
+                    direction_regional:
+                      contrat[i].lieu.type_lieu == "Direction régionale"
+                        ? contrat[i].lieu.code_lieu
+                        : contrat[i].lieu.code_rattache_DR,
+                    point_de_vente:
+                      contrat[i].lieu.type_lieu == "Point de vente"
+                        ? contrat[i].lieu.code_lieu
+                        : "",
+                    montant_brut: montant_loyer_brut,
+                    montant_tax:
+                      contrat[i].lieu.proprietaire[j].tax_par_periodicite,
+                    montant_net: montant_loyer_net,
+                    date_comptabilisation: dateDeComptabilisation,
+                  });
+
+                  let nextDateComptabilisation = dateDeComptabilisation.setMonth(
+                    dateDeComptabilisation.getMonth() + 1
+                  );
+                  await Contrat.findByIdAndUpdate(
+                    { _id: contrat[i]._id },
+                    { date_comptabilisation: nextDateComptabilisation }
+                  )
+                    .then(() => {
+                      console.log("Date Comptabilisation Changed !");
+                    })
+                    .catch((error) => {
+                      res.status(402).send({ message: error.message });
+                    });
+                }
+              }
+            }
+          }
+          if (contrat[i].periodicite_paiement == "trimestrielle") {
+            if (
+              req.body.mois == dateDeComptabilisation.getMonth() && 
+              req.body.annee == dateDeComptabilisation.getFullYear() && 
+              dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
+              ) {
+              //...
+            }
+          }
+          if (contrat[i].periodicite_paiement == "annuelle") {
+            if (
+              req.body.mois == dateDeComptabilisation.getMonth() && 
+              req.body.annee == dateDeComptabilisation.getFullYear() && 
+              dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
+            ) {
+              //...
+            }
+          }
+        }
+      }//end for
+    }
     //post ordre de virement dans ordre de virement archive
     const ordeVirementLoyer = new ordreVirementArchive({
       ordre_virement: ordreVirement,

@@ -10,8 +10,10 @@ module.exports = {
       etatContrat = {},
       updateContrat = {},
       contrats_suspendu = [],
-      contrat_avener = [];
+      contrat_avener = [],
+      nextDateComptabilisation = null;
 
+      // console.log(req.body.data);
     let data = JSON.parse(req.body.data);
     //store files
     if (req.files) {
@@ -59,6 +61,11 @@ module.exports = {
           motif_suspension: data.etat_contrat.etat.motif_suspension,
         },
       };
+
+      // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
+      // let dateComptabilisation = new Date(data.date_comptabilisation) 
+      // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
@@ -72,6 +79,12 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe,
         },
       };
+     
+        let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+        let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution)) 
+       
+        nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() +1)
+
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = data.etat_contrat;
     }
@@ -209,6 +222,7 @@ module.exports = {
         piece_joint_contrat: piece_joint_contrat,
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
+        date_comptabilisation: nextDateComptabilisation
       };
     }
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
