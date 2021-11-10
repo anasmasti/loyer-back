@@ -1,4 +1,44 @@
 const Contrat = require("../../models/contrat/contrat.model");
+const User = require("../../models/roles/roles.model");
+const mail = require("../../helpers/mail.send");
+
+
+// function Test(userRole) {
+//   console.log('test');
+//   // let emailsList = [];
+
+//   // await User.aggregate([
+//   //   {
+//   //     $match: {
+//   //       deleted: false,
+//   //       userRoles: {
+//   //         $elemMatch: {
+//   //           roleCode: userRole,
+//   //           deleted: false,
+//   //         },
+//   //       },
+//   //     },
+//   //   },
+//   // ])
+//   //   .then((data) => {
+//   //     for (let i = 0; i < data.length; i++) {
+//   //       emailsList.push(data[i].email);
+//   //     }
+//   //     console.log(emailsList.join());
+//   //   })
+//   //   .catch((error) => {
+//   //     console.log(error);
+//   //     res.status(400).send({ message: error.message });
+//   //   });
+
+//   // mail.sendMail(
+//   //   emailsList.join(),
+//   //   "Contrat validation",
+//   //   "validation1",
+//   //   mailData
+//   // );
+// }
+
 
 module.exports = {
   modifierContrat: async (req, res) => {
@@ -225,20 +265,100 @@ module.exports = {
         date_comptabilisation: nextDateComptabilisation
       };
     }
-    await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+
+    // Sending mail to All the DC (Département Comptable) roles
+    let mailData= {
+      name: 'Yassine'
+    }
+
+    let emailsList = [];
+
+    await User.aggregate([
+      {
+        $match: {
+          deleted: false,
+          userRoles: {
+            $elemMatch: {
+              roleCode: 'DC',
+              deleted: false,
+            },
+          },
+        },
+      },
+    ])
       .then((data) => {
-        res.json(data);
+        for (let i = 0; i < data.length; i++) {
+          emailsList.push(data[i].email);
+        }
+        console.log(emailsList.join());
       })
       .catch((error) => {
+        console.log(error);
         res.status(400).send({ message: error.message });
       });
-  },
+      
+    // mail.sendMail(
+    //   emailsList.join(),
+    //   "Contrat validation",
+    //   "validation1",
+    //   mailData
+    // );
 
+    await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      res.status(400).send({ message: error.message });
+    });
+  },
+  
   modifierValidationDMG: async (req, res) => {
+    let emailsList = [];
+
+    await User.aggregate([
+      {
+        $match: {
+          deleted: false,
+          userRoles: {
+            $elemMatch: {
+              roleCode: "DAJC",
+              deleted: false,
+            },
+          },
+        },
+      },
+    ])
+      .then((data) => {
+        for (let i = 0; i < data.length; i++) {
+          emailsList.push(data[i].email);
+        }
+        console.log(emailsList.join());
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send({ message: error.message });
+      });
+
+    let mailData = {
+      name: "Anas",
+    };
+
+    // mail.sendMail(
+    //   emailsList.join(),
+    //   "Contrat validation",
+    //   "validation1",
+    //   data
+    // );
+
+    // Sending mail to All the DAJC (Direction Affaires Juridiques et Conformité) roles
+    Test('DAJC')
+
     await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
   },
 
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true });
   },
+
 };

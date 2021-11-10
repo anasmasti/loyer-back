@@ -2,13 +2,14 @@ const userRoles = require("../../models/roles/roles.model");
 
 module.exports = {
   getAllUserRoles: async (req, res) => {
-    await userRoles.find()
+    await userRoles
+      .find()
       .then((data) => {
-        res.json(data)
+        res.json(data);
       })
       .catch((error) => {
-        res.status(404).send({ message: error.message })
-      })
+        res.status(404).send({ message: error.message });
+      });
   },
 
   getUserRolesPerId: async (req, res) => {
@@ -23,6 +24,41 @@ module.exports = {
           .send({ message: error.message } || "cant get userRoles per ID");
       });
   },
+
+  // getListEmailsByRole: async (req, res) => {
+  //   let emailsList = [];
+
+  //   await User.aggregate([
+  //     {
+  //       $match: {
+  //         deleted: false,
+  //         userRoles: {
+  //           $elemMatch: {
+  //             roleCode: userRole,
+  //             deleted: false,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   ])
+  //     .then((data) => {
+  //       for (let i = 0; i < data.length; i++) {
+  //         emailsList.push(data[i].email);
+  //       }
+  //       console.log(emailsList.join());
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       res.status(400).send({ message: error.message });
+  //     });
+
+  //   mail.sendMail(
+  //     emailsList.join(),
+  //     "Contrat validation",
+  //     "validation1",
+  //     mailData
+  //   );
+  // },
 
   // getAllUserRoles: async (req, res) => {
   //   await userRoles
@@ -62,5 +98,4 @@ module.exports = {
   //       res.status(401).send({ message: error.message });
   //     });
   // },
-
 };
