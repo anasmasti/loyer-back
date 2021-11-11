@@ -1534,10 +1534,8 @@ module.exports = {
       .find()
       .sort({ date_generation_de_comptabilisation: "desc" })
       .then((data) => {
-        // nextCloture = new Date(data[0].date_generation_de_comptabilisation)
-        // res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
-        res.json(data);
-
+        nextCloture = new Date(data[0].date_generation_de_comptabilisation)
+        res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
       })
       .catch((error) => {
         res.status(402).send({ message: error.message });
