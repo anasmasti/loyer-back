@@ -775,14 +775,13 @@ module.exports = {
   },
 
   getClotureDate: async (req, res) => {
-    let Result;
+    let nextCloture;
     await archiveComptabilisationLoyer
       .find()
       .sort({ date_generation_de_comptabilisation: "desc" })
       .then((data) => {
-        // Result = data[0];
-        // res.json({ mois: Result.mois , annee: Result.annee })
-        res.json({ nextCloture: data.date_generation_de_comptabilisation });
+        nextCloture = new Date(data[0].date_generation_de_comptabilisation)
+        res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
       })
       .catch((error) => {
         res.status(402).send({ message: error.message });

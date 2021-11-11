@@ -210,9 +210,8 @@ const ProprietaireValidation = Joi.object({
         .default(false),
     montant_loyer: Joi
         .number()
-        .empty()
+        .empty(0)
         .integer()
-        .required()
         .min(0)
         .max(999999999999999999999999999999)
 })
