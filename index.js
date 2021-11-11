@@ -13,6 +13,7 @@ const chartsRoute = require("./routes/charts.routes");
 const sharedRoute = require("./routes/shared.routes");
 const contratRoute = require("./routes/contrat.routes");
 const downloadFilesRoute = require("./routes/download_files.routes");
+const clotureRoute = require("./routes/cloture.routes")
 const authRoute = require("./routes/auth.routes");
 
 const dotenv = require("dotenv");
@@ -80,7 +81,8 @@ app.use(bodyParser.json({ limit: "50mb" }));
   chartsRoute,
   downloadFilesRoute,
   sharedRoute,
-  authRoute
+  authRoute,
+  clotureRoute
 )
 
 //database connection

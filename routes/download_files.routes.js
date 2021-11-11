@@ -4,7 +4,7 @@ const getAnnex1 = require("../controllers/maquette_tele_declaration_paiement/maq
 const getAnnex2 = require("../controllers/maquette_tele_declaration_paiement/maquette.telepaiement");
 const getFichierComptableLoyer = require("../controllers/comptabilisation/comtabilisationLoyer");
 const getFichierComptableCaution = require("../controllers/comptabilisation/comptabilisationCautions");
-const testClotureMois = require('../controllers/cloture/cloture')
+
 
 const router = express.Router();
 
@@ -16,10 +16,5 @@ router
 router
   .route("/fichier-comptable-caution")
   .get(getFichierComptableCaution.setComptabilisationCautions);
-router
-  .route("/test-cloture")
-  .post(testClotureMois.clotureDuMois);
-router
-  .route("/next-cloture")
-  .get(testClotureMois.getClotureDate)
+
 module.exports = router;
