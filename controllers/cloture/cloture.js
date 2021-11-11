@@ -1,6 +1,6 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
-const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisationLoyer.schema");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
@@ -1326,6 +1326,22 @@ module.exports = {
 
                 }
               }
+              if (contrat[i].caution_versee == false) {
+                montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+              } else {
+                montantDebiter = contrat[i].montant_loyer
+              }
+              comptabilisationLoyerDebiter.push({
+                direction_regional:
+                  contrat[i].lieu.type_lieu == "Direction régionale"
+                    ? contrat[i].lieu.code_lieu
+                    : contrat[i].lieu.code_rattache_DR,
+                point_de_vente:
+                  contrat[i].lieu.type_lieu == "Point de vente"
+                    ? contrat[i].lieu.code_lieu
+                    : "",
+                montant: montantDebiter
+              })
               let nextDateComptabilisation = dateDeComptabilisation.setMonth(
                 dateDeComptabilisation.getMonth() + 1
               );
@@ -1402,6 +1418,22 @@ module.exports = {
 
                 }
               }
+              if (contrat[i].caution_versee == false) {
+                montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+              } else {
+                montantDebiter = contrat[i].montant_loyer
+              }
+              comptabilisationLoyerDebiter.push({
+                direction_regional:
+                  contrat[i].lieu.type_lieu == "Direction régionale"
+                    ? contrat[i].lieu.code_lieu
+                    : contrat[i].lieu.code_rattache_DR,
+                point_de_vente:
+                  contrat[i].lieu.type_lieu == "Point de vente"
+                    ? contrat[i].lieu.code_lieu
+                    : "",
+                montant: montantDebiter
+              })
               let nextDateComptabilisation = dateDeComptabilisation.setMonth(
                 dateDeComptabilisation.getMonth() + 3
               );
@@ -1478,6 +1510,22 @@ module.exports = {
 
                 }
               }
+              if (contrat[i].caution_versee == false) {
+                montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+              } else {
+                montantDebiter = contrat[i].montant_loyer
+              }
+              comptabilisationLoyerDebiter.push({
+                direction_regional:
+                  contrat[i].lieu.type_lieu == "Direction régionale"
+                    ? contrat[i].lieu.code_lieu
+                    : contrat[i].lieu.code_rattache_DR,
+                point_de_vente:
+                  contrat[i].lieu.type_lieu == "Point de vente"
+                    ? contrat[i].lieu.code_lieu
+                    : "",
+                montant: montantDebiter
+              })
               let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
                 dateDeComptabilisation.getFullYear() + 1
               );
