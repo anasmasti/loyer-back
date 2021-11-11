@@ -1,6 +1,5 @@
-const Contrat = require('../../models/contrat/contrat.model')
 const fs = require('fs')
-
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema")
 
 module.exports = {
     setComptabilisationCautions: async (_, res) => {

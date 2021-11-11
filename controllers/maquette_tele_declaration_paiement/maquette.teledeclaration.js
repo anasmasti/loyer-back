@@ -1,6 +1,6 @@
 const xml2js = require("xml2js");
 const fs = require("fs");
-const archivecomptabilisationloyers = require("../../models/archive/archiveComptabilisationLoyer.schema");
+const archivecomptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const archivevirements = require("../../models/archive/archiveVirement.schema");
 
 module.exports = {
@@ -16,10 +16,10 @@ module.exports = {
     let currentDate = new Date();
     let currentYear = currentDate.getFullYear();
     let currentMonth = currentDate.getMonth() + 1;
-    // let TestResult = archivecomptabilisationloyers.find({ mois: req.body.mois , annee: req.body.annee })
+    // let TestResult = archivecomptabilisation.find({ mois: req.body.mois , annee: req.body.annee })
 
-    // Get the (archivecomptabilisationloyers) data and put it in ArchCmptb variable
-    archivecomptabilisationloyers
+    // Get the (archivecomptabilisation) data and put it in ArchCmptb variable
+    archivecomptabilisation
       .find({ mois: 6, annee: 2021 })
       .then((data) => {
         ArchCmptb = data[0];

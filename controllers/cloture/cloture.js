@@ -1,16 +1,15 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
-const archiveComptabilisationLoyer = require("../../models/archive/archiveComptabilisationLoyer.schema");
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
-    let comptabilisationLoyer = [],
-      ordreVirement = [];
+    let comptabilisationLoyerCrediter = [], montantDebiter = 0, comptabilisationLoyerDebiter = [], ordreVirement = [];
 
     //get current contrat of this month
     let contrat = await Contrat.find({
       deleted: false,
-      "etat_contrat.libelle": { $in: ["Actif","Résilié"] },
+      "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
     })
       .populate("lieu")
       .populate({ path: "lieu", populate: { path: "proprietaire" } });
@@ -87,7 +86,7 @@ module.exports = {
                   montant_net: montant_avance_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -119,12 +118,28 @@ module.exports = {
                   montant_brut: montant_avance_brut,
                   date_comptabilisation: dateDebutLoyer,
                 });
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  { date_comptabilisation: null, caution_versee: true }
-                );
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              { date_comptabilisation: null, caution_versee: true }
+            );
           }
           if (
             contrat[i].montant_avance == 0 &&
@@ -162,7 +177,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -195,24 +210,40 @@ module.exports = {
                   date_comptabilisation: dateDebutLoyer,
                 });
 
-                let nextDateComptabilisation = dateDebutLoyer.setMonth(
-                  dateDebutLoyer.getMonth() + 1
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = dateDebutLoyer.setMonth(
+              dateDebutLoyer.getMonth() + 1
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
           if (
             req.body.mois == premierDateDePaiement.getMonth() + 1 &&
@@ -250,7 +281,7 @@ module.exports = {
                 });
 
                 let dateDeComptabilisation = premierDateDePaiement;
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -283,24 +314,40 @@ module.exports = {
                   date_comptabilisation: dateDeComptabilisation,
                 });
 
-                let nextDateComptabilisation = premierDateDePaiement.setMonth(
-                  premierDateDePaiement.getMonth() + 1
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = premierDateDePaiement.setMonth(
+              premierDateDePaiement.getMonth() + 1
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
           if (
             req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
@@ -338,7 +385,7 @@ module.exports = {
                   annee: req.body.annee,
                   montant_net: montant_loyer_net,
                 });
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -371,25 +418,41 @@ module.exports = {
                   date_comptabilisation: dateDeComptabilisation,
                 });
 
-                let nextDateComptabilisation = dateDeComptabilisation.setMonth(
-                  dateDeComptabilisation.getMonth() + 1
-                );
-
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = dateDeComptabilisation.setMonth(
+              dateDeComptabilisation.getMonth() + 1
+            );
+
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
         }
 
@@ -433,7 +496,7 @@ module.exports = {
                   montant_net: montant_avance_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -465,12 +528,28 @@ module.exports = {
                   montant_net: montant_avance_net,
                   date_comptabilisation: dateDebutLoyer,
                 });
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  { date_comptabilisation: null, caution_versee: true }
-                );
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              { date_comptabilisation: null, caution_versee: true }
+            );
           }
           if (
             contrat[i].montant_avance == 0 &&
@@ -508,7 +587,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -540,24 +619,40 @@ module.exports = {
                   montant_net: montant_loyer_net,
                   date_comptabilisation: dateDebutLoyer,
                 });
-                let nextDateComptabilisation = dateDebutLoyer.setMonth(
-                  dateDebutLoyer.getMonth() + 3
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = dateDebutLoyer.setMonth(
+              dateDebutLoyer.getMonth() + 3
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
           if (
             req.body.mois == premierDateDePaiement.getMonth() + 1 &&
@@ -592,9 +687,8 @@ module.exports = {
                   mois: req.body.mois,
                   annee: req.body.annee,
                   montant_net: montant_loyer_net,
-                });
-
-                comptabilisationLoyer.push({
+                })
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -626,24 +720,40 @@ module.exports = {
                   montant_net: montant_loyer_net,
                   date_comptabilisation: premierDateDePaiement,
                 });
-                let nextDateComptabilisation = premierDateDePaiement.setMonth(
-                  premierDateDePaiement.getMonth() + 3
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = premierDateDePaiement.setMonth(
+              premierDateDePaiement.getMonth() + 3
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
           if (
             req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
@@ -682,7 +792,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -714,22 +824,37 @@ module.exports = {
                   montant_net: montant_loyer_net,
                   date_comptabilisation: premierDateDePaiement,
                 });
-
-                let nextDateComptabilisation = dateDeComptabilisation.setMonth(
-                  dateDeComptabilisation.getMonth() + 3
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  { date_comptabilisation: nextDateComptabilisation }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = dateDeComptabilisation.setMonth(
+              dateDeComptabilisation.getMonth() + 3
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              { date_comptabilisation: nextDateComptabilisation }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
         }
         //traitement pour la periodicite annuelle
@@ -772,7 +897,7 @@ module.exports = {
                   montant_net: montant_avance_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -804,12 +929,28 @@ module.exports = {
                   montant_net: montant_avance_net,
                   date_comptabilisation: dateDebutLoyer,
                 });
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  { date_comptabilisation: null, caution_versee: true }
-                );
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              { date_comptabilisation: null, caution_versee: true }
+            );
           }
           if (
             contrat[i].montant_avance == 0 &&
@@ -847,7 +988,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -879,22 +1020,38 @@ module.exports = {
                   montant_net: montant_loyer_net,
                   date_comptabilisation: dateDebutLoyer,
                 });
-                let nextDateComptabilisation = dateDebutLoyer.setFullYear(dateDebutLoyer.getFullYear() + 1)
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = dateDebutLoyer.setFullYear(dateDebutLoyer.getFullYear() + 1)
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
           if (
             req.body.mois == premierDateDePaiement.getMonth() + 1 &&
@@ -931,7 +1088,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -963,24 +1120,40 @@ module.exports = {
                   montant_net: montant_loyer_net,
                   date_comptabilisation: premierDateDePaiement,
                 });
-                let nextDateComptabilisation = premierDateDePaiement.setFullYear(
-                  premierDateDePaiement.getFullYear() + 1
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  {
-                    date_comptabilisation: nextDateComptabilisation,
-                    caution_versee: true,
-                  }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = premierDateDePaiement.setFullYear(
+              premierDateDePaiement.getFullYear() + 1
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              {
+                date_comptabilisation: nextDateComptabilisation,
+                caution_versee: true,
+              }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
           if (
             req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
@@ -1019,7 +1192,7 @@ module.exports = {
                   montant_net: montant_loyer_net,
                 });
 
-                comptabilisationLoyer.push({
+                comptabilisationLoyerCrediter.push({
                   nom_de_piece: dateGenerationDeComptabilisation,
                   date_gl: dateGenerationDeComptabilisation,
                   date_operation: dateGenerationDeComptabilisation,
@@ -1052,21 +1225,37 @@ module.exports = {
                   date_comptabilisation: premierDateDePaiement,
                 });
 
-                let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-                  dateDeComptabilisation.getFullYear() + 1
-                );
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat[i]._id },
-                  { date_comptabilisation: nextDateComptabilisation }
-                )
-                  .then(() => {
-                    console.log("Date Comptabilisation Changed !");
-                  })
-                  .catch((error) => {
-                    res.status(402).send({ message: error.message });
-                  });
               }
             }
+            if (contrat[i].caution_versee == false) {
+              montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution
+            } else {
+              montantDebiter = contrat[i].montant_loyer
+            }
+            comptabilisationLoyerDebiter.push({
+              direction_regional:
+                contrat[i].lieu.type_lieu == "Direction régionale"
+                  ? contrat[i].lieu.code_lieu
+                  : contrat[i].lieu.code_rattache_DR,
+              point_de_vente:
+                contrat[i].lieu.type_lieu == "Point de vente"
+                  ? contrat[i].lieu.code_lieu
+                  : "",
+              montant: montantDebiter
+            })
+            let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+              dateDeComptabilisation.getFullYear() + 1
+            );
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat[i]._id },
+              { date_comptabilisation: nextDateComptabilisation }
+            )
+              .then(() => {
+                console.log("Date Comptabilisation Changed !");
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
           }
         }
       }//end if
@@ -1104,7 +1293,7 @@ module.exports = {
                     montant_net: montant_loyer_net,
                   });
 
-                  comptabilisationLoyer.push({
+                  comptabilisationLoyerCrediter.push({
                     nom_de_piece: dateGenerationDeComptabilisation,
                     date_gl: dateGenerationDeComptabilisation,
                     date_operation: dateGenerationDeComptabilisation,
@@ -1135,26 +1324,26 @@ module.exports = {
                     date_comptabilisation: dateDeComptabilisation,
                   });
 
-                  let nextDateComptabilisation = dateDeComptabilisation.setMonth(
-                    dateDeComptabilisation.getMonth() + 1
-                  );
-                  await Contrat.findByIdAndUpdate(
-                    { _id: contrat[i]._id },
-                    { date_comptabilisation: nextDateComptabilisation }
-                  )
-                    .then(() => {
-                      console.log("Date Comptabilisation Changed !");
-                    })
-                    .catch((error) => {
-                      res.status(402).send({ message: error.message });
-                    });
                 }
               }
+              let nextDateComptabilisation = dateDeComptabilisation.setMonth(
+                dateDeComptabilisation.getMonth() + 1
+              );
+              await Contrat.findByIdAndUpdate(
+                { _id: contrat[i]._id },
+                { date_comptabilisation: nextDateComptabilisation }
+              )
+                .then(() => {
+                  console.log("Date Comptabilisation Changed !");
+                })
+                .catch((error) => {
+                  res.status(402).send({ message: error.message });
+                });
             }
           }
           if (contrat[i].periodicite_paiement == "trimestrielle") {
             if (
-              req.body.mois == dateDeComptabilisation.getMonth()+1 &&
+              req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
               req.body.annee == dateDeComptabilisation.getFullYear() &&
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
@@ -1180,7 +1369,7 @@ module.exports = {
                     montant_net: montant_loyer_net,
                   });
 
-                  comptabilisationLoyer.push({
+                  comptabilisationLoyerCrediter.push({
                     nom_de_piece: dateGenerationDeComptabilisation,
                     date_gl: dateGenerationDeComptabilisation,
                     date_operation: dateGenerationDeComptabilisation,
@@ -1211,26 +1400,26 @@ module.exports = {
                     date_comptabilisation: dateDeComptabilisation,
                   });
 
-                  let nextDateComptabilisation = dateDeComptabilisation.setMonth(
-                    dateDeComptabilisation.getMonth() + 3
-                  );
-                  await Contrat.findByIdAndUpdate(
-                    { _id: contrat[i]._id },
-                    { date_comptabilisation: nextDateComptabilisation }
-                  )
-                    .then(() => {
-                      console.log("Date Comptabilisation Changed !");
-                    })
-                    .catch((error) => {
-                      res.status(402).send({ message: error.message });
-                    });
                 }
               }
+              let nextDateComptabilisation = dateDeComptabilisation.setMonth(
+                dateDeComptabilisation.getMonth() + 3
+              );
+              await Contrat.findByIdAndUpdate(
+                { _id: contrat[i]._id },
+                { date_comptabilisation: nextDateComptabilisation }
+              )
+                .then(() => {
+                  console.log("Date Comptabilisation Changed !");
+                })
+                .catch((error) => {
+                  res.status(402).send({ message: error.message });
+                });
             }
           }
           if (contrat[i].periodicite_paiement == "annuelle") {
             if (
-              req.body.mois == dateDeComptabilisation.getMonth()+1 &&
+              req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
               req.body.annee == dateDeComptabilisation.getFullYear() &&
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
@@ -1256,7 +1445,7 @@ module.exports = {
                     montant_net: montant_loyer_net,
                   });
 
-                  comptabilisationLoyer.push({
+                  comptabilisationLoyerCrediter.push({
                     nom_de_piece: dateGenerationDeComptabilisation,
                     date_gl: dateGenerationDeComptabilisation,
                     date_operation: dateGenerationDeComptabilisation,
@@ -1287,21 +1476,21 @@ module.exports = {
                     date_comptabilisation: dateDeComptabilisation,
                   });
 
-                  let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-                    dateDeComptabilisation.getFullYear() + 1
-                  );
-                  await Contrat.findByIdAndUpdate(
-                    { _id: contrat[i]._id },
-                    { date_comptabilisation: nextDateComptabilisation }
-                  )
-                    .then(() => {
-                      console.log("Date Comptabilisation Changed !");
-                    })
-                    .catch((error) => {
-                      res.status(402).send({ message: error.message });
-                    });
                 }
               }
+              let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+                dateDeComptabilisation.getFullYear() + 1
+              );
+              await Contrat.findByIdAndUpdate(
+                { _id: contrat[i]._id },
+                { date_comptabilisation: nextDateComptabilisation }
+              )
+                .then(() => {
+                  console.log("Date Comptabilisation Changed !");
+                })
+                .catch((error) => {
+                  res.status(402).send({ message: error.message });
+                });
             }
           }
         }
@@ -1315,8 +1504,9 @@ module.exports = {
       annee: req.body.annee,
     });
     //post comptabilisation des loyer dans comptabilisation des loyer archive
-    const comptabilisationLoyerArchive = new archiveComptabilisationLoyer({
-      comptabilisation_paiement_loyer: comptabilisationLoyer,
+    const comptabilisationArchive = new archiveComptabilisation({
+      comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+      comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
       date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
       mois: req.body.mois,
       annee: req.body.annee,
@@ -1324,7 +1514,7 @@ module.exports = {
     ordeVirementLoyer
       .save()
       .then(async (virementData) => {
-        await comptabilisationLoyerArchive
+        await comptabilisationArchive
           .save()
           .then((comptabilisationData) => {
             res.json([comptabilisationData, virementData]);
