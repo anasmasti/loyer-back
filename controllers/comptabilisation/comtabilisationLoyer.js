@@ -1,5 +1,5 @@
 const fs = require('fs');
-const archiveComptabilisation = require("../../models/archive/archiveComptabilisationLoyer.schema")
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema")
 
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
                return res.json(data)
 
                 //ecriture comptable du loyer Sens D
-                for (let index = 0; index < data[0].comptabilisation_paiement_loyer.length; index++) {
+                for (let index = 0; index < data[0].comptabilisation_loyer_debiter.length; index++) {
 
                     let addTwoNumbersAfterComma = montantLoyer.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')

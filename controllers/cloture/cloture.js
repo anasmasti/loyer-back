@@ -1,6 +1,6 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
-const archiveComptabilisation = require("../../models/archive/archiveComptabilisationLoyer.schema");
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
@@ -1582,8 +1582,8 @@ module.exports = {
       .find()
       .sort({ date_generation_de_comptabilisation: "desc" })
       .then((data) => {
-        // nextCloture = new Date(data[0].date_generation_de_comptabilisation)
-        // res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
+        nextCloture = new Date(data[0].date_generation_de_comptabilisation)
+        res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
         res.json(data);
 
       })
