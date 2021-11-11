@@ -53,7 +53,7 @@ module.exports = {
       contrat_avener = [],
       nextDateComptabilisation = null;
 
-      // console.log(req.body.data);
+    // console.log(req.body.data);
     let data = JSON.parse(req.body.data);
     //store files
     if (req.files) {
@@ -102,9 +102,10 @@ module.exports = {
         },
       };
 
-      // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
-      // let dateComptabilisation = new Date(data.date_comptabilisation) 
-      // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+      //set the next date de comptabilisation if contrat suspendu
+      let dureeSuspension = data.etat_contrat.etat.duree_suspension;
+      let dateComptabilisation = new Date(data.date_comptabilisation)
+      nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
 
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
@@ -119,11 +120,11 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe,
         },
       };
-     
-        let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
-        let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution)) 
-       
-        nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() +1)
+      //set the next date de comptabilisation if contrat resilie
+      let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+      let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution))
+
+      nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
 
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = data.etat_contrat;
@@ -267,7 +268,7 @@ module.exports = {
     }
 
     // Sending mail to All the DC (Département Comptable) roles
-    let mailData= {
+    let mailData = {
       name: 'Yassine'
     }
 
@@ -296,7 +297,7 @@ module.exports = {
         console.log(error);
         res.status(400).send({ message: error.message });
       });
-      
+
     // mail.sendMail(
     //   emailsList.join(),
     //   "Contrat validation",
@@ -305,14 +306,14 @@ module.exports = {
     // );
 
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((error) => {
-      res.status(400).send({ message: error.message });
-    });
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
+      });
   },
-  
+
   modifierValidationDMG: async (req, res) => {
     let emailsList = [];
 

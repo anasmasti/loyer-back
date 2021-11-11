@@ -10,7 +10,7 @@ module.exports = {
     //get current contrat of this month
     let contrat = await Contrat.find({
       deleted: false,
-      "etat_contrat.libelle": { $in: ["Résilié"] },
+      "etat_contrat.libelle": { $in: ["Actif","Résilié"] },
     })
       .populate("lieu")
       .populate({ path: "lieu", populate: { path: "proprietaire" } });
@@ -734,17 +734,351 @@ module.exports = {
         }
         //traitement pour la periodicite annuelle
         if (contrat[i].periodicite_paiement == "annuelle") {
-          //...
+          if (
+            contrat[i].montant_avance > 0 &&
+            req.body.mois == dateDebutLoyer.getMonth() + 1 &&
+            req.body.annee == dateDebutLoyer.getFullYear()
+          ) {
+            for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].caution_versee == false) {
+                  montant_avance_net =
+                    contrat[i].lieu.proprietaire[j].montant_avance_proprietaire -
+                    contrat[i].lieu.proprietaire[j].tax_avance_proprietaire +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                  montant_avance_brut =
+                    contrat[i].lieu.proprietaire[j].montant_avance_proprietaire +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                } else {
+                  montant_avance_net =
+                    contrat[i].lieu.proprietaire[j].montant_avance_proprietaire -
+                    contrat[i].lieu.proprietaire[j].tax_avance_proprietaires;
+                  montant_avance_brut =
+                    contrat[i].lieu.proprietaire[j].montant_avance_proprietaire;
+                }
+                ordreVirement.push({
+                  type_enregistrement: "0602",
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                  numero_compte_bancaire:
+                    contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                  banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                  ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                  cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                  mois: req.body.mois,
+                  annee: req.body.annee,
+                  montant_net: montant_avance_net,
+                });
+
+                comptabilisationLoyer.push({
+                  nom_de_piece: dateGenerationDeComptabilisation,
+                  date_gl: dateGenerationDeComptabilisation,
+                  date_operation: dateGenerationDeComptabilisation,
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  type: "LOY",
+                  adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                  adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                  origine: "PAISOFT",
+                  devises: "MAD",
+                  intitule_lieu: contrat[i].lieu.intitule_lieu,
+                  code_lieu: contrat[i].lieu.code_lieu,
+                  etablissement: "01",
+                  centre_de_cout: "NS",
+                  direction_regional:
+                    contrat[i].lieu.type_lieu == "Direction régionale"
+                      ? contrat[i].lieu.code_lieu
+                      : contrat[i].lieu.code_rattache_DR,
+                  point_de_vente:
+                    contrat[i].lieu.type_lieu == "Point de vente"
+                      ? contrat[i].lieu.code_lieu
+                      : "",
+                  montant_tax:
+                    contrat[i].lieu.proprietaire[j].tax_avance_proprietaire,
+                  montant_caution:
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire,
+                  montant_brut: montant_avance_brut,
+                  montant_net: montant_avance_net,
+                  date_comptabilisation: dateDebutLoyer,
+                });
+                await Contrat.findByIdAndUpdate(
+                  { _id: contrat[i]._id },
+                  { date_comptabilisation: null, caution_versee: true }
+                );
+              }
+            }
+          }
+          if (
+            contrat[i].montant_avance == 0 &&
+            req.body.mois == dateDebutLoyer.getMonth() + 1 &&
+            req.body.annee == dateDebutLoyer.getFullYear()
+          ) {
+            for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].caution_versee == false) {
+                  montant_loyer_net =
+                    contrat[i].lieu.proprietaire[j].montant_apres_impot +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                  montant_loyer_brut =
+                    contrat[i].lieu.proprietaire[j].montant_loyer +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                } else {
+                  montant_loyer_net =
+                    contrat[i].lieu.proprietaire[j].montant_apres_impot;
+                  montant_loyer_brut =
+                    contrat[i].lieu.proprietaire[j].montant_loyer;
+                }
+                ordreVirement.push({
+                  type_enregistrement: "0602",
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                  numero_compte_bancaire:
+                    contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                  banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                  ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                  cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                  mois: req.body.mois,
+                  annee: req.body.annee,
+                  montant_net: montant_loyer_net,
+                });
+
+                comptabilisationLoyer.push({
+                  nom_de_piece: dateGenerationDeComptabilisation,
+                  date_gl: dateGenerationDeComptabilisation,
+                  date_operation: dateGenerationDeComptabilisation,
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  type: "LOY",
+                  adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                  adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                  origine: "PAISOFT",
+                  devises: "MAD",
+                  intitule_lieu: contrat[i].lieu.intitule_lieu,
+                  code_lieu: contrat[i].lieu.code_lieu,
+                  etablissement: "01",
+                  centre_de_cout: "NS",
+                  direction_regional:
+                    contrat[i].lieu.type_lieu == "Direction régionale"
+                      ? contrat[i].lieu.code_lieu
+                      : contrat[i].lieu.code_rattache_DR,
+                  point_de_vente:
+                    contrat[i].lieu.type_lieu == "Point de vente"
+                      ? contrat[i].lieu.code_lieu
+                      : "",
+                  montant_brut: montant_loyer_brut,
+                  montant_tax:
+                    contrat[i].lieu.proprietaire[j].tax_par_periodicite,
+                  montant_caution:
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire,
+                  montant_net: montant_loyer_net,
+                  date_comptabilisation: dateDebutLoyer,
+                });
+                let nextDateComptabilisation = dateDebutLoyer.setFullYear(dateDebutLoyer.getFullYear() + 1)
+                await Contrat.findByIdAndUpdate(
+                  { _id: contrat[i]._id },
+                  {
+                    date_comptabilisation: nextDateComptabilisation,
+                    caution_versee: true,
+                  }
+                )
+                  .then(() => {
+                    console.log("Date Comptabilisation Changed !");
+                  })
+                  .catch((error) => {
+                    res.status(402).send({ message: error.message });
+                  });
+              }
+            }
+          }
+          if (
+            req.body.mois == premierDateDePaiement.getMonth() + 1 &&
+            req.body.annee == premierDateDePaiement.getFullYear()
+          ) {
+            for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].caution_versee == false) {
+                  montant_loyer_net =
+                    contrat[i].lieu.proprietaire[j].montant_apres_impot +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                  montant_loyer_brut =
+                    contrat[i].lieu.proprietaire[j].montant_loyer +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                } else {
+                  montant_loyer_net =
+                    contrat[i].lieu.proprietaire[j].montant_apres_impot;
+                  montant_loyer_brut =
+                    contrat[i].lieu.proprietaire[j].montant_loyer;
+                }
+                ordreVirement.push({
+                  type_enregistrement: "0602",
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                  numero_compte_bancaire:
+                    contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                  banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                  ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                  cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                  mois: req.body.mois,
+                  annee: req.body.annee,
+                  montant_net: montant_loyer_net,
+                });
+
+                comptabilisationLoyer.push({
+                  nom_de_piece: dateGenerationDeComptabilisation,
+                  date_gl: dateGenerationDeComptabilisation,
+                  date_operation: dateGenerationDeComptabilisation,
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  type: "LOY",
+                  adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                  adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                  origine: "PAISOFT",
+                  devises: "MAD",
+                  intitule_lieu: contrat[i].lieu.intitule_lieu,
+                  code_lieu: contrat[i].lieu.code_lieu,
+                  etablissement: "01",
+                  centre_de_cout: "NS",
+                  direction_regional:
+                    contrat[i].lieu.type_lieu == "Direction régionale"
+                      ? contrat[i].lieu.code_lieu
+                      : contrat[i].lieu.code_rattache_DR,
+                  point_de_vente:
+                    contrat[i].lieu.type_lieu == "Point de vente"
+                      ? contrat[i].lieu.code_lieu
+                      : "",
+                  montant_brut: montant_loyer_brut,
+                  montant_tax:
+                    contrat[i].lieu.proprietaire[j].tax_par_periodicite,
+                  montant_caution:
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire,
+                  montant_net: montant_loyer_net,
+                  date_comptabilisation: premierDateDePaiement,
+                });
+                let nextDateComptabilisation = premierDateDePaiement.setFullYear(
+                  premierDateDePaiement.getFullYear() + 1
+                );
+                await Contrat.findByIdAndUpdate(
+                  { _id: contrat[i]._id },
+                  {
+                    date_comptabilisation: nextDateComptabilisation,
+                    caution_versee: true,
+                  }
+                )
+                  .then(() => {
+                    console.log("Date Comptabilisation Changed !");
+                  })
+                  .catch((error) => {
+                    res.status(402).send({ message: error.message });
+                  });
+              }
+            }
+          }
+          if (
+            req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
+            req.body.annee == dateDeComptabilisation.getFullYear() &&
+            req.body.mois <= dateFinDeContrat.getMonth() + 1 &&
+            req.body.annee <= dateFinDeContrat.getFullYear()
+          ) {
+            for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].caution_versee == false) {
+                  montant_loyer_net =
+                    contrat[i].lieu.proprietaire[j].montant_apres_impot +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                  montant_loyer_brut =
+                    contrat[i].lieu.proprietaire[j].montant_loyer +
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire;
+                } else {
+                  montant_loyer_net =
+                    contrat[i].lieu.proprietaire[j].montant_apres_impot;
+                  montant_loyer_brut =
+                    contrat[i].lieu.proprietaire[j].montant_loyer;
+                }
+                ordreVirement.push({
+                  type_enregistrement: "0602",
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                  numero_compte_bancaire:
+                    contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                  banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                  ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                  cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                  mois: req.body.mois,
+                  annee: req.body.annee,
+                  montant_net: montant_loyer_net,
+                });
+
+                comptabilisationLoyer.push({
+                  nom_de_piece: dateGenerationDeComptabilisation,
+                  date_gl: dateGenerationDeComptabilisation,
+                  date_operation: dateGenerationDeComptabilisation,
+                  cin: contrat[i].lieu.proprietaire[j].cin,
+                  passport: contrat[i].lieu.proprietaire[j].passport,
+                  carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                  type: "LOY",
+                  adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                  adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                  origine: "PAISOFT",
+                  devises: "MAD",
+                  intitule_lieu: contrat[i].lieu.intitule_lieu,
+                  code_lieu: contrat[i].lieu.code_lieu,
+                  etablissement: "01",
+                  centre_de_cout: "NS",
+                  direction_regional:
+                    contrat[i].lieu.type_lieu == "Direction régionale"
+                      ? contrat[i].lieu.code_lieu
+                      : contrat[i].lieu.code_rattache_DR,
+                  point_de_vente:
+                    contrat[i].lieu.type_lieu == "Point de vente"
+                      ? contrat[i].lieu.code_lieu
+                      : "",
+                  montant_brut: montant_loyer_brut,
+                  montant_tax:
+                    contrat[i].lieu.proprietaire[j].tax_par_periodicite,
+                  montant_caution:
+                    contrat[i].lieu.proprietaire[j].caution_par_proprietaire,
+                  montant_net: montant_loyer_net,
+                  date_comptabilisation: premierDateDePaiement,
+                });
+
+                let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+                  dateDeComptabilisation.getFullYear() + 1
+                );
+                await Contrat.findByIdAndUpdate(
+                  { _id: contrat[i]._id },
+                  { date_comptabilisation: nextDateComptabilisation }
+                )
+                  .then(() => {
+                    console.log("Date Comptabilisation Changed !");
+                  })
+                  .catch((error) => {
+                    res.status(402).send({ message: error.message });
+                  });
+              }
+            }
+          }
         }
       }//end if
-      
+
       //traitement pour comptabiliser les contrats Resilier (cas des cautions)
       if (contrat[i].etat_contrat.libelle == "Résilié") {
+        console.log("date de comptabilisatino condition resilie", dateDeComptabilisation.getMonth());
         if (contrat[i].statut_caution == "Récupérée") {
-          
+
           if (contrat[i].periodicite_paiement == "mensuelle") {
             if (
-              req.body.mois == dateDeComptabilisation.getMonth() &&
+              req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
               req.body.annee == dateDeComptabilisation.getFullYear() &&
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
@@ -820,20 +1154,154 @@ module.exports = {
           }
           if (contrat[i].periodicite_paiement == "trimestrielle") {
             if (
-              req.body.mois == dateDeComptabilisation.getMonth() && 
-              req.body.annee == dateDeComptabilisation.getFullYear() && 
+              req.body.mois == dateDeComptabilisation.getMonth()+1 &&
+              req.body.annee == dateDeComptabilisation.getFullYear() &&
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
-              ) {
-              //...
+            ) {
+              for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+                if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+
+                  montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot;
+                  montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer;
+
+                  ordreVirement.push({
+                    type_enregistrement: "0602",
+                    cin: contrat[i].lieu.proprietaire[j].cin,
+                    passport: contrat[i].lieu.proprietaire[j].passport,
+                    carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                    nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                    numero_compte_bancaire:
+                      contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                    banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                    ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                    cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                    mois: req.body.mois,
+                    annee: req.body.annee,
+                    montant_net: montant_loyer_net,
+                  });
+
+                  comptabilisationLoyer.push({
+                    nom_de_piece: dateGenerationDeComptabilisation,
+                    date_gl: dateGenerationDeComptabilisation,
+                    date_operation: dateGenerationDeComptabilisation,
+                    cin: contrat[i].lieu.proprietaire[j].cin,
+                    passport: contrat[i].lieu.proprietaire[j].passport,
+                    carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                    type: "LOY",
+                    adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                    adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                    origine: "PAISOFT",
+                    devises: "MAD",
+                    intitule_lieu: contrat[i].lieu.intitule_lieu,
+                    code_lieu: contrat[i].lieu.code_lieu,
+                    etablissement: "01",
+                    centre_de_cout: "NS",
+                    direction_regional:
+                      contrat[i].lieu.type_lieu == "Direction régionale"
+                        ? contrat[i].lieu.code_lieu
+                        : contrat[i].lieu.code_rattache_DR,
+                    point_de_vente:
+                      contrat[i].lieu.type_lieu == "Point de vente"
+                        ? contrat[i].lieu.code_lieu
+                        : "",
+                    montant_brut: montant_loyer_brut,
+                    montant_tax:
+                      contrat[i].lieu.proprietaire[j].tax_par_periodicite,
+                    montant_net: montant_loyer_net,
+                    date_comptabilisation: dateDeComptabilisation,
+                  });
+
+                  let nextDateComptabilisation = dateDeComptabilisation.setMonth(
+                    dateDeComptabilisation.getMonth() + 3
+                  );
+                  await Contrat.findByIdAndUpdate(
+                    { _id: contrat[i]._id },
+                    { date_comptabilisation: nextDateComptabilisation }
+                  )
+                    .then(() => {
+                      console.log("Date Comptabilisation Changed !");
+                    })
+                    .catch((error) => {
+                      res.status(402).send({ message: error.message });
+                    });
+                }
+              }
             }
           }
           if (contrat[i].periodicite_paiement == "annuelle") {
             if (
-              req.body.mois == dateDeComptabilisation.getMonth() && 
-              req.body.annee == dateDeComptabilisation.getFullYear() && 
+              req.body.mois == dateDeComptabilisation.getMonth()+1 &&
+              req.body.annee == dateDeComptabilisation.getFullYear() &&
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
-              //...
+              for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
+                if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+
+                  montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot;
+                  montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer;
+
+                  ordreVirement.push({
+                    type_enregistrement: "0602",
+                    cin: contrat[i].lieu.proprietaire[j].cin,
+                    passport: contrat[i].lieu.proprietaire[j].passport,
+                    carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                    nom_prenom: contrat[i].lieu.proprietaire[j].nom_prenom,
+                    numero_compte_bancaire:
+                      contrat[i].lieu.proprietaire[j].n_compte_bancaire,
+                    banque_rib: contrat[i].lieu.proprietaire[j].banque_rib,
+                    ville_rib: contrat[i].lieu.proprietaire[j].ville_rib,
+                    cle_rib: contrat[i].lieu.proprietaire[j].cle_rib,
+                    mois: req.body.mois,
+                    annee: req.body.annee,
+                    montant_net: montant_loyer_net,
+                  });
+
+                  comptabilisationLoyer.push({
+                    nom_de_piece: dateGenerationDeComptabilisation,
+                    date_gl: dateGenerationDeComptabilisation,
+                    date_operation: dateGenerationDeComptabilisation,
+                    cin: contrat[i].lieu.proprietaire[j].cin,
+                    passport: contrat[i].lieu.proprietaire[j].passport,
+                    carte_sejour: contrat[i].lieu.proprietaire[j].carte_sejour,
+                    type: "LOY",
+                    adresse_proprietaire: contrat[i].lieu.proprietaire[j].adresse,
+                    adresse_lieu: contrat[i].lieu.proprietaire[j].adresse,
+                    origine: "PAISOFT",
+                    devises: "MAD",
+                    intitule_lieu: contrat[i].lieu.intitule_lieu,
+                    code_lieu: contrat[i].lieu.code_lieu,
+                    etablissement: "01",
+                    centre_de_cout: "NS",
+                    direction_regional:
+                      contrat[i].lieu.type_lieu == "Direction régionale"
+                        ? contrat[i].lieu.code_lieu
+                        : contrat[i].lieu.code_rattache_DR,
+                    point_de_vente:
+                      contrat[i].lieu.type_lieu == "Point de vente"
+                        ? contrat[i].lieu.code_lieu
+                        : "",
+                    montant_brut: montant_loyer_brut,
+                    montant_tax:
+                      contrat[i].lieu.proprietaire[j].tax_par_periodicite,
+                    montant_net: montant_loyer_net,
+                    date_comptabilisation: dateDeComptabilisation,
+                  });
+
+                  let nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+                    dateDeComptabilisation.getFullYear() + 1
+                  );
+                  await Contrat.findByIdAndUpdate(
+                    { _id: contrat[i]._id },
+                    { date_comptabilisation: nextDateComptabilisation }
+                  )
+                    .then(() => {
+                      console.log("Date Comptabilisation Changed !");
+                    })
+                    .catch((error) => {
+                      res.status(402).send({ message: error.message });
+                    });
+                }
+              }
             }
           }
         }
