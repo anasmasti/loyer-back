@@ -16,7 +16,6 @@ module.exports = {
     let currentDate = new Date();
     let currentYear = currentDate.getFullYear();
     let currentMonth = currentDate.getMonth() + 1;
-    // let TestResult = archivecomptabilisation.find({ mois: req.body.mois , annee: req.body.annee })
 
     // Get the (archivecomptabilisation) data and put it in ArchCmptb variable
     archivecomptabilisation

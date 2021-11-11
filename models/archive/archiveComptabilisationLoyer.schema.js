@@ -15,6 +15,6 @@ const archiveComptabilisationSchema = new Schema({
     }
 }, { timestamps: true })
 
-const ArchiveComptabilisation = mongoose.model("ArchiveComptabilisationLoyer", archiveComptabilisationSchema)
+const ArchiveComptabilisation = mongoose.model("ArchiveComptabilisation", archiveComptabilisationSchema)
 
 module.exports = ArchiveComptabilisation

@@ -268,42 +268,45 @@ module.exports = {
     }
 
     // Sending mail to All the DC (Département Comptable) roles
-    let mailData = {
-      name: 'Yassine'
-    }
-
-    let emailsList = [];
-
-    await User.aggregate([
-      {
-        $match: {
-          deleted: false,
-          userRoles: {
-            $elemMatch: {
-              roleCode: 'DC',
-              deleted: false,
+    if (data.etat_contrat.libelle === "Résilié" || data.etat_contrat.libelle === "Suspendu") {
+      
+      let mailData= {
+        Message: 'Le contrat n°' + data.numero_contrat + " est " + data.etat_contrat.libelle + " ."
+      }
+  
+      let emailsList = [];
+  
+      await User.aggregate([
+        {
+          $match: {
+            deleted: false,
+            userRoles: {
+              $elemMatch: {
+                roleCode: 'DC',
+                deleted: false,
+              },
             },
           },
         },
-      },
-    ])
-      .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-          emailsList.push(data[i].email);
-        }
-        console.log(emailsList.join());
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(400).send({ message: error.message });
-      });
-
-    // mail.sendMail(
-    //   emailsList.join(),
-    //   "Contrat validation",
-    //   "validation1",
-    //   mailData
-    // );
+      ])
+        .then((data) => {
+          for (let i = 0; i < data.length; i++) {
+            emailsList.push(data[i].email);
+          }
+          console.log(emailsList.join());
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(400).send({ message: error.message });
+        });
+        
+      // mail.sendMail(
+      //   emailsList.join(),
+      //   "Contrat validation",
+      //   "validation1",
+      //   mailData
+      // );
+    }
 
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
       .then((data) => {
