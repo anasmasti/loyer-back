@@ -1,28 +1,145 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2021-09-01</exerciceFiscalDu>
+  <exerciceFiscalDu>2021-1-1</exerciceFiscalDu>
   <exerciceFiscalAu>2021-12-31</exerciceFiscalAu>
   <annee>2021</annee>
-  <mois/>
-  <totalMntBrutLoyer/>
-  <totalMntRetenueSource>0</totalMntRetenueSource>
-  <totalMntNetLoyer/>
+  <totalMntBrutLoyer>75438.57142857142</totalMntBrutLoyer>
+  <totalMntRetenueSource>7890.25</totalMntRetenueSource>
+  <totalMntNetLoyer>71362.07142857142</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur>dsffdqs</numCNIBailleur>
-      <numCEBailleur>fdsdsfq</numCEBailleur>
-      <nomPrenomBailleur>gfdhfhg</nomPrenomBailleur>
-      <adresseBailleur>gf6fdggfd</adresseBailleur>
-      <adresseBien>04dfssss</adresseBien>
+      <numCNIBailleur>BJ346798</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <numTSC>N005</numTSC>
-      <mntBrutLoyerAnnuel/>
-      <mntRetenueSourceAnnuel>0</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel/>
+      <mntBrutLoyer>18510</mntBrutLoyer>
+      <mntRetenueSource>5090.25</mntRetenueSource>
+      <mntNetLoyer>15733.5</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>2</ifuBailleur>
+      <numCNIBailleur>BB147852</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000</mntBrutLoyer>
+      <mntRetenueSource>600</mntRetenueSource>
+      <mntNetLoyer>2700</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>3</ifuBailleur>
+      <numCNIBailleur>BB75432</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur/>
+      <adresseBailleur>TestAdresse</adresseBailleur>
+      <adresseBien>TestAdresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000</mntBrutLoyer>
+      <mntRetenueSource>1000</mntRetenueSource>
+      <mntNetLoyer>4500</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>4</ifuBailleur>
+      <numCNIBailleur>BB159753</numCNIBailleur>
+      <numCEBailleur>125876</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000</mntBrutLoyer>
+      <mntRetenueSource>1200</mntRetenueSource>
+      <mntNetLoyer>4500</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>5</ifuBailleur>
+      <numCNIBailleur>BJ645875</numCNIBailleur>
+      <numCEBailleur>1326548</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6428.571428571428</mntBrutLoyer>
+      <mntRetenueSource/>
+      <mntNetLoyer>6428.571428571428</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>6</ifuBailleur>
+      <numCNIBailleur>BJ7542</numCNIBailleur>
+      <numCEBailleur>468512</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>15000</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>15000</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>7</ifuBailleur>
+      <numCNIBailleur>BB159824</numCNIBailleur>
+      <numCEBailleur>65465</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>15000</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>15000</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>8</ifuBailleur>
+      <numCNIBailleur>BJ186492</numCNIBailleur>
+      <numCEBailleur>153497</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>7500</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>7500</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

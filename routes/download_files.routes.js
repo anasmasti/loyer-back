@@ -8,8 +8,8 @@ const getFichierComptableCaution = require("../controllers/comptabilisation/comp
 
 const router = express.Router();
 
-router.route("/annex1").get(getAnnex1.createAnnex1);
-router.route("/annex2").get(getAnnex2.createAnnex2);
+router.route("/annex1/:mois/:annee").get(getAnnex1.createAnnex1);
+router.route("/annex2/:mois/:annee").get(getAnnex2.createAnnex2);
 router
   .route("/fichier-comptable-loyer")
   .get(getFichierComptableLoyer.setComptabilisationLoyer);
