@@ -1,14 +1,15 @@
 const express = require('express')
-const testClotureMois = require('../controllers/cloture/cloture')
+const Cloture = require('../controllers/cloture/cloture')
+const verifyRole = require("../middleware/verify-user-role");
 
 const router = express.Router();
 
 router
-.route("/cloture-mois")
-.post(testClotureMois.clotureDuMois);
+.route("/cloture/:matricule")
+.post( verifyRole.checkRoles("DC"), Cloture.clotureDuMois);
 router
 .route("/next-cloture")
-.get(testClotureMois.getClotureDate)
+.get(Cloture.getClotureDate)
 
 
 module.exports = router;

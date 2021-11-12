@@ -1,6 +1,6 @@
 const xml2js = require("xml2js");
 const fs = require("fs");
-const archivecomptabilisation = require("../../models/archive/archiveComptabilisationLoyer.schema");
+const archivecomptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const archivevirements = require("../../models/archive/archiveVirement.schema");
 
 module.exports = {

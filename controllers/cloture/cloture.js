@@ -1,6 +1,6 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
-const archiveComptabilisation = require("../../models/archive/archiveComptabilisationLoyer.schema");
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
@@ -126,8 +126,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -218,8 +220,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -322,8 +326,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -426,8 +432,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -536,8 +544,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -627,8 +637,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -728,8 +740,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -832,8 +846,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -937,8 +953,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1028,8 +1046,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1128,8 +1148,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1233,8 +1255,10 @@ module.exports = {
               montantDebiter = contrat[i].montant_loyer
             }
             comptabilisationLoyerDebiter.push({
+              intitule_lieu: contrat[i].lieu.intitule_lieu,
+              montant_caution: contrat[i].montant_caution,
               direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+              contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1332,8 +1356,10 @@ module.exports = {
                 montantDebiter = contrat[i].montant_loyer
               }
               comptabilisationLoyerDebiter.push({
+                intitule_lieu: contrat[i].lieu.intitule_lieu,
+                montant_caution: contrat[i].montant_caution,
                 direction_regional:
-                  contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                     ? contrat[i].lieu.code_lieu
                     : contrat[i].lieu.code_rattache_DR,
                 point_de_vente:
@@ -1424,8 +1450,10 @@ module.exports = {
                 montantDebiter = contrat[i].montant_loyer
               }
               comptabilisationLoyerDebiter.push({
+                intitule_lieu: contrat[i].lieu.intitule_lieu,
+                montant_caution: contrat[i].montant_caution,
                 direction_regional:
-                  contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                     ? contrat[i].lieu.code_lieu
                     : contrat[i].lieu.code_rattache_DR,
                 point_de_vente:
@@ -1516,8 +1544,10 @@ module.exports = {
                 montantDebiter = contrat[i].montant_loyer
               }
               comptabilisationLoyerDebiter.push({
+                intitule_lieu: contrat[i].lieu.intitule_lieu,
+                montant_caution: contrat[i].montant_caution,
                 direction_regional:
-                  contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                     ? contrat[i].lieu.code_lieu
                     : contrat[i].lieu.code_rattache_DR,
                 point_de_vente:
@@ -1565,7 +1595,7 @@ module.exports = {
         await comptabilisationArchive
           .save()
           .then((comptabilisationData) => {
-            res.json([comptabilisationData, virementData]);
+            res.json(true);
           })
           .catch((error) => {
             res.status(402).send({ message: error.message });
