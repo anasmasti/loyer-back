@@ -3,7 +3,7 @@ const archiveComptabilisation = require("../../models/archive/archiveComptabilis
 
 
 module.exports = {
-    setComptabilisationLoyer: async (_, res) => {
+    setComptabilisationLoyer: async (req, res) => {
 
         // delete data from file if exist
         // fs.writeFile('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
@@ -15,14 +15,17 @@ module.exports = {
             return (1e15 + number + '').slice(-count);
         }
 
-        archiveComptabilisation.find()
+        archiveComptabilisation.findOne({mois: req.body.mois, annee: req.body.annee})
             .then((data) => {
                
                return res.json(data)
 
                 //ecriture comptable du loyer Sens D
-                for (let index = 0; index < data[0].comptabilisation_loyer_debiter.length; index++) {
-
+                for (let i = 0; i < data.comptabilisation_loyer_debiter.length; index++) {
+                    let dateGenerationVirement = data.date_generation_comptabilisation
+                    let dateWithSlash = '01' + '/' + ('0' + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '/' + dateGenerationVirement.getFullYear();
+                    let dateWithDash = dateGenerationVirement.getFullYear() + '-' + ('0' + + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '-' + '01';
+                    let montantLoyer = data.comptabilisation_loyer_debiter[i].montant
                     let addTwoNumbersAfterComma = montantLoyer.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontant = pad(replacePointWithComma, 9)
