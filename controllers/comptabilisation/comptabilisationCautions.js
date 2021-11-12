@@ -2,69 +2,62 @@ const fs = require('fs')
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema")
 
 module.exports = {
-    setComptabilisationCautions: async (_, res) => {
-
-        //set date de virement
-        let today = new Date();
-        let currentMonthName = today.toLocaleString('default', { month: 'long' })
-        let dateWithSlash = '01' + '/' + ('0' + (today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear();
-        let dateWithDash = today.getFullYear() + '-' + ('0' + + (today.getMonth() + 1)).slice(-2) + '-' + '01';
-
-        //delete data from file if exist
-        fs.writeFile('download/FichierComptableCaution ' + currentMonthName + ' ' + today.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
-            if (error) throw error
-        })
+    genererComptabilisationCautions: async (req, res) => {
 
         //add zeros (0)
         function pad(number, count) {
             return (1e15 + number + '').slice(-count);
         }
 
-        Contrat.find().populate('lieu').populate('foncier').populate({ path: 'foncier', populate: { path: 'proprietaire' } })
+        archiveComptabilisation.findOne({ mois: req.params.mois, annee: req.params.annee })
             .then((data) => {
-                
-                let lieuIntitule = "";
+                // return  res.json(data)
 
-                for (let index = 0; index < data.length; index++) {
+                //traitement du date
+                let dateGenerationVirement = data.date_generation_de_comptabilisation
+                let dateWithSlash = '01' + '/' + ('0' + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '/' + dateGenerationVirement.getFullYear();
+                let dateMonthName = dateGenerationVirement.toLocaleString('default', { month: 'long' })
 
-                    lieuIntitule = data[index].lieu.intitule_lieu
+                //delete data from file if exist
+                fs.writeFile('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
+                    if (error) throw error
+                })
 
-                    let montantCaution = parseInt(data[index].montant_caution)
+                //traitement de comptabilisation caution sens Debiter
+                for (let i = 0; i < data.comptabilisation_loyer_debiter.length; i++) {
 
-                    
-                    // montantCaution = montantCaution === (NaN || null )? montantCaution = 0 : montantCaution
+                    let lieuIntitule = data.comptabilisation_loyer_debiter[i].intitule_lieu
 
+                    let montantCaution = data.comptabilisation_loyer_debiter[i].montant_caution
                     let addTwoNumbersAfterComma = montantCaution.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontant = pad(replacePointWithComma, 9)
 
-                    let ecritureDebiterCaution = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithSlash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithSlash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|31500003|-|NS|NS|NS|-|-|-|-|-|-|-|-|' + fullMontant + '|D|-\n'
+                    let ecritureDebiterCaution = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithSlash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithSlash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|31500003|-|NS|NS|NS|-|-|-|-|-|-|-|-|' + fullMontant + '|D|-\n'
 
-                    fs.writeFileSync('download/FichierComptableCaution ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
+                    fs.writeFileSync('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
 
-                for (let index = 0; index < data.length; index++) {
+                //traitement de comptabilisation caution sens Crediter
+                for (let i = 0; i < data.comptabilisation_loyer_debiter.length; i++) {
 
-                    lieuIntitule = data[index].lieu.intitule_lieu
+                    let lieuIntitule = data.comptabilisation_loyer_debiter[i].intitule_lieu
 
-                    let montantCaution = parseInt(data[index].montant_caution)
-
-                    // montantCaution = montantCaution === (NaN || null) ? montantCaution = 0 : montantCaution
-
+                    let montantCaution = data.comptabilisation_loyer_debiter[i].montant_caution
                     let addTwoNumbersAfterComma = montantCaution.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontant = pad(replacePointWithComma, 9)
 
-                    let ecritureDebiterCaution = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithSlash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithSlash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|10200000|-|NS|NS|NS|-|-|-|-|-|-|-|-|' + fullMontant + '|C|-\n'
+                    let ecritureDebiterCaution = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithSlash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithSlash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|10200000|-|NS|NS|NS|-|-|-|-|-|-|-|-|' + fullMontant + '|C|-\n'
 
-                    fs.writeFileSync('download/FichierComptableCaution ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
+                    fs.writeFileSync('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
 
-                res.download('download/FichierComptableCaution ' + currentMonthName + ' ' + today.getFullYear() + '.txt')
+                res.download('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
             })
     }
 

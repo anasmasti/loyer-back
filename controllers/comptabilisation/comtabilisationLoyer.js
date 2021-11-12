@@ -3,68 +3,107 @@ const archiveComptabilisation = require("../../models/archive/archiveComptabilis
 
 
 module.exports = {
-    setComptabilisationLoyer: async (req, res) => {
-
-        // delete data from file if exist
-        // fs.writeFile('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
-        //     if (error) throw error
-        // })
-
+    genererComptabilisationLoyer: async (req, res) => {
         //add zeros (0)
         function pad(number, count) {
             return (1e15 + number + '').slice(-count);
         }
 
-        archiveComptabilisation.findOne({mois: req.body.mois, annee: req.body.annee})
+        archiveComptabilisation.findOne({ mois: req.params.mois, annee: req.params.annee })
             .then((data) => {
-               
-               return res.json(data)
 
+                //traitement du date
+                let dateGenerationVirement = data.date_generation_de_comptabilisation
+                let dateWithSlash = '01' + '/' + ('0' + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '/' + dateGenerationVirement.getFullYear();
+                let dateWithDash = dateGenerationVirement.getFullYear() + '-' + ('0' + + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '-' + '01';
+                let dateMonthName = dateGenerationVirement.toLocaleString('default', { month: 'long' })
+
+                // delete data from file if exist
+                fs.writeFile('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
+                    if (error) throw error
+                })
                 //ecriture comptable du loyer Sens D
-                for (let i = 0; i < data.comptabilisation_loyer_debiter.length; index++) {
-                    let dateGenerationVirement = data.date_generation_comptabilisation
-                    let dateWithSlash = '01' + '/' + ('0' + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '/' + dateGenerationVirement.getFullYear();
-                    let dateWithDash = dateGenerationVirement.getFullYear() + '-' + ('0' + + (dateGenerationVirement.getMonth() + 1)).slice(-2) + '-' + '01';
+                for (let i = 0; i < data.comptabilisation_loyer_debiter.length; i++) {
+
+                    //traitement du montant
                     let montantLoyer = data.comptabilisation_loyer_debiter[i].montant
                     let addTwoNumbersAfterComma = montantLoyer.toFixed(2)
                     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
                     let fullMontant = pad(replacePointWithComma, 9)
-                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + ' ' + dateWithSlash + '|01|64200001|NS|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|\n'
-                    // Frais Loyer-|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
-                    fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
+
+                    //les infos du lieu
+                    let codeDr, codePv, lieuIntitule;
+                    codeDr = data.comptabilisation_loyer_debiter[i].direction_regional;
+                    lieuIntitule = data.comptabilisation_loyer_debiter[i].intitule_lieu;
+                    if (data.comptabilisation_loyer_debiter[i].point_de_vente == "") {
+                        codePv = "-|-"
+                    } else {
+                        codePv = data.comptabilisation_loyer_debiter[i].point_de_vente
+                    }
+
+                    //ecriture debiter
+                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + ' ' + dateWithSlash + '|01|64200001|NS|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|Frais Loyer-|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
+                    fs.writeFileSync('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
 
                 //ecriture comptable Sens C 'Montant Net'
-                // for (let index = 0; index < data.length; index++) {
+                for (let i = 0; i < data.comptabilisation_loyer_crediter.length; i++) {
 
-                //     let addTwoNumbersAfterComma = montantNet.toFixed(2)
-                //     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
-                //     let fullMontantNet = pad(replacePointWithComma, 9)
-                //     let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + ' ' + lieuIntitule + '|01|32700008|NS|NS|NS|' + fullMontantNet + '|C|\n'
-                //     // Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
-                //     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
-                //         if (error) res.json({ message: error.message })
-                //     })
-                // }
+                    //traitement du montant net
+                    let montantNet = data.comptabilisation_loyer_crediter[i].montant_net
+                    let addTwoNumbersAfterComma = montantNet.toFixed(2)
+                    let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
+                    let fullMontantNet = pad(replacePointWithComma, 9)
 
-                //ecriture comptable Sens C 'Tax'
-                // for (let index = 0; index < data.length; index++) {
+                    //infos lieu 
+                    lieuIntitule = data.comptabilisation_loyer_crediter[i].intitule_lieu
 
-                //     let addTwoNumbersAfterComma = tax.toFixed(2)
-                //     let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
-                //     let fullTax = pad(replacePointWithComma, 9)
+                    //set proprietaire cin/passport/carte sejour
+                    let proprietaireIdentifiant;
+                    if (data.comptabilisation_loyer_crediter[i].cin == "" && data.comptabilisation_loyer_crediter[i].passport == "") {
+                        proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].carte_sejour
+                    } else if (data.comptabilisation_loyer_crediter[i].passport == "" && data.comptabilisation_loyer_crediter[i].carte_sejour == "") {
+                        proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].cin
+                    } else if (data.comptabilisation_loyer_crediter[i].cin == "" && data.comptabilisation_loyer_crediter[i].carte_sejour == "") {
+                        proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].passport
+                    }
 
-                //     let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + currentMonthName.toUpperCase() + '-' + today.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '/' + lieuIntitule + '|01|32100007|NS|NS|NS|' + fullTax + '|C|\n'
-                //     //Frais Loyer-' + cinProprietaire + '|GFL -' + (today.getMonth() + 1) + '-' + today.getFullYear() + '||-
+                    //ecriture crediter du montant net
+                    let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + ' ' + lieuIntitule + '|01|32700008|NS|NS|NS|' + fullMontantNet + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
+                    fs.writeFileSync('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
+                        if (error) res.json({ message: error.message })
+                    })
+                }
 
-                //     fs.writeFileSync('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
-                //         if (error) res.json({ message: error.message })
-                //     })
-                // }
-               
-                // res.download('download/FichierComptable ' + currentMonthName + ' ' + today.getFullYear() + '.txt')
+                // ecriture comptable Sens C 'Tax'
+                for (let i = 0; i < data.comptabilisation_loyer_crediter.length; i++) {
+
+                    //traitement du montant de tax
+                    let montantTax = data.comptabilisation_loyer_crediter[i].montant_tax
+                    let addTwoNumbersAfterComma = montantTax.toFixed(2)
+                    let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
+                    let fullMontantTax = pad(replacePointWithComma, 9)
+
+                    // set proprietaire cin/passport/carte sejour
+                    let proprietaireIdentifiant;
+                    if (data.comptabilisation_loyer_crediter[i].cin == "" && data.comptabilisation_loyer_crediter[i].passport == "") {
+                        proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].carte_sejour
+                    } else if (data.comptabilisation_loyer_crediter[i].passport == "" && data.comptabilisation_loyer_crediter[i].carte_sejour == "") {
+                        proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].cin
+                    } else if (data.comptabilisation_loyer_crediter[i].cin == "" && data.comptabilisation_loyer_crediter[i].carte_sejour == "") {
+                        proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].passport
+                    }
+
+                    let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '/' + lieuIntitule + '|01|32100007|NS|NS|NS|' + fullMontantTax + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
+
+                    fs.writeFileSync('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
+                        if (error) res.json({ message: error.message })
+                    })
+                }
+
+                res.download('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
 
             })
             .catch((error) => {
