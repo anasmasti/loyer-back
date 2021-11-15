@@ -5,74 +5,74 @@
   <exerciceFiscalAu>2021-12-31</exerciceFiscalAu>
   <annee>2021</annee>
   <mois>11</mois>
-  <totalMntBrutLoyer>28000</totalMntBrutLoyer>
-  <totalMntRetenueSource>99999</totalMntRetenueSource>
-  <totalMntNetLoyer>4416.666666666667</totalMntNetLoyer>
+  <totalMntBrutLoyer>43928.57142857143</totalMntBrutLoyer>
+  <totalMntRetenueSource>0</totalMntRetenueSource>
+  <totalMntNetLoyer>43928.57142857143</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur>bh15555</numCNIBailleur>
-      <numCEBailleur>111</numCEBailleur>
-      <nomPrenomBailleur>ted lasso</nomPrenomBailleur>
-      <adresseBailleur>Test adresse</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <numCNIBailleur>BJ645875</numCNIBailleur>
+      <numCEBailleur>1326548</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>5000</mntBrutLoyer>
-      <mntRetenueSource>00000</mntRetenueSource>
-      <mntNetLoyer>00000</mntNetLoyer>
+      <mntBrutLoyer>6428.571428571428</mntBrutLoyer>
+      <mntRetenueSource/>
+      <mntNetLoyer>6428.571428571428</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>2</ifuBailleur>
-      <numCNIBailleur>aqw156</numCNIBailleur>
-      <numCEBailleur>111</numCEBailleur>
-      <nomPrenomBailleur>bob marley</nomPrenomBailleur>
-      <adresseBailleur>Test adresse</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <numCNIBailleur>BJ7542</numCNIBailleur>
+      <numCEBailleur>468512</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000</mntBrutLoyer>
-      <mntRetenueSource>00000</mntRetenueSource>
-      <mntNetLoyer>00000</mntNetLoyer>
+      <mntBrutLoyer>15000</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>15000</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>3</ifuBailleur>
-      <numCNIBailleur>qs586</numCNIBailleur>
-      <numCEBailleur>111</numCEBailleur>
-      <nomPrenomBailleur>tom cruz</nomPrenomBailleur>
-      <adresseBailleur>Test adresse</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <numCNIBailleur>BB159824</numCNIBailleur>
+      <numCEBailleur>65465</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test Adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000</mntBrutLoyer>
-      <mntRetenueSource>00000</mntRetenueSource>
-      <mntNetLoyer>00000</mntNetLoyer>
+      <mntBrutLoyer>15000</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>15000</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>4</ifuBailleur>
-      <numCNIBailleur>mp45</numCNIBailleur>
-      <numCEBailleur>111</numCEBailleur>
-      <nomPrenomBailleur>lina sara</nomPrenomBailleur>
+      <numCNIBailleur>BJ186492</numCNIBailleur>
+      <numCEBailleur>153497</numCEBailleur>
+      <nomPrenomBailleur/>
       <adresseBailleur>Test adresse</adresseBailleur>
       <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>3000</mntBrutLoyer>
-      <mntRetenueSource>00000</mntRetenueSource>
-      <mntNetLoyer>00000</mntNetLoyer>
+      <mntBrutLoyer>7500</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>7500</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
