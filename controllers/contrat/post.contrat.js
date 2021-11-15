@@ -5,14 +5,18 @@ const mongoose = require('mongoose')
 module.exports = {
     ajouterContrat: async (req, res) => {
         // variables
-        let piece_joint_contrat = [],
-            item = 0;
+        let piece_joint_contrat = [], item = 0, data = null;
 
         if (Object.keys(req.body).length === 0)
             return res.status(402).send({ message: "Please fill the required :)" });
 
-        //parse incoming data to json
-        let data = await JSON.parse(req.body.data);
+        try {
+            //parse incoming data to json
+            data = await JSON.parse(req.body.data);
+        } catch (error) {
+            return res.status(402).send({ message: error.message })
+        }
+
 
         //stock file in array
         if (req.files) {
@@ -66,7 +70,7 @@ module.exports = {
         await nouveauContrat.save()
             .then(async (data) => {
                 await Lieu.findByIdAndUpdate({ _id: data.lieu }, { has_contrat: true })
-                
+
             })
             .catch((error) => {
                 res.status(400).send({ message: error.message })

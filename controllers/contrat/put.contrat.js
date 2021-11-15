@@ -103,9 +103,9 @@ module.exports = {
       };
 
       //set the next date de comptabilisation if contrat suspendu
-      let dureeSuspension = data.etat_contrat.etat.duree_suspension;
-      let dateComptabilisation = new Date(data.date_comptabilisation)
-      nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+      // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
+      // let dateComptabilisation = new Date(data.date_comptabilisation)
+      // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
 
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
@@ -121,10 +121,10 @@ module.exports = {
         },
       };
       //set the next date de comptabilisation if contrat resilie
-      let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
-      let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution))
+      // let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+      // let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution))
 
-      nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
+      // nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
 
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = data.etat_contrat;
