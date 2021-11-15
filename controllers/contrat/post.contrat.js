@@ -11,13 +11,12 @@ module.exports = {
             return res.status(402).send({ message: "Please fill the required :)" });
 
         try {
-            //parse incoming data to json
+            // parse incoming data to json
             data = await JSON.parse(req.body.data);
         } catch (error) {
             return res.status(402).send({ message: error.message })
         }
-
-
+        
         //stock file in array
         if (req.files) {
             if (req.files.piece_joint_contrat) {

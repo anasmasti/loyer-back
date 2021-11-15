@@ -13,7 +13,7 @@ module.exports = {
             .then((data) => {
                 // return res.json(data)
                 //traitement du date
-                let totalMontantsNet = 0
+                let totalMontantsNet = 0;
                 let zoneInitialiseSpace = ' '
                 let dateGenerationVirement = data.date_generation_de_virement
                 let dateGenerationVirementToString = '01' + ('0' + (dateGenerationVirement.getMonth() + 1)).slice(-2) + dateGenerationVirement.getFullYear();
@@ -40,8 +40,8 @@ module.exports = {
                     let montantNet = data.ordre_virement[i].montant_net
                     totalMontantsNet += montantNet
                     let addTwoNumbersAfterComma = montantNet.toFixed(2)
-                    let replacePointWithComma = addTwoNumbersAfterComma.replace('.', ',')
-                    let fullMontant = pad(replacePointWithComma, 9).toString()
+                    let removePointFromMontant = addTwoNumbersAfterComma.replace('.', '')
+                    let fullMontant = removePointFromMontant.toString()
                     
                     // traitement d'identifiant du proprietaire
                     let proprietaireIdentifiant;
@@ -67,8 +67,8 @@ module.exports = {
                         if (error) res.json({ message: error.message })
                     })
                 }
-               
-                let footerOrdreVirement = '0802'+zoneInitialiseSpace.padEnd(98,' ')+ totalMontantsNet.toString().padEnd(16,' ')+zoneInitialiseSpace.padEnd(42,' ')
+                totalMontantsNet = totalMontantsNet.toFixed(2)
+                let footerOrdreVirement = '0802'+zoneInitialiseSpace.padEnd(98,' ')+ totalMontantsNet.toString().replace('.','').padEnd(16,' ')+zoneInitialiseSpace.padEnd(42,' ')
                 
                 fs.writeFileSync('download/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', footerOrdreVirement, { flag: "a" }, (error) => {
                     if (error) res.json({ message: error.message })
