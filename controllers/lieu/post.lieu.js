@@ -5,6 +5,7 @@ const Lieu = require('../../models/lieu/lieu.model')
 module.exports = {
     ajouterLieu: async(req, res, next) => {
         let data = await JSON.parse(req.body.data)
+        console.log(data);
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
 
         if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
