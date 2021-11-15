@@ -271,7 +271,7 @@ module.exports = {
     if (data.etat_contrat.libelle === "Résilié" || data.etat_contrat.libelle === "Suspendu") {
       
       let mailData= {
-        Message: 'Le contrat n°' + data.numero_contrat + " est " + data.etat_contrat.libelle + " ."
+        message: 'Le contrat n°' + data.numero_contrat + " est " + data.etat_contrat.libelle + " ."
       }
   
       let emailsList = [];
@@ -345,18 +345,18 @@ module.exports = {
       });
 
     let mailData = {
-      name: "Anas",
+      message: "La première validation est effectuée.",
     };
 
-    // mail.sendMail(
-    //   emailsList.join(),
-    //   "Contrat validation",
-    //   "validation1",
-    //   data
-    // );
+    mail.sendMail(
+      // emailsList.join(),
+      "anasmasti@hotmail.com",
+      "Contrat validation",
+      "validation1",
+      mailData
+    );
 
     // Sending mail to All the DAJC (Direction Affaires Juridiques et Conformité) roles
-    Test('DAJC')
 
     await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
   },
