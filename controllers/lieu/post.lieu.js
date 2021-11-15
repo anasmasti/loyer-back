@@ -7,8 +7,10 @@ module.exports = {
         let data = await JSON.parse(req.body.data)
         console.log(data);
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
-
-        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
+        const lieuExist = await Lieu.findById({ _id: data._id })
+        const etatExist = lieuExist && lieuExist.etat
+        
+        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null && etatExist == 'dispo') {
             return res.status(422).send({ message: 'Le code lieu et deja pris' })
         }
 
@@ -115,6 +117,7 @@ module.exports = {
                 centre_cout_siege: data.centre_cout_siege,
                 categorie_pointVente: data.categorie_pointVente,
                 etat_logement_fonction: data.etat_logement_fonction,
+                etat: data.etat,
                 directeur_regional: directeurRegional,
                 deleted: false
             })
@@ -171,6 +174,7 @@ module.exports = {
                 categorie_pointVente: data.categorie_pointVente,
                 etat_logement_fonction: data.etat_logement_fonction,
                 directeur_regional: directeurRegional,
+                etat: data.etat,
                 deleted: false
             })
             await lieu.save()

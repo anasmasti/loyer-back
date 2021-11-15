@@ -84,7 +84,11 @@ const lieuSchema = new Schema({
     has_contrat:{
         type:Boolean,
         default: false
-    }
+    },
+    etat: {
+        type: String,
+        default: 'dispo'
+    },
 }, { timestamps: true })
 
 const Lieu = mongoose.model('Lieu', lieuSchema)
