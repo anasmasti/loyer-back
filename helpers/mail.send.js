@@ -16,14 +16,16 @@ module.exports = {
     let transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: "mediexpertsapp@gmail.com",
-        pass: "Mediexperts2021",
+        user: "yassine.19am49@gmail.com",
+        pass: "Yassine@Gmail2_2021",
+        // user: "mediexpertsapp@gmail.com",
+        // pass: "Mediexperts2021",
       },
-      from: "mediexpertsapp@gmail.com",
+      from: "help@capitalsoft.com",
     });
 
     var message = {
-      from: "mediexpertsapp@gmail.com",
+      from: "help@capitalsoft.com",
       to: to,
       subject: subject,
       html: htmlToSend,
