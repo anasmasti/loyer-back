@@ -184,9 +184,6 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'number.base': 'Tax par periodicite contient juste des chiffres',
 }),
-    mandataire: Joi
-        .boolean(),
-
     pourcentage_caution: Joi
         .number()
         .empty()
@@ -208,6 +205,13 @@ const ProprietaireValidation = Joi.object({
     deleted: Joi
         .boolean()
         .default(false),
+    proprietaire_list: Joi
+        .array(),
+    is_mandataire: Joi
+        .boolean(),
+    // has_mandataire: Joi
+    //     .
+    //     .default(null),
     montant_loyer: Joi
         .number()
         .empty(0)

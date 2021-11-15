@@ -78,8 +78,7 @@ module.exports = {
                 tax_par_periodicite: req.body.tax_par_periodicite,
                 pourcentage_caution: req.body.pourcentage_caution,
                 caution_par_proprietaire:  req.body.caution_par_proprietaire,
-                mandataire: req.body.mandataire,
-               
+                is_mandataire: req.body.is_mandataire,
             })
                 .then((data) => {
                     res.send(data)

@@ -87,10 +87,15 @@ const ProprietaireSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    mandataire: {
+    is_mandataire: {
       type: Boolean,
       default: false,
     },
+    has_mandataire:{
+      type: Schema.Types.ObjectId,
+      ref: 'Proprietaire',
+    },
+    proprietaire_list:[]
   },
   { timestamps: true }
 );

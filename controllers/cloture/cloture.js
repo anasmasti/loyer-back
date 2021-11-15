@@ -53,7 +53,7 @@ module.exports = {
             req.body.annee == dateDebutLoyer.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_avance_net =
                     contrat[i].lieu.proprietaire[j].montant_avance_proprietaire -
@@ -149,7 +149,7 @@ module.exports = {
             req.body.annee == dateDebutLoyer.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -254,7 +254,7 @@ module.exports = {
             req.body.annee == premierDateDePaiement.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -362,7 +362,7 @@ module.exports = {
             req.body.annee <= dateFinDeContrat.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -472,7 +472,7 @@ module.exports = {
             req.body.annee == dateDebutLoyer.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_avance_net =
                     contrat[i].lieu.proprietaire[j].montant_avance_proprietaire -
@@ -567,7 +567,7 @@ module.exports = {
             req.body.annee == dateDebutLoyer.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -671,7 +671,7 @@ module.exports = {
             req.body.annee == premierDateDePaiement.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -776,7 +776,7 @@ module.exports = {
             req.body.annee <= dateFinDeContrat.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -881,7 +881,7 @@ module.exports = {
             req.body.annee == dateDebutLoyer.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_avance_net =
                     contrat[i].lieu.proprietaire[j].montant_avance_proprietaire -
@@ -976,7 +976,7 @@ module.exports = {
             req.body.annee == dateDebutLoyer.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -1078,7 +1078,7 @@ module.exports = {
             req.body.annee == premierDateDePaiement.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -1184,7 +1184,7 @@ module.exports = {
             req.body.annee <= dateFinDeContrat.getFullYear()
           ) {
             for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-              if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+              if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
                 if (contrat[i].caution_versee == false) {
                   montant_loyer_net =
                     contrat[i].lieu.proprietaire[j].montant_apres_impot +
@@ -1296,7 +1296,7 @@ module.exports = {
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
               for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-                if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
 
                   montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot;
                   montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer;
@@ -1390,7 +1390,7 @@ module.exports = {
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
               for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-                if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
 
                   montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot;
                   montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer;
@@ -1484,7 +1484,7 @@ module.exports = {
               dateDeComptabilisation <= contrat[i].etat_contrat.etat.date_resiliation
             ) {
               for (let j = 0; j < contrat[i].lieu.proprietaire.length; j++) {
-                if (contrat[i].lieu.proprietaire[j].mandataire == true) {
+                if (contrat[i].lieu.proprietaire[j].is_mandataire == true) {
 
                   montant_loyer_net = contrat[i].lieu.proprietaire[j].montant_apres_impot;
                   montant_loyer_brut = contrat[i].lieu.proprietaire[j].montant_loyer;
