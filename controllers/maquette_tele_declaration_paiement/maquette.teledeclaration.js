@@ -95,11 +95,11 @@ module.exports = {
         var builder = new xml2js.Builder();
         var xml = builder.buildObject(Annex1);
 
-        fs.writeFile(`download/Annex1-${AlphabeticalMonth}-${dateGenerationComptabilisation.getFullYear()}.xml`, xml, (error) => {
+        fs.writeFile(`download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${dateGenerationComptabilisation.getFullYear()}.xml`, xml, (error) => {
           if (error) {
             res.status(403).json({ message: error.message });
           } else {
-            res.download(`download/Annex1-${AlphabeticalMonth}-${dateGenerationComptabilisation.getFullYear()}.xml`);
+            res.download(`download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${dateGenerationComptabilisation.getFullYear()}.xml`);
           }
         });
       })
