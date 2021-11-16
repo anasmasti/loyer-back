@@ -113,6 +113,9 @@ module.exports = {
         etat: {
           intitule_lieu: data.etat_contrat.etat.intitule_lieu,
           reprise_caution: data.etat_contrat.etat.reprise_caution,
+          etat_caution_consomme: data.etat_caution_consomme,
+          duree_consomme: data.duree_consomme,
+          duree_a_recuperer: data.duree_a_recuperer,
           date_resiliation: data.etat_contrat.etat.date_resiliation,
           etat_lieu_sortie: data.etat_contrat.etat.etat_lieu_sortie,
           preavis: data.etat_contrat.etat.preavis,

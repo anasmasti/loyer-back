@@ -5,9 +5,9 @@ module.exports = {
     genererOrdreVirement: async (req, res) => {
 
         //add zeros (0)
-        function pad(number, count) {
-            return (1e15 + number + '').slice(-count);
-        }
+        // function pad(number, count) {
+        //     return (1e15 + number + '').slice(-count);
+        // }
 
         archiveOrdreVirement.findOne({ mois: req.params.mois, annee: req.params.annee })
             .then((data) => {
@@ -21,7 +21,7 @@ module.exports = {
                 let dateMonthName = dateGenerationVirement.toLocaleString('default', { month: 'long' })
 
                 //delete data from file if exist
-                fs.writeFile('download/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
+                fs.writeFile('download/ordre virement/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
                     if (error) throw error
                 })
 
@@ -29,7 +29,7 @@ module.exports = {
                 let headerOrdreVirement = '0302' + zoneInitialiseSpace.padEnd(16, ' ') + '1' + zoneInitialiseSpace.padEnd(4, ' ') + dateGenerationVirementToString+ ' '+ 'ATTAWFIQ MICRO FINANCE  ' + zoneInitialiseSpace.padEnd(13, ' ') + 'Fra.LY' + dateWithoutDay + zoneInitialiseSpace.padEnd(9, ' ') + '0000000000000000' + ')' + '2' + zoneInitialiseSpace.padEnd(45, ' ') + '00000' + '000' + '00' + zoneInitialiseSpace.padEnd(1, ' ') + '\n'
 
 
-                fs.writeFileSync('download/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', headerOrdreVirement, { flag: "a" }, (error) => {
+                fs.writeFileSync('download/ordre virement/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', headerOrdreVirement, { flag: "a" }, (error) => {
                     if (error) res.json({ message: error.message })
                 })
 
@@ -63,17 +63,17 @@ module.exports = {
 
                     let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire + ')' + fullMontant.padEnd(16, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\n'
 
-                    fs.writeFileSync('download/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureOrdreVirement, { flag: "a" }, (error) => {
+                    fs.writeFileSync('download/ordre virement/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureOrdreVirement, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
                 totalMontantsNet = totalMontantsNet.toFixed(2)
                 let footerOrdreVirement = '0802'+zoneInitialiseSpace.padEnd(98,' ')+ totalMontantsNet.toString().replace('.','').padEnd(16,' ')+zoneInitialiseSpace.padEnd(42,' ')
                 
-                fs.writeFileSync('download/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', footerOrdreVirement, { flag: "a" }, (error) => {
+                fs.writeFileSync('download/ordre virement/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', footerOrdreVirement, { flag: "a" }, (error) => {
                     if (error) res.json({ message: error.message })
                 })
-                res.download('download/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
+                res.download('download/ordre virement/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
             })
     }
 }

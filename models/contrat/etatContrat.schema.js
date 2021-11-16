@@ -10,6 +10,15 @@ const EtatContratSchema = new Schema({
     reprise_caution: {
         type: String,
     },
+    etat_caution_consomme: {
+        type: String
+    },
+    duree_consomme: {
+        type: Number
+    },
+    duree_a_recupere: {
+        type: Number
+    },
     date_resiliation: {
         type: String,
     },
@@ -53,5 +62,5 @@ const EtatContratSchema = new Schema({
         type: Boolean,
         default: false
     }
-}, {timestamps: true});
+}, { timestamps: true });
 module.exports = EtatContratSchema;
