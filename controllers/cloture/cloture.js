@@ -129,7 +129,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -223,7 +223,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -329,7 +329,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -435,7 +435,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -547,7 +547,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -640,7 +640,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -743,7 +743,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -849,7 +849,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -956,7 +956,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1049,7 +1049,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1151,7 +1151,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1258,7 +1258,7 @@ module.exports = {
               intitule_lieu: contrat[i].lieu.intitule_lieu,
               montant_caution: contrat[i].montant_caution,
               direction_regional:
-              contrat[i].lieu.type_lieu == "Direction régionale"
+                contrat[i].lieu.type_lieu == "Direction régionale"
                   ? contrat[i].lieu.code_lieu
                   : contrat[i].lieu.code_rattache_DR,
               point_de_vente:
@@ -1359,7 +1359,7 @@ module.exports = {
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
                 montant_caution: contrat[i].montant_caution,
                 direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+                  contrat[i].lieu.type_lieu == "Direction régionale"
                     ? contrat[i].lieu.code_lieu
                     : contrat[i].lieu.code_rattache_DR,
                 point_de_vente:
@@ -1453,7 +1453,7 @@ module.exports = {
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
                 montant_caution: contrat[i].montant_caution,
                 direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+                  contrat[i].lieu.type_lieu == "Direction régionale"
                     ? contrat[i].lieu.code_lieu
                     : contrat[i].lieu.code_rattache_DR,
                 point_de_vente:
@@ -1547,7 +1547,7 @@ module.exports = {
                 intitule_lieu: contrat[i].lieu.intitule_lieu,
                 montant_caution: contrat[i].montant_caution,
                 direction_regional:
-                contrat[i].lieu.type_lieu == "Direction régionale"
+                  contrat[i].lieu.type_lieu == "Direction régionale"
                     ? contrat[i].lieu.code_lieu
                     : contrat[i].lieu.code_rattache_DR,
                 point_de_vente:
@@ -1610,10 +1610,9 @@ module.exports = {
     let nextCloture;
     await archiveComptabilisation
       .find()
-      .sort({ date_generation_de_comptabilisation: "desc" })
+      .sort({ date_generation_de_comptabilisation: "desc" }).select({ date_generation_de_comptabilisation: 1 })
       .then((data) => {
-        // nextCloture = new Date(data[0].date_generation_de_comptabilisation)
-        nextCloture = new Date()
+        nextCloture = new Date(data[0].date_generation_de_comptabilisation)
         res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
       })
       .catch((error) => {

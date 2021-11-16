@@ -93,7 +93,6 @@ module.exports = {
         // Download the xml file 
         var builder = new xml2js.Builder();
         var xml = builder.buildObject(Annex2);
-        console.dirxml(xml);
 
         fs.writeFile(`download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`, xml, (error) => {
           if (error) {
