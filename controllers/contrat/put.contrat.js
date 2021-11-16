@@ -123,6 +123,7 @@ module.exports = {
           lettre_res_piece_jointe: lettre_res_piece_jointe,
         },
       };
+      
       //set the next date de comptabilisation if contrat resilie
       // let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
       // let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution))

@@ -1,4 +1,3 @@
-const { json } = require('body-parser');
 const Lieu = require('../../models/lieu/lieu.model')
 
 
@@ -7,10 +6,10 @@ module.exports = {
         let data = await JSON.parse(req.body.data)
         console.log(data);
         const codeLieuExist = await Lieu.findOne({ code_lieu: data.code_lieu })
-        const lieuExist = await Lieu.findById({ _id: data._id })
-        const etatExist = lieuExist && lieuExist.etat
+        // const lieuExist = await Lieu.findById({ _id: data._id })
+        // const etatExist = lieuExist && lieuExist.etat
         
-        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null && etatExist == 'dispo') {
+        if (codeLieuExist && codeLieuExist.code_lieu != "" && codeLieuExist.code_lieu != null) {
             return res.status(422).send({ message: 'Le code lieu et deja pris' })
         }
 
