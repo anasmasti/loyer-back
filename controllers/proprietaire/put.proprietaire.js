@@ -79,6 +79,7 @@ module.exports = {
                 pourcentage_caution: req.body.pourcentage_caution,
                 caution_par_proprietaire:  req.body.caution_par_proprietaire,
                 is_mandataire: req.body.is_mandataire,
+                proprietaire_list: req.body.proprietaire_list,
             })
                 .then((data) => {
                     res.send(data)
