@@ -34,7 +34,8 @@ module.exports = {
             if (ValidateCarteSejourProprietaire) {
                 if (ValidateCarteSejourProprietaire.carte_sejour != '') return res.status(422).send({ message: `Carte séjour est déja pris` })
             }
-           
+
+            
                 const proprietaire = new Proprietaire({
                     deleted: false,
                     cin: req.body.cin,
@@ -68,6 +69,28 @@ module.exports = {
                 await proprietaire.save()
                     .then(async (data) => {
                         await Lieu.findByIdAndUpdate({_id: req.params.Id_lieu},{$push: {proprietaire: data._id}})
+
+                        // Update the Proprietaire list 
+                        // if (req.body.is_mandataire && req.body.proprietaire_list.length > 0) {
+                        //     for (let i = 0; i < req.body.proprietaire_list.length; i++) {
+                        //         await Proprietaire.findByIdAndUpdate(req.body.proprietaire_list[i], {
+                        //             has_mandataire:  data._id ,
+                        //         })
+                        //         .then((data) => {
+                        //             res.send(data)
+                        //         })
+                        //         .catch((error) => {
+                        //             if (error.code == 11000) {
+                    
+                        //                 return res.status(422).send({ message: `Numéro compte bancaire est déja pris` })
+                    
+                        //             } else {
+                        //                 return res.status(500).send({ message: `Error de modification le propriétaire` || error })
+                        //             }
+                        //         })  
+                        //     }
+                        // }
+
                         res.json(data)
                     })
                     .catch((error) => {

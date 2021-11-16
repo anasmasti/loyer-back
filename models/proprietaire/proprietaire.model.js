@@ -91,9 +91,13 @@ const ProprietaireSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    // has_mandataire:{
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Proprietaire',
+    // },
     has_mandataire:{
-      type: Schema.Types.ObjectId,
-      ref: 'Proprietaire',
+      type: String,
+      default: null,
     },
     proprietaire_list:[]
   },

@@ -205,13 +205,12 @@ const ProprietaireValidation = Joi.object({
     deleted: Joi
         .boolean()
         .default(false),
-    proprietaire_list: Joi
-        .array(),
     is_mandataire: Joi
         .boolean(),
-    // has_mandataire: Joi
-    //     .
-    //     .default(null),
+    proprietaire_list: Joi
+        .array(),
+    has_mandataire: Joi
+        .string(),
     montant_loyer: Joi
         .number()
         .empty(0)
