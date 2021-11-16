@@ -19,7 +19,7 @@ module.exports = {
                 let dateMonthName = dateGenerationVirement.toLocaleString('default', { month: 'long' })
 
                 // delete data from file if exist
-                fs.writeFile('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
+                fs.writeFile('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
                     if (error) throw error
                 })
                 //ecriture comptable du loyer Sens D
@@ -43,7 +43,7 @@ module.exports = {
 
                     //ecriture debiter
                     let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + ' ' + dateWithSlash + '|01|64200001|NS|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|Frais Loyer-|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
-                    fs.writeFileSync('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
+                    fs.writeFileSync('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
@@ -72,7 +72,7 @@ module.exports = {
 
                     //ecriture crediter du montant net
                     let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + ' ' + lieuIntitule + '|01|32700008|NS|NS|NS|' + fullMontantNet + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
-                    fs.writeFileSync('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
+                    fs.writeFileSync('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
@@ -98,12 +98,12 @@ module.exports = {
 
                     let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '/' + lieuIntitule + '|01|32100007|NS|NS|NS|' + fullMontantTax + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
 
-                    fs.writeFileSync('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
+                    fs.writeFileSync('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
 
-                res.download('download/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
+                res.download('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
 
             })
             .catch((error) => {

@@ -19,7 +19,7 @@ module.exports = {
                 let dateMonthName = dateGenerationVirement.toLocaleString('default', { month: 'long' })
 
                 //delete data from file if exist
-                fs.writeFile('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
+                fs.writeFile('download/comptabilisation caution/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', '', { flag: 'w' }, (error) => {
                     if (error) throw error
                 })
 
@@ -35,7 +35,7 @@ module.exports = {
 
                     let ecritureDebiterCaution = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithSlash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithSlash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|31500003|-|NS|NS|NS|-|-|-|-|-|-|-|-|' + fullMontant + '|D|-\n'
 
-                    fs.writeFileSync('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
+                    fs.writeFileSync('download/comptabilisation caution/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
@@ -52,12 +52,12 @@ module.exports = {
 
                     let ecritureDebiterCaution = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithSlash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithSlash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + '/' + dateWithSlash + '|01|10200000|-|NS|NS|NS|-|-|-|-|-|-|-|-|' + fullMontant + '|C|-\n'
 
-                    fs.writeFileSync('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
+                    fs.writeFileSync('download/comptabilisation caution/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterCaution, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
                 }
 
-                res.download('download/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
+                res.download('download/comptabilisation caution/FichierComptableCaution ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt')
             })
     }
 
