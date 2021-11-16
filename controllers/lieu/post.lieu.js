@@ -116,7 +116,7 @@ module.exports = {
                 centre_cout_siege: data.centre_cout_siege,
                 categorie_pointVente: data.categorie_pointVente,
                 etat_logement_fonction: data.etat_logement_fonction,
-                etat: data.etat,
+                // etat: data.etat,
                 directeur_regional: directeurRegional,
                 deleted: false
             })
@@ -173,7 +173,7 @@ module.exports = {
                 categorie_pointVente: data.categorie_pointVente,
                 etat_logement_fonction: data.etat_logement_fonction,
                 directeur_regional: directeurRegional,
-                etat: data.etat,
+                // etat: data.etat,
                 deleted: false
             })
             await lieu.save()

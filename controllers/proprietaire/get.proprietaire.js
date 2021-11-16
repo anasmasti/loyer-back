@@ -5,7 +5,7 @@ module.exports = {
 
     //Chercher touts les propriétaires
     getAllProprietaire: async (req, res) => {
-        await Proprietaire.find({ deleted: false }).populate('Lieu').sort( {updatedAt: 'desc'} )
+        await Proprietaire.find({ deleted: false }).populate({ path: "proprietaire_list", populate: { path: "idProprietaire" }}).sort( {updatedAt: 'desc'} )
             .then((data) => {
                 res.send(data)
             })

@@ -85,10 +85,10 @@ const lieuSchema = new Schema({
         type:Boolean,
         default: false
     },
-    etat: {
-        type: String,
-        default: 'dispo'
-    },
+    // etat: {
+    //     type: String,
+    //     default: 'dispo'
+    // },
 }, { timestamps: true })
 
 const Lieu = mongoose.model('Lieu', lieuSchema)
