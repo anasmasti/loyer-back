@@ -184,7 +184,7 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'number.base': 'Tax par periodicite contient juste des chiffres',
 }),
-    pourcentage_caution: Joi
+    pourcentage: Joi
         .number()
         .empty()
         .messages({
