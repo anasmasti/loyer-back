@@ -86,7 +86,6 @@ module.exports = {
                 })
                 .catch((error) => {
                     if (error.code == 11000) {
-
                         return res.status(422).send({ message: `Numéro compte bancaire est déja pris` })
 
                     } else {
