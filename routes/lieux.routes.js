@@ -4,7 +4,6 @@ const postLieu = require("../controllers/lieu/post.lieu");
 const modifierLieu = require("../controllers/lieu/put.lieu");
 const getLieu = require("../controllers/lieu/get.lieu");
 const deleteLieu = require("../controllers/lieu/delete.lieu");
-const upload = require("../middleware/upload");
 const router = express.Router();
 
 router
