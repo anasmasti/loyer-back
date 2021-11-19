@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const fileSchema = require("../shared/file.schema");
-const fournisseurSchema = require("../../models/lieu/fournisseur.schema");
+const fournisseurSchema = require("../../models/foncier/fournisseur.schema");
 
 const amenagementSchema = new Schema({
   idm: {
