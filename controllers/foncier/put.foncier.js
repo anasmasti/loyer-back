@@ -149,7 +149,7 @@ module.exports = {
           superficie: data.superficie,
           etage: data.etage,
           lieu: lieu,
-          type_lieu: data.type_lieu,
+          type: data.type,
           // etat: data.etat,
         },
         { new: true }
@@ -236,7 +236,7 @@ module.exports = {
           superficie: data.superficie,
           etage: data.etage,
           lieu: lieu,
-          type_lieu: data.type_lieu,
+          type: data.type,
           // etat: data.etat,
         },
         { new: true }

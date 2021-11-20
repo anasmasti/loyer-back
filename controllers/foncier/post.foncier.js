@@ -2,9 +2,14 @@ const Foncier = require("../../models/foncier/foncier.model");
 
 module.exports = {
   ajouterFoncier: async (req, res, next) => {
-    let data = await JSON.parse(req.body.data);
+    let lieu = [],
+      data = null;
+    try {
+      data = await JSON.parse(req.body.data);
+    } catch (error) {
+      return res.status(422).send({ message: error.message });
+    }
     console.log(data);
-    let lieu = [];
     lieu.push({
       id_lieu: data.id_lieu,
       deleted: false,
@@ -99,7 +104,7 @@ module.exports = {
         superficie: data.superficie,
         etage: data.etage,
         lieu: lieu,
-        type_lieu: data.type_lieu,
+        type: data.type,
         // etat: data.etat,
       });
       await foncier
@@ -131,7 +136,7 @@ module.exports = {
         superficie: data.superficie,
         etage: data.etage,
         lieu: lieu,
-        type_lieu: data.type_lieu,
+        type: data.type,
         // etat: data.etat,
       });
       await foncier
