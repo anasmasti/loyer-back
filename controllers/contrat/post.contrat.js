@@ -7,7 +7,8 @@ module.exports = {
     // variables
     let piece_joint_contrat = [],
       data,
-      idLieu = null;
+      idLieu,
+      requestedLieu = null;
 
     // fill the required fields
     if (Object.keys(req.body).length === 0)
@@ -39,10 +40,14 @@ module.exports = {
         idLieu = requestedFoncier.lieu[i].id_lieu;
       }
     }
-    //find lieu that is requested from foncier
-    let requestedLieu = await Lieu.findById({
-      _id: idLieu,
-    });
+    if (idLieu != null) {
+      //find lieu that is requested from foncier
+      requestedLieu = await Lieu.findById({
+        _id: idLieu,
+      });
+    } else {
+      return res.status(422).send({ message: "_id lieu cannot be null" });
+    }
     //set numero de contrat
     let numeroContrat =
       requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu;
