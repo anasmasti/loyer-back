@@ -18,7 +18,7 @@ module.exports = {
       // parse incoming data to json
       data = await JSON.parse(req.body.data);
     } catch (error) {
-      return res.status(402).send({ message: error.message });
+      return res.status(500).send({ message: error.message });
     }
 
     //stock file in array
