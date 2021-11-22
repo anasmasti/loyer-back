@@ -28,9 +28,9 @@ module.exports = {
       let DirectionRegionales = await Lieu.find({
         type_lieu: "Direction régionale",
         deleted: false,
-      });
+      }).limit(11);
 
-      for (let index = 0; index < DirectionRegionales.length; index++) {
+      for (let i = 0; i < DirectionRegionales.length; i++) {
         let nombreLFbyDR = await Lieu.find({
           type_lieu: "Point de vente",
           deleted: false,
