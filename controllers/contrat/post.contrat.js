@@ -2,6 +2,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Foncier = require("../../models/foncier/foncier.model");
 
+
 module.exports = {
   ajouterContrat: async (req, res) => {
     // variables
@@ -34,17 +35,21 @@ module.exports = {
     }
 
     //filter id_lieu in the requested foncier
-    let requestedFoncier = Foncier.find({ _id: req.params.IdFoncier });
+    console.log('-id foncier-',req.params.IdFoncier);
+    let requestedFoncier = await Foncier.findById({ _id: req.params.IdFoncier});
+    console.log(requestedFoncier);
+
     for (let i in requestedFoncier.lieu) {
+      console.log('-id lieu-',requestedFoncier.lieu[i]);
+
       if (requestedFoncier.lieu[i].deleted == false) {
-        idLieu = requestedFoncier.lieu[i].id_lieu;
+        idLieu = requestedFoncier.lieu[i].lieu;
+        console.log('id lieu ==>',idLieu);
       }
     }
     if (idLieu != null) {
       //find lieu that is requested from foncier
-      requestedLieu = await Lieu.findById({
-        _id: idLieu,
-      });
+      requestedLieu = await Lieu.findById({_id: idLieu,});
     } else {
       return res.status(422).send({ message: "_id lieu cannot be null" });
     }
@@ -92,10 +97,9 @@ module.exports = {
     await nouveauContrat
       .save()
       .then(async (data) => {
-        await Foncier.findByIdAndUpdate(
-          { _id: data.lieu },
-          { has_contrat: true }
+        await Foncier.findByIdAndUpdate({ _id: req.params.IdFoncier },{ has_contrat: true }
         );
+        res.json(data)
       })
       .catch((error) => {
         res.status(400).send({ message: error.message });

@@ -10,8 +10,9 @@ module.exports = {
       return res.status(422).send({ message: error.message });
     }
     console.log(data);
+
     lieu.push({
-      id_lieu: data.id_lieu,
+      lieu: data.lieu,
       deleted: false,
       transferer: false,
     });
