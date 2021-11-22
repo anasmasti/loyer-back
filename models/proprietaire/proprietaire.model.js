@@ -77,7 +77,7 @@ const ProprietaireSchema = new Schema(
     tax_par_periodicite: {
       type: Number,
     },
-    pourcentage_caution: {
+    pourcentage: {
       type: Number,
     },
     caution_par_proprietaire: {

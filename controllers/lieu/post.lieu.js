@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const Lieu = require('../../models/lieu/lieu.model')
 
 
@@ -141,48 +142,58 @@ module.exports = {
                     }
                 }
             }
+=======
+const Lieu = require("../../models/lieu/lieu.model");
 
-            for (item in data.directeur_regional) {
-                directeurRegional.push({
-                    matricule: data.directeur_regional[item].matricule,
-                    nom: data.directeur_regional[item].nom,
-                    prenom: data.directeur_regional[item].prenom,
-                    deleted_directeur: false
-                })
-            }
+module.exports = {
+  ajouterLieu: async (req, res, next) => {
+    //check lieu if already exist
+    const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu });
 
-            const lieu = new Lieu({
-                code_lieu: data.code_lieu,
-                intitule_lieu: data.intitule_lieu,
-                intitule_DR: data.intitule_DR,
-                adresse: data.adresse,
-                ville: data.ville,
-                code_localite: data.code_localite,
-                desc_lieu_entrer: data.desc_lieu_entrer,
-                imgs_lieu_entrer: imagesLieu,
-                has_amenagements: data.has_amenagements,
-                superficie: data.superficie,
-                telephone: data.telephone,
-                fax: data.fax,
-                etage: data.etage,
-                type_lieu: data.type_lieu,
-                code_rattache_DR: data.code_rattache_DR,
-                code_rattahce_SUP: data.code_rattahce_SUP,
-                intitule_rattache_SUP_PV: data.intitule_rattache_SUP_PV,
-                centre_cout_siege: data.centre_cout_siege,
-                categorie_pointVente: data.categorie_pointVente,
-                etat_logement_fonction: data.etat_logement_fonction,
-                directeur_regional: directeurRegional,
-                // etat: data.etat,
-                deleted: false
-            })
-            await lieu.save()
-                .then((data) => {
-                    res.json(data)
-                })
-                .catch((error) => {
-                    res.status(402).send({ message: error.message })
-                })
-        }
+    if (
+      codeLieuExist &&
+      codeLieuExist.code_lieu != "" &&
+      codeLieuExist.code_lieu != null
+    ) {
+      return res.status(422).send({ message: "Le code lieu et deja pris" });
     }
-}
+>>>>>>> a50ed9c0a16b0cff3342d920d491cc8e4d7f63f2
+
+    let directeurRegional = [],
+      item = 0;
+
+    for (item in req.body.directeur_regional) {
+      directeurRegional.push({
+        matricule: req.body.directeur_regional[item].matricule,
+        nom: req.body.directeur_regional[item].nom,
+        prenom: req.body.directeur_regional[item].prenom,
+        deleted_directeur: false,
+      });
+    }
+
+    const lieu = new Lieu({
+      code_lieu: req.body.code_lieu,
+      intitule_lieu: req.body.intitule_lieu,
+      code_localite: req.body.code_localite,
+      telephone: req.body.telephone,
+      fax: req.body.fax,
+      type_lieu: req.body.type_lieu,
+      code_rattache_DR: req.body.code_rattache_DR,
+      code_rattahce_SUP: req.body.code_rattahce_SUP,
+      intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
+      centre_cout_siege: req.body.centre_cout_siege,
+      categorie_pointVente: req.body.categorie_pointVente,
+      etat_logement_fonction: req.body.etat_logement_fonction,
+      directeur_regional: directeurRegional,
+      deleted: false,
+    });
+    await lieu
+      .save()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((error) => {
+        res.status(402).send({ message: error.message });
+      });
+  },
+};

@@ -13,7 +13,8 @@ const chartsRoute = require("./routes/charts.routes");
 const sharedRoute = require("./routes/shared.routes");
 const contratRoute = require("./routes/contrat.routes");
 const downloadFilesRoute = require("./routes/download_files.routes");
-const clotureRoute = require("./routes/cloture.routes")
+const clotureRoute = require("./routes/cloture.routes");
+const foncierRoute = require("./routes/foncier.routes");
 const authRoute = require("./routes/auth.routes");
 
 const dotenv = require("dotenv");
@@ -69,7 +70,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 
 //routes configuration
 ((...routes) => {
-  routes.forEach(route => {
+  routes.forEach((route) => {
     return app.use("/api/v1/", [route]);
   })
 })(
@@ -82,8 +83,9 @@ app.use(bodyParser.json({ limit: "50mb" }));
   downloadFilesRoute,
   sharedRoute,
   authRoute,
-  clotureRoute
-)
+  clotureRoute,
+  foncierRoute,
+);
 
 //database connection
 db_config;

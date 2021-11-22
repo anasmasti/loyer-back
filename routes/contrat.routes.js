@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require("express");
 const verifyRole = require("../middleware/verify-user-role");
 const postcontrat = require("../controllers/contrat/post.contrat");
 const getcontrat = require("../controllers/contrat/get.contrat");
@@ -7,7 +7,7 @@ const deletecontrat = require("../controllers/contrat/delete.contrat");
 const upload = require("../middleware/upload");
 const router = express.Router();
 
-router.route("/contrat/ajouter/:matricule").post(
+router.route("/contrat/ajouter/:IdFoncier/:matricule").post(
   verifyRole.checkRoles("CDGSP", "CSLA"),
   upload.fields([
     { name: "piece_joint_contrat", maxCount: 1 },

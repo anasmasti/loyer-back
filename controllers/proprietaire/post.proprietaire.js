@@ -1,7 +1,7 @@
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const ProprietaireValidation = require("../../validation/proprietaire.validation");
-const Lieu = require("../../models/lieu/lieu.model");
-const  mongoose  = require("mongoose");
+const Foncier = require("../../models/foncier/foncier.model");
+const mongoose = require("mongoose");
 
 module.exports = {
   // Ajouter un propriétaire
@@ -21,9 +21,9 @@ module.exports = {
       }
 
       // Lancer Joi Validation
-      const validatedProprietaire = await ProprietaireValidation.validateAsync(
-        req.body
-      );
+      // const validatedProprietaire = await ProprietaireValidation.validateAsync(
+      //   req.body
+      // );
 
       // La validation d'unicité du Proprietaire
       const ValidateCinProprietaire = await Proprietaire.findOne({
@@ -51,10 +51,12 @@ module.exports = {
             .send({ message: `Carte séjour est déja pris` });
       }
 
-      let PropList = []
-      
+      let PropList = [];
+
       for (let j = 0; j < req.body.proprietaire_list.length; j++) {
-          PropList.push({ idProprietaire: req.body.proprietaire_list[j].idProprietaire })
+        PropList.push({
+          idProprietaire: req.body.proprietaire_list[j].idProprietaire,
+        });
       }
 
       const proprietaire = new Proprietaire({
@@ -81,57 +83,40 @@ module.exports = {
         montant_avance_proprietaire: req.body.montant_avance_proprietaire,
         tax_avance_proprietaire: req.body.tax_avance_proprietaire,
         tax_par_periodicite: req.body.tax_par_periodicite,
-        pourcentage_caution: req.body.pourcentage_caution,
+        pourcentage: req.body.pourcentage,
         caution_par_proprietaire: req.body.caution_par_proprietaire,
         is_mandataire: req.body.is_mandataire,
         has_mandataire: null,
         proprietaire_list: req.body.proprietaire_list,
       });
-      console.log("body" , req.body.proprietaire_list);
 
       await proprietaire
         .save()
         .then(async (data) => {
-            console.log("Teeeeeeeeeeeest");
-          await Lieu.findByIdAndUpdate(
+          await Foncier.findByIdAndUpdate(
             { _id: req.params.Id_lieu },
             { $push: { proprietaire: data._id } }
-          );
-        //   .catch((error) => {
-        //     res
-        //     .status(500)
-        //     .send({
-        //       message: error.message,
-        //     });
-        //   })
+          ).catch((error) => {
+            res.status(422).send({
+              message: error.message,
+            });
+          });
 
           // Fill the has_mandataire with the proprietaire id if the inserted proprietaire is a mandataire
           if (req.body.is_mandataire && req.body.proprietaire_list.length > 0) {
-
             for (let i = 0; i < req.body.proprietaire_list.length; i++) {
-
               await Proprietaire.findByIdAndUpdate(
                 req.body.proprietaire_list[i].idProprietaire,
                 {
                   has_mandataire: data._id,
                 }
-              )
-              .then((data) => {
-                  res.send(data)
-              })
-                .catch((error) => {
-                  res
-                    .status(500)
-                    .send({
-                      message: error.message,
-                    });
+              ).catch((error) => {
+                res.status(422).send({
+                  message: error.message,
                 });
-            }//end For
-          }//end If
-
-        //   console.log("test", req.body.proprietaire_list.length);
-        //   console.log(req.body);
-
+              });
+            } //end For
+          } //end If
           res.json(data);
         })
         .catch((error) => {
@@ -143,13 +128,11 @@ module.exports = {
             // if (error.errors.n_compte_bancaire) return res.status(422).send({ message: error.message })
           } else {
             res
-              .status(500)
+              .status(422)
               //   .send({ message: `Error d'ajouter un propriétaire` || error });
               .send({ message: error.message });
           }
         });
-
-
     } catch (error) {
       res.status(422).send({
         message: error.message || `Validation error: ${error}`,

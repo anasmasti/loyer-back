@@ -1,141 +1,140 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const EtatContratSchema = require('./etatContrat.schema');
-const fileSchema = require('../shared/file.schema');
-
-
-
+const EtatContratSchema = require("./etatContrat.schema");
+const fileSchema = require("../shared/file.schema");
 
 //contrat Schema
-const ContratSchema = new Schema({
+const ContratSchema = new Schema(
+  {
     numero_contrat: {
-        type: String
+      type: String,
     },
     date_debut_loyer: {
-        type: Date,
+      type: Date,
     },
     date_fin_contrat: {
-        type: Date,
+      type: Date,
     },
     date_reprise_caution: {
-        type: Date,
+      type: Date,
     },
     date_fin_avance: {
-        type: Date,
+      type: Date,
     },
     date_premier_paiement: {
-        type: Date,
+      type: Date,
     },
     montant_loyer: {
-        type: Number,
+      type: Number,
     },
     taxe_edilite_loyer: {
-        type: String,
+      type: String,
     },
     taxe_edilite_non_loyer: {
-        type: String,
+      type: String,
     },
     periodicite_paiement: {
-        type: String,
+      type: String,
     },
     duree_location: {
-        type: Number,
+      type: Number,
     },
     declaration_option: {
-        type: String,
+      type: String,
     },
     taux_impot: {
-        type: Number,
+      type: Number,
     },
     retenue_source: {
-        type: String,
+      type: String,
     },
     montant_apres_impot: {
-        type: Number,
+      type: Number,
     },
     montant_caution: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     effort_caution: {
-        type: Number,
+      type: Number,
     },
     statut_caution: {
-        type: String,
+      type: String,
     },
     montant_avance: {
-        type: Number,
+      type: Number,
     },
     duree_avance: {
-        type: String,
+      type: String,
     },
     n_engagement_depense: {
-        type: String,
+      type: String,
     },
     echeance_revision_loyer: {
-        type: String,
+      type: String,
     },
     type_lieu: {
-        type: String,
+      type: String,
     },
-    lieu: {
-        type: Schema.Types.ObjectId,
-        ref: 'Lieu',
+    foncier: {
+      type: Schema.Types.ObjectId,
+      ref: "Foncier",
     },
     etat_contrat: {
-        libelle: {
-            type: String
-        },
-        etat: {
-            type: EtatContratSchema
-        }
+      libelle: {
+        type: String,
+      },
+      etat: {
+        type: EtatContratSchema,
+      },
     },
     piece_joint_contrat: {
-        type: [fileSchema],
+      type: [fileSchema],
     },
     deleted: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     validation1_DMG: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     validation2_DAJC: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     contrats_suspendu: {
-        type: Array
+      type: Array,
     },
     contrat_avener: {
-        type: Array
+      type: Array,
     },
-    duree:{
-        type:Number
+    duree: {
+      type: Number,
     },
-    retenue_source_par_mois:{
-        type: Number
+    retenue_source_par_mois: {
+      type: Number,
     },
-    total_montant_brut_loyer:{
-        type:Number
+    total_montant_brut_loyer: {
+      type: Number,
     },
-    total_montant_net_loyer:{
-        type: Number
+    total_montant_net_loyer: {
+      type: Number,
     },
     caution_versee: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     montant_avance_tax: {
-        type: Number
+      type: Number,
     },
-    date_comptabilisation:{
-        type:Date
-    }
-},{timestamps: true});
+    date_comptabilisation: {
+      type: Date,
+    },
+  },
+  { timestamps: true }
+);
 
+const Contrat = mongoose.model("Contrat", ContratSchema);
 
-const Contrat = mongoose.model('Contrat', ContratSchema)
-
-module.exports = Contrat
+module.exports = Contrat;
