@@ -24,10 +24,10 @@ router
   .get(getProprietaire.getCountProprietaire
 );
 router
-.route("/proprietaire/lieu/lieu-by-proprietaire/:Id/:matricule")
+.route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")
 .get(
   verifyRole.checkRoles("CDGSP", "CSLA"),
-  getProprietaire.getIdLieuByProprietaire
+  getProprietaire.getIdFoncierByProprietaire
 );
 router
   .route("/proprietaire/ajouter/:Id_lieu/:matricule")

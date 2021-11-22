@@ -106,9 +106,12 @@ module.exports = {
       };
 
       //set the next date de comptabilisation if contrat suspendu
-      // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
-      // let dateComptabilisation = new Date(data.date_comptabilisation)
-      // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+      let dureeSuspension = data.etat_contrat.etat.duree_suspension;
+      let dateComptabilisation = new Date(data.date_comptabilisation)
+      nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+
+      console.log(dateComptabilisation);
+      console.log("new date" , nextDateComptabilisation)
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
@@ -267,7 +270,7 @@ module.exports = {
         piece_joint_contrat: piece_joint_contrat,
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
-        date_comptabilisation: nextDateComptabilisation,
+        // date_comptabilisation: nextDateComptabilisation,
       };
     }
 
@@ -319,13 +322,14 @@ module.exports = {
       // );
     }
 
-    await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((error) => {
-        res.status(400).send({ message: error.message });
-      });
+    // await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+    //   .then((data) => {
+    //     res.json(data);
+    //   })
+    //   .catch((error) => {
+    //     res.status(400).send({ message: error.message });
+    //   });
+    res.json({test : true});
   },
 
   modifierValidationDMG: async (req, res) => {
