@@ -1,5 +1,5 @@
 const Proprietaire = require('../../models/proprietaire/proprietaire.model')
-const Lieu = require('../../models/lieu/lieu.model')
+const Foncier = require('../../models/foncier/foncier.model')
 
 module.exports = {
 
@@ -14,8 +14,8 @@ module.exports = {
             })
     },
 
-    getIdLieuByProprietaire : async (req , res) => {
-         await Lieu.find({ deleted: false , proprietaire: req.params.Id } , '_id')
+    getIdFoncierByProprietaire : async (req , res) => {
+         await Foncier.find({ deleted: false , proprietaire: req.params.Id } , '_id')
          .then((data) => {
             res.send(data)
         })

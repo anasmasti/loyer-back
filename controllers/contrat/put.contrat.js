@@ -269,7 +269,7 @@ module.exports = {
         piece_joint_contrat: piece_joint_contrat,
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
-        date_comptabilisation: nextDateComptabilisation,
+        // date_comptabilisation: nextDateComptabilisation,
       };
     }
 
@@ -321,13 +321,14 @@ module.exports = {
       // );
     }
 
-    await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((error) => {
-        res.status(400).send({ message: error.message });
-      });
+    // await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+    //   .then((data) => {
+    //     res.json(data);
+    //   })
+    //   .catch((error) => {
+    //     res.status(400).send({ message: error.message });
+    //   });
+    res.json({test : true});
   },
 
   modifierValidationDMG: async (req, res) => {
