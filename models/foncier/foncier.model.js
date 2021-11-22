@@ -19,7 +19,7 @@ const foncierSchema = new Schema(
     ],
     lieu: [
       {
-        id_lieu: {
+        lieu: {
           type: Schema.Types.ObjectId,
           ref: "Lieu",
         },

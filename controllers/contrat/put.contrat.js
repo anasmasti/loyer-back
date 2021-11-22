@@ -109,6 +109,7 @@ module.exports = {
       // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
       // let dateComptabilisation = new Date(data.date_comptabilisation)
       // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+      
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
