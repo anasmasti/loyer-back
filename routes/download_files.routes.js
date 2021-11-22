@@ -9,7 +9,7 @@ const getFichierOrdreVirement = require("../controllers/virement/ordreVirement")
 
 const router = express.Router();
 
-router.route("/annex1/:mois/:annee").get(getAnnex1.createAnnex1);
+router.route("/annex1/:mois/:annee").get(getAnnex1.createAnnex1FromContrat);
 router.route("/annex2/:mois/:annee").get(getAnnex2.createAnnex2);
 router
   .route("/fichier-comptable-loyer/:mois/:annee")
