@@ -2,7 +2,6 @@ const Contrat = require("../../models/contrat/contrat.model");
 const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 
-
 // function Test(userRole) {
 //   console.log('test');
 //   // let emailsList = [];
@@ -39,7 +38,6 @@ const mail = require("../../helpers/mail.send");
 //   // );
 // }
 
-
 module.exports = {
   modifierContrat: async (req, res) => {
     let item = 0,
@@ -51,10 +49,15 @@ module.exports = {
       updateContrat = {},
       contrats_suspendu = [],
       contrat_avener = [],
-      nextDateComptabilisation = null;
+      nextDateComptabilisation = null,
+      data = null;
 
     // console.log(req.body.data);
-    let data = JSON.parse(req.body.data);
+    try {
+      data = JSON.parse(req.body.data);
+    } catch (error) {
+      res.status(422).send({ message: error.message });
+    }
     //store files
     if (req.files) {
       if (req.files.piece_joint_contrat) {
@@ -106,7 +109,6 @@ module.exports = {
       // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
       // let dateComptabilisation = new Date(data.date_comptabilisation)
       // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
-
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
@@ -128,7 +130,6 @@ module.exports = {
       // let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.effort_caution))
 
       // nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
-
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = data.etat_contrat;
     }
@@ -266,26 +267,33 @@ module.exports = {
         piece_joint_contrat: piece_joint_contrat,
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
-        date_comptabilisation: nextDateComptabilisation
+        date_comptabilisation: nextDateComptabilisation,
       };
     }
 
     // Sending mail to All the DC (Département Comptable) roles
-    if (data.etat_contrat.libelle === "Résilié" || data.etat_contrat.libelle === "Suspendu") {
-      
-      let mailData= {
-        message: 'Le contrat n°' + data.numero_contrat + " est " + data.etat_contrat.libelle + " ."
-      }
-  
+    if (
+      data.etat_contrat.libelle === "Résilié" ||
+      data.etat_contrat.libelle === "Suspendu"
+    ) {
+      let mailData = {
+        message:
+          "Le contrat n°" +
+          data.numero_contrat +
+          " est " +
+          data.etat_contrat.libelle +
+          " .",
+      };
+
       let emailsList = [];
-  
+
       await User.aggregate([
         {
           $match: {
             deleted: false,
             userRoles: {
               $elemMatch: {
-                roleCode: 'DC',
+                roleCode: "DC",
                 deleted: false,
               },
             },
@@ -302,7 +310,7 @@ module.exports = {
           console.log(error);
           res.status(400).send({ message: error.message });
         });
-        
+
       // mail.sendMail(
       //   emailsList.join(),
       //   "Contrat validation",
@@ -367,5 +375,4 @@ module.exports = {
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true });
   },
-
 };

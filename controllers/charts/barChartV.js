@@ -9,17 +9,38 @@ module.exports = {
       "Marrakech",
       "Ouarzazate",
     ];
-    
+
     let allBarChartData = [];
 
     try {
-      for (let i = 0; i < topVilles.length; i++) {
-        let nombreFoncierByVille = await Lieu.find({type_lieu: "Direction régionale" , deleted: false}).countDocuments({
-          ville: topVilles[i], deleted: false
+      // get the DR count per City
+      // for (let i = 0; i < topVilles.length; i++) {
+      //   let nombreFoncierByVille = await Lieu.find({type_lieu: "Direction régionale" , deleted: false}).countDocuments({
+      //     ville: topVilles[i], deleted: false
+      //   });
+      //   allBarChartData.push({
+      //     name: topVilles[i],
+      //     value: nombreFoncierByVille,
+      //   });
+      // }
+
+      // get the LF count per DR
+      let DirectionRegionales = await Lieu.find({
+        type_lieu: "Direction régionale",
+        deleted: false,
+      });
+
+      for (let index = 0; index < DirectionRegionales.length; index++) {
+        let nombreLFbyDR = await Lieu.find({
+          type_lieu: "Point de vente",
+          deleted: false,
+        }).countDocuments({
+          code_rattache_DR: DirectionRegionales[i].code_lieu,
+          deleted: false,
         });
         allBarChartData.push({
-          name: topVilles[i],
-          value: nombreFoncierByVille,
+          name: DirectionRegionales[i].intitule_lieu,
+          value: nombreLFbyDR,
         });
       }
 
