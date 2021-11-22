@@ -30,7 +30,7 @@ router
   getProprietaire.getIdLieuByProprietaire
 );
 router
-  .route("/proprietaire/ajouter/:Id_lieu/:matricule")
+  .route("/proprietaire/ajouter/:IdFoncier/:matricule")
   .post(
     verifyRole.checkRoles("CDGSP", "CSLA"),
     postProprietaire.postProprietaire

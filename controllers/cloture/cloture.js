@@ -1619,4 +1619,8 @@ module.exports = {
         res.status(402).send({ message: error.message });
       });
   },
+
+  annulerCloture: async (req, res) => {
+    
+  }
 };
