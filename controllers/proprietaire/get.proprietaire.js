@@ -5,8 +5,9 @@ module.exports = {
 
     //Chercher touts les propriétaires
     getAllProprietaire: async (req, res) => {
-        await Proprietaire.find({ deleted: false }).populate({ path: "proprietaire_list", populate: { path: "idProprietaire" }}).sort( {updatedAt: 'desc'} )
+        await Proprietaire.find({ deleted: false }).populate({ path: "proprietaire_list"}).sort( {updatedAt: 'desc'} )
             .then((data) => {
+                console.log('test' , data);
                 res.send(data)
             })
             .catch((error) => {
@@ -28,6 +29,7 @@ module.exports = {
     getProprietairePerID: async (req, res) => {
         await Proprietaire.findById(req.params.Id)
             .then((data) => {
+                // console.log();
                 res.send(data)
             })
             .catch((error) => {
