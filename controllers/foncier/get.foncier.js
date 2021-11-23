@@ -4,11 +4,6 @@ const Proprietaire = require("../../models/proprietaire/proprietaire.model")
 module.exports = {
   //get all foncier and populated with proprietaire deleted: false
   getAllFoncier: async (_, res) => {
-<<<<<<< HEAD
-    Foncier.find()
-    .populate("lieu")
-    .populate({ path: "lieu", populate: { path: "lieu" } })
-=======
     Foncier.aggregate([
       {
         $match: { deleted: false }
@@ -70,7 +65,6 @@ module.exports = {
         }
       }
     ])
->>>>>>> 8be2c6bc9d81344d27c991d4369978ae386d12ec
       .then((data) => {
         res.json(data);
       })
