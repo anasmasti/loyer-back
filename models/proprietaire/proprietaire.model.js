@@ -101,10 +101,8 @@ const ProprietaireSchema = new Schema(
     },
     proprietaire_list: [
       {
-        idProprietaire: {
           type: Schema.Types.ObjectId,
           ref: "Proprietaire",
-        },
       },
     ],
   },

@@ -54,9 +54,9 @@ module.exports = {
       let PropList = [];
 
       for (let j = 0; j < req.body.proprietaire_list.length; j++) {
-        PropList.push({
-          idProprietaire: req.body.proprietaire_list[j].idProprietaire,
-        });
+        PropList.push(
+         req.body.proprietaire_list[j].Proprietaire,
+        );
       }
 
       const proprietaire = new Proprietaire({
@@ -106,7 +106,7 @@ module.exports = {
           if (req.body.is_mandataire && req.body.proprietaire_list.length > 0) {
             for (let i = 0; i < req.body.proprietaire_list.length; i++) {
               await Proprietaire.findByIdAndUpdate(
-                req.body.proprietaire_list[i].idProprietaire,
+                req.body.proprietaire_list[i],
                 {
                   has_mandataire: data._id,
                 }

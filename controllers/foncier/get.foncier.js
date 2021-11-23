@@ -3,6 +3,8 @@ const Foncier = require("../../models/foncier/foncier.model");
 module.exports = {
   getAllFoncier: async (_, res) => {
     Foncier.find()
+    .populate("lieu")
+    .populate({ path: "lieu", populate: { path: "lieu" } })
       .then((data) => {
         res.json(data);
       })
