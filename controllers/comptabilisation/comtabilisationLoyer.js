@@ -42,7 +42,7 @@ module.exports = {
                     }
 
                     //ecriture debiter
-                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + ' ' + dateWithSlash + '|01|64200001|NS|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|Frais Loyer-|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
+                    let ecritureDebiterLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + lieuIntitule + ' ' + dateWithSlash + '|01|64200001|-|' + codeDr + '|' + codePv + '|' + fullMontant + '|D|Frais Loyer-|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
                     fs.writeFileSync('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureDebiterLoyer, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
@@ -71,7 +71,7 @@ module.exports = {
                     }
 
                     //ecriture crediter du montant net
-                    let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + ' ' + lieuIntitule + '|01|32700008|NS|NS|NS|' + fullMontantNet + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
+                    let ecritureCrediterDuMontantNetLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + ' ' + lieuIntitule + '|01|32700008|-|-|-|' + fullMontantNet + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
                     fs.writeFileSync('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuMontantNetLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })
                     })
@@ -96,7 +96,7 @@ module.exports = {
                         proprietaireIdentifiant = data.comptabilisation_loyer_crediter[i].passport
                     }
 
-                    let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '/' + lieuIntitule + '|01|32100007|NS|NS|NS|' + fullMontantTax + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
+                    let ecritureCrediterDuTaxLoyer = 'FRAIS DE LOYER DU ' + dateWithSlash + '|' + dateWithDash + ' 00:00:00|' + dateMonthName.toUpperCase() + '-' + dateGenerationVirement.getFullYear() + '|' + dateWithDash + ' 00:00:00|LOY|PAISOFT|MAD|' + dateWithSlash + '/' + lieuIntitule + '|01|32100007|-|-|-|' + fullMontantTax + '|C|Frais Loyer-' + proprietaireIdentifiant + '|GFL -' + (dateGenerationVirement.getMonth() + 1) + '-' + dateGenerationVirement.getFullYear() + '||-\n'
 
                     fs.writeFileSync('download/comptabilisation loyer/FichierComptableLoyer ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureCrediterDuTaxLoyer, { flag: 'a' }, (error) => {
                         if (error) res.json({ message: error.message })
