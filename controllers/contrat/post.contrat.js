@@ -5,6 +5,7 @@ const Foncier = require("../../models/foncier/foncier.model");
 
 module.exports = {
     ajouterContrat: async(req, res) => {
+
         // variables
         let piece_joint_contrat = [],
             data,
@@ -35,10 +36,8 @@ module.exports = {
         }
 
         //filter id_lieu in the requested foncier
-        console.log('-id foncier-', req.params.IdFoncier);
         let requestedFoncier = await Foncier.findById({ _id: req.params.IdFoncier });
-        console.log(requestedFoncier);
-
+      
         for (let i in requestedFoncier.lieu) {
             console.log('-id lieu-', requestedFoncier.lieu[i]);
 
@@ -54,8 +53,7 @@ module.exports = {
             return res.status(422).send({ message: "_id lieu cannot be null" });
         }
         //set numero de contrat
-        let numeroContrat =
-            requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu;
+        let numeroContrat = requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu;
 
         //store contrat
         const nouveauContrat = new Contrat({

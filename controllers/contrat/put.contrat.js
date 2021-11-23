@@ -125,12 +125,23 @@ module.exports = {
                     lettre_res_piece_jointe: lettre_res_piece_jointe,
                 },
             };
+            if(data.etat_caution_consomme == 'partiellement'){
 
-            //set the next date de comptabilisation if contrat resilie
-            // let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
-            // let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_caution))
+                //set the next date de comptabilisation if contrat resilie
+                let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+                let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_caution))
+    
+                nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
 
-            // nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
+            }else if (data.etat_caution_consomme == 'totalement') {
+
+                //set the next date de comptabilisation if contrat resilie
+                let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+                let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_caution))
+    
+                nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
+            }
+
         } else if (data.etat_contrat.libelle === "Actif") {
             etatContrat = data.etat_contrat;
         }
@@ -320,7 +331,6 @@ module.exports = {
         //   .catch((error) => {
         //     res.status(400).send({ message: error.message });
         //   });
-        res.json({ test: true });
     },
 
     modifierValidationDMG: async(req, res) => {

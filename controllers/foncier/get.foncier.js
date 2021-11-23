@@ -1,5 +1,6 @@
 const Foncier = require("../../models/foncier/foncier.model");
-const Proprietaire = require("../../models/proprietaire/proprietaire.model")
+const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const Lieu = require('../../models/lieu/lieu.model');
 
 module.exports = {
   //get all foncier and populated with proprietaire deleted: false
@@ -9,12 +10,18 @@ module.exports = {
         $match: { deleted: false }
       },
       {
-        $lookup: {
+        $lookup: [{
           from: Proprietaire.collection.name,
           localField: 'proprietaire',
           foreignField: '_id',
           as: 'proprietaire',
-        }
+        },
+        {
+          from: Lieu.collection.name,
+          localField: 'lieu',
+          foreignField: '_id',
+          as: 'lieu',
+        }]
       },
       {
         $addFields: {
