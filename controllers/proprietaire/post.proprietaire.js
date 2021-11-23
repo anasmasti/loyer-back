@@ -51,14 +51,6 @@ module.exports = {
             .send({ message: `Carte séjour est déja pris` });
       }
 
-      let PropList = [];
-
-      for (let j = 0; j < req.body.proprietaire_list.length; j++) {
-        PropList.push(
-         req.body.proprietaire_list[j].Proprietaire,
-        );
-      }
-
       const proprietaire = new Proprietaire({
         deleted: false,
         cin: req.body.cin,
@@ -94,7 +86,7 @@ module.exports = {
         .save()
         .then(async (data) => {
           await Foncier.findByIdAndUpdate(
-            { _id: req.params.Id_lieu },
+            { _id: req.params.IdFoncier },
             { $push: { proprietaire: data._id } }
           ).catch((error) => {
             res.status(422).send({

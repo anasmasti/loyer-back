@@ -1286,8 +1286,7 @@ module.exports = {
 
       //traitement pour comptabiliser les contrats Resilier (cas des cautions)
       if (contrat[i].etat_contrat.libelle == "Résilié") {
-        console.log("date de comptabilisatino condition resilie", dateDeComptabilisation.getMonth());
-        if (contrat[i].statut_caution == "Récupérée") {
+        if (contrat[i].etat_contrat.etat.reprise_caution == "Récupérée") {
 
           if (contrat[i].periodicite_paiement == "mensuelle") {
             if (
@@ -1571,6 +1570,12 @@ module.exports = {
                 });
             }
           }
+        } else if (contrat[i].reprise_caution == 'Consommée') {
+          if (contrat[i].etat_caution_consomme == 'partiellement') {
+            
+          } else if (contrat[i].etat_caution_consomme == 'totallement') {
+
+          }
         }
       }//end for
     }
@@ -1613,10 +1618,14 @@ module.exports = {
       .sort({ date_generation_de_comptabilisation: "desc" }).select({ date_generation_de_comptabilisation: 1 })
       .then((data) => {
         nextCloture = new Date(data[0].date_generation_de_comptabilisation)
-        res.json({ mois: nextCloture.getMonth() + 1 , annee: nextCloture.getFullYear() });
+        res.json({ mois: nextCloture.getMonth() + 1, annee: nextCloture.getFullYear() });
       })
       .catch((error) => {
         res.status(402).send({ message: error.message });
       });
   },
+
+  annulerCloture: async (req, res) => {
+
+  }
 };
