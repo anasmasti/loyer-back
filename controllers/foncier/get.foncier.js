@@ -10,18 +10,20 @@ module.exports = {
         $match: { deleted: false }
       },
       {
-        $lookup: [{
+        $lookup: {
           from: Proprietaire.collection.name,
           localField: 'proprietaire',
           foreignField: '_id',
           as: 'proprietaire',
         },
-        {
+      },
+      {
+        $lookup: {
           from: Lieu.collection.name,
-          localField: 'lieu',
+          localField: 'lieu.lieu',
           foreignField: '_id',
           as: 'lieu',
-        }]
+        }
       },
       {
         $addFields: {
@@ -66,7 +68,7 @@ module.exports = {
                 "caution_par_proprietaire": '$$proprietairemap.caution_par_proprietaire',
                 "proprietaire_list": '$$proprietairemap.proprietaire_list',
               }
-              
+
             }
           }
         }
