@@ -20,10 +20,10 @@ module.exports = {
       {
         $lookup: {
           from: Lieu.collection.name,
-          localField: 'lieu.lieu',
+          localField: 'lieu.id_lieu',
           foreignField: '_id',
-          as: 'lieu',
-        }
+          as: 'populatedLieu',
+        },
       },
       {
         $addFields: {
@@ -72,7 +72,36 @@ module.exports = {
             }
           }
         }
-      }
+      },
+      { $project: {
+        proprietaire: 1,
+        has_amenagements:1,
+        has_contrat:1,
+        deleted:1,
+        adresse:1,
+        ville:1,
+        desc_lieu_entrer:1,
+        imgs_lieu_entrer:1,
+        superficie:1,
+        etage:1,
+        amenagement:1,
+        lieu: {
+          $map: {
+            input: "$lieu",
+            as: "lieumap",
+            in: {
+              "deleted": "$$lieumap.deleted",
+              "transferer": "$$lieumap.transferer",
+              "lieu": {
+                $arrayElemAt: [
+                  "$populatedLieu",
+                  { $indexOfArray: [ "$populatedLieu._id", "$$lieumap.lieu" ] }
+                ]
+              }
+            }
+          }
+        }
+      }},
     ])
       .then((data) => {
         res.json(data);
