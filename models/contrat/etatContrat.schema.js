@@ -20,16 +20,16 @@ const EtatContratSchema = new Schema({
         type: Number
     },
     date_resiliation: {
-        type: String,
+        type: Date,
     },
     etat_lieu_sortie: {
         type: String,
     },
     preavis: {
-        type: String,
+        type: Date,
     },
     date_suspension: {
-        type: String,
+        type: Date,
     },
     duree_suspension: {
         type: String,
