@@ -17,8 +17,8 @@ router.route("/contrat/ajouter/:IdFoncier/:matricule").post(
   ]),
   postcontrat.ajouterContrat
 );
-router.route("/contrat/tous").get(getcontrat.getContrats);
-router.route("/contrat/details/:Id").get(getcontrat.getSelctedContrat);
+router.route("/contrat/tous").get(getcontrat.getAllContrats);
+router.route("/contrat/details/:Id").get(getcontrat.getDetailContrat);
 router.route("/contrat/caution-en-cours").get(getcontrat.contratCautionEnCours);
 router.route("/contrat/modifier/:Id").patch(
   upload.fields([

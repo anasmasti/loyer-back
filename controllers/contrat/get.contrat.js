@@ -1,7 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
-  getContrats: async (req, res) => {
+  getAllContrats: async (req, res) => {
     await Contrat.find({ deleted: false })
       .populate("lieu", "_id intitule_lieu")
       .populate({ path: "lieu", populate: { path: "proprietaire" } })
@@ -13,13 +13,14 @@ module.exports = {
         res.status(402).send({ message: error.message });
       });
   },
-  getSelctedContrat: async (req, res) => {
-    try {
-      const allContrat = await Contrat.findById(req.params.Id).populate("lieu");
-      res.json(allContrat);
-    } catch (error) {
-      res.status(404).send({ message: error.message });
-    }
+  getDetailContrat: async (req, res) => {
+     await Contrat.findById(req.params.Id).populate("foncier")
+     .then((data) => {
+      res.json(data);
+     })
+     .catch((error) => {
+       res.status(404).send({ message: error.message });
+     })
   },
   countContrat: async (req, res) => {
     await Contrat.countDocuments()
