@@ -20,7 +20,7 @@ module.exports = {
       {
         $lookup: {
           from: Lieu.collection.name,
-          localField: 'lieu.id_lieu',
+          localField: 'lieu.lieu',
           foreignField: '_id',
           as: 'populatedLieu',
         },

@@ -129,11 +129,11 @@ module.exports = {
 
                 //set the next date de comptabilisation if contrat resilie
                 let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
-                let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_caution))
+                let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_consomme))
     
                 nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
 
-            }else if (data.etat_caution_consomme == 'totalement') {
+            } else if (data.etat_caution_consomme == 'totalement') {
 
                 //set the next date de comptabilisation if contrat resilie
                 let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
