@@ -7,7 +7,7 @@ module.exports = {
     getAllProprietaire: async (req, res) => {
         await Proprietaire.find({ deleted: false }).populate({ path: "proprietaire_list"}).sort( {updatedAt: 'desc'} )
             .then((data) => {
-                console.log('test' , data);
+                // console.log('test' , data);
                 res.send(data)
             })
             .catch((error) => {

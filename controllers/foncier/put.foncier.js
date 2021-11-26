@@ -3,12 +3,13 @@ const Foncier = require("../../models/foncier/foncier.model");
 module.exports = {
   modifierFoncier: async (req, res, next) => {
     let lieu = [],
-      data = null;
+    data = null;
 
     try {
       data = await JSON.parse(req.body.data);
+      console.log(data.etage);
     } catch (error) {
-      return es.status(422).send({ message: error.message });
+      return res.status(422).send({ message: error.message });
     }
 
     for (let i in data.lieu) {
@@ -138,7 +139,7 @@ module.exports = {
       }
 
       await Foncier.findByIdAndUpdate(
-        req.params.Id,
+        req.params.IdFoncier,
         {
           adresse: data.adresse,
           ville: data.ville,
@@ -224,8 +225,9 @@ module.exports = {
         fournisseur = [];
       }
 
+      
       await Foncier.findByIdAndUpdate(
-        { _id: req.params.Id },
+        req.params.IdFoncier,
         {
           adresse: data.adresse,
           ville: data.ville,
@@ -240,8 +242,9 @@ module.exports = {
           // etat: data.etat,
         },
         { new: true }
-      )
+        )
         .then((data) => {
+          console.log(req.params.IdFoncier);
           res.json(data);
         })
         .catch((error) => {

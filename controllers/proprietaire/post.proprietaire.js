@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 module.exports = {
   // Ajouter un propriétaire
   postProprietaire: async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
       // L'obligation d'au moin un cin ou passport ou carte sejour
