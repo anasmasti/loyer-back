@@ -64,7 +64,7 @@ const ContratSchema = new Schema({
         type: Number,
     },
     duree_avance: {
-        type: String,
+        type: Number,
     },
     n_engagement_depense: {
         type: String,

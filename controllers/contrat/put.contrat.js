@@ -39,7 +39,7 @@ const mail = require("../../helpers/mail.send");
 // }
 
 module.exports = {
-    modifierContrat: async(req, res) => {
+    modifierContrat: async (req, res) => {
         let item = 0,
             piece_joint_contrat = [],
             images_etat_res_lieu_sortie = [],
@@ -55,6 +55,7 @@ module.exports = {
         // console.log(req.body.data);
         try {
             data = JSON.parse(req.body.data);
+            console.log(data);
         } catch (error) {
             res.status(422).send({ message: error.message });
         }
@@ -125,22 +126,28 @@ module.exports = {
                     lettre_res_piece_jointe: lettre_res_piece_jointe,
                 },
             };
-            if(data.etat_caution_consomme == 'partiellement'){
+                    
+            // let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+            // nextDateComptabilisation = dateResiliation.setMonth(dateResiliation.getMonth() - data.etat_contrat.etat.duree_consomme)
 
-                //set the next date de comptabilisation if contrat resilie
-                let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
-                let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_consomme))
-    
-                nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
+            // if (data.etat_contrat.etat.reprise_caution == 'Consommée') {
 
-            } else if (data.etat_caution_consomme == 'totalement') {
+            //     if (data.etat_contrat.etat.etat_caution_consomme == 'partiellement') {
 
-                //set the next date de comptabilisation if contrat resilie
-                let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
-                let setDateDebutDePreavis = new Date(dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_caution))
-    
-                nextDateComptabilisation = setDateDebutDePreavis.setMonth(setDateDebutDePreavis.getMonth() + 1)
-            }
+            //         //set the next date de comptabilisation if contrat resilie
+            //         let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation); 
+                   
+            //         nextDateComptabilisation = dateResiliation.setMonth(dateResiliation.getMonth() - data.etat_contrat.etat.duree_consomme)
+            //         console.log('next date comptabilisation', nextDateComptabilisation);
+
+            //     } else if (data.etat_contrat.etat.etat_caution_consomme == 'totalement') {
+
+            //         //set the next date de comptabilisation if contrat resilie
+            //         let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation)
+            //         nextDateComptabilisation = dateResiliation.setMonth(dateResiliation.getMonth() - data.duree_caution)
+                    
+            //     }
+            // }
 
         } else if (data.etat_contrat.libelle === "Actif") {
             etatContrat = data.etat_contrat;
@@ -275,7 +282,7 @@ module.exports = {
                 piece_joint_contrat: piece_joint_contrat,
                 contrats_suspendu: contrats_suspendu,
                 contrat_avener: contrat_avener,
-                // date_comptabilisation: nextDateComptabilisation,
+                date_comptabilisation: nextDateComptabilisation,
             };
         }
 
@@ -295,21 +302,21 @@ module.exports = {
             let emailsList = [];
 
             await User.aggregate([{
-                    $match: {
-                        deleted: false,
-                        userRoles: {
-                            $elemMatch: {
-                                roleCode: "DC",
-                                deleted: false,
-                            },
+                $match: {
+                    deleted: false,
+                    userRoles: {
+                        $elemMatch: {
+                            roleCode: "DC",
+                            deleted: false,
                         },
                     },
-                }, ])
+                },
+            },])
                 .then((data) => {
                     for (let i = 0; i < data.length; i++) {
                         emailsList.push(data[i].email);
                     }
-                    console.log(emailsList.join());
+                    // console.log(emailsList.join());
                 })
                 .catch((error) => {
                     console.log(error);
@@ -324,29 +331,29 @@ module.exports = {
             // );
         }
 
-        // await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
-        //   .then((data) => {
-        //     res.json(data);
-        //   })
-        //   .catch((error) => {
-        //     res.status(400).send({ message: error.message });
-        //   });
+        await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+          .then((data) => {
+            res.json(data);
+          })
+          .catch((error) => {
+            res.status(400).send({ message: error.message });
+          });
     },
 
-    modifierValidationDMG: async(req, res) => {
+    modifierValidationDMG: async (req, res) => {
         let emailsList = [];
 
         await User.aggregate([{
-                $match: {
-                    deleted: false,
-                    userRoles: {
-                        $elemMatch: {
-                            roleCode: "DAJC",
-                            deleted: false,
-                        },
+            $match: {
+                deleted: false,
+                userRoles: {
+                    $elemMatch: {
+                        roleCode: "DAJC",
+                        deleted: false,
                     },
                 },
-            }, ])
+            },
+        },])
             .then((data) => {
                 for (let i = 0; i < data.length; i++) {
                     emailsList.push(data[i].email);
@@ -375,7 +382,7 @@ module.exports = {
         await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
     },
 
-    modifierValidationDAJC: async(req, res) => {
+    modifierValidationDAJC: async (req, res) => {
         await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true });
     },
 };
