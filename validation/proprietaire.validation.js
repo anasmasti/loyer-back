@@ -216,6 +216,9 @@ const ProprietaireValidation = Joi.object({
     proprietaire_list: Joi
         .array()
         .items(Joi.string()),
+    old_proprietaires_list: Joi
+    .array()
+    .items(Joi.string()),
     has_mandataire: Joi
         .string(),
 })
