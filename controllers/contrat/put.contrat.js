@@ -106,9 +106,10 @@ module.exports = {
             };
 
             //set the next date de comptabilisation if contrat suspendu
-            // let dureeSuspension = data.etat_contrat.etat.duree_suspension;
-            // let dateComptabilisation = new Date(data.date_comptabilisation)
-            // nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
+            let dureeSuspension = data.etat_contrat.etat.duree_suspension;
+            let dateComptabilisation = new Date(data.date_comptabilisation)
+            console.log('date comptabilisation etat suspendu ==>',dateComptabilisation);
+            nextDateComptabilisation = dateComptabilisation.setMonth(dateComptabilisation.getMonth() + dureeSuspension)
 
         } else if (data.etat_contrat.libelle === "Résilié") {
             etatContrat = {

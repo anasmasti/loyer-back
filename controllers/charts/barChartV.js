@@ -4,7 +4,7 @@ module.exports = {
     let topVilles = [
       "Rabat",
       "Agadir",
-      "Tanger‎",
+      "Tanger",
       "Casablanca",
       "Marrakech",
       "Ouarzazate",
@@ -31,7 +31,7 @@ module.exports = {
       }).limit(11);
 
       for (let i = 0; i < DirectionRegionales.length; i++) {
-        let nombreLFbyDR = await Lieu.find({
+        let nombrePointVenteByDirection = await Lieu.find({
           type_lieu: "Point de vente",
           deleted: false,
         }).countDocuments({
@@ -40,7 +40,7 @@ module.exports = {
         });
         allBarChartData.push({
           name: DirectionRegionales[i].intitule_lieu,
-          value: nombreLFbyDR,
+          value: nombrePointVenteByDirection,
         });
       }
 

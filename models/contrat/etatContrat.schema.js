@@ -32,7 +32,7 @@ const EtatContratSchema = new Schema({
         type: Date,
     },
     duree_suspension: {
-        type: String,
+        type: Number,
     },
     motif_suspension: {
         type: String,

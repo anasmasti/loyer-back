@@ -5,7 +5,7 @@ const User = require("../../models/roles/roles.model");
 const Foncier = require("../../models/foncier/foncier.model");
 
 module.exports = {
-  countAll: async (req, res) => {
+  countAll: async (_, res) => {
     let totalCountAmenagements = 0,
       totalCountFournisseur = 0,
       totalCountDirecteurRegional = 0;
@@ -13,11 +13,15 @@ module.exports = {
       const countProprietaire = await Proprietaire.countDocuments({
         deleted: false,
       });
+      const countMandataire = await Proprietaire.countDocuments({
+        deleted: false, 
+        is_mandataire: true
+      })
       const countLieu = await Lieu.countDocuments({ deleted: false });
       const countContrat = await Contrat.countDocuments({ deleted: false });
       const countUser = await User.countDocuments({ deleted: false });
       const countFoncier = await Foncier.countDocuments({ deleted: false });
-      const countAmenagement = await Lieu.aggregate([
+      const countAmenagement = await Foncier.aggregate([
         { $match: { deleted: false, has_amenagements: true } },
         {
           $addFields: {
@@ -121,7 +125,7 @@ module.exports = {
 
       //count total des directeurs regional
       totalCountDirecteurRegional = countDirecteurRegional.length;
-
+    
       res.json({
         countProprietaire,
         countLieu,
@@ -131,9 +135,10 @@ module.exports = {
         totalCountDirecteurRegional,
         countUser,
         countFoncier,
+        countMandataire
       });
     } catch (error) {
-      res.status(404).send({ message: error.message });
+      res.status(402).send({ message: error.message });
     }
   },
 };

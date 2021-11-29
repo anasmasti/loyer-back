@@ -16,6 +16,7 @@ const downloadFilesRoute = require("./routes/download_files.routes");
 const clotureRoute = require("./routes/cloture.routes");
 const foncierRoute = require("./routes/foncier.routes");
 const authRoute = require("./routes/auth.routes");
+const notificationRoute = require('./routes/notification.routes')
 
 const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
@@ -85,6 +86,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
   authRoute,
   clotureRoute,
   foncierRoute,
+  notificationRoute,
 );
 
 //database connection
