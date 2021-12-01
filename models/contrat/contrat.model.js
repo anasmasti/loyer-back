@@ -124,6 +124,10 @@ const ContratSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    avance_versee: {
+        type: Boolean,
+        default: false,
+    },
     montant_avance_tax: {
         type: Number,
     },
