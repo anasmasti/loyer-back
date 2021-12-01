@@ -9,6 +9,7 @@ const dotenv = require('dotenv')
 const db_config = require('./helpers/db.config')
 const routes = require('./routes/routes.js')
 const checkApiKey = require('./middleware/api-key.verify')
+const EcritureComptableLoyer = require('./middleware/comtabilisationLoyer')
 
 
 // Globale fichier .env configuration 
@@ -39,5 +40,5 @@ app.use('/api/v1', routes);
 db_config;
 
 //running server
-server.listen(PORT, '192.168.11.116' ,() => console.log(`Server listening on http:// 192.168.11.111:${PORT}`))
+server.listen(PORT, () => console.log(`Server listening on http:// 192.168.11.111:${PORT}`))
 
