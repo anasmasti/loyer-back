@@ -29,7 +29,7 @@ router
   .route("/foncier/all/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getFoncier.getAllFoncier);
 router
-  .route("/foncier/detail/:IdFoncier/:matricule")
+  .route("/foncier/:IdFoncier/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getFoncier.getFoncierById);
 router
   .route("/foncier/supprimer/:IdFoncier/:matricule")

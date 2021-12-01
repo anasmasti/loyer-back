@@ -45,7 +45,7 @@ const ContratSchema = new Schema({
         type: Number,
     },
     retenue_source: {
-        type: String,
+        type: Number,
     },
     montant_apres_impot: {
         type: Number,
@@ -121,6 +121,10 @@ const ContratSchema = new Schema({
         type: Number,
     },
     caution_versee: {
+        type: Boolean,
+        default: false,
+    },
+    avance_versee: {
         type: Boolean,
         default: false,
     },

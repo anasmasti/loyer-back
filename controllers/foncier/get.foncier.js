@@ -1,108 +1,116 @@
 const Foncier = require("../../models/foncier/foncier.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
-const Lieu = require('../../models/lieu/lieu.model');
+const Lieu = require("../../models/lieu/lieu.model");
 
 module.exports = {
   //get all foncier and populated with proprietaire deleted: false
   getAllFoncier: async (_, res) => {
     Foncier.aggregate([
       {
-        $match: { deleted: false }
+        $match: { deleted: false },
       },
       {
         $lookup: {
           from: Proprietaire.collection.name,
-          localField: 'proprietaire',
-          foreignField: '_id',
-          as: 'proprietaire',
+          localField: "proprietaire",
+          foreignField: "_id",
+          as: "proprietaire",
         },
       },
       {
         $lookup: {
           from: Lieu.collection.name,
-          localField: 'lieu.lieu',
-          foreignField: '_id',
-          as: 'populatedLieu',
+          localField: "lieu.lieu",
+          foreignField: "_id",
+          as: "populatedLieu",
         },
       },
       {
         $addFields: {
-          "proprietaire": {
+          proprietaire: {
             $map: {
               input: {
                 $filter: {
                   input: "$proprietaire",
                   as: "proprietairefillter",
-                  cond: { $eq: ["$$proprietairefillter.deleted", false] }
-                }
+                  cond: { $eq: ["$$proprietairefillter.deleted", false] },
+                },
               },
               as: "proprietairemap",
               in: {
-                "_id": '$$proprietairemap._id',
-                "deleted": '$$proprietairemap.deleted',
-                "is_mandataire": '$proprietairemap.is_mandataire',
-                "has_mandataire": '$proprietairemap.has_mandataire',
-                "cin": '$$proprietairemap.cin',
-                "passport": '$$proprietairemap.passport',
-                "carte_sejour": '$$proprietairemap.carte_sejour',
-                "nom_prenom": '$$proprietairemap.nom_prenom',
-                "raison_social": '$$proprietairemap.raison_social',
-                "n_registre_commerce": '$$proprietairemap.n_registre_commerce',
-                "telephone": '$$proprietairemap.telephone',
-                "fax": '$$proprietairemap.fax',
-                "adresse": '$$proprietairemap.adresse',
-                "n_compte_bancaire": '$$proprietairemap.n_compte_bancaire',
-                "banque": '$$proprietairemap.banque',
-                "banque_rib": '$$proprietairemap.banque_rib',
-                "ville_rib": '$$proprietairemap.ville_rib',
-                "cle_rib": '$$proprietairemap.cle_rib',
-                "taux_impot": '$$proprietairemap.taux_impot',
-                "retenue_source": '$$proprietairemap.retenue_source',
-                "montant_apres_impot": '$$proprietairemap.montant_apres_impot',
-                "montant_loyer": '$$proprietairemap.montant_loyer',
-                "nom_agence_bancaire": '$$proprietairemap.nom_agence_bancaire',
-                "montant_avance_proprietaire": '$$proprietairemap.montant_avance_proprietaire',
-                "tax_avance_proprietaire": '$$proprietairemap.tax_avance_proprietaire',
-                "tax_par_periodicite": '$$proprietairemap.tax_par_periodicite',
-                "pourcentage": '$$proprietairemap.pourcentage',
-                "caution_par_proprietaire": '$$proprietairemap.caution_par_proprietaire',
-                "proprietaire_list": '$$proprietairemap.proprietaire_list',
-              }
-
-            }
-          }
-        }
+                _id: "$$proprietairemap._id",
+                deleted: "$$proprietairemap.deleted",
+                is_mandataire: "$proprietairemap.is_mandataire",
+                has_mandataire: "$proprietairemap.has_mandataire",
+                cin: "$$proprietairemap.cin",
+                passport: "$$proprietairemap.passport",
+                carte_sejour: "$$proprietairemap.carte_sejour",
+                nom_prenom: "$$proprietairemap.nom_prenom",
+                raison_social: "$$proprietairemap.raison_social",
+                n_registre_commerce: "$$proprietairemap.n_registre_commerce",
+                telephone: "$$proprietairemap.telephone",
+                fax: "$$proprietairemap.fax",
+                adresse: "$$proprietairemap.adresse",
+                n_compte_bancaire: "$$proprietairemap.n_compte_bancaire",
+                banque: "$$proprietairemap.banque",
+                banque_rib: "$$proprietairemap.banque_rib",
+                ville_rib: "$$proprietairemap.ville_rib",
+                cle_rib: "$$proprietairemap.cle_rib",
+                taux_impot: "$$proprietairemap.taux_impot",
+                retenue_source: "$$proprietairemap.retenue_source",
+                montant_apres_impot: "$$proprietairemap.montant_apres_impot",
+                montant_loyer: "$$proprietairemap.montant_loyer",
+                nom_agence_bancaire: "$$proprietairemap.nom_agence_bancaire",
+                montant_avance_proprietaire:
+                  "$$proprietairemap.montant_avance_proprietaire",
+                tax_avance_proprietaire:
+                  "$$proprietairemap.tax_avance_proprietaire",
+                tax_par_periodicite: "$$proprietairemap.tax_par_periodicite",
+                pourcentage: "$$proprietairemap.pourcentage",
+                caution_par_proprietaire:
+                  "$$proprietairemap.caution_par_proprietaire",
+                proprietaire_list: "$$proprietairemap.proprietaire_list",
+              },
+            },
+          },
+        },
       },
-      { $project: {
-        proprietaire: 1,
-        has_amenagements:1,
-        has_contrat:1,
-        deleted:1,
-        adresse:1,
-        ville:1,
-        desc_lieu_entrer:1,
-        imgs_lieu_entrer:1,
-        superficie:1,
-        etage:1,
-        amenagement:1,
-        lieu: {
-          $map: {
-            input: "$lieu",
-            as: "lieumap",
-            in: {
-              "deleted": "$$lieumap.deleted",
-              "transferer": "$$lieumap.transferer",
-              "lieu": {
-                $arrayElemAt: [
-                  "$populatedLieu",
-                  { $indexOfArray: [ "$populatedLieu._id", "$$lieumap.lieu" ] }
-                ]
-              }
-            }
-          }
-        }
-      }},
+      {
+        $project: {
+          proprietaire: 1,
+          has_amenagements: 1,
+          has_contrat: 1,
+          deleted: 1,
+          adresse: 1,
+          ville: 1,
+          desc_lieu_entrer: 1,
+          imgs_lieu_entrer: 1,
+          superficie: 1,
+          etage: 1,
+          amenagement: 1,
+          type_lieu:1,
+          updatedAt: 1,
+          createdAt:1,
+          lieu: {
+            $map: {
+              input: "$lieu",
+              as: "lieumap",
+              in: {
+                deleted: "$$lieumap.deleted",
+                transferer: "$$lieumap.transferer",
+                lieu: {
+                  $arrayElemAt: [
+                    "$populatedLieu",
+                    { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
     ])
+    .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);
       })
@@ -113,6 +121,8 @@ module.exports = {
 
   getFoncierById: async (req, res) => {
     Foncier.findById({ _id: req.params.IdFoncier })
+      .populate("proprietaire", "cin nom_prenom -_id")
+      .populate({ path: "lieu" , populate: { path: "lieu", select: '-_id intitule_lieu type_lieu' } })
       .then((data) => {
         res.json(data);
       })
