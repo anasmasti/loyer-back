@@ -11,7 +11,6 @@ module.exports = {
 
             await Contrat.find({ deleted: false, 'etat_contrat.libelle': 'Résilié', 'etat_contrat.etat.date_resiliation': { $lte: todayDate } }).sort({ 'updatedAt': -1 })
                 .then(async (data) => {
-
                     for (const i in data) {
                         if (data[i].etat_contrat.etat.reprise_caution == 'Récupérer') {
                             allNotifications.push({
@@ -34,7 +33,6 @@ module.exports = {
                         res.json(notificationCount);
                         notificationCount = 0
                     }
-
                 })
                 .catch((error) => {
                     res.status(402).json({ message: error.message });
