@@ -16,7 +16,7 @@ module.exports = {
         .populate({ path: "foncier", populate: [{ path: "proprietaire", populate: { path: "proprietaire_list" } }, { path: "lieu.lieu" }] })
 
 
-      // return res.json(contrat);
+      return res.json(contrat);
 
       //traitement pour date generation de comptabilisation
       let dateGenerationDeComptabilisation = null;
