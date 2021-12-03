@@ -7,11 +7,11 @@ module.exports = {
 
         let notificationCount = 0
         return async (_, res) => {
+            
             let todayDate = new Date(), allNotifications = [];
 
             await Contrat.find({ deleted: false, 'etat_contrat.libelle': 'Résilié', 'etat_contrat.etat.date_resiliation': { $lte: todayDate } }).sort({ 'updatedAt': -1 })
             .then(async (data) => {
-                    console.log(data[0].etat_contrat.etat);
                     for (const i in data) {
                         if (data[i].etat_contrat.etat.reprise_caution == 'Récupérée') {
                             allNotifications.push({
@@ -28,7 +28,6 @@ module.exports = {
                             notificationCount += 1;
                         }
                     }
-                    console.log(allNotifications);
                     if (arg == "all") {
                         res.json(allNotifications);
                     } else if (arg == "count") {

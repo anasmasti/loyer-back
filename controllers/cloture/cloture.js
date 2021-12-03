@@ -11,12 +11,11 @@ module.exports = {
       //get current contrat of this month
       let contrat = await Contrat.find({
         deleted: false,
-        "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
+        "etat_contrat.libelle": { $in: ["Actif"] },
       })
         .populate({ path: "foncier", populate: [{ path: "proprietaire", populate: { path: "proprietaire_list" } }, { path: "lieu.lieu" }] })
 
-
-      return res.json(contrat);
+        // return res.json(contrat);
 
       //traitement pour date generation de comptabilisation
       let dateGenerationDeComptabilisation = null;
@@ -59,7 +58,6 @@ module.exports = {
               req.body.mois == dateDebutLoyer.getMonth() + 1 &&
               req.body.annee == dateDebutLoyer.getFullYear()
             ) {
-              console.log('1->', true);
               for (let g = 0; g < contrat[i].foncier.lieu.length; g++) {
                 if (contrat[i].foncier.lieu[g].deleted == false) {
 
@@ -74,10 +72,10 @@ module.exports = {
                         contrat[i].foncier.proprietaire[j].montant_loyer);
 
                       montant_tax_mandataire = contrat[i].foncier.proprietaire[j].tax_avance_proprietaire + contrat[i].foncier.proprietaire[j].tax_par_periodicite;
-
+                        
                       montant_a_verse = montant_loyer_net_mandataire
-
-                      comptabilisationLoyerCrediter.push({
+                 
+                        comptabilisationLoyerCrediter.push({
                         nom_de_piece: dateGenerationDeComptabilisation,
                         date_gl: dateGenerationDeComptabilisation,
                         date_operation: dateGenerationDeComptabilisation,
@@ -89,17 +87,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -108,24 +106,24 @@ module.exports = {
                         montant_brut: montant_loyer_brut_mandataire,
                         date_comptabilisation: dateDebutLoyer,
                       });
-                      if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
+                      if (contrat[i].foncier.proprietaire[j].proprietaire_list.length != 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
+                          montant_loyer_net =+ (montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire) +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
-                            contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
+                            contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot);
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire +
                               contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                               contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer);
 
-                          montant_tax += montant_tax_mandataire + contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire +
+                          montant_tax =+ montant_tax_mandataire + contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
-
+                          montant_a_verse =+ montant_loyer_net;
+                              
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
                             date_gl: dateGenerationDeComptabilisation,
@@ -138,17 +136,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -167,15 +165,16 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
+                        numero_contrat: contrat[i].numero_contrat,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -240,17 +239,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -262,19 +261,19 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
 
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -288,17 +287,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -317,15 +316,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer + contrat[i].montant_caution;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -401,17 +400,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -422,16 +421,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -445,17 +444,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -472,15 +471,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -555,17 +554,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -576,16 +575,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -599,17 +598,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -626,15 +625,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -712,17 +711,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -734,20 +733,20 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
+                          montant_loyer_net =+ montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire) +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire +
                               contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                               contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer);
 
-                          montant_tax += montant_tax_mandataire + contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire +
+                          montant_tax =+ montant_tax_mandataire + contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -761,17 +760,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -790,15 +789,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -861,17 +860,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -883,19 +882,19 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
 
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -909,17 +908,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -938,15 +937,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer + contrat[i].montant_caution;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1020,17 +1019,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -1041,16 +1040,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -1064,17 +1063,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -1091,15 +1090,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        montant_caution: contrat[i].montant_caution,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        montant_caution: contrat[i].lieu.montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1173,17 +1172,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -1194,16 +1193,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -1217,17 +1216,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -1244,15 +1243,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1327,17 +1326,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -1349,20 +1348,20 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
+                          montant_loyer_net =+ montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire) +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire +
                               contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                               contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer);
 
-                          montant_tax += montant_tax_mandataire + contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire +
+                          montant_tax =+ montant_tax_mandataire + contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_avance_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -1376,17 +1375,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -1405,15 +1404,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer + contrat[i].montant_avance + contrat[i].montant_caution;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1476,17 +1475,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -1498,19 +1497,19 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
 
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].caution_par_proprietaire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -1524,17 +1523,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -1553,15 +1552,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer + contrat[i].montant_caution;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1632,17 +1631,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -1653,16 +1652,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -1676,17 +1675,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -1703,15 +1702,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1785,17 +1784,17 @@ module.exports = {
                         adresse_lieu: contrat[i].foncier.adresse,
                         origine: "PAISOFT",
                         devises: "MAD",
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                        code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                        code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                         etablissement: "01",
                         centre_de_cout: "NS",
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant_net: montant_loyer_net_mandataire,
                         montant_tax: montant_tax_mandataire,
@@ -1806,16 +1805,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -1829,17 +1828,17 @@ module.exports = {
                             adresse_lieu: contrat[i].foncier.adresse,
                             origine: "PAISOFT",
                             devises: "MAD",
-                            intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
-                            code_lieu: contrat[i].foncier.lieu[g].code_lieu,
+                            intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
+                            code_lieu: contrat[i].foncier.lieu[g].lieu.code_lieu,
                             etablissement: "01",
                             centre_de_cout: "NS",
                             direction_regional:
-                              contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                                ? contrat[i].foncier.lieu[g].code_lieu
-                                : contrat[i].foncier.lieu[g].code_rattache_DR,
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                                : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                             point_de_vente:
-                              contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                                ? contrat[i].foncier.lieu[g].code_lieu
+                              contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                                ? contrat[i].foncier.lieu[g].lieu.code_lieu
                                 : "",
                             montant_net: montant_loyer_net,
                             montant_tax: montant_tax,
@@ -1856,15 +1855,15 @@ module.exports = {
                       montantDebiter = contrat[i].montant_loyer;
 
                       comptabilisationLoyerDebiter.push({
-                        intitule_lieu: contrat[i].foncier.lieu[g].intitule_lieu,
+                        intitule_lieu: contrat[i].foncier.lieu[g].lieu.intitule_lieu,
                         montant_caution: contrat[i].montant_caution,
                         direction_regional:
-                          contrat[i].foncier.lieu[g].type_lieu == "Direction régionale"
-                            ? contrat[i].foncier.lieu[g].code_lieu
-                            : contrat[i].foncier.lieu[g].code_rattache_DR,
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Direction régionale"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
+                            : contrat[i].foncier.lieu[g].lieu.code_rattache_DR,
                         point_de_vente:
-                          contrat[i].foncier.lieu[g].type_lieu == "Point de vente"
-                            ? contrat[i].foncier.lieu[g].code_lieu
+                          contrat[i].foncier.lieu[g].lieu.type_lieu == "Point de vente"
+                            ? contrat[i].foncier.lieu[g].lieu.code_lieu
                             : "",
                         montant: montantDebiter
                       })
@@ -1908,6 +1907,10 @@ module.exports = {
 
       //******************************************************************************************* */
       //******************************************************************************************* */
+      //******************************************************************************************* */
+      //******************************************************************************************* */
+
+
       //traitement pour comptabiliser les contrats Resilier (cas des cautions)
       if (contrat[i].etat_contrat.libelle == "Résilié") {
         if (contrat[i].etat_contrat.etat.reprise_caution == "Récupérée") {
@@ -1966,16 +1969,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -2118,16 +2121,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,
@@ -2269,16 +2272,16 @@ module.exports = {
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length !== 0) {
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
-                          montant_loyer_net += montant_loyer_net_mandataire +
+                          montant_loyer_net =+ montant_loyer_net_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_apres_impot;
 
-                          montant_loyer_brut += montant_loyer_brut_mandataire +
+                          montant_loyer_brut =+ montant_loyer_brut_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_loyer;
 
-                          montant_tax += montant_tax_mandataire +
+                          montant_tax =+ montant_tax_mandataire +
                             contrat[i].foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
-                          montant_a_verse += montant_loyer_net;
+                          montant_a_verse =+ montant_loyer_net;
 
                           comptabilisationLoyerCrediter.push({
                             nom_de_piece: dateGenerationDeComptabilisation,

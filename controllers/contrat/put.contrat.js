@@ -361,6 +361,7 @@ module.exports = {
         .populate("foncier", "_id intitule_lieu")
         .populate({ path: "foncier", populate: { path: "proprietaire" } })
         .then(async (data) => {
+          console.log(data);
           data.foncier.proprietaire.forEach(async (proprietaire) => {
             // Calcul Montant de loyer proprietaire
             newMontantLoyerProp =
