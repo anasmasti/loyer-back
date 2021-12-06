@@ -362,9 +362,7 @@ module.exports = {
         .populate("foncier", "_id intitule_lieu")
         .populate({ path: "foncier", populate: { path: "proprietaire" } })
         .then(async (data_) => {
-          // return console.log('teeeeest'  , data);
           data_[0].foncier.proprietaire.forEach(async (proprietaire) => {
-            // console.log("tessssssst" , proprietaire);
             // Calcul Montant de loyer proprietaire
             newMontantLoyerProp =
               (proprietaire.pourcentage * data.montant_loyer) / 100;
@@ -383,25 +381,6 @@ module.exports = {
                 }
               }
             }
-            // switch (Result) {
-            //   case Result < 30000:
-            //     TauxImpot = 0;
-            //     return console.log("1");
-            //     break;
-            //   case Result > 30000 && Result < 120000:
-            //     TauxImpot = 0.1;
-            //     return console.log("2");
-            //     break;
-            //   case Result > 120000:
-            //     TauxImpot = 0.15;
-            //     return console.log("3");
-
-            //     break;
-
-            //   // default:
-            //   //   TauxImpot = null;
-            //   //   break;
-            // }
 
             // Calcul retenue à la source
             RetenueSource = newMontantLoyerProp * TauxImpot * newDureeLocation;
@@ -419,16 +398,16 @@ module.exports = {
             montantApresImpot =
               newMontantLoyerProp - RetenueSource / newDureeLocation;
 
-            console.log({
-              dateDebut: dateDebutLoyer,
-              dateResiliation: dateResiliation,
-              newDureeLocation:newDureeLocation,
-              taux_impot: TauxImpot,
-              retenue_source: RetenueSource,
-              montant_apres_impot: montantApresImpot,
-              montant_loyer: newMontantLoyerProp,
-              tax_par_periodicite: taxPeriodicite,
-            });
+            // console.log({
+            //   dateDebut: dateDebutLoyer,
+            //   dateResiliation: dateResiliation,
+            //   newDureeLocation:newDureeLocation,
+            //   taux_impot: TauxImpot,
+            //   retenue_source: RetenueSource,
+            //   montant_apres_impot: montantApresImpot,
+            //   montant_loyer: newMontantLoyerProp,
+            //   tax_par_periodicite: taxPeriodicite,
+            // });
 
             // Update the proprietaire
             await Proprietaire.findByIdAndUpdate(proprietaire._id, {
@@ -459,13 +438,6 @@ module.exports = {
             message: error.message,
           });
         });
-
-      // updateContrat = {
-      //   duree_location: newDureeLocation,
-      //   taux_impot: TauxImpot,
-      //   retenue_source_par_mois: data.retenue_source_par_mois,
-      //   retenue_source: data.retenue_source,
-      // };
     }
 
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
