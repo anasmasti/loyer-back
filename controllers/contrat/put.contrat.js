@@ -359,7 +359,7 @@ module.exports = {
       newDureeLocation += dateResiliation.getMonth();
 
       await Contrat.find({ _id: req.params.Id, deleted: false })
-        .populate("foncier", "_id intitule_lieu")
+        // .populate("foncier", "_id intitule_lieu")
         .populate({ path: "foncier", populate: { path: "proprietaire" } })
         .then(async (data_) => {
           data_[0].foncier.proprietaire.forEach(async (proprietaire) => {

@@ -13,7 +13,6 @@ module.exports = {
       let filtredContrat = await Contrat.find({
         deleted: false,
       }).populate({ path: 'foncier', populate: { path: 'lieu.lieu' } });
-      // return res.json(filtredContrat)
 
       for (let i = 0; i < filtredContrat.length; i++) {
         for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
@@ -29,7 +28,7 @@ module.exports = {
       }
       allBarChartHorizontalData.push({
         name: "Point de vente",
-        value: totalMontantLoyerPV,
+        value: totalMontantLoyerPV + 'MAD',
         extra: {
           code: "PV",
         },
@@ -63,7 +62,7 @@ module.exports = {
       }
       allBarChartHorizontalData.push({
         name: "Logement de fonction",
-        value: totalMontantLoyerLGF,
+        value: totalMontantLoyerLGF + 'MAD',
         extra: {
           code: "LGF",
         },
@@ -82,7 +81,7 @@ module.exports = {
       }
       allBarChartHorizontalData.push({
         name: "Siège",
-        value: totalMontantLoyerSG,
+        value: totalMontantLoyerSG + 'MAD',
         extra: {
           code: "SG",
         },
@@ -101,7 +100,7 @@ module.exports = {
       }
       allBarChartHorizontalData.push({
         name: "Direction régionale",
-        value: totalMontantLoyerDR,
+        value: totalMontantLoyerDR + 'MAD',
         extra: {
           code: "DR",
         },
