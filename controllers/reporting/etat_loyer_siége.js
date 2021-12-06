@@ -12,73 +12,6 @@ module.exports = {
     let TotalMontantLoyer = 0;
     let ArrayTest = [{ Test: 1 }, { Test: 2 }, { Test: 3 }, { Test: 4 }];
 
-    // Contrat.aggregate([
-    //   { $match: { deleted: false } },
-    //   {
-    //     $lookup: {
-    //       from: Foncier.collection.name,
-    //       localField: "foncier",
-    //       foreignField: "_id",
-    //       as: "foncier",
-    //     },
-    //   },
-    //   {
-    //     $lookup: {
-    //       from: Lieu.collection.name,
-    //       localField: "foncier.lieu.lieu",
-    //       foreignField: "_id",
-    //       as: "populatedLieu",
-    //     },
-    //   },
-    //   {
-    //     $project: {
-    //       // proprietaire: ,
-    //       // has_amenagements: 1,
-    //       // has_contrat: 1,
-    //       // deleted: 1,
-    //       // adresse: 1,
-    //       // ville: 1,
-    //       // desc_lieu_entrer: 1,
-    //       // imgs_lieu_entrer: 1,
-    //       // superficie: 1,
-    //       // etage: 1,
-    //       // amenagement: 1,
-    //       // type_lieu: 1,
-    //       // updatedAt: 1,
-    //       // createdAt: 1,
-    //       // Test: "$foncier"
-    //       lieu: {
-    //         $map: {
-    //           input: "$populatedLieu",
-    //           as: "lieumap",
-    //           in: {
-    //             deleted: "$$lieumap.deleted",
-    //             transferer: "$$lieumap.transferer",
-    //             lieu: {
-    //               $arrayElemAt: [
-    //                 "$populatedLieu",
-    //                 { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
-    //               ],
-    //             },
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // ])
-
-    // ])
-    // Contrat
-    // .find({ deleted: false })
-    //   // , foncier: { $ne: null }
-    //   //   .populate({ path: "foncier", match: { type_lieu: "Supervision" } }) //!!!!!!!!!!!!!!!!!!!!!
-    //   .populate({
-    //     path: "foncier",
-    //     match: {
-    //       type_lieu: "Supervision",
-    //     },
-    //     // populate: { path: "lieu", match: { deleted: false }  },
-    //   })
 
     Contrat.aggregate([
       {
@@ -95,49 +28,39 @@ module.exports = {
       {
         $lookup: {
           from: Lieu.collection.name,
-          localField: "foncier.lieu",
+          localField: "foncier.lieu.lieu",
           foreignField: "_id",
           as: "populatedLieu",
         },
       },
-      // {
-      //   $addFields: {
-      //     lieu: {
-      //       $map: {
-      //         input: {
-      //           $filter: {
-      //             input: "$lieu",
-      //             as: "lieufillter",
-      //             cond: { $eq: ["$$lieufillter.deleted", false] },
-      //           },
-      //         },
-      //         as: "lieumap",
-      //         in: {
-      //           _id: "$$lieumap._id",
-      //           deleted: "$$lieumap.deleted",
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
       {
         $project: {
-          // lieu: 1,
+          numero_contrat: 1,
           updatedAt: 1,
           createdAt: 1,
-          lieu: {
+          foncier: {
             $map: {
-              input: "$foncier.lieu",
-              as: "lieumap",
+              input: "$foncier",
+              as: "fonciermap",
               in: {
-                deleted: "$$lieumap.deleted",
-                transferer: "$$lieumap.transferer",
+                deleted: "$$fonciermap.deleted",
                 lieu: {
-                  $arrayElemAt: [
-                    "$populatedLieu",
-                    { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
-                  ],
+                  $map: {
+                    input: "$$fonciermap.lieu",
+                    as: 'lieumap',
+                    in: {
+                      deleted: "$$lieumap.deleted",
+                      transferer: "$$lieumap.transferer",
+                      lieu: {
+                        $arrayElemAt: [
+                          "$populatedLieu",
+                          { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
+                        ],
+                      },
+                    }
+                  }
                 },
+
               },
             },
           },
@@ -146,7 +69,6 @@ module.exports = {
     ])
 
       // ])
-
       .limit(1)
       .then((data) => {
         return res.json(data);

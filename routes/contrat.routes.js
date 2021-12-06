@@ -19,7 +19,6 @@ router.route("/contrat/ajouter/:IdFoncier/:matricule").post(
 );
 router.route("/contrat/tous").get(getcontrat.getAllContrats);
 router.route("/contrat/details/:Id").get(getcontrat.getDetailContrat);
-router.route("/contrat/caution-en-cours").get(getcontrat.contratCautionEnCours);
 router.route("/contrat/modifier/:Id").patch(
   upload.fields([
     { name: "piece_joint_contrat", maxCount: 1 },

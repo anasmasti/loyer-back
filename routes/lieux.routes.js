@@ -40,7 +40,7 @@ router
   .route("/lieu/contratByLieu/:Id/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getContratByLieu);
 router
-  .route("/reporting/etat-siege/:annee/:mois/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), etatSiege.etatLoyerSiege);
+  .route("/reporting/etat-siege")
+  .get(etatSiege.etatLoyerSiege);
 
 module.exports = router;

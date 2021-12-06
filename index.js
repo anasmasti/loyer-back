@@ -17,6 +17,7 @@ const clotureRoute = require("./routes/cloture.routes");
 const foncierRoute = require("./routes/foncier.routes");
 const authRoute = require("./routes/auth.routes");
 const notificationRoute = require('./routes/notification.routes')
+const reportingRoute = require('./routes/reporting.routes')
 
 const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
@@ -87,6 +88,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
   clotureRoute,
   foncierRoute,
   notificationRoute,
+  reportingRoute,
 );
 
 //database connection

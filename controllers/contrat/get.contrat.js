@@ -31,13 +31,4 @@ module.exports = {
         res.status(400).send({ message: error.message });
       });
   },
-  contratCautionEnCours: async (req, res) => {
-    await Contrat.find({ deleted: false, statut_caution: "En cours" })
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((error) => {
-        res.status(404).send({ message: error.message });
-      });
-  },
 };

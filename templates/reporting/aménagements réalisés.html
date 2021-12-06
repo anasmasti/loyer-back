@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      th,
+      td {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2> Amenagment Reporting pour le Mois 6 </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Numero Contrat</th>
+          <th>Type Lieu</th>
+          <th>Nature Amenagement</th>
+          <th>Numero Facture</th>
+          <th>Montant Amenagement</th>
+          <th>Date Fin Amenagement</th>
+          <th>Date De Livraison</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each .}}
+        <tr>
+          <td>{{numero_contrat}}</td>
+          {{#foncier}}
+            <td>{{type_lieu}}</td>
+            {{#amenagement}}
+            <td> {{nature_amenagement}} </td>
+            <td> {{numero_facture}} </td>
+            <td> {{montant_amenagement}} </td>
+            <td> {{date_fin_travaux}} </td>
+            <td> {{date_livraison_local}} </td>
+            {{/amenagement}}
+          {{/foncier}}
+        </tr>
+        {{/each}}
+      </tbody>
+      <tr></tr>
+    </table>
+  </body>
+</html>
