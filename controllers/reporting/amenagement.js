@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Contrat = require('../../models/contrat/contrat.model');
 const Foncier = require('../../models/foncier/foncier.model')
-const generatePdf = require('../../controllers/reporting/generatePdf')
+const generatePdf = require('../helpers/generatePdf')
 
 
 module.exports = {
@@ -82,7 +82,7 @@ module.exports = {
             }
         ])
             .then((data) => {
-                generatePdf(data, 'aménagements réalisés')
+                generatePdf(data, 'aménagements_réalisés')
             })
             .catch((error) => {
                 res.status(402).json({ message: error.message });

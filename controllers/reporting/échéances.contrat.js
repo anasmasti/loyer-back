@@ -1,6 +1,6 @@
 const moment = require('moment');
 const Contrat = require('../../models/contrat/contrat.model');
-const generatePdf = require('../../controllers/reporting/generatePdf')
+const generatePdf = require('../helpers/generatePdf')
 
 module.exports = {
     echeancesContratReporting: async (req, res) => {
@@ -16,7 +16,7 @@ module.exports = {
             ]
         })
             .then((data) => {
-                res.json(data);
+                generatePdf(data, 'échéances_de_contrats')
             })
             .catch((error) => {
                 res.status(402).send({ message: error.message })

@@ -36,6 +36,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 app.use("/uploads", express.static("./uploads"));
+app.use("/download", express.static("./download"));
 
 //securing Api with Helmet
 app.use(helmet.frameguard({ action: "deny" }));
