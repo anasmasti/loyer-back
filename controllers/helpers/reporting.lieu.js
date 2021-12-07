@@ -1,7 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
-const generatePdf = require("../../controllers/reporting/generatePdf");
+const generatePdf = require("./generatePdf");
 
 module.exports = {
   etatLoyer: async (req, res, TypeFoncier) => {
@@ -30,6 +30,7 @@ module.exports = {
       {
         $project: {
           deleted: 1,
+          numero_contrat: 1,
           montant_loyer: 1,
           date_debut_loyer: 1,
           date_fin_contrat: 1,
@@ -98,9 +99,11 @@ module.exports = {
                   "etat_contrat.etat.date_resiliation": {
                     $gte: currentDate,
                   },
+                  "foncier.lieu": { $exists: true, $not: { $size: 0 } },
                 },
                 {
                   foncier: { $exists: true, $not: { $size: 0 } },
+                  "foncier.lieu": { $exists: true, $not: { $size: 0 } },
                   date_debut_loyer: {
                     $lte: currentDate,
                   },
@@ -115,19 +118,21 @@ module.exports = {
       },
     ])
       .then((data) => {
+        // return res.json(data)
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
             TotalMontantLoyer += data[i].montant_loyer;
             Result.push({
+              numero_contrat: data[i].numero_contrat,
               intitule_lieu: data[i].foncier[0].lieu[0].lieu.intitule_lieu,
-              value: data[i].montant_loyer,
+              montant_loyer: data[i].montant_loyer,
             });
           }
         } else res.status(422).json({ message: " Date invalide " });
-        Result.push({
-          total_montant_loyer: TotalMontantLoyer,
-        });
-        res.json(Result);
+        // Result.push({
+        //   total_montant_loyer: TotalMontantLoyer,
+        // });
+        // res.json(Result);
 
         let etatReporting;
         switch (TypeFoncier) {
@@ -138,19 +143,25 @@ module.exports = {
             etatReporting = "siège";
             break;
           case "Point de vente":
-            etatReporting = "points de vente";
+            etatReporting = "points_de_vente";
             break;
           case "Logement de fonction":
-            etatReporting = "logements de fonction";
+            etatReporting = "logements_de_fonction";
             break;
           case "Direction régionale":
-            etatReporting = "directions régionales";
+            etatReporting = "directions_régionales";
             break;
 
           default:
             break;
         }
-        // generatePdf(Result, etatReporting)
+        generatePdf({
+          mois: currentDate.getMonth() + 1,
+          annee: currentDate.getFullYear(),
+          total_montant_loyer: TotalMontantLoyer,
+          lieu_data: Result,
+        }, etatReporting)
+        // res.json(Result);
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });
