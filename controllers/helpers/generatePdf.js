@@ -6,6 +6,7 @@ const Reporting = require('../../models/reporting/reporting.model');
 const { paths } = require('../../models/shared/file.schema');
 
 async function generatePdf(data, etatReporting) {
+  // return console.log(etatReporting);
   let htmlFileSrouce, options, reportingPaths = []
   let today = new Date();
   let dateToString = moment(today).format('YYYY-MM-DD')

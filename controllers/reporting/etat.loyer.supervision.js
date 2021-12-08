@@ -1,7 +1,7 @@
-const Helper = require("./helper");
+const ReportingLieu = require("../helpers/reporting.lieu");
 
 module.exports = {
   etatLoyerSupervision: async (req, res) => {
-    Helper.etatLoyer(req, res, "Supervision")
+    ReportingLieu.etatLoyer(req, res, "Supervision")
   },
 };
