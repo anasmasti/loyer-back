@@ -3,7 +3,6 @@ const htmlPdf = require('html-pdf');
 const handlebars = require('handlebars');
 const moment = require('moment')
 const Reporting = require('../../models/reporting/reporting.model');
-const { paths } = require('../../models/shared/file.schema');
 
 async function generatePdf(data, etatReporting) {
   // return console.log(etatReporting);
