@@ -41,6 +41,6 @@ router
   .get(etatSupervision.etatLoyerSupervision);
 router
   .route("/reporting/all")
-  .get(getReporting.allReporting)
+  .post(getReporting.allReporting)
 
 module.exports = router;

@@ -5,7 +5,7 @@ const moment = require('moment')
 const Reporting = require('../../models/reporting/reporting.model');
 
 async function generatePdf(data, etatReporting) {
-  // return console.log(etatReporting);
+  return console.log(data);
   let htmlFileSrouce, options, reportingPaths = []
   let today = new Date();
   let dateToString = moment(today).format('YYYY-MM-DD')
@@ -72,7 +72,7 @@ async function generatePdf(data, etatReporting) {
                     pathExist = true
                   }
                 }
-                
+
                 if (pathExist == false) {
                   reportingPaths.push({
                     [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
