@@ -16,7 +16,7 @@ router
   .route("/generate/amenagement")
   .get(amenagementReporting.amenagementReporting);
 router
-  .route("/generate/contrat/caution-en-coure")
+  .route("/generate/contrat/caution-en-cours")
   .get(cautionEnCoursReporting.cautionEnCoursReporting);
 router
   .route("/generate/contrat/echeances")
