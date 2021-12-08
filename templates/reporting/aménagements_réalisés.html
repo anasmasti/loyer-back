@@ -6,17 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      th,
-      td {
-        border: 1px solid red;
+      * {
+        font-family: sans-serif;
+      }
+      th {
+        background-color: #eb7e53;
+        padding: 20px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      .table-header {
+        padding: 20px;
+      }
+      th:first-child {
+        border-top-left-radius: 12px;
+      }
+      th:last-child {
+        border-top-right-radius: 12px;
+      }
+      td:first-child {
+        border-right: 1px solid rgb(216, 216, 216);
+      }
+      td:last-child {
+        border-left: 1px solid rgb(216, 216, 216);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      .mnt-total {
+        border-bottom: 1px solid rgb(216, 216, 216);
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      .mnt-total {
+        color: black;
+        background-color: transparent;
+        text-align: end;
+        padding-right: 20px;
+      }
+      .title {
+        color: #828282;
+        width: 70%;
+        margin: 40px auto 40px auto;
+        text-align: center;
       }
     </style>
   </head>
   <body>
-    <h2> Reporting : aménagements réalisés</h2>
-    <table>
+    <h2 class="title">Reporting : aménagements réalisés</h2>
+    <table align="center">
       <thead>
-        <tr>
+        <tr class="table-header">
           <th>Numero Contrat</th>
           <th>Type Lieu</th>
           <th>Nature Amenagement</th>
@@ -32,15 +78,20 @@
         <tr>
           <td>{{numero_contrat}}</td>
           {{#foncier}}
-            <td>{{type_lieu}}</td>
-            {{#amenagement}}
-            <td> {{nature_amenagement}} </td>
-            <td> {{numero_facture}} </td>
-            <td> {{montant_amenagement}} </td>
-            <td> {{date_fin_travaux}} </td>
-            <td> {{date_livraison_local}} </td>
-            {{/amenagement}}
-          {{/foncier}}
+          <td>{{type_lieu}}</td>
+          {{#if amenagement}} {{#amenagement}}
+          <td>{{nature_amenagement}}</td>
+          <td>{{numero_facture}}</td>
+          <td>{{montant_amenagement}}</td>
+          <td>{{date_fin_travaux}}</td>
+          <td>{{date_livraison_local}}</td>
+          {{/amenagement}} {{else}} {{#amenagement}}
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          {{/amenagement}} {{/if}} {{/foncier}}
         </tr>
         {{/each}}
       </tbody>
