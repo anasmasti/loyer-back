@@ -10,11 +10,7 @@ module.exports = {
         let dateRealisation = moment(today).format('YYYY-MM-DD');
 
         await Contrat.aggregate([
-            {
-                $match: {
-                    "deleted": false
-                }
-            },
+            
             {
                 $lookup: {
                     from: Foncier.collection.name,
@@ -32,6 +28,7 @@ module.exports = {
                             input: "$foncier",
                             as: "fonciermap",
                             in: {
+                                _id: "$$fonciermap._id",
                                 deleted: "$$fonciermap.deleted",
                                 has_amenagements: "$$fonciermap.has_amenagements",
                                 has_contrat: "$$fonciermap.has_contrat",
@@ -43,10 +40,12 @@ module.exports = {
                                             $filter: {
                                                 input: "$$fonciermap.amenagement",
                                                 as: "amenagementfillter",
-                                                cond: { $and: [
-                                                   { $eq: ["$$amenagementfillter.deleted", false]},
-                                                   { $gte: ["$$amenagementfillter.date_fin_travaux", dateRealisation] },
-                                                ]}
+                                                cond: {
+                                                    $and: [
+                                                        { $eq: ["$$amenagementfillter.deleted", false] },
+                                                        { $lte: ["$$amenagementfillter.date_fin_travaux", dateRealisation] },
+                                                    ]
+                                                }
                                             }
                                         },
                                         as: "amenagementmap",
@@ -78,6 +77,12 @@ module.exports = {
                             }
                         },
                     }
+                }
+            },
+            {
+                $match: {
+                    "deleted": false,
+                    "foncier.amenagement":{$not: {$size: 0}}
                 }
             }
         ])
