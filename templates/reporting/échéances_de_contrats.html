@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th,td{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h2> Reporting : des échéances de contrats qui sont inférieurs à 3 mois  </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Numero contrat</th>
+                <th>Date debut de contrat</th>
+                <th>Date fin de contrat</th>
+                <th>Duree de location</th>
+                <th>Echeance revision loyer</th>
+                <th>Etat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each .}}
+            <tr>
+                <td>{{numero_contrat}}</td>
+                <td>{{dateFormat date_debut_loyer "DD-MM-YYYY"}}</td>
+                <td>{{dateFormat date_fin_contrat "DD-MM-YYYY"}}</td>
+                <td>{{duree_location}}</td>
+                <td>{{echeance_revision_loyer}}</td>
+                {{#etat_contrat}}
+                <td>{{libelle}}</td>
+                {{/etat_contrat}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+</html>

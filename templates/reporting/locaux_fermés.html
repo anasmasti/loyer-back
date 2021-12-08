@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th,td{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h2> Reporting : locaux fermés  </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Etage</th>
+                <th>Superficie</th>
+                <th>Etat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each .}}
+            <tr>
+                <td>{{ville}}</td>
+                <td>{{adresse}}</td>
+                <td>{{etage}}</td>
+                <td>{{superficie}}</td>
+                <td>Fermés</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -5,7 +5,14 @@ const generatePdf = require('../helpers/generatePdf')
 
 module.exports = {
     repriseCaurionReporting: async (req , res) => {
+        const today = new Date()
+        const todayAfterOneMonth = new Date(moment(today.setMonth(today.getMonth() + 1)).format('YYYY-MM-DD[T]HH:mm:ss')) 
         await Contrat.find({})
-        .then()
+        .then((data) => {
+            res.json(data)
+        })
+        .catch((error) => {
+            res.status(402).send({message: error.message})
+        })
     }
 }

@@ -16,6 +16,7 @@ module.exports = {
             ]
         })
             .then((data) => {
+                res.json(data);
                 generatePdf(data, 'échéances_de_contrats')
             })
             .catch((error) => {

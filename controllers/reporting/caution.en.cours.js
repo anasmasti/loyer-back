@@ -5,6 +5,7 @@ module.exports = {
     cautionEnCoursReporting: async (req, res) => {
         await Contrat.find({ deleted: false, statut_caution: "En cours" })
             .then((data) => {
+                res.json(data)
                 generatePdf(data, 'cautions_en_cours')
             })
             .catch((error) => {

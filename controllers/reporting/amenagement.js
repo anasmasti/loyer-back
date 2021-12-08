@@ -82,6 +82,7 @@ module.exports = {
             }
         ])
             .then((data) => {
+                res.json(data)
                 generatePdf(data, 'aménagements_réalisés')
             })
             .catch((error) => {

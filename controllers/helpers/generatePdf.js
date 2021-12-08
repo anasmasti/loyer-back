@@ -2,7 +2,7 @@ const fs = require('fs');
 const htmlPdf = require('html-pdf');
 const handlebars = require('handlebars');
 const moment = require('moment')
-const Reporting = require('../../models/reporting/reporting.model')
+const Reporting = require('../../models/reporting/reporting.model');
 
 async function generatePdf(data, etatReporting) {
   // return console.log(etatReporting);
@@ -30,14 +30,16 @@ async function generatePdf(data, etatReporting) {
   }
 
   let template = handlebars.compile(htmlFileSrouce);
-  let htmlToSend = await template(data)
-
+  let htmlToSend = template(data, {
+    allowProtoMethodsByDefault: true,
+    allowProtoPropertiesByDefault: true
+  })
+  // console.log(htmlToSend);
   htmlPdf.create(htmlToSend, options).toFile('download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf',
     async function (err, res) {
       if (err) {
         return console.log(err);
       } else {
-        console.log(res);
         await Reporting.find({ mois: today.getMonth() + 1, annee: today.getFullYear() })
           .then(async (data) => {
             try {
@@ -53,14 +55,24 @@ async function generatePdf(data, etatReporting) {
                 await reportings_paths.save()
               } else {
                 for (let i = 0; i < data[0].reporting_paths.length; i++) {
-                  if (data[0].reporting_paths[i] == 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf') {
+                  for (j in data[0].reporting_paths[i]) {
+                    if (data[0].reporting_paths[i][j] == 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf') {
+                      reportingPaths.push({
+                        [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
+                      })
+                    } else {
+                      reportingPaths.push(data[0].reporting_paths[i])
+                    }
+                  }
+                }
+                for (let k = 0; k < reportingPaths.length; k++) {
+                  if (Object.keys(reportingPaths[k])[0] != etatReporting) {
                     reportingPaths.push({
                       [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
                     })
-                  } else {
-                    reportingPaths.push(data[0].reporting_paths[i])
                   }
                 }
+
                 await Reporting.findOneAndUpdate({ mois: today.getMonth() + 1, annee: today.getFullYear() }, {
                   reporting_paths: reportingPaths,
                   mois: data[0].mois,

@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "handlebars": "^4.7.7",
+    "handlebars-dateformat": "^1.1.1",
     "helmet": "^4.6.0",
     "html-pdf": "^3.0.1",
     "ip": "^1.1.5",

@@ -3,6 +3,8 @@ const http = require("http");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const handlebars = require('handlebars')
+
 
 // Routes
 const proprietaireRoute = require("./routes/proprietaire.routes");
@@ -93,6 +95,8 @@ app.use(bodyParser.json({ limit: "50mb" }));
   notificationRoute,
   reportingRoute,
 );
+
+handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 //database connection
 db_config;
