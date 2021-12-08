@@ -6,57 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      * {
-        font-family: sans-serif;
-      }
-      th {
-        background-color: #eb7e53;
-        padding: 20px;
-        color: white;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-      }
-      .table-header {
-        padding: 20px;
-      }
-      th:first-child {
-        border-top-left-radius: 12px;
-      }
-      th:last-child {
-        border-top-right-radius: 12px;
-      }
-      td:first-child {
-        border-right: 1px solid rgb(216, 216, 216);
-      }
-      td:last-child {
-        border-left: 1px solid rgb(216, 216, 216);
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      td,
-      .mnt-total {
-        border-bottom: 1px solid rgb(216, 216, 216);
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-      }
-      .mnt-total {
-        color: black;
-        background-color: transparent;
-        text-align: end;
-        padding-right: 20px;
-      }
-      .title {
-        color: #828282;
-        width: 70%;
-        margin: 40px auto 40px auto;
-        text-align: center;
-      }
-    </style>
+        * {
+          font-family: sans-serif;
+        }
+        th {
+          background-color: #eb7e53;
+          /* border-right: 1px solid rgba(216, 216, 216, 0.8);
+          border-left: 1px solid rgba(216, 216, 216, 0.8); */
+          border-right: 1px solid #eb7e53;
+          border-left: 1px solid #eb7e53;
+          padding: 20px;
+          color: white;
+          display: flex;
+          justify-content: center;
+          text-align: center;
+        }
+        .table-header {
+          padding: 20px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        td,
+        .mnt-total {
+          border-bottom: 1px solid rgb(216, 216, 216);
+          border-right: 1px solid rgb(216, 216, 216);
+          border-left: 1px solid rgb(216, 216, 216);
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          text-align: center;
+        }
+        th:first-child {
+          border-top-left-radius: 12px;
+          border-left-color: transparent;
+        }
+        th:last-child {
+          border-top-right-radius: 12px;
+          border-right-color: transparent;
+        }
+        td:first-child {
+          border-left: none;
+        }
+        td:last-child {
+          border-right: none;
+        }
+        .mnt-total {
+          color: black;
+          background-color: transparent;
+          text-align: end;
+          padding-right: 20px;
+        }
+        .title {
+          color: #828282;
+          width: 70%;
+          margin: 40px auto 40px auto;
+          text-align: center;
+        }
+      </style>
   </head>
   <body>
     <h2>Reporting : locaux fermés</h2>
