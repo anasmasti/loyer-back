@@ -1,7 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
-const generatePdf = require("../../controllers/reporting/generatePdf");
+const generatePdf = require('../helpers/generatePdf')
 
 module.exports = {
   etatLoyer: async (req, res, TypeFoncier) => {

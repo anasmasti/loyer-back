@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    caution en coure reporting test
-</body>
+    <style>
+      th,
+      td {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2> Reporting : cautions en cours </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Numéro contrat</th>
+          <th>Statut caution</th>
+          <th>Durée caution</th>
+          <th>Montant caution</th>
+          <th>Date reprise de caution</th>
+          <th>Date début de contrat</th>
+          <th>Date fin de contrat</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each .}}
+        <tr>
+          <td>{{ numero_contrat }}</td>
+          <td>{{ statut_caution }}</td>
+          <td>{{ duree_caution }}</td>
+          <td>{{ montant_caution }}</td>
+          <td>{{dateFormat date_reprise_caution "DD-MM-YYYY"}}</td>
+          <td>{{dateFormat date_debut_loyer "DD-MM-YYYY"}}</td>
+          <td>{{dateFormat date_fin_contrat "DD-MM-YYYY"}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </body>
 </html>

@@ -1,6 +1,7 @@
 const amenagementReporting = require("../controllers/reporting/amenagement");
 const cautionEnCoursReporting = require("../controllers/reporting/caution.en.cours");
 const echeancesContratReporting = require("../controllers/reporting/échéances.contrat");
+const locauxFermesReporting = require('../controllers/reporting/locaux.fermés');
 const etatSiege = require("../controllers/reporting/etat.loyer.siége");
 const etatPV = require("../controllers/reporting/etat.loyer.pv");
 const etatLF = require("../controllers/reporting/etat.loyer.lf");
@@ -11,20 +12,31 @@ const express = require("express");
 const router = express.Router();
 
 router
-  .route("/amenagement-reporting")
+  .route("/generate/amenagement")
   .get(amenagementReporting.amenagementReporting);
 router
-  .route("/caution-en-coure-reporting")
+  .route("/generate/caution-en-coure")
   .get(cautionEnCoursReporting.cautionEnCoursReporting);
 router
-  .route("/echeance-contrat-reporting")
+  .route("/generate/contrat")
   .get(echeancesContratReporting.echeancesContratReporting);
-router.route("/etat-loyer-siege").get(etatSiege.etatLoyerSiege);
-router.route("/etat-loyer-dr").get(etatDR.etatLoyerDR);
-router.route("/etat-loyer-lf").get(etatLF.etatLoyerLF);
-router.route("/etat-loyer-pv").get(etatPV.etatLoyerPV);
 router
-  .route("/etat-loyer-supervision")
+  .route("/generate/locaux-fermes")
+  .get(locauxFermesReporting.locauxFermesReporting);
+router
+  .route("/generate/siege")
+  .get(etatSiege.etatLoyerSiege);
+router
+  .route("/generate/dr")
+  .get(etatDR.etatLoyerDR);
+router
+  .route("/generate/lf")
+  .get(etatLF.etatLoyerLF);
+router
+  .route("/generate/pv")
+  .get(etatPV.etatLoyerPV);
+router
+  .route("/generate/supervision")
   .get(etatSupervision.etatLoyerSupervision);
 
 module.exports = router;
