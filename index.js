@@ -37,6 +37,8 @@ const PORT = process.env.PORT;
 
 app.use("/uploads", express.static("./uploads"));
 app.use("/download", express.static("./download"));
+// app.use(express.static(__dirname, '/public'));
+app.use("/public" , express.static(__dirname + "./public"));
 
 //securing Api with Helmet
 app.use(helmet.frameguard({ action: "deny" }));
