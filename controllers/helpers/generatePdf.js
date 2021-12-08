@@ -65,12 +65,19 @@ async function generatePdf(data, etatReporting) {
                     }
                   }
                 }
+
+                let pathExist = false
                 for (let k = 0; k < reportingPaths.length; k++) {
-                  if (Object.keys(reportingPaths[k])[0] != etatReporting) {
-                    reportingPaths.push({
-                      [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
-                    })
+                  if (Object.keys(reportingPaths[k])[0] == etatReporting) {
+                    pathExist = true
                   }
+                }
+                
+                if (pathExist == false) {
+                  reportingPaths.push({
+                    [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
+                  })
+
                 }
 
                 await Reporting.findOneAndUpdate({ mois: today.getMonth() + 1, annee: today.getFullYear() }, {
