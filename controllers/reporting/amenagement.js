@@ -45,7 +45,7 @@ module.exports = {
                                                 as: "amenagementfillter",
                                                 cond: { $and: [
                                                    { $eq: ["$$amenagementfillter.deleted", false]},
-                                                   { $lte: ["$$amenagementfillter.date_fin_travaux", dateRealisation] },
+                                                   { $gte: ["$$amenagementfillter.date_fin_travaux", dateRealisation] },
                                                 ]}
                                             }
                                         },
