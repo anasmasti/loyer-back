@@ -192,6 +192,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -342,6 +343,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -497,6 +499,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -651,6 +654,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -815,6 +819,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -963,6 +968,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -1116,6 +1122,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -1269,6 +1276,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -1430,6 +1438,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -1578,6 +1587,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -1728,6 +1738,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -1881,6 +1892,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -2045,6 +2057,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -2197,6 +2210,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }
@@ -2348,6 +2362,7 @@ module.exports = {
                         cle_rib: contrat[i].foncier.proprietaire[j].cle_rib,
                         mois: req.body.mois,
                         annee: req.body.annee,
+                        nom_agence_bancaire: contrat[i].foncier.proprietaire[j].nom_agence_bancaire,
                         montant_net: montant_a_verse,
                       });
                     }

@@ -5,7 +5,7 @@ const moment = require('moment')
 const Reporting = require('../../models/reporting/reporting.model');
 
 async function generatePdf(data, etatReporting) {
-  return console.log(data);
+  // return console.log(data);
   let htmlFileSrouce, options, reportingPaths = []
   let today = new Date();
   let dateToString = moment(today).format('YYYY-MM-DD')
@@ -38,7 +38,7 @@ async function generatePdf(data, etatReporting) {
   htmlPdf.create(htmlToSend, options).toFile('download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf',
     async function (err, res) {
       if (err) {
-        return console.log(err);
+        console.log(err);
       } else {
         await Reporting.find({ mois: today.getMonth() + 1, annee: today.getFullYear() })
           .then(async (data) => {
