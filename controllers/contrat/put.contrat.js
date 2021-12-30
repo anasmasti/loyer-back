@@ -41,6 +41,9 @@ const mail = require("../../helpers/mail.send");
 
 module.exports = {
   modifierContrat: async (req, res) => {
+    console.log(req.body);
+
+
     let item = 0,
       piece_joint_contrat = [],
       images_etat_res_lieu_sortie = [],
@@ -97,6 +100,7 @@ module.exports = {
         },
       };
     } else if (data.etat_contrat.libelle === "Suspendu") {
+      console.log('Teeeeeeeeeeeeeeeeeeest');
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
@@ -296,53 +300,61 @@ module.exports = {
       };
     }
 
+
+
+
+
+
+
+
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // Sending mail to All the DC (Département Comptable) roles
-    if (
-      data.etat_contrat.libelle === "Résilié" ||
-      data.etat_contrat.libelle === "Suspendu"
-    ) {
-      let mailData = {
-        message:
-          "Le contrat n°" +
-          data.numero_contrat +
-          " est " +
-          data.etat_contrat.libelle +
-          " .",
-      };
+    // if (
+    //   data.etat_contrat.libelle === "Résilié" ||
+    //   data.etat_contrat.libelle === "Suspendu"
+    // ) {
+    //   let mailData = {
+    //     message:
+    //       "Le contrat n°" +
+    //       data.numero_contrat +
+    //       " est " +
+    //       data.etat_contrat.libelle +
+    //       " .",
+    //   };
 
-      let emailsList = [];
+    //   let emailsList = [];
 
-      await User.aggregate([
-        {
-          $match: {
-            deleted: false,
-            userRoles: {
-              $elemMatch: {
-                roleCode: "DC",
-                deleted: false,
-              },
-            },
-          },
-        },
-      ])
-        .then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            emailsList.push(data[i].email);
-          }
-          // console.log(emailsList.join());
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(400).send({ message: error.message });
-        });
+    //   await User.aggregate([
+    //     {
+    //       $match: {
+    //         deleted: false,
+    //         userRoles: {
+    //           $elemMatch: {
+    //             roleCode: "DC",
+    //             deleted: false,
+    //           },
+    //         },
+    //       },
+    //     },
+    //   ])
+    //     .then((data) => {
+    //       for (let i = 0; i < data.length; i++) {
+    //         emailsList.push(data[i].email);
+    //       }
+    //       // console.log(emailsList.join());
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       res.status(400).send({ message: error.message });
+    //     });
 
-      // mail.sendMail(
-      //   emailsList.join(),
-      //   "Contrat validation",
-      //   "validation1",
-      //   mailData
-      // );
-    }
+    //   // mail.sendMail(
+    //   //   emailsList.join(),
+    //   //   "Contrat validation",
+    //   //   "validation1",
+    //   //   mailData
+    //   // );
+    // }
 
     if (data.etat_contrat.libelle === "Résilié") {
       let newDureeLocation;

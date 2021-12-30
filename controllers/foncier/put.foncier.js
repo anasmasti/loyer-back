@@ -7,7 +7,7 @@ module.exports = {
 
     try {
       data = await JSON.parse(req.body.data);
-      console.log(data.etage);
+      console.log(data);
     } catch (error) {
       return res.status(422).send({ message: error.message });
     }
