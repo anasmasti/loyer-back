@@ -20,90 +20,104 @@ module.exports = {
     archivecomptabilisation
       .find({ annee: req.params.annee })
       .then((data) => {
-        ArchCmptbList = data;
+        if (data.length > 0) {
+          ArchCmptbList = data;
 
-        // Filter object by object
-        for (let i = 0; i < ArchCmptbList.length; i++) {
-          for (
-            let j = 0;
-            j < ArchCmptbList[i].comptabilisation_loyer_crediter.length;
-            j++
-          ) {
-            //Get Total Montant Brut/RAS/Aprés l'impot
-            TotalMntBrutLoyer +=
-              ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_brut;
-            TotalMntRetenueSource +=
-              ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_tax || 0;
-            TotalMntLoyer +=
-              ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_net;
-
-            //List DetailRetenueRevFoncier
-            index += 1;
-            DetailRetenueRevFoncier.push({
-              ifuBailleur: index,
-              numCNIBailleur: ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
-              numCEBailleur:
-                ArchCmptbList[i].comptabilisation_loyer_crediter[j].carte_sejour,
-              nomPrenomBailleur:
-                ArchCmptbList[i].comptabilisation_loyer_crediter[j].nom_prenom,
-              adresseBailleur:
+          // Filter object by object
+          for (let i = 0; i < ArchCmptbList.length; i++) {
+            for (
+              let j = 0;
+              j < ArchCmptbList[i].comptabilisation_loyer_crediter.length;
+              j++
+            ) {
+              //Get Total Montant Brut/RAS/Aprés l'impot
+              TotalMntBrutLoyer +=
                 ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                  .adresse_proprietaire,
-              adresseBien:
-                ArchCmptbList[i].comptabilisation_loyer_crediter[j].adresse_lieu,
-              typeBienBailleur: {
-                code: "LUC",
-              },
-              mntBrutLoyer:
-                ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_brut, //!!!!!!!
-              mntRetenueSource:
-                ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_tax,
-              mntNetLoyer:
-                ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_net,
-              tauxRetenueRevFoncier: {
-                code: "TSR.10.2018",
-              },
-            });
+                  .montant_brut;
+              TotalMntRetenueSource +=
+                ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                  .montant_tax || 0;
+              TotalMntLoyer +=
+                ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_net;
+
+              //List DetailRetenueRevFoncier
+              index += 1;
+              DetailRetenueRevFoncier.push({
+                ifuBailleur: index,
+                numCNIBailleur:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
+                numCEBailleur:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .carte_sejour,
+                nomPrenomBailleur:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .nom_prenom,
+                adresseBailleur:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .adresse_proprietaire,
+                adresseBien:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .adresse_lieu,
+                typeBienBailleur: {
+                  code: "LUC",
+                },
+                mntBrutLoyer:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .montant_brut, //!!!!!!!
+                mntRetenueSource:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .montant_tax,
+                mntNetLoyer:
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .montant_net,
+                tauxRetenueRevFoncier: {
+                  code: "TSR.10.2018",
+                },
+              });
+            } //end For
           } //end For
-        } //end For
 
-        let Annex2 = {
-          VersementRASRF: {
-            $: {
-              "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-              "xsi:noNamespaceSchemaLocation": "VersementRASRF.xsd",
+          let Annex2 = {
+            VersementRASRF: {
+              $: {
+                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                "xsi:noNamespaceSchemaLocation": "VersementRASRF.xsd",
+              },
+              identifiantFiscal: "IF",
+              exerciceFiscalDu: req.params.annee + "-" + "1" + "-" + "1",
+              exerciceFiscalAu: req.params.annee + "-" + 12 + "-" + 31,
+              annee: currentYear,
+              totalMntBrutLoyer: TotalMntBrutLoyer,
+              totalMntRetenueSource: TotalMntRetenueSource,
+              totalMntNetLoyer: TotalMntLoyer,
+              listDetailRetenueRevFoncier: {
+                DetailRetenueRevFoncier,
+              },
             },
-            identifiantFiscal: "IF",
-            exerciceFiscalDu: req.params.annee + "-" + "1" + "-" + "1",
-            exerciceFiscalAu: req.params.annee + "-" + 12 + "-" + 31,
-            annee: currentYear,
-            totalMntBrutLoyer: TotalMntBrutLoyer,
-            totalMntRetenueSource: TotalMntRetenueSource,
-            totalMntNetLoyer: TotalMntLoyer,
-            listDetailRetenueRevFoncier: {
-              DetailRetenueRevFoncier,
-            },
-          },
-        };
+          };
 
-        // Download the xml file
-        // var builder = new xml2js.Builder();
-        // var xml = builder.buildObject(Annex2);
+          // Download the xml file
+          var builder = new xml2js.Builder();
+          var xml = builder.buildObject(Annex2);
 
-        // fs.writeFile(
-        //   `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`,
-        //   xml,
-        //   (error) => {
-        //     if (error) {
-        //       res.json({ message: error.message });
-        //     } else {
-        //       res.download(
-        //         `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`
-        //       );
-        //     }
-        //   }
-        // );
-        res.json(Annex2)
+          fs.writeFile(
+            `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`,
+            xml,
+            (error) => {
+              if (error) {
+                res.json({ message: error.message });
+              } else {
+                res.download(
+                  `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`
+                );
+              }
+            }
+          );
+        } else {
+          res
+            .status(204)
+            .send({ message: "Aucune donnée à afficher dans ce mois" });
+        }
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });

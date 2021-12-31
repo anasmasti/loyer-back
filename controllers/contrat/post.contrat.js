@@ -5,7 +5,6 @@ const Foncier = require("../../models/foncier/foncier.model");
 
 module.exports = {
     ajouterContrat: async(req, res) => {
-
         // variables
         let piece_joint_contrat = [],
             data,
