@@ -10,7 +10,7 @@ module.exports = {
       let proprietaire_list = []
 
       if (Object.keys(req.body).length === 0)
-        return res.status(500).send({ message: `Contenu ne pas être vide` });
+        return res.status(500).send({ message: `Contenu doit pas être vide` });
 
       // L'obligation d'au moin un cin ou passport ou carte sejour
       if (
@@ -21,7 +21,7 @@ module.exports = {
         return res
           .status(422)
           .send({
-            message: `Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`,
+            message: `Propriétaire doit contenir au moin Cin , Passport ou Carte séjour`,
           });
       }
 
@@ -146,13 +146,13 @@ module.exports = {
             return res
               .status(500)
               .send({
-                message: `Error de modification le propriétaire` || error,
+                message: `Erreur de modification le propriétaire` || error,
               });
           }
         });
     } catch (error) {
       res.status(422).send({
-        message: error.message || `Validation error: ${error}`,
+        message: error.message || `Validation erreur: ${error}`,
       });
     }
   },

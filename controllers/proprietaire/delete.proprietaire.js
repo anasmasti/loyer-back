@@ -11,7 +11,7 @@ module.exports = {
                 res.send({ message: "Deleted" })
             })
             .catch(error => {
-                res.status(400).send({ message: `Error de suppression le propriétaire` || error.message })
+                res.status(400).send({ message: `Erreur de suppression du propriétaire` || error.message })
             })
     },
 

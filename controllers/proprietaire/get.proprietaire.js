@@ -33,7 +33,7 @@ module.exports = {
                 res.send(data)
             })
             .catch((error) => {
-                res.status(500).send({ message: `Aucun test Propriétaire trouvé` || error })
+                res.status(500).send({ message: `Aucun Propriétaire trouvé` || error })
             })
     },
 

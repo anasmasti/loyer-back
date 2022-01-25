@@ -21,7 +21,7 @@ module.exports = {
       .catch((error) => {
         res
           .status(404)
-          .send({ message: error.message } || "cant get userRoles per ID");
+          .send({ message: error.message } || "can't get userRoles per ID");
       });
   },
 

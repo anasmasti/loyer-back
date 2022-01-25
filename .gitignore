@@ -3,10 +3,10 @@
 
 
 #files
-/uploads
+# /uploads
 
 #download
-/download
+# /download
 
 # testing
 /coverage

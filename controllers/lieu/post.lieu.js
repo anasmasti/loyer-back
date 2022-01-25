@@ -10,7 +10,7 @@ module.exports = {
       codeLieuExist.code_lieu != "" &&
       codeLieuExist.code_lieu != null
     ) {
-      return res.status(422).send({ message: "Le code lieu et deja pris" });
+      return res.status(422).send({ message: "Le code lieu est deja pris" });
     }
 
     let directeurRegional = [],

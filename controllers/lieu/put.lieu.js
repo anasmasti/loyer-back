@@ -7,7 +7,7 @@ module.exports = {
 
     if (codeLieuExist) {
       if (codeLieuExist._id != req.params.Id && codeLieuExist.code_lieu != "") {
-        return res.status(422).send({ message: "Le code lieu et deja pris" });
+        return res.status(422).send({ message: "Le code lieu est deja pris" });
       }
     }
     let directeurRegional = [],

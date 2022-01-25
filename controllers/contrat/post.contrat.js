@@ -13,12 +13,13 @@ module.exports = {
 
         // fill the required fields
         if (Object.keys(req.body).length === 0)
-            return res.status(402).send({ message: "Please fill the required :)" });
+            return res.status(402).send({ message: "Merci de remplir tous les champs obligatoires !" });
 
         //controlling the incoming form-data and return error if it exist
         try {
             // parse incoming data to json
-            data = await JSON.parse(req.body.data);
+            // data = await JSON.parse(req.body.data);
+            data = await req.body.data;
         } catch (error) {
             return res.status(500).send({ message: error.message });
         }
@@ -39,7 +40,6 @@ module.exports = {
       
         for (let i in requestedFoncier.lieu) {
             console.log('-id lieu-', requestedFoncier.lieu[i]);
-
             if (requestedFoncier.lieu[i].deleted == false) {
                 idLieu = requestedFoncier.lieu[i].lieu;
                 console.log('id lieu ==>', idLieu);
@@ -49,7 +49,7 @@ module.exports = {
             //find lieu that is requested from foncier
             requestedLieu = await Lieu.findById({ _id: idLieu, });
         } else {
-            return res.status(422).send({ message: "_id lieu cannot be null" });
+            return res.status(422).send({ message: "Aucune entité organisationnelle attachée à ce local !" });
         }
         //set numero de contrat
         let numeroContrat = requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu;

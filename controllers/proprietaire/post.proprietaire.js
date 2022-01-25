@@ -16,7 +16,7 @@ module.exports = {
         req.body.carte_sejour == ""
       ) {
         return res.status(422).send({
-          message: `Propriétaire doit contenir au moin Cin ou Passport ou Carte séjour`,
+          message: `Propriétaire doit contenir au moin Cin , Passport ou Carte séjour`,
         });
       }
 
