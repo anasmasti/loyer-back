@@ -18,8 +18,8 @@ module.exports = {
         //controlling the incoming form-data and return error if it exist
         try {
             // parse incoming data to json
-            // data = await JSON.parse(req.body.data);
-            data = await req.body.data;
+            data = await JSON.parse(req.body.data);
+            // data = await req.body.data;
         } catch (error) {
             return res.status(500).send({ message: error.message });
         }
