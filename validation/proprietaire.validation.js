@@ -91,15 +91,26 @@ const ProprietaireValidation = Joi.object({
         .messages({
             'string.max': 'Adresse peut contient seulement 250 charactères au maximum'
         }),
+    // // old one 
+    // n_compte_bancaire: Joi
+    //     .number()
+    //     .integer()
+    //     .empty()
+    //     .required()
+    //     .min(0)
+    //     .max(999999999999999999999999)
+    //     .messages({
+    //         'number.base': 'Numéro de compte bancaire contient juste des chiffres',
+    //         'any.required': 'Numéro de compte bancaire est obligatoire',
+    //         'string.empty': 'Numéro de compte bancaire ne peut pas être vide'
+    //     }),
     n_compte_bancaire: Joi
-        .number()
+        .string()
         .empty()
-        .integer()
         .required()
         .min(0)
-        .max(999999999999999999999999)
+        .max(24)
         .messages({
-            'number.base': 'Numéro de compte bancaire contient juste des chiffres',
             'any.required': 'Numéro de compte bancaire est obligatoire',
             'string.empty': 'Numéro de compte bancaire ne peut pas être vide'
         }),

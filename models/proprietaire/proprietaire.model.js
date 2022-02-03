@@ -33,7 +33,8 @@ const ProprietaireSchema = new Schema(
       type: String,
     },
     n_compte_bancaire: {
-      type: Number,
+      // type: Number,
+      type: String,
       unique: true,
       required: true,
     },
