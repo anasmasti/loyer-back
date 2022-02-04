@@ -2,6 +2,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
+const Calcule = require("../helpers/calculProprietaire");
 
 // function Test(userRole) {
 //   console.log('test');
@@ -42,16 +43,16 @@ const mail = require("../../helpers/mail.send");
 module.exports = {
   modifierContrat: async (req, res) => {
     let item = 0,
-      piece_joint_contrat = [],
-      images_etat_res_lieu_sortie = [],
-      lettre_res_piece_jointe = [],
-      piece_jointe_avenant = [],
-      etatContrat = {},
-      updateContrat = {},
-      contrats_suspendu = [],
-      contrat_avener = [],
-      nextDateComptabilisation = null,
-      data = null;
+    piece_joint_contrat = [],
+    images_etat_res_lieu_sortie = [],
+    lettre_res_piece_jointe = [],
+    piece_jointe_avenant = [],
+    etatContrat = {},
+    updateContrat = {},
+    contrats_suspendu = [],
+    contrat_avener = [],
+    nextDateComptabilisation = null,
+    data = null;
 
     // console.log(req.body.data);
     try {
@@ -114,14 +115,13 @@ module.exports = {
         "date comptabilisation etat suspendu ==>",
         dateComptabilisation
       );
-      if (data.date_comptabilisation != null ) {
+      if (data.date_comptabilisation != null) {
         nextDateComptabilisation = dateComptabilisation.setMonth(
           dateComptabilisation.getMonth() + dureeSuspension
         );
         console.log(nextDateComptabilisation);
-      }
-      else{
-        nextDateComptabilisation = null
+      } else {
+        nextDateComptabilisation = null;
         console.log(nextDateComptabilisation);
       }
     } else if (data.etat_contrat.libelle === "Résilié") {
@@ -351,6 +351,38 @@ module.exports = {
       );
     }
 
+    // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
+    await Contrat.find({ _id: req.params.Id, deleted: false })
+      .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      .then(async (data_) => { 
+        
+        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+          let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
+          let idProprietaire = data_[0].foncier.proprietaire[i]._id
+          let updatedContrat = data
+          // console.log(pourcentage , idProprietaire);
+
+         let updatedProprietaire = Calcule(updatedContrat ,pourcentage, idProprietaire)
+
+          await Proprietaire.findByIdAndUpdate(idProprietaire, updatedProprietaire)
+            .then((data) => {
+              res.json(data);
+            })
+            .catch((error) => {
+              res.status(400).send({ message: error.message });
+            });
+        }
+      })
+      .catch((error) => {
+        res.status(422).send({
+          message: error.message,
+        });
+      });
+
+
+    // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
     if (data.etat_contrat.libelle === "Résilié") {
       let newDureeLocation;
       let dateDebutLoyer = new Date(data.date_debut_loyer);
@@ -447,6 +479,7 @@ module.exports = {
         });
     }
 
+    // Save Updated data
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
       .then((data) => {
         res.json(data);

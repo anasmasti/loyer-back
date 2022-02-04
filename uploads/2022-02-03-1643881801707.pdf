@@ -1,0 +1,42 @@
+Bonjour,
+
+Comme suite à notre réunion d’hier, nous tenons tout d’abord à vous remercier de la livraison et la présentation du premier lot de l’application.
+
+Par ailleurs, nous vous prions de prendre en charge les remarques de l’équipe projet comme discuté lors de la réunion :
+
+-	Personnalisation du tableau de bord en y ajoutant : graphe de loyers par Direction Régionale, graphe classification de loyer par taxe, loyer par type d’occupant : Direction Régionale, point de vente et logement de fonction.
+-	Changement de l’intitulé « Fonciers » par « Locaux » au niveau du tableau de bord ;
+-	Synthèse sur les statuts du contrat à afficher en liens rapides : contrats actifs (y compris les avenants), contrats résiliés, contrats suspendus.
+-	Ajout d’une alerte informant sur les contrats pour lesquels des avances ont été payé ;
+-	Ajout d’alerte sur les contrats pour lesquels des cautions ont été payé ;
+-	Non intégration des locaux du Siège et du Point de Vente SALMIA au niveau du virement de masse et des fichiers comptables
+-	Possibilité de saisie de plusieurs propriétaires pour un même local (les propriétaires doivent être liés par le code du local concerné );
+-	Ajout des champs suivants au niveau du formulaire ‘propriétaire’ et leur suppression du formulaire ‘Contrat’ :
+•	Taux d’impôt ;
+•	Retenue à la source ;
+•	Montant d’impôt ;
+•	Montant après impôt ;
+-	Remplacement de l’intitulé de champ « Autres » par « Validation » au niveau de la liste des contrats ;
+-	Ajout du code de la direction d’affectation au niveau du formulaire des habilitations ;
+-	La codification des contrats doit être sous la forme suivante :   
+		code branche ou DR logement de fonction / nom de la branche ou de la DR ou du logement de fonction  
+		( Exemples :  001/Korea         909/Direction Nord    904/LF EL HAOUZ)
+-	Les logements de fonction doivent avoir le même code que la DR à laquelle ils appartiennent.
+
+Aussi, les équipes ont proposé une codification incrémentée liée au contrat pour les avenants.
+
+Nous vous prions de procéder à l’intégration des ajustements suivants et nous communiquer une date pour la livraison du deuxième lot.
+
+Vous en souhaitant bonne réception et vous remercions de votre collaboration.
+
+Bien Cordialement.
+montant d'avance * taux de l'impot
+
+
+Taux d'impot
+retenu a la source
+montant apres l'impot
+
+-----------------------------------------------------------
+
+@expo-google-fonts/poppins
