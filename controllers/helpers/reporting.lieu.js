@@ -2,6 +2,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const generatePdf = require('./generatePdf')
+const moment = require('moment');
 
 module.exports = {
   etatLoyer: async (req, res, TypeFoncier) => {
@@ -9,7 +10,10 @@ module.exports = {
     let TotalMontantLoyer = 0;
     // Today's Date
     let currentDate = new Date();
-
+    
+    // let today = new Date();
+    // let currentDate = moment(today).format('YYYY-MM-DD');
+    
     Contrat.aggregate([
       {
         $lookup: {
@@ -92,6 +96,7 @@ module.exports = {
               $or: [
                 {
                   foncier: { $exists: true, $not: { $size: 0 } },
+                  "foncier.lieu": { $exists: true, $not: { $size: 0 } },
                   "etat_contrat.libelle": "Résilié",
                   date_debut_loyer: {
                     $lte: currentDate,
@@ -99,7 +104,6 @@ module.exports = {
                   "etat_contrat.etat.date_resiliation": {
                     $gte: currentDate,
                   },
-                  "foncier.lieu": { $exists: true, $not: { $size: 0 } },
                 },
                 {
                   foncier: { $exists: true, $not: { $size: 0 } },
@@ -128,11 +132,7 @@ module.exports = {
               montant_loyer: data[i].montant_loyer,
             });
           }
-        } else res.status(422).json({ message: " Date invalide " });
-        // Result.push({
-        //   total_montant_loyer: TotalMontantLoyer,
-        // });
-        // res.json(Result);
+        } else res.status(422).json({ message: " Il n'existe aucun contrat durant cette date " });
 
         let etatReporting;
         switch (TypeFoncier) {
@@ -161,7 +161,7 @@ module.exports = {
           total_montant_loyer: TotalMontantLoyer,
           lieu_data: Result,
         }, etatReporting)
-        // res.json(Result);
+        res.json(Result);
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });

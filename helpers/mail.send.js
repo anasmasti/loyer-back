@@ -12,20 +12,16 @@ module.exports = {
     );
     var template = Handlebars.compile(fileSource);
     var htmlToSend = template(data)
-
+    console.log("Tesssssssssssst");
     let transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: "yassine.19am49@gmail.com",
-        pass: "yassine@Gmail2_2021",
-        // user: "mediexpertsapp@gmail.com",
-        // pass: "Mediexperts2021",
+        user: "attawfiqmf.app@gmail.com",
+        pass: "Attawfiq@Gmail_2021",
       },
-      from: "help@capitalsoft.com",
     });
 
     var message = {
-      from: "help@capitalsoft.com",
       to: to,
       subject: subject,
       html: htmlToSend,

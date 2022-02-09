@@ -10,11 +10,11 @@
         font-family: sans-serif;
       }
       th {
-        background-color: #eb7e53;
+        background-color: #f9a11e;
         /* border-right: 1px solid rgba(216, 216, 216, 0.8);
         border-left: 1px solid rgba(216, 216, 216, 0.8); */
-        border-right: 1px solid #eb7e53;
-        border-left: 1px solid #eb7e53;
+        border-right: 1px solid #f9a11e;
+        border-left: 1px solid #f9a11e;
         padding: 20px;
         color: white;
         display: flex;
@@ -67,8 +67,11 @@
     </style>
   </head>
   <body>
+    <div style="text-align: center;">
+      <img src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg" style="width: 150px;">
+    </div>
     <h2 class="title">
-      Etat de loyer logement de fonction Reporting pour la data
+      Etat de loyer logement de fonction Reporting pour la date
       {{mois}}/{{annee}}
     </h2>
     <table align="center">
@@ -89,7 +92,7 @@
         {{/each}}
         <tr>
           <th class="mnt-total" colspan="3">
-            Total montant de loyer : {{ total_montant_loyer }}
+            Total montant de loyer : {{ total_montant_loyer }} MAD
           </th>
         </tr>
       </tbody>

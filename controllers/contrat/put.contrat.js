@@ -43,16 +43,16 @@ const Calcule = require("../helpers/calculProprietaire");
 module.exports = {
   modifierContrat: async (req, res) => {
     let item = 0,
-    piece_joint_contrat = [],
-    images_etat_res_lieu_sortie = [],
-    lettre_res_piece_jointe = [],
-    piece_jointe_avenant = [],
-    etatContrat = {},
-    updateContrat = {},
-    contrats_suspendu = [],
-    contrat_avener = [],
-    nextDateComptabilisation = null,
-    data = null;
+      piece_joint_contrat = [],
+      images_etat_res_lieu_sortie = [],
+      lettre_res_piece_jointe = [],
+      piece_jointe_avenant = [],
+      etatContrat = {},
+      updateContrat = {},
+      contrats_suspendu = [],
+      contrat_avener = [],
+      nextDateComptabilisation = null,
+      data = null;
 
     // console.log(req.body.data);
     try {
@@ -336,19 +336,19 @@ module.exports = {
           for (let i = 0; i < data.length; i++) {
             emailsList.push(data[i].email);
           }
-          // console.log(emailsList.join());
         })
         .catch((error) => {
           console.log(error);
           res.status(400).send({ message: error.message });
         });
-
-      mail.sendMail(
-        emailsList.join(),
-        "Contrat validation",
-        "validation1",
-        mailData
-      );
+      if (emailsList.length > 0) {
+        mail.sendMail(
+          `${emailsList.join()}`,
+          "Contrat validation",
+          "validation1",
+          mailData
+        );
+      }
     }
 
     // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -356,17 +356,22 @@ module.exports = {
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
     await Contrat.find({ _id: req.params.Id, deleted: false })
       .populate({ path: "foncier", populate: { path: "proprietaire" } })
-      .then(async (data_) => { 
-        
+      .then(async (data_) => {
         for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
           let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
-          let idProprietaire = data_[0].foncier.proprietaire[i]._id
-          let updatedContrat = data
-          // console.log(pourcentage , idProprietaire);
+          let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+          let updatedContrat = data;
 
-         let updatedProprietaire = Calcule(updatedContrat ,pourcentage, idProprietaire)
+          let updatedProprietaire = Calcule(
+            updatedContrat,
+            pourcentage,
+            idProprietaire
+          );
 
-          await Proprietaire.findByIdAndUpdate(idProprietaire, updatedProprietaire)
+          await Proprietaire.findByIdAndUpdate(
+            idProprietaire,
+            updatedProprietaire
+          )
             .then((data) => {
               res.json(data);
             })
@@ -381,7 +386,6 @@ module.exports = {
         });
       });
 
-
     // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
     if (data.etat_contrat.libelle === "Résilié") {
       let newDureeLocation;
@@ -391,6 +395,7 @@ module.exports = {
       let RetenueSource;
       let taxPeriodicite;
       let newMontantLoyerProp;
+
       // Calcul duree location
       newDureeLocation =
         (dateResiliation.getFullYear() - dateDebutLoyer.getFullYear()) * 12;
@@ -398,7 +403,6 @@ module.exports = {
       newDureeLocation += dateResiliation.getMonth();
 
       await Contrat.find({ _id: req.params.Id, deleted: false })
-        // .populate("foncier", "_id intitule_lieu")
         .populate({ path: "foncier", populate: { path: "proprietaire" } })
         .then(async (data_) => {
           data_[0].foncier.proprietaire.forEach(async (proprietaire) => {
@@ -436,17 +440,6 @@ module.exports = {
             // Calcul Montant apres impot
             montantApresImpot =
               newMontantLoyerProp - RetenueSource / newDureeLocation;
-
-            // console.log({
-            //   dateDebut: dateDebutLoyer,
-            //   dateResiliation: dateResiliation,
-            //   newDureeLocation:newDureeLocation,
-            //   taux_impot: TauxImpot,
-            //   retenue_source: RetenueSource,
-            //   montant_apres_impot: montantApresImpot,
-            //   montant_loyer: newMontantLoyerProp,
-            //   tax_par_periodicite: taxPeriodicite,
-            // });
 
             // Update the proprietaire
             await Proprietaire.findByIdAndUpdate(proprietaire._id, {
@@ -520,16 +513,16 @@ module.exports = {
       message: "La première validation est effectuée.",
     };
 
-    mail.sendMail(
-      // emailsList.join(),
-      "anasmasti@hotmail.com",
-      "Contrat validation",
-      "validation1",
-      mailData
-    );
+    if (emailsList.length > 0) {
+      mail.sendMail(
+        `${emailsList.join()}`,
+        "Contrat validation",
+        "validation1",
+        mailData
+      );
+    }
 
     // Sending mail to All the DAJC (Direction Affaires Juridiques et Conformité) roles
-
     await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
   },
 

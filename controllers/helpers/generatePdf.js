@@ -4,11 +4,12 @@ const handlebars = require('handlebars');
 const moment = require('moment')
 const Reporting = require('../../models/reporting/reporting.model');
 
-async function generatePdf(data, etatReporting) {
+async function generatePdf(data, reportingType) {
   // return console.log(data);
   let htmlFileSrouce, options, reportingPaths = []
   let today = new Date();
-  let dateToString = moment(today).format('YYYY-MM-DD')
+  // let dateToString = moment(today).format('YYYY-MM-DD')
+  let dateToString = moment(today).format('YYYY-MM')
   let etatReportingOptions = [
     "siège",
     "points_de_vente",
@@ -23,9 +24,9 @@ async function generatePdf(data, etatReporting) {
   ]
 
   for (const item in etatReportingOptions) {
-    if (etatReporting == etatReportingOptions[item]) {
-      htmlFileSrouce = fs.readFileSync('./templates/reporting/' + etatReporting + '.html', 'utf8');
-      options = { format: 'Letter' };
+    if (reportingType == etatReportingOptions[item]) {
+      htmlFileSrouce = fs.readFileSync('./templates/reporting/' + reportingType + '.html', 'utf8');
+      options = { format: 'A4', base:"file://" + __dirname +"/public/images/",};
     }
   }
 
@@ -34,8 +35,9 @@ async function generatePdf(data, etatReporting) {
     allowProtoMethodsByDefault: true,
     allowProtoPropertiesByDefault: true
   })
+  
   // console.log(htmlToSend);
-  htmlPdf.create(htmlToSend, options).toFile('download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf',
+  htmlPdf.create(htmlToSend, options).toFile('download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf',
     async function (err, res) {
       if (err) {
         console.log(err);
@@ -45,7 +47,7 @@ async function generatePdf(data, etatReporting) {
             try {
               if (data.length == 0) {
                 reportingPaths.push({
-                  [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
+                  [reportingType]: 'download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf'
                 })
                 let reportings_paths = new Reporting({
                   reporting_paths: reportingPaths,
@@ -56,9 +58,9 @@ async function generatePdf(data, etatReporting) {
               } else {
                 for (let i = 0; i < data[0].reporting_paths.length; i++) {
                   for (j in data[0].reporting_paths[i]) {
-                    if (data[0].reporting_paths[i][j] == 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf') {
+                    if (data[0].reporting_paths[i][j] == 'download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf') {
                       reportingPaths.push({
-                        [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
+                        [reportingType]: 'download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf'
                       })
                     } else {
                       reportingPaths.push(data[0].reporting_paths[i])
@@ -68,14 +70,14 @@ async function generatePdf(data, etatReporting) {
 
                 let pathExist = false
                 for (let k = 0; k < reportingPaths.length; k++) {
-                  if (Object.keys(reportingPaths[k])[0] == etatReporting) {
+                  if (Object.keys(reportingPaths[k])[0] == reportingType) {
                     pathExist = true
                   }
                 }
 
                 if (pathExist == false) {
                   reportingPaths.push({
-                    [etatReporting]: 'download/generated reporting/' + etatReporting + '/reporting ' + etatReporting + ' ' + dateToString + '.pdf'
+                    [reportingType]: 'download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf'
                   })
 
                 }

@@ -10,11 +10,9 @@
         font-family: sans-serif;
       }
       th {
-        background-color: #eb7e53;
-        /* border-right: 1px solid rgba(255, 255, 255, 0.3);
-        border-left: 1px solid rgba(255, 255, 255, 0.3); */
-        border-right: 1px solid #eb7e53;
-        border-left: 1px solid #eb7e53;
+        background-color: #f9a11e;
+        border-right: 1px solid #f9a11e;
+        border-left: 1px solid #f9a11e;
         padding: 20px;
         color: white;
         display: flex;
@@ -64,9 +62,20 @@
         margin: 40px auto 40px auto;
         text-align: center;
       }
+      .head-title{
+        width: 70%;
+        text-align: center;
+      }
+      .head-title {
+        color: #3f3f3f;
+        margin: 40px auto 40px auto;
+      }
     </style>
   </head>
   <body>
+    <div style="text-align: center;">
+      <img src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg" style="width: 150px;">
+    </div>
     <h2 class="title">
       Etat de loyer direction régionale Reporting pour la date
       {{mois}}/{{annee}}
@@ -84,12 +93,12 @@
         <tr>
           <td>{{numero_contrat}}</td>
           <td>{{intitule_lieu}}</td>
-          <td>{{montant_loyer}}</td>
+          <td>{{montant_loyer}} MAD</td>
         </tr>
         {{/each}}
         <tr>
           <th class="mnt-total" colspan="3">
-            Total montant de loyer : {{ total_montant_loyer }}
+            Total montant de loyer : {{ total_montant_loyer }} MAD
           </th>
         </tr>
       </tbody>

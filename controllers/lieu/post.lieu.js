@@ -3,6 +3,7 @@ const Lieu = require("../../models/lieu/lieu.model");
 module.exports = {
   ajouterLieu: async (req, res, next) => {
     //check lieu if already exist
+    console.log(req.body.code_rattache_SUP);
     const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu });
 
     if (
@@ -33,7 +34,7 @@ module.exports = {
       fax: req.body.fax,
       type_lieu: req.body.type_lieu,
       code_rattache_DR: req.body.code_rattache_DR,
-      code_rattahce_SUP: req.body.code_rattahce_SUP,
+      code_rattache_SUP: req.body.code_rattache_SUP,
       intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
       centre_cout_siege: req.body.centre_cout_siege,
       categorie_pointVente: req.body.categorie_pointVente,
