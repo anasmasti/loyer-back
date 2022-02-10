@@ -36,7 +36,7 @@ module.exports = {
 
       const SUP = await Lieu.find(
         { type_lieu: "Supervision", deleted: false },
-        { _id: 0, code_lieu: 1, intitule_lieu: 1 }
+        { _id: 0, code_lieu: 1, intitule_lieu: 1,code_rattache_DR: 1 }
       );
 
       res.json({
