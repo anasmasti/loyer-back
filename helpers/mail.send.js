@@ -12,7 +12,6 @@ module.exports = {
     );
     var template = Handlebars.compile(fileSource);
     var htmlToSend = template(data)
-    console.log("Tesssssssssssst");
     let transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {

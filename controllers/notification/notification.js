@@ -48,7 +48,6 @@ module.exports = {
             .then(async (data) => {
                 for (const i in data) {
                     if (data[i].etat_contrat.etat.reprise_caution == 'Récupérée') {
-                        console.log(data[i].etat_contrat.etat);
                         latestNotifications.push({
                             message: 'Vous avez ' + data[i].duree_caution + ' mois de caution à restituer pour le contrat numéro ' + data[i].numero_contrat,
                             created_at: todayDate,

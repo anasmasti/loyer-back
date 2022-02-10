@@ -11,7 +11,6 @@ module.exports = {
 
         archiveOrdreVirement.findOne({ mois: req.params.mois, annee: req.params.annee })
             .then((data) => {
-                console.log(data);
                 // return res.json(data)
                 //traitement du date
                 let totalMontantsNet = 0;
@@ -63,7 +62,6 @@ module.exports = {
                     // let cleRib = data.ordre_virement[i].cle_rib
                     let nomAgenceBancaire = data.ordre_virement[i].nom_agence_bancaire;
 
-                    // return console.log(numeroCompteBancaire);
                     // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\n'
                     let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(24, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + zoneInitialiseSpace + '\n'
 

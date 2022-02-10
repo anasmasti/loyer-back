@@ -52,7 +52,10 @@ module.exports = {
             return res.status(422).send({ message: "Aucune entité organisationnelle attachée à ce local !" });
         }
         //set numero de contrat
-        let numeroContrat = requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu;
+        let numeroContrat
+         (requestedLieu.type_lieu == 'Logement de fonction') ? 
+            numeroContrat = requestedLieu.code_rattache_DR + "/" + requestedLieu.intitule_lieu :
+            numeroContrat = requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu;
 
         //store contrat
         const nouveauContrat = new Contrat({

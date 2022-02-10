@@ -33,7 +33,7 @@ function calculMontant(updatedContrat, pourcentage, idProprietaire) {
     if (updatedContrat.declaration_option === "non") {
       if (montantLoyer * 12 <= 30000) {
         result = 0;
-        montantApresImpot = montantLoyer * 12;
+        montantApresImpot = montantLoyer - result;
         tauxImpot = 0;
       }
       if (montantLoyer * 12 > 30000 && montantLoyer * 12 <= 120000) {
@@ -49,7 +49,7 @@ function calculMontant(updatedContrat, pourcentage, idProprietaire) {
     }
     if (updatedContrat.declaration_option === "oui") {
       result = 0;
-      montantApresImpot = montantLoyer * 12;
+      montantApresImpot = montantLoyer - result;
       tauxImpot = 0;
     }
   }
@@ -84,7 +84,7 @@ function calculMontant(updatedContrat, pourcentage, idProprietaire) {
     }
     if (updatedContrat.declaration_option === "oui") {
       result = 0;
-      montantApresImpot = montantLoyer * nbr_mois_louer;
+      montantApresImpot = montantLoyer - result;
       tauxImpot = 0;
     }
   }
@@ -119,7 +119,7 @@ function calculMontant(updatedContrat, pourcentage, idProprietaire) {
     }
     if (updatedContrat.declaration_option === "oui") {
       result = 0;
-      montantApresImpot = montantLoyer * nbr_mois_louer;
+      montantApresImpot = montantLoyer - result;
       tauxImpot = 0;
     }
   }
@@ -162,8 +162,6 @@ function calculMontant(updatedContrat, pourcentage, idProprietaire) {
   //   tax_par_periodicite: taxPeriodicite,
   //   caution_par_proprietaire: montantCautionProprietaire,
   // }
-
-  // console.log("data =>", testt);
 
   return {
     taux_impot: tauxImpot,

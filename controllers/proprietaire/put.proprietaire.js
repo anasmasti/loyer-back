@@ -5,8 +5,6 @@ module.exports = {
   // Modifier un propriétaire
   putProprietaire: async (req, res, next) => {
     try {
-      console.log(req.body);
-
       let proprietaire_list = []
 
       if (Object.keys(req.body).length === 0)

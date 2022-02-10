@@ -244,7 +244,6 @@ module.exports = {
         { new: true }
         )
         .then((data) => {
-          console.log(req.params.IdFoncier);
           res.json(data);
         })
         .catch((error) => {

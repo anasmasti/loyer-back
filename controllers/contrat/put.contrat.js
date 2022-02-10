@@ -229,7 +229,7 @@ module.exports = {
         let numContratData = data.numero_contrat;
         let numeroContrat = numContratData.replace("AV", "");
         updateContrat = {
-          numero_contrat: numeroContrat + "AV",
+          numero_contrat: numeroContrat + "/AV",
           date_debut_loyer: data.date_debut_loyer,
           date_fin_contrat: data.date_fin_contrat,
           date_reprise_caution: data.date_reprise_caution,

@@ -29,7 +29,6 @@ module.exports = {
     getProprietairePerID: async (req, res) => {
         await Proprietaire.findById(req.params.Id)
             .then((data) => {
-                // console.log();
                 res.send(data)
             })
             .catch((error) => {

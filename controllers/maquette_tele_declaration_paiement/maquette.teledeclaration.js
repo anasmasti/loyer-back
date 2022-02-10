@@ -182,9 +182,7 @@ module.exports = {
                   // Get the Compare Date between
                   // date_comptabilisation / date_premier_paiement / date_debut_loyer
                   if (data[i].date_comptabilisation != null) {
-                    console.log("test1");
                     CompareDate = new Date(data[i].date_comptabilisation);
-                    console.log(CompareDate);
                   } else {
                     if (data[i].date_premier_paiement != null) {
                       console.log("test2");
