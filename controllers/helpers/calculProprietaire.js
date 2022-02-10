@@ -151,19 +151,19 @@ function calculMontant(updatedContrat, pourcentage, idProprietaire) {
   let cautionProprietaire = (cautionContrat * pourcentageProprietaire) / 100;
   let montantCautionProprietaire = cautionProprietaire;
 
-  let testt = {
-    id : idProprietaire,
-    taux_impot: tauxImpot,
-    retenue_source: result,
-    montant_apres_impot: montantApresImpot,
-    montant_loyer: montantLoyer,
-    montant_avance_proprietaire: montantAvance,
-    tax_avance_proprietaire: taxAvance,
-    tax_par_periodicite: taxPeriodicite,
-    caution_par_proprietaire: montantCautionProprietaire,
-  }
+  // let data = {
+  //   id : idProprietaire,
+  //   taux_impot: tauxImpot,
+  //   retenue_source: result,
+  //   montant_apres_impot: montantApresImpot,
+  //   montant_loyer: montantLoyer,
+  //   montant_avance_proprietaire: montantAvance,
+  //   tax_avance_proprietaire: taxAvance,
+  //   tax_par_periodicite: taxPeriodicite,
+  //   caution_par_proprietaire: montantCautionProprietaire,
+  // }
 
-  console.log("data =>", testt);
+  // console.log("data =>", testt);
 
   return {
     taux_impot: tauxImpot,

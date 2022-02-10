@@ -11,6 +11,7 @@ module.exports = {
 
         archiveOrdreVirement.findOne({ mois: req.params.mois, annee: req.params.annee })
             .then((data) => {
+                console.log(data);
                 // return res.json(data)
                 //traitement du date
                 let totalMontantsNet = 0;
@@ -50,6 +51,8 @@ module.exports = {
                         proprietaireIdentifiant = data.ordre_virement[i].cin
                     } else if (data.ordre_virement[i].cin == "" && data.ordre_virement[i].carte_sejour == "") {
                         proprietaireIdentifiant = data.ordre_virement[i].passport
+                    } else if (data.ordre_virement[i].cin != "" && data.ordre_virement[i].passport != "") {
+                        proprietaireIdentifiant = data.ordre_virement[i].cin
                     }
 
                     //informations proprietaire
@@ -58,11 +61,11 @@ module.exports = {
                     // let banqueRib = data.ordre_virement[i].banque_rib
                     // let villeRib = data.ordre_virement[i].ville_rib
                     // let cleRib = data.ordre_virement[i].cle_rib
-                    let nomAgenceBancaire = data.ordre_virement[i].nom_agence_bancaire
+                    let nomAgenceBancaire = data.ordre_virement[i].nom_agence_bancaire;
 
                     // return console.log(numeroCompteBancaire);
                     // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\n'
-                    let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + zoneInitialiseSpace + '\n'
+                    let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(24, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + zoneInitialiseSpace + '\n'
 
                     fs.writeFileSync('download/ordre virement/Ordre Virement ' + dateMonthName + ' ' + dateGenerationVirement.getFullYear() + '.txt', ecritureOrdreVirement, { flag: "a" }, (error) => {
                         if (error) res.json({ message: error.message })

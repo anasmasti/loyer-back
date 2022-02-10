@@ -4,91 +4,57 @@
   <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>33000</totalMntBrutLoyer>
-  <totalMntRetenueSource>2700</totalMntRetenueSource>
-  <totalMntNetLoyer>30300</totalMntNetLoyer>
+  <totalMntBrutLoyer>126000</totalMntBrutLoyer>
+  <totalMntRetenueSource>11700</totalMntRetenueSource>
+  <totalMntNetLoyer>114300</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur>MP5552</numCNIBailleur>
-      <numCEBailleur/>
+      <numCNIBailleur>YA132457</numCNIBailleur>
+      <numCEBailleur>3673</numCEBailleur>
       <nomPrenomBailleur/>
-      <adresseBailleur>adresse</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <adresseBailleur>Sidi Bernoussi Hay moubaraka</adresseBailleur>
+      <adresseBien>Agdal gr 2</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>0</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>0</mntNetLoyer>
+      <mntBrutLoyer>33000</mntBrutLoyer>
+      <mntRetenueSource>3300</mntRetenueSource>
+      <mntNetLoyer>29700</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>2</ifuBailleur>
-      <numCNIBailleur>BH7444</numCNIBailleur>
-      <numCEBailleur/>
+      <numCNIBailleur>AM123456</numCNIBailleur>
+      <numCEBailleur>123</numCEBailleur>
       <nomPrenomBailleur/>
-      <adresseBailleur>adresse test</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <adresseBailleur>Hay Hassani</adresseBailleur>
+      <adresseBien>Agdal gr 2</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>9000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>8100</mntNetLoyer>
+      <mntBrutLoyer>42000</mntBrutLoyer>
+      <mntRetenueSource>3900</mntRetenueSource>
+      <mntNetLoyer>38100</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>3</ifuBailleur>
-      <numCNIBailleur>BB5521</numCNIBailleur>
-      <numCEBailleur/>
+      <numCNIBailleur>YS123456</numCNIBailleur>
+      <numCEBailleur>4316</numCEBailleur>
       <nomPrenomBailleur/>
-      <adresseBailleur>aders</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <adresseBailleur>04</adresseBailleur>
+      <adresseBien>Agdal gr 2</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>9000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>8100</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>4</ifuBailleur>
-      <numCNIBailleur>RT123456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>test</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>3000</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>3000</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>5</ifuBailleur>
-      <numCNIBailleur>BN5552</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>12000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>11100</mntNetLoyer>
+      <mntBrutLoyer>51000</mntBrutLoyer>
+      <mntRetenueSource>4500</mntRetenueSource>
+      <mntNetLoyer>46500</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

@@ -53,6 +53,7 @@ module.exports = {
         if (contrat[i].etat_contrat.libelle == "Actif") {
           //traitement du periodicite Mensuelle
           if (contrat[i].periodicite_paiement == "mensuelle") {
+
             if (
               contrat[i].montant_avance > 0 &&
               req.body.mois == dateDebutLoyer.getMonth() + 1 &&
@@ -63,6 +64,7 @@ module.exports = {
 
                   for (let j = 0; j < contrat[i].foncier.proprietaire.length; j++) {
                     if (contrat[i].foncier.proprietaire[j].is_mandataire == true) {
+
                       montant_loyer_net_mandataire = (contrat[i].foncier.proprietaire[j].montant_avance_proprietaire -
                         contrat[i].foncier.proprietaire[j].tax_avance_proprietaire) +
                         contrat[i].foncier.proprietaire[j].caution_par_proprietaire + contrat[i].foncier.proprietaire[j].montant_apres_impot;
@@ -107,6 +109,7 @@ module.exports = {
                         date_comptabilisation: dateDebutLoyer,
                       });
                       if (contrat[i].foncier.proprietaire[j].proprietaire_list.length != 0) {
+
 
                         for (let k = 0; k < contrat[i].foncier.proprietaire[j].proprietaire_list.length; k++) {
                           montant_loyer_net =+ (montant_loyer_net_mandataire + (contrat[i].foncier.proprietaire[j].proprietaire_list[k].montant_avance_proprietaire -
@@ -199,11 +202,35 @@ module.exports = {
                   }
                 }
               }
+
               await Contrat.findByIdAndUpdate(
                 { _id: contrat[i]._id },
                 { date_comptabilisation: null, caution_versee: true, avance_versee: true }
               );
             }//end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             if (
               contrat[i].montant_avance == 0 &&

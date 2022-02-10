@@ -12,7 +12,7 @@ module.exports = {
     try {
       const countProprietaire = await Proprietaire.countDocuments({
         deleted: false,
-      });
+      }) 
       const countMandataire = await Proprietaire.countDocuments({
         deleted: false, 
         is_mandataire: true

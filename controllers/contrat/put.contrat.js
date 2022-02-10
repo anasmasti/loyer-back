@@ -111,18 +111,18 @@ module.exports = {
       //set the next date de comptabilisation if contrat suspendu
       let dureeSuspension = data.etat_contrat.etat.duree_suspension;
       let dateComptabilisation = new Date(data.date_comptabilisation);
-      console.log(
-        "date comptabilisation etat suspendu ==>",
-        dateComptabilisation
-      );
+      // console.log(
+      //   "date comptabilisation etat suspendu ==>",
+      //   dateComptabilisation
+      // );
       if (data.date_comptabilisation != null) {
         nextDateComptabilisation = dateComptabilisation.setMonth(
           dateComptabilisation.getMonth() + dureeSuspension
         );
-        console.log(nextDateComptabilisation);
+        // console.log(nextDateComptabilisation);
       } else {
         nextDateComptabilisation = null;
-        console.log(nextDateComptabilisation);
+        // console.log(nextDateComptabilisation);
       }
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
@@ -338,7 +338,7 @@ module.exports = {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           res.status(400).send({ message: error.message });
         });
       if (emailsList.length > 0) {
@@ -355,9 +355,9 @@ module.exports = {
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
     await Contrat.find({ _id: req.params.Id, deleted: false })
-      .populate({ path: "foncier", populate: { path: "proprietaire" } })
-      .then(async (data_) => {
-        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+    .populate({ path: "foncier", populate: { path: "proprietaire" } })
+    .then(async (data_) => {
+      for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
           let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
           let idProprietaire = data_[0].foncier.proprietaire[i]._id;
           let updatedContrat = data;
@@ -371,9 +371,9 @@ module.exports = {
           await Proprietaire.findByIdAndUpdate(
             idProprietaire,
             updatedProprietaire
-          )
+            )
             .then((data) => {
-              res.json(data);
+              // res.json(data);
             })
             .catch((error) => {
               res.status(400).send({ message: error.message });
@@ -412,7 +412,7 @@ module.exports = {
 
             // Calcul taux d'impôt
             let Result = newMontantLoyerProp * newDureeLocation;
-            console.log("Result", Result);
+            // console.log("Result", Result);
             if (Result <= 30000) {
               TauxImpot = 0;
             } else {
@@ -502,7 +502,7 @@ module.exports = {
         for (let i = 0; i < data.length; i++) {
           emailsList.push(data[i].email);
         }
-        console.log(emailsList.join());
+        // console.log(emailsList.join());
       })
       .catch((error) => {
         console.log(error);
