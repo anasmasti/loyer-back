@@ -24,16 +24,15 @@ const ProprietaireSchema = new Schema(
       type: String,
     },
     telephone: {
-      type: Number,
+      type: String,
     },
     fax: {
-      type: Number,
+      type: String,
     },
     adresse: {
       type: String,
     },
     n_compte_bancaire: {
-      // type: Number,
       type: String,
       unique: true,
       required: true,

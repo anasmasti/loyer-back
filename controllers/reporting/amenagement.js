@@ -6,8 +6,7 @@ const generatePdf = require('../helpers/generatePdf')
 
 module.exports = {
     amenagementReporting: async (_, res) => {
-        let today = new Date();
-        let dateRealisation = moment(today).format('YYYY-MM-DD');
+        let today = moment(new Date()).format('YYYY-MM-DD');
 
         await Contrat.aggregate([
             
@@ -43,7 +42,7 @@ module.exports = {
                                                 cond: {
                                                     $and: [
                                                         { $eq: ["$$amenagementfillter.deleted", false] },
-                                                        { $lte: ["$$amenagementfillter.date_fin_travaux", dateRealisation] },
+                                                        { $lte: ["$$amenagementfillter.date_fin_travaux", today] },
                                                     ]
                                                 }
                                             }

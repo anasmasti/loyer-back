@@ -115,6 +115,14 @@ module.exports = {
                     $gte: currentDate,
                   },
                 },
+                {
+                  foncier: { $exists: true, $not: { $size: 0 } },
+                  "foncier.lieu": { $exists: true, $not: { $size: 0 } },
+                  date_debut_loyer: {
+                    $lte: currentDate,
+                  },
+                  date_fin_contrat: null,
+                },
               ],
             },
           ],
@@ -122,7 +130,8 @@ module.exports = {
       },
     ])
       .then((data) => {
-        // return res.json(data)
+      //  res.json(currentDate)
+        // res.json(Result);
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
             TotalMontantLoyer += data[i].montant_loyer;
@@ -161,7 +170,6 @@ module.exports = {
           total_montant_loyer: TotalMontantLoyer,
           lieu_data: Result,
         }, etatReporting)
-        res.json(Result);
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });

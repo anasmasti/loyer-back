@@ -5,8 +5,26 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>2</mois>
-  <totalMntBrutLoyer>0</totalMntBrutLoyer>
+  <totalMntBrutLoyer>20000</totalMntBrutLoyer>
   <totalMntRetenueSource>0</totalMntRetenueSource>
   <totalMntNetLoyer>0</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier/>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>1</ifuBailleur>
+      <numCNIBailleur>AR14147</numCNIBailleur>
+      <numCEBailleur>aaa11111</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>cite oualili, imm koutoubia, n7</adresseBailleur>
+      <adresseBien>Tset</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000</mntBrutLoyer>
+      <mntRetenueSource>0</mntRetenueSource>
+      <mntNetLoyer>0</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
 </VersementRASRF>
