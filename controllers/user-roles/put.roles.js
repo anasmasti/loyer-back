@@ -2,8 +2,29 @@ const userRoles = require("../../models/roles/roles.model");
 
 module.exports = {
   updateUserRoles: async (req, res) => {
+    console.log(req.body);
     let item = 0;
     let allUserRoles = [];
+    let matriculExist = await userRoles.findOne({
+      deleted: false,
+      userMatricul: req.body.userMatricul,
+    });
+
+    if (matriculExist) {
+      res.status(409).send({ message: "le matricule est déja existe" });
+      return;
+    }
+
+    let mailExist = await userRoles.findOne({
+      deleted: false,
+      email: req.body.email,
+    });
+
+    if (mailExist) {
+      res.status(409).send({ message: "le mail est déja existe" });
+      return;
+    }
+    
     for (item in req.body.userRoles) {
       allUserRoles.push({
         roleName: req.body.userRoles[item].roleName,
@@ -34,6 +55,7 @@ module.exports = {
         userRoles: allUserRoles,
         email: req.body.email,
         deleted: req.body.deleted,
+        password: req.body.password,
       })
       .then((data) => {
         res.json(data);

@@ -16,7 +16,7 @@ module.exports = {
       service: "Gmail",
       auth: {
         user: "attawfiqmf.app@gmail.com",
-        pass: "Attawfiq@Gmail_2021",
+        // pass: "Attawfiq@Gmail_2021",
       },
     });
 

@@ -130,7 +130,7 @@ module.exports = {
       },
     ])
       .then((data) => {
-      //  res.json(currentDate)
+      //  res.json(data)
         // res.json(Result);
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
@@ -148,7 +148,7 @@ module.exports = {
           case "Supervision":
             etatReporting = "supervisions";
             break;
-          case "siège":
+          case "Siège":
             etatReporting = "siège";
             break;
           case "Point de vente":
