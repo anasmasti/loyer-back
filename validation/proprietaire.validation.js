@@ -38,7 +38,7 @@ const ProprietaireValidation = Joi.object({
         }),
     nom_prenom: Joi
         .string()
-        .empty()
+        .empty('')
         .min(4)
         .max(50)
         .messages({

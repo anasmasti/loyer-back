@@ -55,9 +55,9 @@ const foncierSchema = new Schema(
     amenagement: {
       type: [amenagementSchema],
     },
-    has_contrat: {
-      type: Boolean,
-      default: false,
+    contrat: {
+      type: Schema.Types.ObjectId,
+      ref: "Contrat"
     },
     deleted: {
       type: Boolean,

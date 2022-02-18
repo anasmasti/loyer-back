@@ -1,6 +1,7 @@
 const Foncier = require("../../models/foncier/foncier.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const Lieu = require("../../models/lieu/lieu.model");
+const Contrat = require("../../models/contrat/contrat.model");
 
 module.exports = {
   //get all foncier and populated with proprietaire deleted: false
@@ -23,6 +24,14 @@ module.exports = {
           localField: "lieu.lieu",
           foreignField: "_id",
           as: "populatedLieu",
+        },
+      },
+      {
+        $lookup: {
+          from: Contrat.collection.name,
+          localField: "contrat",
+          foreignField: "_id",
+          as: "populatedContrat",
         },
       },
       {
@@ -79,7 +88,6 @@ module.exports = {
         $project: {
           proprietaire: 1,
           has_amenagements: 1,
-          has_contrat: 1,
           deleted: 1,
           adresse: 1,
           ville: 1,
@@ -88,9 +96,18 @@ module.exports = {
           superficie: 1,
           etage: 1,
           amenagement: 1,
-          type_lieu:1,
+          type_lieu: 1,
           updatedAt: 1,
-          createdAt:1,
+          createdAt: 1,
+          contrat: {
+            $map: {
+              input: "$populatedContrat",
+              as: "contratmap",
+              in: {
+                numero_contrat: "$$contratmap.numero_contrat"
+              },
+            },
+          },
           lieu: {
             $map: {
               input: "$lieu",
@@ -110,7 +127,7 @@ module.exports = {
         },
       },
     ])
-    .sort({ updatedAt: "desc" })
+      .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);
       })
@@ -121,8 +138,17 @@ module.exports = {
 
   getFoncierById: async (req, res) => {
     Foncier.findById({ _id: req.params.IdFoncier })
-      .populate("proprietaire", "cin nom_prenom -_id")
-      .populate({ path: "lieu" , populate: { path: "lieu", select: '-_id intitule_lieu type_lieu' } })
+      .populate(
+        "proprietaire",
+        "cin nom_prenom n_registre_commerce raison_social -_id"
+      )
+      .populate({
+        path: "lieu",
+        populate: {
+          path: "lieu",
+          select: "-_id intitule_lieu type_lieu code_lieu",
+        },
+      })
       .then((data) => {
         res.json(data);
       })

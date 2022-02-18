@@ -30,7 +30,7 @@ module.exports = {
                                 _id: "$$fonciermap._id",
                                 deleted: "$$fonciermap.deleted",
                                 has_amenagements: "$$fonciermap.has_amenagements",
-                                has_contrat: "$$fonciermap.has_contrat",
+                                contrat: "$$fonciermap.contrat",
                                 lieu: "$$fonciermap.lieu",
                                 type_lieu: "$$fonciermap.type_lieu",
                                 amenagement: {

@@ -97,7 +97,7 @@ module.exports = {
         await nouveauContrat
             .save()
             .then(async(data) => {
-                await Foncier.findByIdAndUpdate({ _id: req.params.IdFoncier }, { has_contrat: true });
+                await Foncier.findByIdAndUpdate({ _id: req.params.IdFoncier }, { contrat: data._id });
                 res.json(data)
             })
             .catch((error) => {
