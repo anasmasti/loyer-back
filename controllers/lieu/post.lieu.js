@@ -4,8 +4,7 @@ module.exports = {
   ajouterLieu: async (req, res, next) => {
     console.log(req.body);
     //check code lieu if already exist
-    const codeLieuExist = await Lieu.findOne({ code_lieu: req.body.code_lieu });
-    let intituleLieu = ''
+    const codeLieuExist = await Lieu.findOne({ deleted: false, code_lieu: req.body.code_lieu });
 
     if (
       codeLieuExist &&
@@ -16,12 +15,12 @@ module.exports = {
     }
 
     //check intitulé lieu if already exist
-    const codeLieuExist = await Lieu.findOne({ intitule_lieu: req.body.intitule_lieu });
+    const intituleLieuExist = await Lieu.findOne({ deleted: false, intitule_lieu: req.body.intitule_lieu });
 
     if (
-      codeLieuExist &&
-      codeLieuExist.intitule_lieu != "" &&
-      codeLieuExist.intitule_lieu != null
+      intituleLieuExist &&
+      intituleLieuExist.intitule_lieu != "" &&
+      intituleLieuExist.intitule_lieu != null
     ) {
       return res.status(422).send({ message: "L'intitulé lieu est deja pris" });
     }
@@ -39,20 +38,20 @@ module.exports = {
       });
     }
        
-    if (req.body.type_lieu == "Logement de fonction") {
-      const directionRegional = await Lieu.findOne({ code_lieu: req.body.code_rattache_DR });
+    // if (req.body.type_lieu == "Logement de fonction") {
+    //   const directionRegional = await Lieu.findOne({ code_lieu: req.body.code_rattache_DR });
 
-      if (directionRegional) {
-        intituleLieu = `LF/${directionRegional.intitule_lieu}`;
-      }
-      else res.status(422).send({ message: "DR n'existe pas" });
-    }
-    else intituleLieu = req.body.intitule_lieu
+    //   if (directionRegional) {
+    //     intituleLieu = `LF/${directionRegional.intitule_lieu}`;
+    //   }
+    //   else res.status(422).send({ message: "DR n'existe pas" });
+    // }
+    // else intituleLieu = req.body.intitule_lieu
 
 
     const lieu = new Lieu({
       code_lieu: req.body.code_lieu,
-      intitule_lieu: intituleLieu,
+      intitule_lieu: req.body.intitule_lieu,
       code_localite: req.body.code_localite,
       telephone: req.body.telephone,
       fax: req.body.fax,
