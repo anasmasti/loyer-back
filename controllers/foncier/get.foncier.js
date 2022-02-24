@@ -115,7 +115,7 @@ module.exports = {
               as: "lieumap",
               in: {
                 deleted: "$$lieumap.deleted",
-                transferer: "$$lieumap.transferer",
+                etat_lieu: "$$lieumap.etat_lieu",
                 lieu: {
                   $arrayElemAt: [
                     "$populatedLieu",

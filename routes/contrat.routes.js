@@ -40,7 +40,7 @@ router.route("/contrat/supprimer/:Id/:matricule").put(
 );
 router
   .route("/contrat/validation1/:Id/:matricule")
-  .put(verifyRole.checkRoles("CDGSP"), putcontrat.modifierValidationDMG);
+  .put(verifyRole.checkRoles("CDGSP", "CSLA"), putcontrat.modifierValidationDMG);
 router
   .route("/contrat/validation2/:Id/:matricule")
   .put(verifyRole.checkRoles("DAJC"), putcontrat.modifierValidationDAJC);

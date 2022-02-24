@@ -13,7 +13,8 @@ module.exports = {
     lieu.push({
       lieu: data.lieu,
       deleted: false,
-      transferer: false,
+      // transferer: false,
+      etat_lieu: 'Occupé'
     });
 
     if (data.has_amenagements == true) {
