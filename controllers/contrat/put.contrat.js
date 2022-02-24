@@ -3,6 +3,7 @@ const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
+const ContratHelper = require("../helpers/contrat");
 
 // function Test(userRole) {
 //   console.log('test');
@@ -40,46 +41,6 @@ const Calcule = require("../helpers/calculProprietaire");
 //   // );
 // }
 
-const createContratAV = (Contrat, numeroContrat, piece_joint_contrat) => {
-  console.log(Contrat, numeroContrat);
-  const nouveauContrat = new Contrat({
-    numero_contrat: numeroContrat + "/AV",
-    date_debut_loyer: Contrat.date_debut_loyer,
-    date_fin_contrat: Contrat.date_fin_contrat,
-    date_reprise_caution: Contrat.date_reprise_caution,
-    date_premier_paiement: Contrat.date_premier_paiement,
-    montant_loyer: Contrat.montant_loyer,
-    taxe_edilite_loyer: Contrat.taxe_edilite_loyer,
-    taxe_edilite_non_loyer: Contrat.taxe_edilite_non_loyer,
-    periodicite_paiement: Contrat.periodicite_paiement,
-    duree_location: Contrat.duree_location,
-    declaration_option: Contrat.declaration_option,
-    taux_impot: Contrat.taux_impot,
-    duree: Contrat.duree,
-    retenue_source_par_mois: Contrat.retenue_source_par_mois,
-    total_montant_brut_loyer: Contrat.total_montant_brut_loyer,
-    total_montant_net_loyer: Contrat.total_montant_net_loyer,
-    retenue_source: Contrat.retenue_source,
-    montant_apres_impot: Contrat.montant_apres_impot,
-    montant_caution: Contrat.montant_caution,
-    duree_caution: Contrat.duree_caution,
-    statut_caution: Contrat.statut_caution,
-    montant_avance: Contrat.montant_avance,
-    date_fin_avance: Contrat.date_fin_avance,
-    duree_avance: Contrat.duree_avance,
-    n_engagement_depense: Contrat.n_engagement_depense,
-    echeance_revision_loyer: Contrat.echeance_revision_loyer,
-    date_comptabilisation: null,
-    type_lieu: Contrat.type_lieu,
-    foncier: Contrat.foncier,
-    etat_contrat: {
-      libelle: "Actif",
-      etat: {},
-    },
-    piece_joint_contrat: piece_joint_contrat,
-  });
-  console.log(nouveauContrat);
-};
 module.exports = {
   modifierContrat: async (req, res) => {
     let item = 0,
@@ -169,43 +130,56 @@ module.exports = {
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
       let numeroContrat = data.numero_contrat.replace("AV", "");
-      const nouveauContrat = new Contrat({
-        numero_contrat: numeroContrat + "/AV",
-        date_debut_loyer: data.date_debut_loyer,
-        date_fin_contrat: data.date_fin_contrat,
-        date_reprise_caution: data.date_reprise_caution,
-        date_premier_paiement: data.date_premier_paiement,
-        montant_loyer: data.etat_contrat.etat.montant_nouveau_loyer,
-        taxe_edilite_loyer: data.taxe_edilite_loyer,
-        taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
-        periodicite_paiement: data.periodicite_paiement,
-        duree_location: data.duree_location,
-        declaration_option: data.declaration_option,
-        taux_impot: data.taux_impot,
-        duree: data.duree,
-        retenue_source_par_mois: data.retenue_source_par_mois,
-        total_montant_brut_loyer: data.total_montant_brut_loyer,
-        total_montant_net_loyer: data.total_montant_net_loyer,
-        retenue_source: data.retenue_source,
-        montant_apres_impot: data.montant_apres_impot,
-        montant_caution: data.montant_caution,
-        duree_caution: data.duree_caution,
-        statut_caution: data.statut_caution,
-        montant_avance: data.montant_avance,
-        date_fin_avance: data.date_fin_avance,
-        duree_avance: data.duree_avance,
-        n_engagement_depense: data.n_engagement_depense,
-        echeance_revision_loyer: data.echeance_revision_loyer,
-        date_comptabilisation: null,
-        type_lieu: data.type_lieu,
-        foncier: data.foncier,
-        etat_contrat: {
-          libelle: "Actif",
-          etat: {},
-        },
-        piece_joint_contrat: piece_joint_contrat,
-      });
-      console.log(nouveauContrat);
+      ContratHelper.createContratAV(
+        req,
+        res,
+        data,
+        `${numeroContrat}/AV`,
+        piece_jointe_avenant
+      );
+      etatContrat = {
+        libelle: "Actif",
+        etat: {},
+      };
+
+      // const nouveauContrat = new Contrat({
+      //   numero_contrat: numeroContrat + "/AV",
+      //   date_debut_loyer: data.date_debut_loyer,
+      //   date_fin_contrat: data.date_fin_contrat,
+      //   date_reprise_caution: data.date_reprise_caution,
+      //   date_premier_paiement: data.date_premier_paiement,
+      //   montant_loyer: data.etat_contrat.etat.montant_nouveau_loyer,
+      //   taxe_edilite_loyer: data.taxe_edilite_loyer,
+      //   taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
+      //   periodicite_paiement: data.periodicite_paiement,
+      //   duree_location: data.duree_location,
+      //   declaration_option: data.declaration_option,
+      //   taux_impot: data.taux_impot,
+      //   duree: data.duree,
+      //   retenue_source_par_mois: data.retenue_source_par_mois,
+      //   total_montant_brut_loyer: data.total_montant_brut_loyer,
+      //   total_montant_net_loyer: data.total_montant_net_loyer,
+      //   retenue_source: data.retenue_source,
+      //   montant_apres_impot: data.montant_apres_impot,
+      //   montant_caution: data.montant_caution,
+      //   duree_caution: data.duree_caution,
+      //   statut_caution: data.statut_caution,
+      //   montant_avance: data.montant_avance,
+      //   date_fin_avance: data.date_fin_avance,
+      //   duree_avance: data.duree_avance,
+      //   n_engagement_depense: data.n_engagement_depense,
+      //   echeance_revision_loyer: data.echeance_revision_loyer,
+      //   date_comptabilisation: null,
+      //   type_lieu: data.type_lieu,
+      //   foncier: data.foncier,
+      //   etat_contrat: {
+      //     libelle: "Actif",
+      //     etat: {},
+      //   },
+      //   piece_joint_contrat: piece_joint_contrat,
+      // });
+
+      // console.log(nouveauContrat);
       // etatContrat = {
       //   libelle: data.etat_contrat.libelle,
       //   etat: {
@@ -309,7 +283,7 @@ module.exports = {
         let numContratData = data.numero_contrat;
         let numeroContrat = numContratData.replace("AV", "");
         updateContrat = {
-          numero_contrat: numeroContrat + "/AV",
+          numero_contrat: numeroContrat,
           date_debut_loyer: data.date_debut_loyer,
           date_fin_contrat: data.date_fin_contrat,
           date_reprise_caution: data.date_reprise_caution,
@@ -342,6 +316,7 @@ module.exports = {
           contrats_suspendu: contrats_suspendu,
           contrat_avener: contrat_avener,
         };
+        // return ContratHelper.createContratAV(req, res, data, `${numeroContrat}/AV`, piece_joint_contrat)
       }
     } else {
       updateContrat = {
@@ -383,7 +358,7 @@ module.exports = {
       };
     }
 
-    return res.json(updateContrat);
+    // return console.log('testtttt');
 
     // Sending mail to All the DC (Département Comptable) roles
     if (
@@ -436,37 +411,37 @@ module.exports = {
     // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    // await Contrat.find({ _id: req.params.Id, deleted: false })
-    //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
-    //   .then(async (data_) => {
-    //     for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-    //       let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
-    //       let idProprietaire = data_[0].foncier.proprietaire[i]._id;
-    //       let updatedContrat = data;
+    await Contrat.find({ _id: req.params.Id, deleted: false })
+      .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      .then(async (data_) => {
+        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+          let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
+          let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+          let updatedContrat = data;
 
-    //       let updatedProprietaire = Calcule(
-    //         updatedContrat,
-    //         pourcentage,
-    //         idProprietaire
-    //       );
+          let updatedProprietaire = Calcule(
+            updatedContrat,
+            pourcentage,
+            idProprietaire
+          );
 
-    //       await Proprietaire.findByIdAndUpdate(
-    //         idProprietaire,
-    //         updatedProprietaire
-    //       )
-    //         .then((data) => {
-    //           // res.json(data);
-    //         })
-    //         .catch((error) => {
-    //           res.status(400).send({ message: error.message });
-    //         });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     res.status(422).send({
-    //       message: error.message,
-    //     });
-    //   });
+          await Proprietaire.findByIdAndUpdate(
+            idProprietaire,
+            updatedProprietaire
+          )
+            .then((data) => {
+              // res.json(data);
+            })
+            .catch((error) => {
+              res.status(400).send({ message: error.message });
+            });
+        }
+      })
+      .catch((error) => {
+        res.status(422).send({
+          message: error.message,
+        });
+      });
 
     // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
     if (data.etat_contrat.libelle === "Résilié") {
@@ -524,27 +499,27 @@ module.exports = {
               newMontantLoyerProp - RetenueSource / newDureeLocation;
 
             // Update the proprietaire
-            // await Proprietaire.findByIdAndUpdate(proprietaire._id, {
-            //   taux_impot: TauxImpot,
-            //   retenue_source: RetenueSource,
-            //   montant_apres_impot: montantApresImpot,
-            //   montant_loyer: newMontantLoyerProp,
-            //   tax_par_periodicite: taxPeriodicite,
-            // }).catch((error) => {
-            //   res.status(422).send({
-            //     message: error.message,
-            //   });
-            // });
+            await Proprietaire.findByIdAndUpdate(proprietaire._id, {
+              taux_impot: TauxImpot,
+              retenue_source: RetenueSource,
+              montant_apres_impot: montantApresImpot,
+              montant_loyer: newMontantLoyerProp,
+              tax_par_periodicite: taxPeriodicite,
+            }).catch((error) => {
+              res.status(422).send({
+                message: error.message,
+              });
+            });
 
-            // await Proprietaire.find({ _id: proprietaire._id })
-            //   .then((data__) => {
-            //     console.log(data__);
-            //   })
-            //   .catch((error) => {
-            //     res.status(422).send({
-            //       message: error.message,
-            //     });
-            //   });
+            await Proprietaire.find({ _id: proprietaire._id })
+              .then((data__) => {
+                console.log(data__);
+              })
+              .catch((error) => {
+                res.status(422).send({
+                  message: error.message,
+                });
+              });
           });
         })
         .catch((error) => {
@@ -555,13 +530,13 @@ module.exports = {
     }
 
     // Save Updated data
-    // await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
-    //   .then((data) => {
-    //     res.json(data);
-    //   })
-    //   .catch((error) => {
-    //     res.status(400).send({ message: error.message });
-    //   });
+    await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
+      });
   },
 
   modifierValidationDMG: async (req, res) => {
@@ -609,6 +584,61 @@ module.exports = {
   },
 
   modifierValidationDAJC: async (req, res) => {
-    await Contrat.findByIdAndUpdate(req.params.Id, { validation2_DAJC: true });
+    await Contrat.findOne({ _id: req.params.Id, deleted: false })
+      .populate({ path: "old_contrat.contrat" })
+      .then(async (data) => {
+        let contratAV = data;
+        let oldContrats = contratAV.old_contrat;
+        let oldContrat;
+        let dateDeffetAV = new Date(contratAV.date_debut_loyer);
+        let dateFinOldContrat;
+        if (oldContrats.length > 0) {
+          // Get the old contrat
+          oldContrat = oldContrats.find((contrat) => {
+            return contrat.contrat.etat_contrat.libelle == "Actif";
+          }).contrat;
+          // Get old contrat's final date by subtracting 1 day from date d'effet av
+          dateDeffetAV.setDate(0);
+          dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
+
+          // Customise the old contrat etat
+          let etatOldContrat = {
+            libelle: "Modifié",
+            etat: oldContrat.etat_contrat.etat,
+          };
+
+          // Customise the new contrat etat
+          let etatNewContrat = {
+            libelle: "Actif",
+            etat: contratAV.etat_contrat.etat,
+          };
+
+          // Delete proprietaires
+          if (contratAV.etat_contrat.etat.deleted_proprietaires.length > 0) {
+            contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
+              (proprietaire) => {
+                ContratHelper.deleteProprietaire(req, res, proprietaire);
+              }
+            );
+          }
+
+          // Update the old contrat
+          await Contrat.findByIdAndUpdate(oldContrat._id, {
+            date_fin_contrat: dateFinOldContrat,
+            etat_contrat: etatOldContrat,
+          });
+
+          // Update the AV contrat
+          await Contrat.findByIdAndUpdate(req.params.Id, {
+            date_comptabilisation: oldContrat.date_comptabilisation,
+            etat_contrat: etatNewContrat,
+            validation2_DAJC: true,
+          });
+        } else {
+          await Contrat.findByIdAndUpdate(req.params.Id, {
+            validation2_DAJC: true,
+          });
+        }
+      });
   },
 };

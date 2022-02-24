@@ -64,7 +64,7 @@ module.exports = {
 
                   for (let j = 0; j < contrat[i].foncier.proprietaire.length; j++) {
                     if (contrat[i].foncier.proprietaire[j].is_mandataire == true) {
-
+                      console.log('teeeeeeeeeeeeeeeeeest');
                       montant_loyer_net_mandataire = (contrat[i].foncier.proprietaire[j].montant_avance_proprietaire -
                         contrat[i].foncier.proprietaire[j].tax_avance_proprietaire) +
                         contrat[i].foncier.proprietaire[j].caution_par_proprietaire + contrat[i].foncier.proprietaire[j].montant_apres_impot;
@@ -203,34 +203,11 @@ module.exports = {
                 }
               }
 
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                { date_comptabilisation: null, caution_versee: true, avance_versee: true }
-              );
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   { date_comptabilisation: null, caution_versee: true, avance_versee: true }
+              // );
             }//end if
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             if (
               contrat[i].montant_avance == 0 &&
@@ -382,20 +359,20 @@ module.exports = {
               let nextDateComptabilisation = dateDebutLoyer.setMonth(
                 dateDebutLoyer.getMonth() + 1
               );
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                {
-                  date_comptabilisation: nextDateComptabilisation,
-                  caution_versee: true,
-                  avance_versee: true
-                }
-              )
-                .then(() => {
-                  console.log("Date Comptabilisation Changed !");
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   {
+              //     date_comptabilisation: nextDateComptabilisation,
+              //     caution_versee: true,
+              //     avance_versee: true
+              //   }
+              // )
+              //   .then(() => {
+              //     console.log("Date Comptabilisation Changed !");
+              //   })
+              //   .catch((error) => {
+              //     res.status(402).send({ message: error.message });
+              //   });
             }
             if (
               req.body.mois == premierDateDePaiement.getMonth() + 1 &&
@@ -536,18 +513,18 @@ module.exports = {
               let nextDateComptabilisation = premierDateDePaiement.setMonth(
                 premierDateDePaiement.getMonth() + 1
               );
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                {
-                  date_comptabilisation: nextDateComptabilisation,
-                }
-              )
-                .then(() => {
-                  console.log("Date Comptabilisation Changed !");
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   {
+              //     date_comptabilisation: nextDateComptabilisation,
+              //   }
+              // )
+              //   .then(() => {
+              //     console.log("Date Comptabilisation Changed !");
+              //   })
+              //   .catch((error) => {
+              //     res.status(402).send({ message: error.message });
+              //   });
             }
             //  console.log(dateDeComptabilisation.getMonth() +1, '/', dateFinDeContrat.getMonth()+1);
             if (
@@ -693,16 +670,16 @@ module.exports = {
                 dateDeComptabilisation.getMonth() + 1
               );
 
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                {date_comptabilisation: nextDateComptabilisation}
-              )
-                .then(() => {
-                  console.log("Date Comptabilisation Changed !");
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   {date_comptabilisation: nextDateComptabilisation}
+              // )
+              //   .then(() => {
+              //     console.log("Date Comptabilisation Changed !");
+              //   })
+              //   .catch((error) => {
+              //     res.status(402).send({ message: error.message });
+              //   });
             }
           }
 
@@ -853,10 +830,10 @@ module.exports = {
                   }
                 }
               }
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                { date_comptabilisation: null, caution_versee: true, avance_versee: true }
-              );
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   { date_comptabilisation: null, caution_versee: true, avance_versee: true }
+              // );
             }
             if (
               contrat[i].montant_avance == 0 &&
@@ -1006,20 +983,20 @@ module.exports = {
               let nextDateComptabilisation = dateDebutLoyer.setMonth(
                 dateDebutLoyer.getMonth() + 3
               );
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                {
-                  date_comptabilisation: nextDateComptabilisation,
-                  caution_versee: true,
-                  avance_versee: true
-                }
-              )
-                .then(() => {
-                  console.log("Date Comptabilisation Changed !");
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   {
+              //     date_comptabilisation: nextDateComptabilisation,
+              //     caution_versee: true,
+              //     avance_versee: true
+              //   }
+              // )
+              //   .then(() => {
+              //     console.log("Date Comptabilisation Changed !");
+              //   })
+              //   .catch((error) => {
+              //     res.status(402).send({ message: error.message });
+              //   });
             }
             if (
               req.body.mois == premierDateDePaiement.getMonth() + 1 &&
@@ -1159,19 +1136,19 @@ module.exports = {
               let nextDateComptabilisation = premierDateDePaiement.setMonth(
                 premierDateDePaiement.getMonth() + 3
               );
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                {
-                  date_comptabilisation: nextDateComptabilisation,
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   {
+              //     date_comptabilisation: nextDateComptabilisation,
 
-                }
-              )
-                .then(() => {
-                  console.log("Date Comptabilisation Changed !");
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
+              //   }
+              // )
+              //   .then(() => {
+              //     console.log("Date Comptabilisation Changed !");
+              //   })
+              //   .catch((error) => {
+              //     res.status(402).send({ message: error.message });
+              //   });
             }
             if (
               req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
@@ -1313,16 +1290,16 @@ module.exports = {
               let nextDateComptabilisation = dateDeComptabilisation.setMonth(
                 dateDeComptabilisation.getMonth() + 3
               );
-              await Contrat.findByIdAndUpdate(
-                { _id: contrat[i]._id },
-                { date_comptabilisation: nextDateComptabilisation }
-              )
-                .then(() => {
-                  console.log("Date Comptabilisation Changed !");
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
+              // await Contrat.findByIdAndUpdate(
+              //   { _id: contrat[i]._id },
+              //   { date_comptabilisation: nextDateComptabilisation }
+              // )
+              //   .then(() => {
+              //     console.log("Date Comptabilisation Changed !");
+              //   })
+              //   .catch((error) => {
+              //     res.status(402).send({ message: error.message });
+              //   });
             }
           }
           //traitement pour la periodicite annuelle

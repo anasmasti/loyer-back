@@ -1,8 +1,8 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
-const generatePdf = require('./generatePdf')
-const moment = require('moment');
+const generatePdf = require("./generatePdf");
+const moment = require("moment");
 
 module.exports = {
   etatLoyer: async (req, res, TypeFoncier) => {
@@ -10,10 +10,10 @@ module.exports = {
     let TotalMontantLoyer = 0;
     // Today's Date
     let currentDate = new Date();
-    
+
     // let today = new Date();
     // let currentDate = moment(today).format('YYYY-MM-DD');
-    
+
     Contrat.aggregate([
       {
         $lookup: {
@@ -130,7 +130,7 @@ module.exports = {
       },
     ])
       .then((data) => {
-      //  res.json(data)
+        //  res.json(data)
         // res.json(Result);
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
@@ -141,35 +141,41 @@ module.exports = {
               montant_loyer: data[i].montant_loyer,
             });
           }
-        } else res.status(422).json({ message: " Il n'existe aucun contrat durant cette date " });
 
-        let etatReporting;
-        switch (TypeFoncier) {
-          case "Supervision":
-            etatReporting = "supervisions";
-            break;
-          case "Siège":
-            etatReporting = "siège";
-            break;
-          case "Point de vente":
-            etatReporting = "points_de_vente";
-            break;
-          case "Logement de fonction":
-            etatReporting = "logements_de_fonction";
-            break;
-          case "Direction régionale":
-            etatReporting = "directions_régionales";
-            break;
+          let etatReporting;
+          switch (TypeFoncier) {
+            case "Supervision":
+              etatReporting = "supervisions";
+              break;
+            case "Siège":
+              etatReporting = "siège";
+              break;
+            case "Point de vente":
+              etatReporting = "points_de_vente";
+              break;
+            case "Logement de fonction":
+              etatReporting = "logements_de_fonction";
+              break;
+            case "Direction régionale":
+              etatReporting = "directions_régionales";
+              break;
 
-          default:
-            break;
-        }
-        generatePdf({
-          mois: currentDate.getMonth() + 1,
-          annee: currentDate.getFullYear(),
-          total_montant_loyer: TotalMontantLoyer,
-          lieu_data: Result,
-        }, etatReporting)
+            default:
+              break;
+          }
+          generatePdf(
+            {
+              mois: currentDate.getMonth() + 1,
+              annee: currentDate.getFullYear(),
+              total_montant_loyer: TotalMontantLoyer,
+              lieu_data: Result,
+            },
+            etatReporting
+          );
+        } else
+          res
+            .status(422)
+            .json({ message: " Il n'existe aucun contrat durant cette date " });
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });

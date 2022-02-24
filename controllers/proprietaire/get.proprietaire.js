@@ -17,11 +17,12 @@ module.exports = {
             })
     },
 
-    getAllProprietairefromContrat: async (req, res) => {
+    getAllProprietairefromFoncier: async (req, res) => {
         // , numero_contrat: "666/dr666"
-        await Contrat.find({ deleted: false } , "_id numero_contrat")
-        .populate({ path: "foncier", populate: { path: "proprietaire", populate:{ path: "proprietaire_list", match:{ deleted: false }  } , match:{ deleted: false } } })
-        .populate({ path: "foncier", populate: { path: "lieu", populate:{ path: "lieu", select:"_id intitule_lieu", match:{ deleted: false } }, match:{ deleted: false } }, select: "proprietaire lieu" })
+        await Foncier.find({ deleted: false })
+        .populate({ path: "proprietaire", populate:{ path: "proprietaire_list", match:{ deleted: false }  } , match:{ deleted: false } })
+        .populate({ path: "lieu", populate:{ path: "lieu", select:"_id intitule_lieu", match:{ deleted: false } }, match:{ deleted: false } , select: "proprietaire lieu"})
+        .populate({ path: "contrat", select: "numero_contrat"})
         .then((data) => {
           res.json(data);
         })

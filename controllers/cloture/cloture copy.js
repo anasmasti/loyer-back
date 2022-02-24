@@ -55,7 +55,7 @@ module.exports = {
             let result = traitementContratActif.clotureContratActif(req, res, contrat[i]);
             ordreVirement = result.ordre_virement;
             comptabilisationLoyerCrediter = result.cmptLoyerCrdt;
-            comptabilisationLoyerDebiter = result.cmptLoyerCebt;
+            comptabilisationLoyerDebiter = result.cmptLoyerDebt;
         }//end if
 
 

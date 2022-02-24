@@ -568,7 +568,7 @@ module.exports = {
     return {
       ordre_virement: ordreVirement,
       cmptLoyerCrdt: comptabilisationLoyerCrediter,
-      cmptLoyerCebt: comptabilisationLoyerDebiter,
+      cmptLoyerDebt: comptabilisationLoyerDebiter,
     };
   },
 };

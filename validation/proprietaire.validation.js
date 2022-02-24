@@ -48,7 +48,7 @@ const ProprietaireValidation = Joi.object({
     raison_social: Joi
         .string()
         .empty('')
-        .min(2)
+        .min(0)
         .max(250)
         .messages({
             'string.min': 'Raison Social doit être 2 charactères au minimum',

@@ -104,7 +104,8 @@ module.exports = {
               input: "$populatedContrat",
               as: "contratmap",
               in: {
-                numero_contrat: "$$contratmap.numero_contrat"
+                numero_contrat: "$$contratmap.numero_contrat",
+                validation2_DAJC: "$$contratmap.validation2_DAJC"
               },
             },
           },

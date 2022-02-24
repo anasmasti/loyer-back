@@ -40,15 +40,23 @@ const EtatContratSchema = new Schema({
     n_avenant: {
         type: String,
     },
-    contrat_av: {
-        type: String,
+    // contrat_av: {
+    //     type: String,
+    // },
+    motif: [{
+        type_motif: {
+            type: String
+        },
+        montant_nouveau_loyer: {
+            type: Number,
+        },
+    }],
+    date_effet_av: {
+        type: Date,
     },
-    motif: {
-        type: String,
-    },
-    montant_nouveau_loyer: {
-        type: Number,
-    },
+    deleted_proprietaires: [{
+        type: Schema.Types.ObjectId
+    }],
     signaletique_successeur: {
         type: String,
     },

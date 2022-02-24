@@ -7,9 +7,9 @@ const amenagementSchema = new Schema({
   idm: {
     type: String,
   },
-  nature_amenagement: {
+  nature_amenagement: [{
     type: String,
-  },
+  }],
   montant_amenagement: {
     type: String,
   },

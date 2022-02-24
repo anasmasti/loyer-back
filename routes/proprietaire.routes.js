@@ -11,7 +11,7 @@ router
   .route("/proprietaire/tous/:matricule")
   .get(
     verifyRole.checkRoles("CDGSP", "CSLA"),
-    getProprietaire.getAllProprietairefromContrat
+    getProprietaire.getAllProprietairefromFoncier
   );
 router
   .route("/proprietaire/:Id/:matricule")
