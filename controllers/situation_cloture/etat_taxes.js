@@ -6,7 +6,7 @@ module.exports = {
     await Contrat.find({
       deleted: false,
       "etat_contrat.libelle": { $in: ["Actif"] },
-      validation2_DAJC: true
+      validation2_DAJC: true,
     })
       .populate({
         path: "foncier",
@@ -19,12 +19,15 @@ module.exports = {
         // return res.json(data);
         data.forEach((contrat) => {
           let dateComptabilisation = new Date(contrat.dateComptabilisation);
-          if (
-            contrat.date_comptabilisation == null ||
-            (dateComptabilisation.getMonth() + 1 == req.body.mois &&
-              dateComptabilisation.getFullYear() == req.body.annee)
-          ) {
+          //   New contrats
+          if (contrat.date_comptabilisation == null) {
+          }
 
+          //   Old contrats
+          if (
+            dateComptabilisation.getMonth() + 1 == req.body.mois &&
+            dateComptabilisation.getFullYear() == req.body.annee
+          ) {
           }
         });
         if (condition) {
