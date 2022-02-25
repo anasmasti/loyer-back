@@ -8,7 +8,7 @@ const traitementCloture = require("../../helpers/traitement_cloture");
 // const traitementAnnuelle = require("./mensuelle");
 
 module.exports = {
-  clotureContratActif: (
+  clotureContratResilie: (
     req,
     res,
     Contrat,
@@ -33,7 +33,7 @@ module.exports = {
         periodicite = 12;
       }
 
-      return traitementCloture.traitementClotureActif(
+      return traitementCloture.traitementClotureResilie(
         req,
         res,
         Contrat,

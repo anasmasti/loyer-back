@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require("express");
 const verifyRole = require("../middleware/verify-user-role");
 const postUserRoles = require("../controllers/user-roles/post.roles");
 const updateUserRoles = require("../controllers/user-roles/put.roles");
