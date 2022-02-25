@@ -5,8 +5,60 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>2</mois>
-  <totalMntBrutLoyer>0</totalMntBrutLoyer>
-  <totalMntRetenueSource>0</totalMntRetenueSource>
-  <totalMntNetLoyer>0</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier/>
+  <totalMntBrutLoyer>135000</totalMntBrutLoyer>
+  <totalMntRetenueSource>12900</totalMntRetenueSource>
+  <totalMntNetLoyer>122100</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>1</ifuBailleur>
+      <numCNIBailleur>aa555</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur/>
+      <adresseBailleur>aaaaaa</adresseBailleur>
+      <adresseBien>ouelfa gr 9</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>9000</mntBrutLoyer>
+      <mntRetenueSource>600</mntRetenueSource>
+      <mntNetLoyer>8400</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>2</ifuBailleur>
+      <numCNIBailleur>BJ123456</numCNIBailleur>
+      <numCEBailleur>100</numCEBailleur>
+      <nomPrenomBailleur/>
+      <adresseBailleur>1010</adresseBailleur>
+      <adresseBien>ouelfa gr 9</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>72000</mntBrutLoyer>
+      <mntRetenueSource>6900</mntRetenueSource>
+      <mntNetLoyer>65100</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>3</ifuBailleur>
+      <numCNIBailleur>KS123456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur/>
+      <adresseBailleur>32123</adresseBailleur>
+      <adresseBien>zaazazaz</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>54000</mntBrutLoyer>
+      <mntRetenueSource>5400</mntRetenueSource>
+      <mntNetLoyer>48600</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
 </VersementRASRF>
