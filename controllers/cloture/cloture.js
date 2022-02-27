@@ -1,7 +1,8 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
-const traitementContratActif = require("./contrat actif/index");
+const traitementContratActif = require("../helpers/contrats_actif");
+const traitementContratResilie = require("../helpers/contrats_resilie");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
@@ -44,22 +45,8 @@ module.exports = {
 
       //comptabilisation pour le paiement des loyers
       for (let i = 0; i < contrat.length; i++) {
-        let dateDebutLoyer = new Date(contrat[i].date_debut_loyer);
-        let premierDateDePaiement = new Date(contrat[i].date_premier_paiement);
-        let dateDeComptabilisation = new Date(contrat[i].date_comptabilisation);
-        let dateFinDeContrat = contrat[i].date_fin_contrat;
-
-        let montant_loyer_net,
-          montant_loyer_brut,
-          montant_tax = 0;
-        let montant_loyer_net_mandataire,
-          montant_loyer_brut_mandataire,
-          montant_tax_mandataire = 0;
-        let montant_a_verse = 0;
-
         //traitement pour comptabiliser les contrats Actif
         if (contrat[i].etat_contrat.libelle == "Actif") {
-          // console.log(contrat[i]);
           result = await traitementContratActif.clotureContratActif(
             req,
             res,
@@ -78,10 +65,24 @@ module.exports = {
           });
         } //end if
 
-        //******************************************************************************************* */
-        //******************************************************************************************* */
-        //******************************************************************************************* */
-        //******************************************************************************************* */
+        if (contrat[i].etat_contrat.libelle == "Résilié") {
+          result = await traitementContratResilie.clotureContratResilie(
+            req,
+            res,
+            contrat[i],
+            dateGenerationDeComptabilisation,
+            Contrat
+          );
+          result.ordre_virement.forEach((ordVrm) => {
+            ordreVirement.push(ordVrm);
+          });
+          result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+            comptabilisationLoyerCrediter.push(cmptCrdt);
+          });
+          result.cmptLoyerDebt.forEach((cmptDept) => {
+            comptabilisationLoyerDebiter.push(cmptDept);
+          });
+        }
       } //end for
 
       //post ordre de virement dans ordre de virement archive

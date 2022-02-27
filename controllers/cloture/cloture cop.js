@@ -3175,29 +3175,29 @@ module.exports = {
         mois: req.body.mois,
         annee: req.body.annee,
       });
-      // ordeVirementLoyer
-      //   .save()
-      //   .then(async (virementData) => {
-      //     await comptabilisationArchive
-      //       .save()
-      //       .then((comptabilisationData) => {
-      //         // res.json(true);
-      //         res.json({
-      //           virementData,
-      //           comptabilisationData
-      //         });
-      //       })
-      //       .catch((error) => {
-      //         res.status(402).send({ message: error.message });
-      //       });
-      //   })
-      //   .catch((error) => {
-      //     res.status(401).send({ message: error.message });
-      //   });
-      res.json({
-        ordeVirementLoyer,
-        comptabilisationArchive,
-      });
+      ordeVirementLoyer
+        .save()
+        .then(async (virementData) => {
+          await comptabilisationArchive
+            .save()
+            .then((comptabilisationData) => {
+              // res.json(true);
+              res.json({
+                virementData,
+                comptabilisationData,
+              });
+            })
+            .catch((error) => {
+              res.status(402).send({ message: error.message });
+            });
+        })
+        .catch((error) => {
+          res.status(401).send({ message: error.message });
+        });
+      // res.json({
+      //   ordeVirementLoyer,
+      //   comptabilisationArchive,
+      // });
     } catch (error) {
       res.status(402).json({ message: error.message });
     }

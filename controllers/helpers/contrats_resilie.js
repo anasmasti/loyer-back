@@ -1,14 +1,7 @@
-// const Contrat = require("../../../models/Contrat/Contrat.model");
-// const ordreVirementArchive = require("../../../models/archive/archiveVirement.schema");
-// const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
-// const { required } = require("joi");
-const traitementCloture = require("../../helpers/traitement_cloture");
-// const traitementMensuelle = require("./mensuelle");
-// const traitementTrimestrielle = require("./mensuelle");
-// const traitementAnnuelle = require("./mensuelle");
+const traitementCloture = require("./traitement_cloture");
 
 module.exports = {
-  clotureContratActif: (
+  clotureContratResilie: (
     req,
     res,
     Contrat,
@@ -33,7 +26,7 @@ module.exports = {
         periodicite = 12;
       }
 
-      return traitementCloture.traitementClotureActif(
+      return traitementCloture.traitementClotureResilie(
         req,
         res,
         Contrat,

@@ -300,10 +300,15 @@ module.exports = {
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
+                  Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
+                  Contrat.numero_contrat,
+                  Contrat.periodicite,
                   req.body.mois,
                   req.body.annee,
-                  montant_a_verse
+                  montant_a_verse,
+                  montant_loyer_brut_mandataire,
+                  montant_tax_mandataire
                 )
               );
             }
@@ -420,10 +425,15 @@ module.exports = {
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
+                  Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
+                  Contrat.numero_contrat,
+                  Contrat.periodicite,
                   req.body.mois,
                   req.body.annee,
-                  montant_a_verse
+                  montant_a_verse,
+                  montant_loyer_brut_mandataire,
+                  montant_tax_mandataire
                 )
               );
             }
@@ -515,44 +525,6 @@ module.exports = {
 
                   montant_a_verse = +montant_loyer_net;
 
-                  comptabilisationLoyerCrediter.push({
-                    nom_de_piece: dateGenerationDeComptabilisation,
-                    date_gl: dateGenerationDeComptabilisation,
-                    date_operation: dateGenerationDeComptabilisation,
-                    cin: Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .cin,
-                    passport:
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .passport,
-                    carte_sejour:
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .carte_sejour,
-                    type: "LOY",
-                    adresse_proprietaire:
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .adresse,
-                    adresse_lieu: Contrat.foncier.adresse,
-                    origine: "PAISOFT",
-                    devises: "MAD",
-                    intitule_lieu: Contrat.foncier.lieu[g].lieu.intitule_lieu,
-                    code_lieu: Contrat.foncier.lieu[g].lieu.code_lieu,
-                    etablissement: "01",
-                    centre_de_cout: "NS",
-                    direction_regional:
-                      Contrat.foncier.lieu[g].lieu.type_lieu ==
-                      "Direction régionale"
-                        ? Contrat.foncier.lieu[g].lieu.code_lieu
-                        : Contrat.foncier.lieu[g].lieu.code_rattache_DR,
-                    point_de_vente:
-                      Contrat.foncier.lieu[g].lieu.type_lieu == "Point de vente"
-                        ? Contrat.foncier.lieu[g].lieu.code_lieu
-                        : "",
-                    montant_net: montant_loyer_net,
-                    montant_tax: montant_tax,
-                    montant_caution: 0,
-                    montant_brut: montant_loyer_brut,
-                    date_comptabilisation: dateDebutLoyer,
-                  });
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
                       Contrat.foncier,
@@ -585,10 +557,15 @@ module.exports = {
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
+                  Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
+                  Contrat.numero_contrat,
+                  Contrat.periodicite,
                   req.body.mois,
                   req.body.annee,
-                  montant_a_verse
+                  montant_a_verse,
+                  montant_loyer_brut_mandataire,
+                  montant_tax_mandataire
                 )
               );
             }
@@ -712,10 +689,15 @@ module.exports = {
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
+                  Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
+                  Contrat.numero_contrat,
+                  Contrat.periodicite,
                   req.body.mois,
                   req.body.annee,
-                  montant_a_verse
+                  montant_a_verse,
+                  montant_loyer_brut_mandataire,
+                  montant_tax_mandataire
                 )
               );
             }

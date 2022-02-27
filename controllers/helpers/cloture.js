@@ -62,7 +62,17 @@ module.exports = {
     return comptabilisationLoyerDebite;
   },
 
-  createOrderVirementObject: (proprietaire, mois, annee, montant_a_verse) => {
+  createOrderVirementObject: (
+    lieu,
+    proprietaire,
+    numero_contrat,
+    periodicite,
+    mois,
+    annee,
+    montant_a_verse,
+    montant_loyer_brut,
+    montant_tax
+  ) => {
     let orderVirement = {
       type_enregistrement: "0602",
       cin: proprietaire.cin,
@@ -72,8 +82,14 @@ module.exports = {
       numero_compte_bancaire: proprietaire.n_compte_bancaire,
       mois: mois,
       annee: annee,
-      nom_agence_bancaire: proprietaire.nom_agence_bancaire,
+      nom_agence_bancaire: proprietaire.banque,
+      banque: proprietaire.nom_agence_bancaire,
+      intitule_lieu: lieu.lieu.intitule_lieu,
+      numero_contrat: numero_contrat,
+      periodicite: periodicite,
       montant_net: montant_a_verse,
+      montant_brut: montant_loyer_brut,
+      montant_taxe: montant_tax,
     };
     return orderVirement;
   },
