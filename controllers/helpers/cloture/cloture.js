@@ -8,10 +8,13 @@ module.exports = {
     montant_tax,
     montant_loyer_brut,
     dateDebutLoyer,
-    montant_caution
+    montant_caution,
+    numero_contrat,
+    periodicite,
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
+      nom_prenom: proprietaire.nom_prenom,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
       cin: proprietaire.cin,
@@ -23,19 +26,26 @@ module.exports = {
       origine: "PAISOFT",
       devises: "MAD",
       intitule_lieu: lieu.lieu.intitule_lieu,
+      type_lieu: lieu.lieu.type_lieu,
       code_lieu: lieu.lieu.code_lieu,
       etablissement: "01",
       centre_de_cout: "NS",
       direction_regional:
-        lieu.lieu.type_lieu == "Direction régionale"
-          ? lieu.lieu.code_lieu
-          : lieu.lieu.code_rattache_DR,
+      lieu.lieu.type_lieu == "Direction régionale"
+      ? lieu.lieu.code_lieu
+      : lieu.lieu.code_rattache_DR,
       point_de_vente:
-        lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
+      lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
+      numero_contrat: numero_contrat,
+      periodicite: periodicite,
       montant_net: montant_loyer_net,
       montant_tax: montant_tax,
       montant_caution: montant_caution,
       montant_brut: montant_loyer_brut,
+      taux_impot: proprietaire.taux_impot,
+      caution_proprietaire: proprietaire.caution_par_proprietaire,
+      tax_avance_proprietaire: proprietaire.tax_avance_proprietaire,
+      montant_avance_proprietaire: proprietaire.montant_avance_proprietaire,
       date_comptabilisation: dateDebutLoyer,
     };
     return comptabilisationLoyerCrediter;
@@ -75,16 +85,17 @@ module.exports = {
   ) => {
     let orderVirement = {
       type_enregistrement: "0602",
-      cin: proprietaire.cin,
+      cin: proprietaire.cin ? proprietaire.cin : proprietaire.n_registre_commerce,
       passport: proprietaire.passport,
       carte_sejour: proprietaire.carte_sejour,
-      nom_prenom: proprietaire.nom_prenom,
+      nom_prenom: proprietaire.nom_prenom ? proprietaire.nom_prenom : proprietaire.raison_social,
       numero_compte_bancaire: proprietaire.n_compte_bancaire,
       mois: mois,
       annee: annee,
       nom_agence_bancaire: proprietaire.banque,
       banque: proprietaire.nom_agence_bancaire,
       intitule_lieu: lieu.lieu.intitule_lieu,
+      type_lieu: lieu.lieu.type_lieu,
       numero_contrat: numero_contrat,
       periodicite: periodicite,
       montant_net: montant_a_verse,

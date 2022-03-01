@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td {
+        max-width: 100px;
+        padding-left: 2em;
+      }
+      td:last-child {
+        border-left: 1px solid #f9a11e;
+      }
+      .title {
+        color: #828282;
+        width: 70%;
+        margin: 20px auto 20px auto;
+        text-align: center;
+      }
+      .center {
+        background-color: #f9a11e;
+        padding: 5px;
+        text-align: center;
+        color: white;
+        margin-top: 30px;
+      }
+      h4 {
+        color: #5e5e5e;
+      }
+      span {
+        color: #f9a11e;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
+    </div>
+    <h2 class="title">
+      Etat des virements de loyer pour la date {{mois}}/{{annee}}
+    </h2>
+    {{#each .}} {{#comptabilisation_loyer_crediter}}
+    <h4 class="center">
+      Numero du contrat :<span style="color: white">
+        {{ numero_contrat }}
+      </span>
+    </h4>
+    <table>
+      <tr>
+        <td>
+          <h4>Type d'entité :<span> {{ type_lieu }} </span></h4>
+        </td>
+        <td>
+          <h4>CIN/IF :<span> {{ cin }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Nom et prénom / R.S :<span> {{ nom_prenom }} </span></h4>
+        </td>
+        <td>
+          <h4>D.S :<span> -- </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Périodicité :<span> {{ periodicite }} </span></h4>
+        </td>
+        <td>
+          <h4>Montant brut de loyer :<span> {{ montant_brut }} MAD</span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>
+            Montant brut d'avance :<span>
+              {{ montant_avance_proprietaire }} MAD</span
+            >
+          </h4>
+        </td>
+        <td>
+          <h4>Taux de taxe :<span> {{ taux_impot }}</span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Taxe sur loyer :<span> {{ montant_taxe }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>
+            Taxe sur Avance :<span> {{ tax_avance_proprietaire }} MAD</span>
+          </h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Caution :<span> {{ caution_proprietaire }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>Montant net :<span> {{ montant_net }} MAD</span></h4>
+        </td>
+      </tr>
+    </table>
+    {{/comptabilisation_loyer_crediter}} {{/each}}
+  </body>
+</html>

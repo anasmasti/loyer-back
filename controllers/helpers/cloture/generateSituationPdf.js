@@ -2,7 +2,7 @@ const fs = require("fs");
 const htmlPdf = require("html-pdf");
 const handlebars = require("handlebars");
 const moment = require("moment");
-const etatPaths = require("../../models/situation_cloture/etatPaths");
+const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
 
 async function generatePdf(data1, etatType) {
   let data = data1[0];
@@ -12,7 +12,7 @@ async function generatePdf(data1, etatType) {
   let today = new Date();
   // let dateToString = moment(today).format('YYYY-MM-DD')
   let dateToString = moment(today).format("YYYY-MM");
-  let etatReportingOptions = ["etat_virement", "Etat taxes"];
+  let etatReportingOptions = ["état_virements", "état_taxes"];
 
   for (const item in etatReportingOptions) {
     if (etatType == etatReportingOptions[item]) {

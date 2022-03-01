@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td{
+        max-width: 100px;
+        padding-left: 2em;
+      }
+      td:last-child {
+        border-left: 1px solid #f9a11e;
+      }
+      .title {
+        color: #828282;
+        width: 70%;
+        margin: 40px auto 40px auto;
+        text-align: center;
+      }
+      .center {
+        background-color: #f9a11e;
+        padding: 5px;
+        text-align: center;
+        color: white;
+      }
+      h4 {
+        color: #5e5e5e;
+      }
+      span {
+        color: #f9a11e;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
+    </div>
+    <h2 class="title">
+      Etat des virements de loyer pour la date
+      {{mois}}/{{annee}}
+    </h2>
+    {{#each .}} {{#ordre_virement}}
+    <h4 class="center">
+      Numero du contrat :<span style="color: white;"> {{ numero_contrat }} </span>
+    </h4>
+    <table>
+      <tr>
+        <td>
+          <h4>Mandataire :<span> {{ nom_prenom }} </span></h4>
+        </td>
+        <td>
+          <h4>CIN/IF :<span> {{ cin }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Agence :<span> {{ nom_agence_bancaire }} </span></h4>
+        </td>
+        <td>
+          <h4>Banque :<span> {{ banque }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Type d'entité :<span> {{ type_lieu }} </span></h4>
+        </td>
+        <td>
+          <h4>Périodicité :<span> {{ periodicite }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>MT brut :<span> {{ montant_brut }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>Taxe :<span> {{ montant_taxe }} MAD</span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>MT Net :<span> {{ montant_net }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>N° de compte :<span> {{ numero_compte_bancaire }} </span></h4>
+        </td>
+      </tr>
+    </table>
+    {{/ordre_virement}} {{/each}}
+    <!-- <table align="center">
+      <thead>
+        <tr class="table-header">
+          <th>Numero Contrat</th>
+          <th>Intitule Lieu</th>
+          <th>Montant Loyer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each .}}
+        {{#ordre_virement}}
+        <tr>
+          <td>{{numero_contrat}}</td>
+          <td>testttttttttt</td>
+          <td>test MAD</td>
+        </tr>
+        {{/ordre_virement}}
+        {{/each}}
+        <tr>
+          <th class="mnt-total" colspan="3">
+            Total montant de loyer : 11111111 MAD
+          </th>
+        </tr>
+      </tbody>
+    </table> -->
+  </body>
+</html>

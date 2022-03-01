@@ -57,7 +57,9 @@ module.exports = {
                   montant_tax_mandataire,
                   montant_loyer_brut_mandataire,
                   dateDebutLoyer,
-                  0
+                  0,
+                  Contrat.numero_contrat,
+                  Contrat.periodicite_paiement
                 )
               );
               if (
@@ -95,7 +97,9 @@ module.exports = {
                       montant_tax,
                       montant_loyer_brut,
                       dateDebutLoyer,
-                      0
+                      0,
+                      Contrat.numero_contrat,
+                      Contrat.periodicite_paiement
                     )
                   );
                   montant_loyer_net = 0;
@@ -224,7 +228,9 @@ module.exports = {
                   montant_tax_mandataire,
                   montant_loyer_brut_mandataire,
                   dateDebutLoyer,
-                  Contrat.foncier.proprietaire[j].caution_par_proprietaire
+                  Contrat.foncier.proprietaire[j].caution_par_proprietaire,
+                  Contrat.numero_contrat,
+                  Contrat.periodicite_paiement
                 )
               );
               if (
@@ -275,7 +281,9 @@ module.exports = {
                       montant_loyer_brut,
                       dateDebutLoyer,
                       Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .caution_par_proprietaire
+                        .caution_par_proprietaire,
+                      Contrat.numero_contrat,
+                      Contrat.periodicite_paiement
                     )
                   );
                   montant_loyer_net = 0;
@@ -303,7 +311,7 @@ module.exports = {
                   Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
                   Contrat.numero_contrat,
-                  Contrat.periodicite,
+                  Contrat.periodicite_paiement,
                   req.body.mois,
                   req.body.annee,
                   montant_a_verse,
@@ -315,15 +323,14 @@ module.exports = {
           }
         }
       }
-      console.log(comptabilisationLoyerCrediter);
-      // await ContratSchema.findByIdAndUpdate(
-      //   { _id: Contrat._id },
-      //   {
-      //     date_comptabilisation: null,
-      //     caution_versee: true,
-      //     avance_versee: true,
-      //   }
-      // );
+      await ContratSchema.findByIdAndUpdate(
+        { _id: Contrat._id },
+        {
+          date_comptabilisation: null,
+          caution_versee: true,
+          avance_versee: true,
+        }
+      );
     } //end if
 
     if (
@@ -359,7 +366,9 @@ module.exports = {
                   montant_tax_mandataire,
                   montant_loyer_brut_mandataire,
                   dateDebutLoyer,
-                  Contrat.foncier.proprietaire[j].caution_par_proprietaire
+                  Contrat.foncier.proprietaire[j].caution_par_proprietaire,
+                  Contrat.numero_contrat,
+                  Contrat.periodicite_paiement
                 )
               );
 
@@ -403,7 +412,9 @@ module.exports = {
                       montant_loyer_brut,
                       dateDebutLoyer,
                       Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .caution_par_proprietaire
+                        .caution_par_proprietaire,
+                      Contrat.numero_contrat,
+                      Contrat.periodicite_paiement
                     )
                   );
                   montant_loyer_net = 0;
@@ -428,7 +439,7 @@ module.exports = {
                   Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
                   Contrat.numero_contrat,
-                  Contrat.periodicite,
+                  Contrat.periodicite_paiement,
                   req.body.mois,
                   req.body.annee,
                   montant_a_verse,
@@ -496,7 +507,9 @@ module.exports = {
                   montant_tax_mandataire,
                   montant_loyer_brut_mandataire,
                   dateDebutLoyer,
-                  0
+                  0,
+                  Contrat.numero_contrat,
+                  Contrat.periodicite_paiement
                 )
               );
 
@@ -535,7 +548,9 @@ module.exports = {
                       montant_tax,
                       montant_loyer_brut,
                       dateDebutLoyer,
-                      0
+                      0,
+                      Contrat.numero_contrat,
+                      Contrat.periodicite_paiement
                     )
                   );
                   montant_loyer_net = 0;
@@ -560,7 +575,7 @@ module.exports = {
                   Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
                   Contrat.numero_contrat,
-                  Contrat.periodicite,
+                  Contrat.periodicite_paiement,
                   req.body.mois,
                   req.body.annee,
                   montant_a_verse,
@@ -628,7 +643,9 @@ module.exports = {
                   montant_tax_mandataire,
                   montant_loyer_brut_mandataire,
                   dateDebutLoyer,
-                  0
+                  0,
+                  Contrat.numero_contrat,
+                  Contrat.periodicite_paiement
                 )
               );
 
@@ -667,7 +684,9 @@ module.exports = {
                       montant_tax,
                       montant_loyer_brut,
                       dateDebutLoyer,
-                      0
+                      0,
+                      Contrat.numero_contrat,
+                      Contrat.periodicite_paiement
                     )
                   );
                   montant_loyer_net = 0;
@@ -692,7 +711,7 @@ module.exports = {
                   Contrat.foncier.lieu[g],
                   Contrat.foncier.proprietaire[j],
                   Contrat.numero_contrat,
-                  Contrat.periodicite,
+                  Contrat.periodicite_paiement,
                   req.body.mois,
                   req.body.annee,
                   montant_a_verse,

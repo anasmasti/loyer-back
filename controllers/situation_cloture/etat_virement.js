@@ -1,5 +1,5 @@
 const etatVirement = require("../../models/situation_cloture/etatVirement.schema");
-const generatePdf = require("../helpers/generateSituationPdf");
+const generatePdf = require("../helpers/cloture/generateSituationPdf");
 
 module.exports = {
   etatMonsuelVirement: async (req, res) => {
@@ -9,8 +9,13 @@ module.exports = {
         annee: req.body.annee,
       })
       .then((data) => {
-        res.json(data);
-        generatePdf(data, "etat_virement");
+        if (data.length > 0) {
+          res.json(data);
+          generatePdf(data, "état_virements");
+        }
+        else
+          res.status(402).json({ message: "Empty data" });
+
       })
       .catch((error) => {
         res.status(402).json({ message: error.message });

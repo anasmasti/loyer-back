@@ -2,8 +2,8 @@ const Contrat = require("../../models/contrat/contrat.model");
 const etatTaxesSch = require("../../models/situation_cloture/etatTaxes.schema");
 const etatVirementSch = require("../../models/situation_cloture/etatVirement.schema");
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
-const traitementContratActif = require("../helpers/contrats_actif");
-const traitementContratResilie = require("../helpers/contrats_resilie");
+const traitementContratActif = require("../helpers/cloture/contrats_actif");
+const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {

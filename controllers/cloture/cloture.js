@@ -1,8 +1,8 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const ordreVirementArchive = require("../../models/archive/archiveVirement.schema");
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
-const traitementContratActif = require("../helpers/contrats_actif");
-const traitementContratResilie = require("../helpers/contrats_resilie");
+const traitementContratActif = require("../helpers/cloture/contrats_actif");
+const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
@@ -100,30 +100,25 @@ module.exports = {
         mois: req.body.mois,
         annee: req.body.annee,
       });
-      // ordeVirementLoyer
-      //   .save()
-      //   .then(async (virementData) => {
-      //     await comptabilisationArchive
-      //       .save()
-      //       .then((comptabilisationData) => {
-      //         // res.json(true);
-      //         res.json({
-      //           virementData,
-      //           comptabilisationData,
-      //         });
-      //       })
-      //       .catch((error) => {
-      //         res.status(402).send({ message6: error.message });
-      //       });
-      //   })
-      //   .catch((error) => {
-      //     res.status(401).send({ message7: error.message });
-      //   });
-      res.json({
-        ordeVirementLoyer,
-        comptabilisationArchive,
-      });
-
+      ordeVirementLoyer
+        .save()
+        .then(async (virementData) => {
+          await comptabilisationArchive
+            .save()
+            .then((comptabilisationData) => {
+              // res.json(true);
+              res.json({
+                virementData,
+                comptabilisationData,
+              });
+            })
+            .catch((error) => {
+              res.status(402).send({ message6: error.message });
+            });
+        })
+        .catch((error) => {
+          res.status(401).send({ message7: error.message });
+        });
       // res.json(result);
     } catch (error) {
       res.status(402).json({ message8: error.message });
@@ -147,6 +142,4 @@ module.exports = {
         res.status(402).send({ message10: error.message });
       });
   },
-
-  annulerCloture: async (req, res) => {},
 };
