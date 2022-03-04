@@ -36,7 +36,7 @@ module.exports = {
       // }
       piece_joint_contrat = await FilesHelper.storeFiles(req, "piece_joint_contrat");
 
-      console.log("piece_joint_contrat", piece_joint_contrat);
+      // console.log("piece_joint_contrat", piece_joint_contrat);
       // for (let i = 0; i < 8; i++) {
       //   console.log(req.files[`piece_joint_contrat${i + 1}`]);
       //   if (req.files[`piece_joint_contrat${i + 1}`]) {

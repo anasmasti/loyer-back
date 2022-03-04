@@ -29,4 +29,32 @@ module.exports = {
     }
     return storedFiles;
   },
+
+  storeUpdateAmngmentFiles: async (req, fileName, idm, amenagement) => {
+    let storedFiles = [];
+    for (let i = 0; i < 8; i++) {
+      let file = req.files[`${fileName}${i + 1}`];
+      console.log(`${fileName}${i + 1}`, req.files[`${fileName}${i + 1}`]);
+      // console.log(file);
+      if (file) {
+        let originalName = file[0].originalname ? file[0].originalname.replace(".pdf", "") : "";
+        console.log("idm", idm);
+        // if (originalName == idm) {
+          if (amenagement.deleted == false) {
+            storedFiles.push({
+              image: file[0].path,
+              image_idm: idm,
+            });
+          } else if (amenagement.deleted == true) {
+            storedFiles.push({
+              image: file[0].path,
+              image_idm: idm,
+              deleted: true,
+            });
+          // }
+        }
+      }
+    }
+    return storedFiles;
+  },
 };
