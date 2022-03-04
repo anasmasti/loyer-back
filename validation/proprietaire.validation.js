@@ -214,6 +214,10 @@ const ProprietaireValidation = Joi.object({
     .items(Joi.string()),
     has_mandataire: Joi
         .string(),
+    declaration_option: Joi 
+        .string(),
+    is_person_physique: Joi
+        .boolean(),
 })
 
 

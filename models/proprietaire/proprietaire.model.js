@@ -80,6 +80,13 @@ const ProprietaireSchema = new Schema(
     pourcentage: {
       type: Number,
     },
+    declaration_option:{
+      type: String
+    },
+    is_person_physique:{
+      type: Boolean,
+      // default: true,
+    },
     caution_par_proprietaire: {
       type: Number,
     },
@@ -91,6 +98,7 @@ const ProprietaireSchema = new Schema(
       type: Boolean,
       default: false,
     },
+                    // part_proprietaire
     // has_mandataire:{
     //   type: Schema.Types.ObjectId,
     //   ref: 'Proprietaire',

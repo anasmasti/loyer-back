@@ -14,6 +14,7 @@ const ContratSchema = new Schema(
     },
     date_fin_contrat: {
       type: Date,
+      default: new Date('2999-01-01')
     },
     date_reprise_caution: {
       type: Date,

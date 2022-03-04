@@ -4,6 +4,7 @@ const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
+const FilesHelper = require("../helpers/files")
 
 // function Test(userRole) {
 //   console.log('test');
@@ -58,32 +59,68 @@ module.exports = {
     // console.log(req.body.data);
     try {
       data = JSON.parse(req.body.data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       res.status(422).send({ message: error.message });
     }
     //store files
     if (req.files) {
-      if (req.files.piece_joint_contrat) {
-        piece_joint_contrat.push({
-          image: req.files.piece_joint_contrat[0].path,
-        });
-      }
-      if (req.files.images_etat_res_lieu_sortie) {
-        images_etat_res_lieu_sortie.push({
-          image: req.files.images_etat_res_lieu_sortie[0].path,
-        });
-      }
-      if (req.files.lettre_res_piece_jointe) {
-        lettre_res_piece_jointe.push({
-          image: req.files.lettre_res_piece_jointe[0].path,
-        });
-      }
-      if (req.files.piece_jointe_avenant) {
-        piece_jointe_avenant.push({
-          image: req.files.piece_jointe_avenant[0].path,
-        });
-      }
+      // piece_jointe_contrat
+      piece_joint_contrat = await FilesHelper.storeFiles(req, 'piece_joint_contrat');
+      // if (req.files.piece_joint_contrat) {
+      //   piece_joint_contrat.push({
+      //     image: req.files.piece_joint_contrat[0].path,
+      //   });
+      // }
+      // for (let i = 0; i < 8; i++) {
+      //   let file = req.files[`piece_joint_contrat${i + 1}`]
+      //   if (file) {
+      //     console.log(`piece_joint_contrat${i + 1}`, file[0]);
+      //     piece_joint_contrat.push({
+      //       image: file[0].path,
+      //     });
+      //   }
+      // }
+
+      // images_etat_res_lieu_sortie
+      images_etat_res_lieu_sortie = await FilesHelper.storeFiles(req, 'images_etat_res_lieu_sortie');
+      // if (req.files.images_etat_res_lieu_sortie) {
+      //   images_etat_res_lieu_sortie.push({
+      //     image: req.files.images_etat_res_lieu_sortie[0].path,
+      //   });
+      // }
+      // for (let i = 0; i < 8; i++) {
+      //   console.log(req.files[`images_etat_res_lieu_sortie${i + 1}`]);
+      //   if (req.files[`images_etat_res_lieu_sortie${i + 1}`]) {
+      //     images_etat_res_lieu_sortie.push({
+      //       image: req.files[`images_etat_res_lieu_sortie${i + 1}`].path,
+      //     });
+      //   }
+      // }
+
+      // lettre_res_piece_jointe
+      lettre_res_piece_jointe = await FilesHelper.storeFiles(req, 'lettre_res_piece_jointe');
+      // if (req.files.lettre_res_piece_jointe) {
+      //   lettre_res_piece_jointe.push({
+      //     image: req.files.lettre_res_piece_jointe[0].path,
+      //   });
+      // }
+      // for (let i = 0; i < 8; i++) {
+      //   console.log(req.files[`lettre_res_piece_jointe${i + 1}`]);
+      //   if (req.files[`lettre_res_piece_jointe${i + 1}`]) {
+      //     lettre_res_piece_jointe.push({
+      //       image: req.files[`lettre_res_piece_jointe${i + 1}`].path,
+      //     });
+      //   }
+      // }
+
+      // piece_jointe_avenant
+      piece_jointe_avenant = await FilesHelper.storeFiles(req, 'piece_jointe_avenant');
+      // if (req.files.piece_jointe_avenant) {
+      //   piece_jointe_avenant.push({
+      //     image: req.files.piece_jointe_avenant[0].path,
+      //   });
+      // }
     }
 
     //search for requested contrat
@@ -91,14 +128,14 @@ module.exports = {
 
     // store the exited files
     if (existedContrat) {
-      if (existedContrat.piece_joint_contrat) {
+      if (existedContrat.piece_joint_contrat && piece_joint_contrat.length == 0) {
         for (item in existedContrat.piece_joint_contrat) {
           piece_joint_contrat.push({
             image: existedContrat.piece_joint_contrat[item].image,
           });
         }
       }
-      if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie) {
+      if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie && images_etat_res_lieu_sortie.length == 0) {
         for (item in existedContrat.etat_contrat.etat
           .images_etat_res_lieu_sortie) {
           images_etat_res_lieu_sortie.push({
@@ -108,7 +145,7 @@ module.exports = {
           });
         }
       }
-      if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+      if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe && lettre_res_piece_jointe.length == 0) {
         for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
           lettre_res_piece_jointe.push({
             image:
@@ -117,7 +154,7 @@ module.exports = {
           });
         }
       }
-      if (existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+      if (existedContrat.etat_contrat.etat.piece_jointe_avenant && piece_jointe_avenant.length == 0) {
         for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
           piece_jointe_avenant.push({
             image:
