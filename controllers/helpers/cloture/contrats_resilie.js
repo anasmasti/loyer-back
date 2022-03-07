@@ -6,7 +6,8 @@ module.exports = {
     res,
     Contrat,
     dateGenerationDeComptabilisation,
-    ContratSchema
+    ContratSchema,
+    Cloture
   ) => {
     try {
       let periodicite;
@@ -32,7 +33,8 @@ module.exports = {
         Contrat,
         dateGenerationDeComptabilisation,
         periodicite,
-        ContratSchema
+        ContratSchema,
+        Cloture
       );
     } catch (error) {
       res.status(402).json({ messssssage: error.message });

@@ -77,9 +77,9 @@ const ProprietaireSchema = new Schema(
     tax_par_periodicite: {
       type: Number,
     },
-    pourcentage: {
-      type: Number,
-    },
+    // pourcentage: {
+    //   type: Number,
+    // },
     declaration_option:{
       type: String
     },
@@ -98,7 +98,9 @@ const ProprietaireSchema = new Schema(
       type: Boolean,
       default: false,
     },
-                    // part_proprietaire
+    part_proprietaire: {
+      type: Number
+    },
     // has_mandataire:{
     //   type: Schema.Types.ObjectId,
     //   ref: 'Proprietaire',

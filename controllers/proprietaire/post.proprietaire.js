@@ -73,7 +73,7 @@ module.exports = {
         montant_avance_proprietaire: req.body.montant_avance_proprietaire,
         tax_avance_proprietaire: req.body.tax_avance_proprietaire,
         tax_par_periodicite: req.body.tax_par_periodicite,
-        pourcentage: req.body.pourcentage,
+        part_proprietaire: req.body.part_proprietaire,
         caution_par_proprietaire: req.body.caution_par_proprietaire,
         is_mandataire: req.body.is_mandataire,
         has_mandataire: null,

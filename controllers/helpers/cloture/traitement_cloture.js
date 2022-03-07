@@ -10,7 +10,8 @@ module.exports = {
     Contrat,
     dateGenerationDeComptabilisation,
     periodicite,
-    ContratSchema
+    ContratSchema,
+    Cloture
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -131,26 +132,29 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-          dateDeComptabilisation.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = dateDeComptabilisation.setMonth(
-          dateDeComptabilisation.getMonth() + 1
-        );
+
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+            dateDeComptabilisation.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = dateDeComptabilisation.setMonth(
+            dateDeComptabilisation.getMonth() + 1
+          );
+        }
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          { date_comptabilisation: nextDateComptabilisation }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message: error.message });
+          });
       }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        { date_comptabilisation: nextDateComptabilisation }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message: error.message });
-        });
     }
 
     return {
@@ -166,7 +170,8 @@ module.exports = {
     Contrat,
     dateGenerationDeComptabilisation,
     periodicite,
-    ContratSchema
+    ContratSchema,
+    Cloture
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -323,14 +328,16 @@ module.exports = {
           }
         }
       }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        {
-          date_comptabilisation: null,
-          caution_versee: true,
-          avance_versee: true,
-        }
-      );
+      if (Cloture) {
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          {
+            date_comptabilisation: null,
+            caution_versee: true,
+            avance_versee: true,
+          }
+        );
+      }
     } //end if
 
     if (
@@ -451,30 +458,32 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = dateDebutLoyer.setFullYear(
-          dateDebutLoyer.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = dateDebutLoyer.setMonth(
-          dateDebutLoyer.getMonth() + periodicite
-        );
-      }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        {
-          date_comptabilisation: nextDateComptabilisation,
-          caution_versee: true,
-          avance_versee: true,
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = dateDebutLoyer.setFullYear(
+            dateDebutLoyer.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = dateDebutLoyer.setMonth(
+            dateDebutLoyer.getMonth() + periodicite
+          );
         }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message1: error.message });
-        });
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          {
+            date_comptabilisation: nextDateComptabilisation,
+            caution_versee: true,
+            avance_versee: true,
+          }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message1: error.message });
+          });
+      }
     }
 
     if (
@@ -587,28 +596,30 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = premierDateDePaiement.setFullYear(
-          premierDateDePaiement.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = premierDateDePaiement.setMonth(
-          premierDateDePaiement.getMonth() + periodicite
-        );
-      }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        {
-          date_comptabilisation: nextDateComptabilisation,
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = premierDateDePaiement.setFullYear(
+            premierDateDePaiement.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = premierDateDePaiement.setMonth(
+            premierDateDePaiement.getMonth() + periodicite
+          );
         }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message2: error.message });
-        });
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          {
+            date_comptabilisation: nextDateComptabilisation,
+          }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message2: error.message });
+          });
+      }
     }
 
     if (
@@ -723,27 +734,29 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-          dateDeComptabilisation.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = dateDeComptabilisation.setMonth(
-          dateDeComptabilisation.getMonth() + periodicite
-        );
-      }
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+            dateDeComptabilisation.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = dateDeComptabilisation.setMonth(
+            dateDeComptabilisation.getMonth() + periodicite
+          );
+        }
 
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        { date_comptabilisation: nextDateComptabilisation }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message3: error.message });
-        });
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          { date_comptabilisation: nextDateComptabilisation }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message3: error.message });
+          });
+      }
     }
 
     return {

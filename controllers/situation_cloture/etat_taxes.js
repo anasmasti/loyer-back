@@ -5,8 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
 
-module.exports = {
-  etatMonsuelTaxes: async (req, res) => {
+  const etatMonsuelTaxes = async (req, res) => {
     let today = new Date();
     let dateToString = moment(today).format("YYYY-MM");
 
@@ -16,9 +15,9 @@ module.exports = {
         annee: req.body.annee,
       })
       .then((data) => {
+        // return res.json(data)
         if (data.length > 0) {
-          res.json(data);
-          generatePdf(data, "état_des_taxes");
+          // res.json(data);
 
           // Generate Excel
           const dataExcel = [];
@@ -69,10 +68,18 @@ module.exports = {
             filePath,
             "état_des_taxes"
           );
+
+
+
+
+          generatePdf(data, "état_des_taxes");
+
         } else res.status(402).json({ message: "Empty data" });
       })
       .catch((error) => {
         res.status(402).json({ message: error.message });
       });
-  },
-};
+  }
+module.exports = etatMonsuelTaxes
+
+

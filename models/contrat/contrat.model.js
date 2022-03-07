@@ -145,6 +145,8 @@ const ContratSchema = new Schema(
         }
     },
     ],
+    nombre_part: {
+      type: Number}
   },
   { timestamps: true }
 );

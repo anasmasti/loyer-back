@@ -376,6 +376,7 @@ module.exports = {
           piece_joint_contrat: piece_joint_contrat,
           contrats_suspendu: contrats_suspendu,
           contrat_avener: contrat_avener,
+          nombre_part: data.nombre_part
         };
         // return ContratHelper.createContratAV(req, res, data, `${numeroContrat}/AV`, piece_joint_contrat)
       }
@@ -416,6 +417,7 @@ module.exports = {
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
         date_comptabilisation: nextDateComptabilisation,
+        nombre_part: data.nombre_part
       };
     }
 
@@ -471,38 +473,38 @@ module.exports = {
 
     // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    await Contrat.find({ _id: req.params.Id, deleted: false })
-      .populate({ path: "foncier", populate: { path: "proprietaire" } })
-      .then(async (data_) => {
-        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-          let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
-          let idProprietaire = data_[0].foncier.proprietaire[i]._id;
-          let updatedContrat = data;
+    // // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
+    // await Contrat.find({ _id: req.params.Id, deleted: false })
+    //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
+    //   .then(async (data_) => {
+    //     for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+    //       let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
+    //       let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+    //       let updatedContrat = data;
 
-          let updatedProprietaire = Calcule(
-            updatedContrat,
-            pourcentage,
-            idProprietaire
-          );
+    //       let updatedProprietaire = Calcule(
+    //         updatedContrat,
+    //         pourcentage,
+    //         idProprietaire
+    //       );
 
-          await Proprietaire.findByIdAndUpdate(
-            idProprietaire,
-            updatedProprietaire
-          )
-            .then((data) => {
-              // res.json(data);
-            })
-            .catch((error) => {
-              res.status(400).send({ message: error.message });
-            });
-        }
-      })
-      .catch((error) => {
-        res.status(422).send({
-          message: error.message,
-        });
-      });
+    //       await Proprietaire.findByIdAndUpdate(
+    //         idProprietaire,
+    //         updatedProprietaire
+    //       )
+    //         .then((data) => {
+    //           // res.json(data);
+    //         })
+    //         .catch((error) => {
+    //           res.status(400).send({ message: error.message });
+    //         });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     res.status(422).send({
+    //       message: error.message,
+    //     });
+    //   });
 
     // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
     if (data.etat_contrat.libelle === "Résilié") {

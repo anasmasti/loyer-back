@@ -5,6 +5,8 @@ const archiveComptabilisation = require("../../models/archive/archiveComptabilis
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
 const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const etatMonsuelTaxes = require("./etat_taxes");
+const etatMonsuelVirement = require("./etat_virement");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {
@@ -55,7 +57,8 @@ module.exports = {
               res,
               contrat[i],
               dateGenerationDeComptabilisation,
-              Contrat
+              Contrat,
+              false
             );
             result.ordre_virement.forEach((ordVrm) => {
               ordreVirement.push(ordVrm);
@@ -74,7 +77,8 @@ module.exports = {
               res,
               contrat[i],
               dateGenerationDeComptabilisation,
-              Contrat
+              Contrat,
+              false
             );
             result.ordre_virement.forEach((ordVrm) => {
               ordreVirement.push(ordVrm);
@@ -112,9 +116,10 @@ module.exports = {
           await etatTaxes
             .save()
             .then((comptabilisationData) => {
-              // res.json(true);
-              generatePdf(virementData, "état_virements");
-              generatePdf(comptabilisationData, "état_taxes");
+              etatMonsuelVirement(req, res),
+              setTimeout(() => {
+                etatMonsuelTaxes(req, res)
+              }, 1000);
               res.json({
                 virementData,
                 comptabilisationData,
