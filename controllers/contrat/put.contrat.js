@@ -4,7 +4,7 @@ const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
-const FilesHelper = require("../helpers/files")
+const FilesHelper = require("../helpers/files");
 
 // function Test(userRole) {
 //   console.log('test');
@@ -66,7 +66,10 @@ module.exports = {
     //store files
     if (req.files) {
       // piece_jointe_contrat
-      piece_joint_contrat = await FilesHelper.storeFiles(req, 'piece_joint_contrat');
+      piece_joint_contrat = await FilesHelper.storeFiles(
+        req,
+        "piece_joint_contrat"
+      );
       // if (req.files.piece_joint_contrat) {
       //   piece_joint_contrat.push({
       //     image: req.files.piece_joint_contrat[0].path,
@@ -83,7 +86,10 @@ module.exports = {
       // }
 
       // images_etat_res_lieu_sortie
-      images_etat_res_lieu_sortie = await FilesHelper.storeFiles(req, 'images_etat_res_lieu_sortie');
+      images_etat_res_lieu_sortie = await FilesHelper.storeFiles(
+        req,
+        "images_etat_res_lieu_sortie"
+      );
       // if (req.files.images_etat_res_lieu_sortie) {
       //   images_etat_res_lieu_sortie.push({
       //     image: req.files.images_etat_res_lieu_sortie[0].path,
@@ -99,7 +105,10 @@ module.exports = {
       // }
 
       // lettre_res_piece_jointe
-      lettre_res_piece_jointe = await FilesHelper.storeFiles(req, 'lettre_res_piece_jointe');
+      lettre_res_piece_jointe = await FilesHelper.storeFiles(
+        req,
+        "lettre_res_piece_jointe"
+      );
       // if (req.files.lettre_res_piece_jointe) {
       //   lettre_res_piece_jointe.push({
       //     image: req.files.lettre_res_piece_jointe[0].path,
@@ -115,7 +124,10 @@ module.exports = {
       // }
 
       // piece_jointe_avenant
-      piece_jointe_avenant = await FilesHelper.storeFiles(req, 'piece_jointe_avenant');
+      piece_jointe_avenant = await FilesHelper.storeFiles(
+        req,
+        "piece_jointe_avenant"
+      );
       // if (req.files.piece_jointe_avenant) {
       //   piece_jointe_avenant.push({
       //     image: req.files.piece_jointe_avenant[0].path,
@@ -128,14 +140,20 @@ module.exports = {
 
     // store the exited files
     if (existedContrat) {
-      if (existedContrat.piece_joint_contrat && piece_joint_contrat.length == 0) {
+      if (
+        existedContrat.piece_joint_contrat &&
+        piece_joint_contrat.length == 0
+      ) {
         for (item in existedContrat.piece_joint_contrat) {
           piece_joint_contrat.push({
             image: existedContrat.piece_joint_contrat[item].image,
           });
         }
       }
-      if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie && images_etat_res_lieu_sortie.length == 0) {
+      if (
+        existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie &&
+        images_etat_res_lieu_sortie.length == 0
+      ) {
         for (item in existedContrat.etat_contrat.etat
           .images_etat_res_lieu_sortie) {
           images_etat_res_lieu_sortie.push({
@@ -145,7 +163,10 @@ module.exports = {
           });
         }
       }
-      if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe && lettre_res_piece_jointe.length == 0) {
+      if (
+        existedContrat.etat_contrat.etat.lettre_res_piece_jointe &&
+        lettre_res_piece_jointe.length == 0
+      ) {
         for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
           lettre_res_piece_jointe.push({
             image:
@@ -154,7 +175,10 @@ module.exports = {
           });
         }
       }
-      if (existedContrat.etat_contrat.etat.piece_jointe_avenant && piece_jointe_avenant.length == 0) {
+      if (
+        existedContrat.etat_contrat.etat.piece_jointe_avenant &&
+        piece_jointe_avenant.length == 0
+      ) {
         for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
           piece_jointe_avenant.push({
             image:
@@ -672,10 +696,43 @@ module.exports = {
             validation2_DAJC: true,
           });
         } else {
+          let etatContrat = {
+            libelle: "Actif",
+            etat: {},
+          };
+
           await Contrat.findByIdAndUpdate(req.params.Id, {
             validation2_DAJC: true,
+            etat_contrat: etatContrat,
           });
         }
       });
+  },
+
+  soumettre: async (req, res) => {
+    await Contrat.findOne({ _id: req.params.Id, deleted: false }).then(
+      async (data) => {
+        let etatContrat = {
+          libelle: "En cours de validation",
+          etat: data.etat_contrat.etat,
+        };
+
+        await Contrat.findByIdAndUpdate(req.params.Id, {
+          etat_contrat: etatContrat,
+        });
+      }
+    );
+  },
+
+  annulerContrat: async (req, res) => {
+    let etatContrat = {
+      libelle: "Soumettre",
+      etat: {},
+    };
+    await Contrat.findByIdAndUpdate(req.params.Id, {
+      validation1_DMG: false,
+      validation2_DAJC: false,
+      etat_contrat: etatContrat,
+    });
   },
 };
