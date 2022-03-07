@@ -17,7 +17,6 @@ async function generatePdf(data1, etatType) {
   let etatReportingOptions = ["état_des_virements", "état_des_taxes"];
 
   for (const item in etatReportingOptions) {
-    console.log('teeeeeeeeeeeeeeeeeeest');
     if (etatType == etatReportingOptions[item]) {
       htmlFileSrouce = fs.readFileSync(
         "./templates/situation_cloture/" + etatType + ".html",
@@ -91,10 +90,8 @@ async function generatePdf(data1, etatType) {
                   }
                 }
                 if (pathExist == false) {
-                  console.log("eeeeeeeeeeeedhegdekjdge");
                   reportingPaths.push({
                     [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
-                    extention: extention,
                   });
                 }
                 await etatPaths.findOneAndUpdate(

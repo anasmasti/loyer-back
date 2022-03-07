@@ -6,9 +6,6 @@ const path = require("path");
 const moment = require("moment");
 
 const etatMonsuelVirement = async (req, res) => {
-  let today = new Date();
-  let dateToString = moment(today).format("YYYY-MM");
-
   await etatVirement
     .find({
       mois: req.body.mois,
