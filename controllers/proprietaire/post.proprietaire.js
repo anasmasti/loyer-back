@@ -78,6 +78,8 @@ module.exports = {
         is_mandataire: req.body.is_mandataire,
         has_mandataire: null,
         proprietaire_list: req.body.proprietaire_list,
+        type_proprietaire: req.body.type_proprietaire,
+        declaration_option: req.body.declaration_option,
       });
 
       await proprietaire
