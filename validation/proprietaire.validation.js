@@ -25,7 +25,7 @@ const ProprietaireValidation = Joi.object({
     "string.min": "Raison Social doit être 2 charactères au minimum",
     "string.max": "Raison Social doit être 250 charactères au maximum",
   }),
-  n_registre_commerce: Joi.string().empty("").min(2).max(50).messages({
+  n_registre_commerce: Joi.string().empty("").min(0).max(50).messages({
     "string.min":
       "Numéro de registre commerce doit être 2 charactères au minimum",
     "string.max":
