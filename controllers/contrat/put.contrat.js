@@ -727,10 +727,11 @@ module.exports = {
         let hasnt_mandataire = false;
         console.log(data);
         data.foncier.proprietaire.forEach((proprietaire) => {
-          console.log(proprietaire);
-          partProprietaireGlobal += proprietaire.part_proprietaire;
-          if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
-            hasnt_mandataire = true;
+          if (!proprietaire.deleted) {
+            partProprietaireGlobal += proprietaire.part_proprietaire;
+            if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
+              hasnt_mandataire = true;
+            }
           }
         });
 
@@ -743,6 +744,8 @@ module.exports = {
           await Contrat.findByIdAndUpdate(req.params.Id, {
             etat_contrat: etatContrat,
           });
+
+          res.json({message: "Contrat modifié avec success"});
         } else {
           console.log({
             partGlobal: partGlobal,
