@@ -183,9 +183,9 @@ module.exports = {
     let dateDeComptabilisation = new Date(Contrat.date_comptabilisation);
     let dateFinDeContrat = Contrat.date_fin_Contrat;
 
-    // let montant_loyer_net,
-    //   montant_loyer_brut,
-    //   montant_tax = 0;
+    let montant_loyer_net,
+      montant_loyer_brut,
+      montant_tax = 0;
     let montant_loyer_net_mandataire,
       montant_loyer_brut_mandataire,
       montant_tax_mandataire = 0;
@@ -206,19 +206,20 @@ module.exports = {
               //     Contrat.foncier.proprietaire[j].caution_par_proprietaire +
               //     Contrat.foncier.proprietaire[j].montant_apres_impot;
 
-              
-              montant_loyer_brut_mandataire =
-              Contrat.foncier.proprietaire[j].montant_avance_proprietaire +
-              Contrat.foncier.proprietaire[j].caution_par_proprietaire
-              // Contrat.foncier.proprietaire[j].montant_loyer;
+              montant_loyer_net_mandataire =
+                Contrat.foncier.proprietaire[j].montant_avance_proprietaire -
+                Contrat.foncier.proprietaire[j].tax_avance_proprietaire +
+                Contrat.foncier.proprietaire[j].caution_par_proprietaire +
+                Contrat.foncier.proprietaire[j].montant_apres_impot;
 
+              montant_loyer_brut_mandataire =
+                Contrat.foncier.proprietaire[j].montant_avance_proprietaire +
+                Contrat.foncier.proprietaire[j].caution_par_proprietaire +
+                Contrat.foncier.proprietaire[j].montant_loyer;
 
               montant_tax_mandataire =
                 Contrat.foncier.proprietaire[j].tax_avance_proprietaire +
                 Contrat.foncier.proprietaire[j].tax_par_periodicite;
-              
-              montant_loyer_net_mandataire = montant_loyer_brut_mandataire - montant_tax_mandataire
-
 
               montant_a_verse = montant_loyer_net_mandataire;
 
@@ -245,34 +246,34 @@ module.exports = {
                   k < Contrat.foncier.proprietaire[j].proprietaire_list.length;
                   k++
                 ) {
-                  let montant_loyer_brut =
-                    // +montant_loyer_brut_mandataire +
+                  montant_loyer_net =
+                    +montant_loyer_net_mandataire +
+                    (Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .montant_avance_proprietaire -
+                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                        .tax_avance_proprietaire) +
+                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .caution_par_proprietaire +
+                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .montant_apres_impot;
+
+                  montant_loyer_brut =
+                    +montant_loyer_brut_mandataire +
                     (Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .montant_avance_proprietaire +
                       Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .caution_par_proprietaire)
-                      // Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      //   .montant_loyer;
+                        .caution_par_proprietaire +
+                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                        .montant_loyer);
 
-                  let montant_tax =
-                    // +montant_tax_mandataire +
+                  montant_tax =
+                    +montant_tax_mandataire +
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .tax_avance_proprietaire +
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .tax_par_periodicite;
 
-                  let montant_loyer_net = montant_loyer_brut - montant_tax
-                    // +montant_loyer_net_mandataire +
-                    // (Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                    //   .montant_avance_proprietaire -
-                    //   Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                    //     .tax_avance_proprietaire) +
-                    // Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                    //   .caution_par_proprietaire +
-                    // Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                    //   .montant_apres_impot;
-
-                  montant_a_verse += montant_loyer_net;
+                  montant_a_verse = +montant_loyer_net;
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
