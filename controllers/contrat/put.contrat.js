@@ -376,7 +376,7 @@ module.exports = {
           piece_joint_contrat: piece_joint_contrat,
           contrats_suspendu: contrats_suspendu,
           contrat_avener: contrat_avener,
-          nombre_part: data.nombre_part
+          nombre_part: data.nombre_part,
         };
         // return ContratHelper.createContratAV(req, res, data, `${numeroContrat}/AV`, piece_joint_contrat)
       }
@@ -417,7 +417,7 @@ module.exports = {
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
         date_comptabilisation: nextDateComptabilisation,
-        nombre_part: data.nombre_part
+        nombre_part: data.nombre_part,
       };
     }
 
@@ -712,18 +712,48 @@ module.exports = {
   },
 
   soumettre: async (req, res) => {
-    await Contrat.findOne({ _id: req.params.Id, deleted: false }).then(
-      async (data) => {
-        let etatContrat = {
-          libelle: "En cours de validation",
-          etat: data.etat_contrat.etat,
-        };
-
-        await Contrat.findByIdAndUpdate(req.params.Id, {
-          etat_contrat: etatContrat,
+    await Contrat.findOne({ _id: req.params.Id, deleted: false })
+      .populate({
+        path: "foncier",
+        populate: {
+          path: "proprietaire",
+          populate: { path: "proprietaire_list" },
+        },
+      })
+      .then(async (data) => {
+        let partGlobal = data.nombre_part;
+        let partProprietaireGlobal = 0;
+        // If some one is / has not a mandataire this variable will be true
+        let hasnt_mandataire = false;
+        console.log(data);
+        data.foncier.proprietaire.forEach((proprietaire) => {
+          console.log(proprietaire);
+          partProprietaireGlobal += proprietaire.part_proprietaire;
+          if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
+            hasnt_mandataire = true;
+          }
         });
-      }
-    );
+
+        if (partProprietaireGlobal == partGlobal && !hasnt_mandataire) {
+          let etatContrat = {
+            libelle: "En cours de validation",
+            etat: data.etat_contrat.etat,
+          };
+
+          await Contrat.findByIdAndUpdate(req.params.Id, {
+            etat_contrat: etatContrat,
+          });
+        } else {
+          console.log({
+            partGlobal: partGlobal,
+            partProp: partProprietaireGlobal,
+            hasnt_mandataire: hasnt_mandataire,
+          });
+          res
+            .status(400)
+            .send({ message: "Merci d'insérer les information complete" });
+        }
+      });
   },
 
   annulerContrat: async (req, res) => {
