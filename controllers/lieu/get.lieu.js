@@ -63,7 +63,7 @@ module.exports = {
   getContratByLieu: async (req, res) => {
     var _id = mongoose.Types.ObjectId(req.params.Id);
     await Contrat.findOne({ foncier: _id, deleted: false })
-      .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      .populate({ path: "foncier", populate: { path: "proprietaire", match:{ deleted: false } } })
       .then((data) => {
         res.json([data]);
       })

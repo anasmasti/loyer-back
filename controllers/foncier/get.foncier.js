@@ -150,6 +150,10 @@ module.exports = {
           select: "-_id intitule_lieu type_lieu code_lieu",
         },
       })
+      .populate({
+        path: "contrat",
+        select: "numero_contrat montant_loyer"
+      })
       .then((data) => {
         res.json(data);
       })
