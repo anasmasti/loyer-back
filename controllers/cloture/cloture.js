@@ -28,6 +28,7 @@ module.exports = {
 
       //traitement pour date generation de comptabilisation
       let dateGenerationDeComptabilisation = null;
+      console.log(req.body.mois,req.body.annee);
       let result;
       if (req.body.mois == 12) {
         dateGenerationDeComptabilisation = new Date(

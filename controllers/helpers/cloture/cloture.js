@@ -14,7 +14,7 @@ module.exports = {
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
-      nom_prenom: proprietaire.nom_prenom,
+      nom_prenom: proprietaire.nom_prenom ? proprietaire.nom_prenom : proprietaire.raison_social,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
       cin: proprietaire.cin,
