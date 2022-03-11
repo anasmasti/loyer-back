@@ -3,9 +3,10 @@ const htmlPdf = require("html-pdf");
 const handlebars = require("handlebars");
 const moment = require("moment");
 const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
+const storePaths = require("../etat_paths");
 
 async function generatePdf(data1, etatType) {
-  let data = data1[0];
+  let data = data1;
   let htmlFileSrouce,
     options,
     reportingPaths = [];
@@ -36,7 +37,7 @@ async function generatePdf(data1, etatType) {
   htmlPdf
     .create(htmlToSend, options)
     .toFile(
-      "download/generated situation cloture/" +
+      "download/generated situation/" +
         etatType +
         "/" +
         etatType +
@@ -138,7 +139,7 @@ async function generatePdf(data1, etatType) {
               console.log(error);
             });
         }
-      }
+      },
     );
 }
 

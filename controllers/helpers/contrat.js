@@ -85,10 +85,23 @@ module.exports = {
   deleteProprietaire: async (req, res, proprietareId) => {
     await Proprietaire.findByIdAndUpdate(proprietareId, {
       deleted: true,
-    })
-      .catch((error) => {
-        res.status(400).send({ message: error.message });
-      });
+    }).catch((error) => {
+      res.status(400).send({ message: error.message });
+    });
     // console.log("Done", proprietareId);
+  },
+
+  storeFiles: async (req, fileName) => {
+    let storedFiles = [];
+    for (let i = 0; i < 8; i++) {
+      let file = req.files[`${fileName}${i + 1}`];
+      console.log(`${fileName}${i + 1}`, req.files[`${fileName}${i + 1}`]);
+      if (file) {
+        storedFiles.push({
+          image: file[0].path,
+        });
+      }
+    }
+    return storedFiles;
   },
 };

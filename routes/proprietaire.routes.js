@@ -10,38 +10,40 @@ const router = express.Router();
 router
   .route("/proprietaire/tous/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
     getProprietaire.getAllProprietairefromFoncier
   );
 router
   .route("/proprietaire/:Id/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
     getProprietaire.getProprietairePerID
   );
 router
   .route("/proprietaire/count/all")
-  .get(getProprietaire.getCountProprietaire
-);
+  .get(getProprietaire.getCountProprietaire);
 router
-.route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")
-.get(
-  verifyRole.checkRoles("CDGSP", "CSLA"),
-  getProprietaire.getIdFoncierByProprietaire
-);
+  .route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")
+  .get(
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    getProprietaire.getIdFoncierByProprietaire
+  );
 router
   .route("/proprietaire/ajouter/:IdFoncier/:matricule")
   .post(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
     postProprietaire.postProprietaire
   );
 router
   .route("/proprietaire/modifier/:Id/:matricule")
-  .put(verifyRole.checkRoles("CDGSP", "CSLA"), putProprietaire.putProprietaire);
+  .put(
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    putProprietaire.putProprietaire
+  );
 router
   .route("/proprietaire/supprimer/:Id/:matricule")
   .put(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
     deleteProprietaire.deleteProprietaire
   );
 

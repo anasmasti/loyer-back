@@ -15,15 +15,16 @@ router.route("/next-cloture").get(Cloture.getClotureDate);
 
 router
   .route("/situation-cloture/:matricule")
-  .post(verifyRole.checkRoles("CSLA"), situationCloture.situation_cloture);
+  .post(
+    verifyRole.checkRoles("CSLA", "DC"),
+    situationCloture.situation_cloture
+  );
 router
   .route("/generate/etat-virement/:matricule")
-  .post(verifyRole.checkRoles("CSLA"), etat_virement.etatMonsuelVirement);
+  .post(verifyRole.checkRoles("CSLA", "DC"), etat_virement.etatMonsuelVirement);
 router
   .route("/generate/etat-taxes/:matricule")
-  .post(verifyRole.checkRoles("CSLA"), etat_taxes.etatMonsuelTaxes);
-router
-  .route("/all-etats/:mois/:annee")
-  .post(allpaths.allEtats);
+  .post(verifyRole.checkRoles("CSLA", "DC"), etat_taxes.etatMonsuelTaxes);
+router.route("/all-etats/:mois/:annee").post(allpaths.allEtats);
 
 module.exports = router;

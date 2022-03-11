@@ -113,15 +113,15 @@ module.exports = {
               });
             })
             .catch((error) => {
-              res.status(402).send({ message6: error.message });
+              res.status(402).send({ message: error.message });
             });
         })
         .catch((error) => {
-          res.status(401).send({ message7: error.message });
+          res.status(401).send({ message: error.message });
         });
       // res.json(result);
     } catch (error) {
-      res.status(402).json({ message8: error.message });
+      res.status(402).json({ message: error.message });
     }
   },
 
@@ -139,7 +139,7 @@ module.exports = {
         });
       })
       .catch((error) => {
-        res.status(402).send({ message10: error.message });
+        res.status(402).send({ message: error.message });
       });
   },
 };

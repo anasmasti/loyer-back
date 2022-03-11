@@ -4,6 +4,7 @@ const etatVirementSch = require("../../models/situation_cloture/etatVirement.sch
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
+const generatePdf = require("../helpers/cloture/generateSituationPdf");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {
@@ -44,47 +45,51 @@ module.exports = {
         );
       }
 
-      //comptabilisation pour le paiement des loyers
-      for (let i = 0; i < contrat.length; i++) {
-        //traitement pour comptabiliser les contrats Actif
-        if (contrat[i].etat_contrat.libelle == "Actif") {
-          result = await traitementContratActif.clotureContratActif(
-            req,
-            res,
-            contrat[i],
-            dateGenerationDeComptabilisation,
-            Contrat
-          );
-          result.ordre_virement.forEach((ordVrm) => {
-            ordreVirement.push(ordVrm);
-          });
-          result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-            comptabilisationLoyerCrediter.push(cmptCrdt);
-          });
-          result.cmptLoyerDebt.forEach((cmptDept) => {
-            comptabilisationLoyerDebiter.push(cmptDept);
-          });
-        } //end if
+      if (contrat.length > 0) {
+        //comptabilisation pour le paiement des loyers
+        for (let i = 0; i < contrat.length; i++) {
+          //traitement pour comptabiliser les contrats Actif
+          if (contrat[i].etat_contrat.libelle == "Actif") {
+            result = await traitementContratActif.clotureContratActif(
+              req,
+              res,
+              contrat[i],
+              dateGenerationDeComptabilisation,
+              Contrat
+            );
+            result.ordre_virement.forEach((ordVrm) => {
+              ordreVirement.push(ordVrm);
+            });
+            result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+              comptabilisationLoyerCrediter.push(cmptCrdt);
+            });
+            result.cmptLoyerDebt.forEach((cmptDept) => {
+              comptabilisationLoyerDebiter.push(cmptDept);
+            });
+          } //end if
 
-        if (contrat[i].etat_contrat.libelle == "Résilié") {
-          result = await traitementContratResilie.clotureContratResilie(
-            req,
-            res,
-            contrat[i],
-            dateGenerationDeComptabilisation,
-            Contrat
-          );
-          result.ordre_virement.forEach((ordVrm) => {
-            ordreVirement.push(ordVrm);
-          });
-          result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-            comptabilisationLoyerCrediter.push(cmptCrdt);
-          });
-          result.cmptLoyerDebt.forEach((cmptDept) => {
-            comptabilisationLoyerDebiter.push(cmptDept);
-          });
-        }
-      } //end for
+          if (contrat[i].etat_contrat.libelle == "Résilié") {
+            result = await traitementContratResilie.clotureContratResilie(
+              req,
+              res,
+              contrat[i],
+              dateGenerationDeComptabilisation,
+              Contrat
+            );
+            result.ordre_virement.forEach((ordVrm) => {
+              ordreVirement.push(ordVrm);
+            });
+            result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+              comptabilisationLoyerCrediter.push(cmptCrdt);
+            });
+            result.cmptLoyerDebt.forEach((cmptDept) => {
+              comptabilisationLoyerDebiter.push(cmptDept);
+            });
+          }
+        } //end for
+      } else {
+        return res.status(402).send({ message: "Data empty" });
+      }
 
       //post ordre de virement dans ordre de virement archive
       const etatVirement = new etatVirementSch({
@@ -108,46 +113,22 @@ module.exports = {
             .save()
             .then((comptabilisationData) => {
               // res.json(true);
+              generatePdf(virementData, "état_virements");
+              generatePdf(comptabilisationData, "état_taxes");
               res.json({
                 virementData,
                 comptabilisationData,
               });
             })
             .catch((error) => {
-              res.status(402).send({ message6: error.message });
+              res.status(402).send({ message: error.message });
             });
         })
         .catch((error) => {
-          res.status(401).send({ message7: error.message });
+          res.status(401).send({ message: error.message });
         });
-      //   res.json({
-      //     ordeVirementLoyer,
-      //     comptabilisationArchive,
-      //   });
-
-      // res.json(result);
     } catch (error) {
-      res.status(402).json({ message8: error.message });
+      res.status(402).json({ message: error.message });
     }
   },
-
-  getClotureDate: async (req, res) => {
-    let nextCloture;
-    await archiveComptabilisation
-      .find()
-      .sort({ date_generation_de_comptabilisation: "desc" })
-      .select({ date_generation_de_comptabilisation: 1 })
-      .then((data) => {
-        nextCloture = new Date(data[0].date_generation_de_comptabilisation);
-        res.json({
-          mois: nextCloture.getMonth() + 1,
-          annee: nextCloture.getFullYear(),
-        });
-      })
-      .catch((error) => {
-        res.status(402).send({ message10: error.message });
-      });
-  },
-
-  annulerCloture: async (req, res) => {},
 };

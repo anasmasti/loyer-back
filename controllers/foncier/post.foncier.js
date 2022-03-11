@@ -1,5 +1,5 @@
 const Foncier = require("../../models/foncier/foncier.model");
-
+const FilesHelper = require("../helpers/files")
 module.exports = {
   ajouterFoncier: async (req, res, next) => {
     let lieu = [],
@@ -25,11 +25,12 @@ module.exports = {
         imagesCroquis = [];
 
       if (req.files) {
-        if (req.files.imgs_lieu_entrer) {
-          for (item in req.files.imgs_lieu_entrer) {
-            imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
-          }
-        }
+        imagesLieu = await FilesHelper.storeFiles(req, "imgs_lieu_entrer");
+        // if (req.files.imgs_lieu_entrer) {
+        //   for (item in req.files.imgs_lieu_entrer) {
+        //     imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
+        //   }
+        // }
       }
       //add amenagements in array
       for (item in data.amenagement) {
@@ -45,31 +46,34 @@ module.exports = {
           });
         }
         if (req.files) {
-          if (req.files.imgs_amenagement) {
-            for (let i in req.files.imgs_amenagement) {
-              if (
-                req.files.imgs_amenagement[i].originalname ==
-                data.amenagement[item].idm
-              )
-                imagesAmenagement.push({
-                  image: req.files.imgs_amenagement[i].path,
-                  image_idm: idm,
-                });
-            }
-          }
-          if (req.files.imgs_croquis) {
-            for (let k in req.files.imgs_croquis) {
-              if (
-                req.files.imgs_croquis[k].originalname ==
-                data.amenagement[item].idm
-              ) {
-                imagesCroquis.push({
-                  image: req.files.imgs_croquis[k].path,
-                  image_idm: idm,
-                });
-              }
-            }
-          }
+          imagesAmenagement = await FilesHelper.storeAmngmentFiles(req, "imgs_amenagement", data.amenagement[item].idm);
+          // if (req.files.imgs_amenagement) {
+            // for (let i in req.files.imgs_amenagement) {
+            //   if (
+            //     req.files.imgs_amenagement[i].originalname ==
+            //     data.amenagement[item].idm
+            //   )
+            //     imagesAmenagement.push({
+            //       image: req.files.imgs_amenagement[i].path,
+            //       image_idm: idm,
+            //     });
+            // }
+          // }
+          imagesCroquis = await FilesHelper.storeAmngmentFiles(req, "imgs_croquis", data.amenagement[item].idm);
+
+          // if (req.files.imgs_croquis) {
+          //   for (let k in req.files.imgs_croquis) {
+          //     if (
+          //       req.files.imgs_croquis[k].originalname ==
+          //       data.amenagement[item].idm
+          //     ) {
+          //       imagesCroquis.push({
+          //         image: req.files.imgs_croquis[k].path,
+          //         image_idm: idm,
+          //       });
+          //     }
+          //   }
+          // }
         }
         amenagements.push({
           idm: idm,
