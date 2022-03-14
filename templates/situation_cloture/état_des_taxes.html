@@ -51,7 +51,7 @@
       />
     </div>
     <h2 class="title">
-      Etat des virements de loyer pour la date {{mois}}/{{annee}}
+      Etat des virements de loyer pour la date {{ mois }}/{{ annee }}
     </h2>
     {{#each .}} {{#comptabilisation_loyer_crediter}}
     <h4 class="center">
@@ -81,7 +81,8 @@
           <h4>Périodicité :<span> {{ periodicite }} </span></h4>
         </td>
         <td>
-          <h4>Montant brut de loyer :<span> {{ montant_brut }} MAD</span></h4>
+          <h4>Montant brut de loyer :<span> {{ montant_loyer }} MAD</span></h4>
+          <!-- <h4>Montant brut de loyer :<span> {{ montant_brut }} MAD</span></h4> -->
         </td>
       </tr>
       <tr>
@@ -98,7 +99,8 @@
       </tr>
       <tr>
         <td>
-          <h4>Taxe sur loyer :<span> {{ montant_taxe }} MAD</span></h4>
+          <h4>Taxe sur loyer :<span> {{ retenue_source }} MAD</span></h4>
+          <!-- <h4>Taxe sur loyer :<span> {{ montant_taxe }} MAD</span></h4> -->
         </td>
         <td>
           <h4>

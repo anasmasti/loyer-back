@@ -27,6 +27,8 @@ module.exports = {
           { path: "lieu.lieu" },
         ],
       });
+      console.log(contrat);
+      // console.log(req.body.annee,req.body.mois);
 
       // return res.json(contrat);
 
@@ -99,25 +101,41 @@ module.exports = {
         mois: req.body.mois,
         annee: req.body.annee,
       });
-      const existedEtatTaxes = await etatTaxesSch.find({
+      const existedEtatTaxes = await etatTaxesSch.findOne({
         mois: req.body.mois,
         annee: req.body.annee,
       });
       if (existedEtatVirement && existedEtatTaxes) {
-        etatVirementSch.findByIdAndUpdate(existedEtatVirement._id, {
-          ordre_virement: ordreVirement,
-          date_generation_de_virement: dateGenerationDeComptabilisation,
-          mois: existedEtatVirement.mois,
-          annee: existedEtatVirement.annee,
-        });
+        console.log(existedEtatVirement._id, existedEtatTaxes._id);
+        etatVirementSch
+          .findByIdAndUpdate(
+            { _id: existedEtatVirement._id },
+            {
+              ordre_virement: ordreVirement,
+              date_generation_de_virement: dateGenerationDeComptabilisation,
+              mois: existedEtatTaxes.mois,
+              annee: existedEtatVirement.annee,
+            }
+          )
+          .then(() => {
+            console.log("Done 1");
+          });
 
-        etatTaxesSch.findByIdAndUpdate(existedEtatTaxes._id, {
-          comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-          comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-          date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
-          mois: existedEtatTaxes.mois,
-          annee: existedEtatTaxes.annee,
-        });
+        etatTaxesSch
+          .findByIdAndUpdate(
+            { _id: existedEtatTaxes._id },
+            {
+              comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+              comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+              date_generation_de_comptabilisation:
+                dateGenerationDeComptabilisation,
+              mois: existedEtatTaxes.mois,
+              annee: existedEtatTaxes.annee,
+            }
+          )
+          .then(() => {
+            console.log("Done 2");
+          });
       } else {
         //post ordre de virement dans ordre de virement archive
         const etatVirement = new etatVirementSch({
@@ -157,11 +175,16 @@ module.exports = {
             res.status(401).send({ message: error.message });
           });
       }
+
+      // comptabilisationLoyerCrediter,
+      // comptabilisationLoyerDebiter,
+      // ordreVirement,
       res.json({
         comptabilisationLoyerCrediter,
         comptabilisationLoyerDebiter,
-        ordreVirement
+        ordreVirement,
       });
+      // res.json(true);
     } catch (error) {
       res.status(402).json({ message: error.message });
     }
