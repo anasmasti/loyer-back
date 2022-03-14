@@ -5,6 +5,8 @@ const archiveComptabilisation = require("../../models/archive/archiveComptabilis
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
 const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const etatMonsuelTaxes = require("./etat_taxes");
+const etatMonsuelVirement = require("./etat_virement");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {
@@ -55,7 +57,8 @@ module.exports = {
               res,
               contrat[i],
               dateGenerationDeComptabilisation,
-              Contrat
+              Contrat,
+              false
             );
             result.ordre_virement.forEach((ordVrm) => {
               ordreVirement.push(ordVrm);
@@ -74,7 +77,8 @@ module.exports = {
               res,
               contrat[i],
               dateGenerationDeComptabilisation,
-              Contrat
+              Contrat,
+              false
             );
             result.ordre_virement.forEach((ordVrm) => {
               ordreVirement.push(ordVrm);
@@ -88,45 +92,76 @@ module.exports = {
           }
         } //end for
       } else {
-        return res.status(402).send({ message: "Data empty" });
+        return res.status(402).send({ message: "Aucun contrat inseré" });
       }
 
-      //post ordre de virement dans ordre de virement archive
-      const etatVirement = new etatVirementSch({
-        ordre_virement: ordreVirement,
-        date_generation_de_virement: dateGenerationDeComptabilisation,
+      const existedEtatVirement = await etatVirementSch.findOne({
         mois: req.body.mois,
         annee: req.body.annee,
       });
-      //post comptabilisation des loyer dans comptabilisation des loyer archive
-      const etatTaxes = new etatTaxesSch({
-        comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-        comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-        date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
+      const existedEtatTaxes = await etatTaxesSch.find({
         mois: req.body.mois,
         annee: req.body.annee,
       });
-      etatVirement
-        .save()
-        .then(async (virementData) => {
-          await etatTaxes
-            .save()
-            .then((comptabilisationData) => {
-              // res.json(true);
-              generatePdf(virementData, "état_virements");
-              generatePdf(comptabilisationData, "état_taxes");
-              res.json({
-                virementData,
-                comptabilisationData,
-              });
-            })
-            .catch((error) => {
-              res.status(402).send({ message: error.message });
-            });
-        })
-        .catch((error) => {
-          res.status(401).send({ message: error.message });
+      if (existedEtatVirement && existedEtatTaxes) {
+        etatVirementSch.findByIdAndUpdate(existedEtatVirement._id, {
+          ordre_virement: ordreVirement,
+          date_generation_de_virement: dateGenerationDeComptabilisation,
+          mois: existedEtatVirement.mois,
+          annee: existedEtatVirement.annee,
         });
+
+        etatTaxesSch.findByIdAndUpdate(existedEtatTaxes._id, {
+          comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+          comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+          date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
+          mois: existedEtatTaxes.mois,
+          annee: existedEtatTaxes.annee,
+        });
+      } else {
+        //post ordre de virement dans ordre de virement archive
+        const etatVirement = new etatVirementSch({
+          ordre_virement: ordreVirement,
+          date_generation_de_virement: dateGenerationDeComptabilisation,
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        //post comptabilisation des loyer dans comptabilisation des loyer archive
+        const etatTaxes = new etatTaxesSch({
+          comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+          comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+          date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        etatVirement
+          .save()
+          .then(async (virementData) => {
+            await etatTaxes
+              .save()
+              .then((comptabilisationData) => {
+                etatMonsuelVirement(req, res),
+                  setTimeout(() => {
+                    etatMonsuelTaxes(req, res);
+                  }, 1000);
+                // res.json({
+                //   virementData,
+                //   comptabilisationData,
+                // });
+              })
+              .catch((error) => {
+                res.status(402).send({ message: error.message });
+              });
+          })
+          .catch((error) => {
+            res.status(401).send({ message: error.message });
+          });
+      }
+      res.json({
+        comptabilisationLoyerCrediter,
+        comptabilisationLoyerDebiter,
+        ordreVirement
+      });
     } catch (error) {
       res.status(402).json({ message: error.message });
     }

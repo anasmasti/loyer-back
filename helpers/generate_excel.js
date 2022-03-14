@@ -14,7 +14,7 @@ const exportExcel = (data, workSheetColumnNames, workSheetName, filePath, etatTy
 
     xlsx.utils.book_append_sheet(workBook, workSheet, workSheetName);
     xlsx.writeFile(workBook, path.resolve(filePath));
-    storePaths(today.getMonth() + 1, today.getFullYear(), "xlsx", dateToString, etatType);
+    // storePaths(today.getMonth() + 1, today.getFullYear(), "xlsx", dateToString, etatType);
   } catch (error) {
     console.error(error.message);
   }

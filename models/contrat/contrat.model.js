@@ -14,6 +14,7 @@ const ContratSchema = new Schema(
     },
     date_fin_contrat: {
       type: Date,
+      default: new Date("2999-01-01"),
     },
     date_reprise_caution: {
       type: Date,
@@ -103,6 +104,9 @@ const ContratSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    // etat_validation: {
+    //   type: String,
+    // },
     contrats_suspendu: {
       type: Array,
     },
@@ -140,10 +144,13 @@ const ContratSchema = new Schema(
         contrat: Schema.Types.ObjectId,
         date_affectation: {
           type: Date,
-          default: new Date()
-        }
-    },
+          default: new Date(),
+        },
+      },
     ],
+    nombre_part: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

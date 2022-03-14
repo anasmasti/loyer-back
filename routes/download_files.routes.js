@@ -5,6 +5,7 @@ const getAnnex2 = require("../controllers/maquette_tele_declaration_paiement/maq
 const getFichierComptableLoyer = require("../controllers/comptabilisation/comtabilisationLoyer");
 const getFichierComptableCaution = require("../controllers/comptabilisation/comptabilisationCautions");
 const getFichierOrdreVirement = require("../controllers/virement/ordreVirement")
+const downloadExcel = require("../controllers/situation_cloture/download-excel")
 
 
 const router = express.Router();
@@ -20,4 +21,7 @@ router
 router
   .route("/fichier-ordre-virement/:mois/:annee")
   .get(getFichierOrdreVirement.genererOrdreVirement)
+router
+  .route("/download-excel/:etatType/:mois/:annee")
+  .get(downloadExcel.downloadExcelFile)
 module.exports = router;

@@ -3,17 +3,18 @@ const htmlPdf = require("html-pdf");
 const handlebars = require("handlebars");
 const moment = require("moment");
 const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
-const storePaths = require("../etat_paths");
+// const storePaths = require("../etat_paths");
 
 async function generatePdf(data1, etatType) {
   let data = data1;
+  console.log(etatType);
   let htmlFileSrouce,
     options,
     reportingPaths = [];
+    // let dateToString = moment(today).format('YYYY-MM-DD')
   let today = new Date();
-  // let dateToString = moment(today).format('YYYY-MM-DD')
   let dateToString = moment(today).format("YYYY-MM");
-  let etatReportingOptions = ["état_virements", "état_taxes"];
+  let etatReportingOptions = ["état_des_virements", "état_des_taxes"];
 
   for (const item in etatReportingOptions) {
     if (etatType == etatReportingOptions[item]) {
@@ -33,114 +34,85 @@ async function generatePdf(data1, etatType) {
     allowProtoMethodsByDefault: true,
     allowProtoPropertiesByDefault: true,
   });
-
-  htmlPdf
-    .create(htmlToSend, options)
-    .toFile(
-      "download/generated situation/" +
-        etatType +
-        "/" +
-        etatType +
-        " " +
-        dateToString +
-        ".pdf",
-      async function (err, res) {
-        if (err) {
-          console.log(err);
-        } else {
-          await etatPaths
-            .find({
-              mois: today.getMonth() + 1,
-              annee: today.getFullYear(),
-            })
-            .then(async (data) => {
-              try {
-                if (data.length == 0) {
-                  reportingPaths.push({
-                    [etatType]:
-                      "download/generated situation/" +
-                      etatType +
-                      "/" +
-                      etatType +
-                      " " +
-                      dateToString +
-                      ".pdf",
-                  });
-                  let etat_paths = new etatPaths({
-                    etat_paths: reportingPaths,
-                    mois: today.getMonth() + 1,
-                    annee: today.getFullYear(),
-                  });
-                  await etat_paths.save();
-                } else {
-                  for (let i = 0; i < data[0].etat_paths.length; i++) {
-                    for (j in data[0].etat_paths[i]) {
-                      if (
-                        data[0].etat_paths[i][j] ==
-                        "download/generated situation/" +
-                          etatType +
-                          "/" +
-                          etatType +
-                          " " +
-                          dateToString +
-                          ".pdf"
-                      ) {
-                        reportingPaths.push({
-                          [etatType]:
-                            "download/generated situation/" +
-                            etatType +
-                            "/" +
-                            etatType +
-                            " " +
-                            dateToString +
-                            ".pdf",
-                        });
-                      } else {
-                        reportingPaths.push(data[0].etat_paths[i]);
-                      }
-                    }
-                  }
-
-                  let pathExist = false;
-                  for (let k = 0; k < reportingPaths.length; k++) {
-                    if (Object.keys(reportingPaths[k])[0] == etatType) {
-                      pathExist = true;
-                    }
-                  }
-
-                  if (pathExist == false) {
-                    reportingPaths.push({
-                      [etatType]:
-                        "download/generated situation/" +
-                        etatType +
-                        "/" +
-                        etatType +
-                        " " +
-                        dateToString +
-                        ".pdf",
-                    });
-                  }
-
-                  await etatPaths.findOneAndUpdate(
-                    { mois: today.getMonth() + 1, annee: today.getFullYear() },
-                    {
-                      etat_paths: reportingPaths,
-                      mois: data[0].mois,
-                      annee: data[0].annee,
-                    }
-                  );
+// console.log(`/download/generated situation/${etatType}_pdf/${etatType}_${dateToString}.pdf`);
+  let extention = "pdf";
+  htmlPdf.create(htmlToSend, options).toFile(
+    `download/generated situation/${etatType}_pdf/${etatType}_${dateToString}.pdf`,
+    // `/download/generated situation/etat_virement/etat_virement_${dateToString}.pdf`,
+    async function (err, res) {
+      if (err) {
+        console.log(err);
+      } else {
+        await etatPaths
+          .find({
+            mois: today.getMonth() + 1,
+            annee: today.getFullYear(),
+          })
+          .then(async (data) => {
+            // return console.log(data);
+            try {
+              if (data.length == 0) {
+                console.log("teeeeest");
+                reportingPaths.push({
+                  [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
+                });
+                let etat_paths = new etatPaths({
+                  etat_paths: reportingPaths,
+                  mois: today.getMonth() + 1,
+                  annee: today.getFullYear(),
+                });
+                console.log(etat_paths);
+                await etat_paths.save();
+              } else {
+                console.log("test 4");
+                for (let i = 0; i < data[0].etat_paths.length; i++) {
+                  // for (j in data[0].etat_paths[i]) {
+                  //   if (
+                  //     data[0].etat_paths[i][j] ==
+                  //     `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`
+                  //   ) {
+                  //     reportingPaths.push({
+                  //       [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
+                  //       extention: extention,
+                  //     });
+                  //   } else {
+                  reportingPaths.push(data[0].etat_paths[i]);
+                  //   }
+                  // }
                 }
-              } catch (error) {
-                throw error;
+                let pathExist = false;
+                for (let k = 0; k < reportingPaths.length; k++) {
+                  if (
+                    Object.keys(reportingPaths[k])[0] ==
+                    `${etatType}_${extention}`
+                  ) {
+                    pathExist = true;
+                  }
+                }
+                if (pathExist == false) {
+                  reportingPaths.push({
+                    [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
+                  });
+                }
+                await etatPaths.findOneAndUpdate(
+                  { mois: today.getMonth() + 1, annee: today.getFullYear() },
+                  {
+                    etat_paths: reportingPaths,
+                    mois: data[0].mois,
+                    annee: data[0].annee,
+                  }
+                );
               }
-            })
-            .catch((error) => {
-              // res.status(402).send({ message: error.message })
-              console.log(error);
-            });
-        }
-      },
-    );
+            } catch (error) {
+              throw error;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }
+  );
 }
 
 module.exports = generatePdf;

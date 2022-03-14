@@ -77,8 +77,18 @@ const ProprietaireSchema = new Schema(
     tax_par_periodicite: {
       type: Number,
     },
-    pourcentage: {
-      type: Number,
+    // pourcentage: {
+    //   type: Number,
+    // },
+    declaration_option: {
+      type: String,
+    },
+    // is_person_physique:{
+    //   type: Boolean,
+    //   // default: true,
+    // },
+    type_proprietaire: {
+      type: String,
     },
     caution_par_proprietaire: {
       type: Number,
@@ -91,6 +101,9 @@ const ProprietaireSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    part_proprietaire: {
+      type: Number,
+    },
     // has_mandataire:{
     //   type: Schema.Types.ObjectId,
     //   ref: 'Proprietaire',
@@ -101,8 +114,8 @@ const ProprietaireSchema = new Schema(
     },
     proprietaire_list: [
       {
-          type: Schema.Types.ObjectId,
-          ref: "Proprietaire",
+        type: Schema.Types.ObjectId,
+        ref: "Proprietaire",
       },
     ],
   },

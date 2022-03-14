@@ -5,7 +5,7 @@ module.exports = {
   // Modifier un propriétaire
   putProprietaire: async (req, res, next) => {
     try {
-      let proprietaire_list = []
+      let proprietaire_list = [];
 
       console.log(req.body);
 
@@ -18,11 +18,9 @@ module.exports = {
         req.body.passport == "" &&
         req.body.carte_sejour == ""
       ) {
-        return res
-          .status(422)
-          .send({
-            message: `Propriétaire doit contenir au moin Cin , Passport ou Carte séjour`,
-          });
+        return res.status(422).send({
+          message: `Propriétaire doit contenir au moin Cin , Passport ou Carte séjour`,
+        });
       }
 
       // Joi Validation
@@ -97,10 +95,12 @@ module.exports = {
         montant_avance_proprietaire: req.body.montant_avance_proprietaire,
         tax_avance_proprietaire: req.body.tax_avance_proprietaire,
         tax_par_periodicite: req.body.tax_par_periodicite,
-        pourcentage: req.body.pourcentage,
+        part_proprietaire: req.body.part_proprietaire,
         caution_par_proprietaire: req.body.caution_par_proprietaire,
         is_mandataire: req.body.is_mandataire,
         proprietaire_list: req.body.proprietaire_list,
+        type_proprietaire: req.body.type_proprietaire,
+        declaration_option: req.body.declaration_option,
       })
         .then(async (data) => {
           // Fill the has_mandataire with the proprietaire id if the inserted proprietaire is a mandataire
@@ -143,11 +143,9 @@ module.exports = {
               .status(422)
               .send({ message: `Numéro compte bancaire est déja pris` });
           } else {
-            return res
-              .status(500)
-              .send({
-                message: `Erreur de modification le propriétaire` || error,
-              });
+            return res.status(500).send({
+              message: `Erreur de modification le propriétaire` || error,
+            });
           }
         });
     } catch (error) {

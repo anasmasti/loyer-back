@@ -142,9 +142,20 @@ router.route("/contrat/supprimer/:Id/:matricule").put(
 );
 router
   .route("/contrat/validation1/:Id/:matricule")
-  .put(verifyRole.checkRoles("CDGSP", "CSLA"), putcontrat.modifierValidationDMG);
+  .put(
+    verifyRole.checkRoles("CDGSP", "CSLA"),
+    putcontrat.modifierValidationDMG
+  );
 router
   .route("/contrat/validation2/:Id/:matricule")
   .put(verifyRole.checkRoles("DAJC"), putcontrat.modifierValidationDAJC);
-
+router
+  .route("/contrat/soumettre/:Id/:matricule")
+  .put(verifyRole.checkRoles("CSLA"), putcontrat.soumettre);
+router
+  .route("/contrat/annuler-contrat/:Id/:matricule")
+  .put(
+    verifyRole.checkRoles("CSLA", "DAJC", "CDGSP"),
+    putcontrat.annulerContrat
+  );
 module.exports = router;

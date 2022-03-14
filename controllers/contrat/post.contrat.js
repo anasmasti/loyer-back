@@ -1,11 +1,11 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Foncier = require("../../models/foncier/foncier.model");
-const FilesHelper = require("../helpers/files")
+const FilesHelper = require("../helpers/files");
 
 module.exports = {
   ajouterContrat: async (req, res) => {
-      // variables
+    // variables
     let piece_joint_contrat = [],
       data,
       idLieu,
@@ -34,9 +34,12 @@ module.exports = {
       //     image: req.files.piece_joint_contrat[item].path,
       //   });
       // }
-      piece_joint_contrat = await FilesHelper.storeFiles(req, "piece_joint_contrat");
+      piece_joint_contrat = await FilesHelper.storeFiles(
+        req,
+        "piece_joint_contrat"
+      );
 
-      console.log("piece_joint_contrat", piece_joint_contrat);
+      // console.log("piece_joint_contrat", piece_joint_contrat);
       // for (let i = 0; i < 8; i++) {
       //   console.log(req.files[`piece_joint_contrat${i + 1}`]);
       //   if (req.files[`piece_joint_contrat${i + 1}`]) {
@@ -106,8 +109,9 @@ module.exports = {
       date_comptabilisation: null,
       type_lieu: data.type_lieu,
       foncier: req.params.IdFoncier,
+      nombre_part: data.nombre_part,
       etat_contrat: {
-        libelle: "Actif",
+        libelle: "Soumettre",
         etat: {},
       },
       piece_joint_contrat: piece_joint_contrat,

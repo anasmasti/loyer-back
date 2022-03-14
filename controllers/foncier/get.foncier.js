@@ -75,7 +75,7 @@ module.exports = {
                 tax_avance_proprietaire:
                   "$$proprietairemap.tax_avance_proprietaire",
                 tax_par_periodicite: "$$proprietairemap.tax_par_periodicite",
-                pourcentage: "$$proprietairemap.pourcentage",
+                part_proprietaire: "$$proprietairemap.part_proprietaire",
                 caution_par_proprietaire:
                   "$$proprietairemap.caution_par_proprietaire",
                 proprietaire_list: "$$proprietairemap.proprietaire_list",
@@ -105,7 +105,8 @@ module.exports = {
               as: "contratmap",
               in: {
                 numero_contrat: "$$contratmap.numero_contrat",
-                validation2_DAJC: "$$contratmap.validation2_DAJC"
+                validation2_DAJC: "$$contratmap.validation2_DAJC",
+                old_contrat: "$$contratmap.old_contrat",
               },
             },
           },
@@ -147,8 +148,12 @@ module.exports = {
         path: "lieu",
         populate: {
           path: "lieu",
-          select: "-_id intitule_lieu type_lieu code_lieu",
+          select: "-_id intitule_lieu type_lieu code_lieu code_rattache_DR",
         },
+      })
+      .populate({
+        path: "contrat",
+        select: "numero_contrat montant_loyer",
       })
       .then((data) => {
         res.json(data);

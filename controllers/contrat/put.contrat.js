@@ -4,7 +4,7 @@ const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
-const FilesHelper = require("../helpers/files")
+const FilesHelper = require("../helpers/files");
 
 // function Test(userRole) {
 //   console.log('test');
@@ -66,7 +66,10 @@ module.exports = {
     //store files
     if (req.files) {
       // piece_jointe_contrat
-      piece_joint_contrat = await FilesHelper.storeFiles(req, 'piece_joint_contrat');
+      piece_joint_contrat = await FilesHelper.storeFiles(
+        req,
+        "piece_joint_contrat"
+      );
       // if (req.files.piece_joint_contrat) {
       //   piece_joint_contrat.push({
       //     image: req.files.piece_joint_contrat[0].path,
@@ -83,7 +86,10 @@ module.exports = {
       // }
 
       // images_etat_res_lieu_sortie
-      images_etat_res_lieu_sortie = await FilesHelper.storeFiles(req, 'images_etat_res_lieu_sortie');
+      images_etat_res_lieu_sortie = await FilesHelper.storeFiles(
+        req,
+        "images_etat_res_lieu_sortie"
+      );
       // if (req.files.images_etat_res_lieu_sortie) {
       //   images_etat_res_lieu_sortie.push({
       //     image: req.files.images_etat_res_lieu_sortie[0].path,
@@ -99,7 +105,10 @@ module.exports = {
       // }
 
       // lettre_res_piece_jointe
-      lettre_res_piece_jointe = await FilesHelper.storeFiles(req, 'lettre_res_piece_jointe');
+      lettre_res_piece_jointe = await FilesHelper.storeFiles(
+        req,
+        "lettre_res_piece_jointe"
+      );
       // if (req.files.lettre_res_piece_jointe) {
       //   lettre_res_piece_jointe.push({
       //     image: req.files.lettre_res_piece_jointe[0].path,
@@ -115,7 +124,10 @@ module.exports = {
       // }
 
       // piece_jointe_avenant
-      piece_jointe_avenant = await FilesHelper.storeFiles(req, 'piece_jointe_avenant');
+      piece_jointe_avenant = await FilesHelper.storeFiles(
+        req,
+        "piece_jointe_avenant"
+      );
       // if (req.files.piece_jointe_avenant) {
       //   piece_jointe_avenant.push({
       //     image: req.files.piece_jointe_avenant[0].path,
@@ -126,43 +138,55 @@ module.exports = {
     //search for requested contrat
     let existedContrat = await Contrat.findById(req.params.Id);
 
-    // store the exited files
-    if (existedContrat) {
-      if (existedContrat.piece_joint_contrat && piece_joint_contrat.length == 0) {
-        for (item in existedContrat.piece_joint_contrat) {
-          piece_joint_contrat.push({
-            image: existedContrat.piece_joint_contrat[item].image,
-          });
-        }
-      }
-      if (existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie && images_etat_res_lieu_sortie.length == 0) {
-        for (item in existedContrat.etat_contrat.etat
-          .images_etat_res_lieu_sortie) {
-          images_etat_res_lieu_sortie.push({
-            image:
-              existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item]
-                .image,
-          });
-        }
-      }
-      if (existedContrat.etat_contrat.etat.lettre_res_piece_jointe && lettre_res_piece_jointe.length == 0) {
-        for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
-          lettre_res_piece_jointe.push({
-            image:
-              existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item]
-                .image,
-          });
-        }
-      }
-      if (existedContrat.etat_contrat.etat.piece_jointe_avenant && piece_jointe_avenant.length == 0) {
-        for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
-          piece_jointe_avenant.push({
-            image:
-              existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image,
-          });
-        }
-      }
-    }
+    // // store the exited files
+    // if (existedContrat) {
+    //   if (
+    //     existedContrat.piece_joint_contrat &&
+    //     piece_joint_contrat.length == 0
+    //   ) {
+    //     for (item in existedContrat.piece_joint_contrat) {
+    //       piece_joint_contrat.push({
+    //         image: existedContrat.piece_joint_contrat[item].image,
+    //       });
+    //     }
+    //   }
+    //   if (
+    //     existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie &&
+    //     images_etat_res_lieu_sortie.length == 0
+    //   ) {
+    //     for (item in existedContrat.etat_contrat.etat
+    //       .images_etat_res_lieu_sortie) {
+    //       images_etat_res_lieu_sortie.push({
+    //         image:
+    //           existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item]
+    //             .image,
+    //       });
+    //     }
+    //   }
+    //   if (
+    //     existedContrat.etat_contrat.etat.lettre_res_piece_jointe &&
+    //     lettre_res_piece_jointe.length == 0
+    //   ) {
+    //     for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+    //       lettre_res_piece_jointe.push({
+    //         image:
+    //           existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item]
+    //             .image,
+    //       });
+    //     }
+    //   }
+    //   if (
+    //     existedContrat.etat_contrat.etat.piece_jointe_avenant &&
+    //     piece_jointe_avenant.length == 0
+    //   ) {
+    //     for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+    //       piece_jointe_avenant.push({
+    //         image:
+    //           existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image,
+    //       });
+    //     }
+    //   }
+    // }
 
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
@@ -352,6 +376,7 @@ module.exports = {
           piece_joint_contrat: piece_joint_contrat,
           contrats_suspendu: contrats_suspendu,
           contrat_avener: contrat_avener,
+          nombre_part: data.nombre_part,
         };
         // return ContratHelper.createContratAV(req, res, data, `${numeroContrat}/AV`, piece_joint_contrat)
       }
@@ -392,6 +417,7 @@ module.exports = {
         contrats_suspendu: contrats_suspendu,
         contrat_avener: contrat_avener,
         date_comptabilisation: nextDateComptabilisation,
+        nombre_part: data.nombre_part,
       };
     }
 
@@ -448,37 +474,41 @@ module.exports = {
     // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    await Contrat.find({ _id: req.params.Id, deleted: false })
-      .populate({ path: "foncier", populate: { path: "proprietaire" } })
-      .then(async (data_) => {
-        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-          let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
-          let idProprietaire = data_[0].foncier.proprietaire[i]._id;
-          let updatedContrat = data;
+    // await Contrat.find({ _id: req.params.Id, deleted: false })
+    //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
+    //   .then(async (data_) => {
+    //     for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+    //       let partProprietaire =
+    //         data_[0].foncier.proprietaire[i].part_proprietaire;
+    //       let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+    //       let updatedContrat = data;
+    //       let hasDeclarationOption =
+    //         data_[0].foncier.proprietaire[i].declaration_option;
 
-          let updatedProprietaire = Calcule(
-            updatedContrat,
-            pourcentage,
-            idProprietaire
-          );
+    //       let updatedProprietaire = Calcule(
+    //         updatedContrat,
+    //         partProprietaire,
+    //         idProprietaire,
+    //         hasDeclarationOption
+    //       );
 
-          await Proprietaire.findByIdAndUpdate(
-            idProprietaire,
-            updatedProprietaire
-          )
-            .then((data) => {
-              // res.json(data);
-            })
-            .catch((error) => {
-              res.status(400).send({ message: error.message });
-            });
-        }
-      })
-      .catch((error) => {
-        res.status(422).send({
-          message: error.message,
-        });
-      });
+    //       await Proprietaire.findByIdAndUpdate(
+    //         idProprietaire,
+    //         updatedProprietaire
+    //       )
+    //         .then((data) => {
+    //           // res.json(data);
+    //         })
+    //         .catch((error) => {
+    //           res.status(400).send({ message: error.message });
+    //         });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     res.status(422).send({
+    //       message: error.message,
+    //     });
+    //   });
 
     // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
     if (data.etat_contrat.libelle === "Résilié") {
@@ -672,10 +702,76 @@ module.exports = {
             validation2_DAJC: true,
           });
         } else {
+          let etatContrat = {
+            libelle: "Actif",
+            etat: {},
+          };
+
           await Contrat.findByIdAndUpdate(req.params.Id, {
             validation2_DAJC: true,
+            etat_contrat: etatContrat,
           });
         }
       });
+  },
+
+  soumettre: async (req, res) => {
+    await Contrat.findOne({ _id: req.params.Id, deleted: false })
+      .populate({
+        path: "foncier",
+        populate: {
+          path: "proprietaire",
+          populate: { path: "proprietaire_list" },
+        },
+      })
+      .then(async (data) => {
+        let partGlobal = data.nombre_part;
+        let partProprietaireGlobal = 0;
+        // If some one is / has not a mandataire this variable will be true
+        let hasnt_mandataire = false;
+        console.log(data);
+        data.foncier.proprietaire.forEach((proprietaire) => {
+          if (!proprietaire.deleted) {
+            partProprietaireGlobal += proprietaire.part_proprietaire;
+            if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
+              hasnt_mandataire = true;
+            }
+          }
+        });
+
+        if (partProprietaireGlobal == partGlobal && !hasnt_mandataire) {
+          let etatContrat = {
+            libelle: "En cours de validation",
+            etat: data.etat_contrat.etat,
+          };
+
+          await Contrat.findByIdAndUpdate(req.params.Id, {
+            etat_contrat: etatContrat,
+          });
+
+          res.json({message: "Contrat modifié avec success"});
+        } else {
+          console.log({
+            partGlobal: partGlobal,
+            partProp: partProprietaireGlobal,
+            hasnt_mandataire: hasnt_mandataire,
+          });
+          res
+            .status(400)
+            .send({ message: "Merci d'insérer les information complete" });
+        }
+      });
+  },
+
+  annulerContrat: async (req, res) => {
+    let etatContrat = {
+      libelle: "Soumettre",
+      etat: {},
+    };
+    await Contrat.findByIdAndUpdate(req.params.Id, {
+      validation1_DMG: false,
+      validation2_DAJC: false,
+      etat_contrat: etatContrat,
+    });
   },
 };

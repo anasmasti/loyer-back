@@ -10,7 +10,8 @@ module.exports = {
     Contrat,
     dateGenerationDeComptabilisation,
     periodicite,
-    ContratSchema
+    ContratSchema,
+    Cloture
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -131,26 +132,29 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-          dateDeComptabilisation.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = dateDeComptabilisation.setMonth(
-          dateDeComptabilisation.getMonth() + 1
-        );
+
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+            dateDeComptabilisation.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = dateDeComptabilisation.setMonth(
+            dateDeComptabilisation.getMonth() + 1
+          );
+        }
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          { date_comptabilisation: nextDateComptabilisation }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message: error.message });
+          });
       }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        { date_comptabilisation: nextDateComptabilisation }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message: error.message });
-        });
     }
 
     return {
@@ -166,7 +170,8 @@ module.exports = {
     Contrat,
     dateGenerationDeComptabilisation,
     periodicite,
-    ContratSchema
+    ContratSchema,
+    Cloture
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -178,9 +183,9 @@ module.exports = {
     let dateDeComptabilisation = new Date(Contrat.date_comptabilisation);
     let dateFinDeContrat = Contrat.date_fin_Contrat;
 
-    let montant_loyer_net,
-      montant_loyer_brut,
-      montant_tax = 0;
+    // let montant_loyer_net,
+    //   montant_loyer_brut,
+    //   montant_tax = 0;
     let montant_loyer_net_mandataire,
       montant_loyer_brut_mandataire,
       montant_tax_mandataire = 0;
@@ -195,26 +200,17 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
-              //   montant_loyer_net_mandataire =
-              //     Contrat.foncier.proprietaire[j].montant_avance_proprietaire -
-              //     Contrat.foncier.proprietaire[j].tax_avance_proprietaire +
-              //     Contrat.foncier.proprietaire[j].caution_par_proprietaire +
-              //     Contrat.foncier.proprietaire[j].montant_apres_impot;
-
-              montant_loyer_net_mandataire =
-                Contrat.foncier.proprietaire[j].montant_avance_proprietaire -
-                Contrat.foncier.proprietaire[j].tax_avance_proprietaire +
-                Contrat.foncier.proprietaire[j].caution_par_proprietaire +
-                Contrat.foncier.proprietaire[j].montant_apres_impot;
 
               montant_loyer_brut_mandataire =
                 Contrat.foncier.proprietaire[j].montant_avance_proprietaire +
-                Contrat.foncier.proprietaire[j].caution_par_proprietaire +
-                Contrat.foncier.proprietaire[j].montant_loyer;
+                Contrat.foncier.proprietaire[j].caution_par_proprietaire;
 
               montant_tax_mandataire =
                 Contrat.foncier.proprietaire[j].tax_avance_proprietaire +
                 Contrat.foncier.proprietaire[j].tax_par_periodicite;
+
+              montant_loyer_net_mandataire =
+                montant_loyer_brut_mandataire - montant_tax_mandataire;
 
               montant_a_verse = montant_loyer_net_mandataire;
 
@@ -241,34 +237,21 @@ module.exports = {
                   k < Contrat.foncier.proprietaire[j].proprietaire_list.length;
                   k++
                 ) {
-                  montant_loyer_net =
-                    +montant_loyer_net_mandataire +
-                    (Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .montant_avance_proprietaire -
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .tax_avance_proprietaire) +
+                  let montant_loyer_brut =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .caution_par_proprietaire +
-                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .montant_apres_impot;
-
-                  montant_loyer_brut =
-                    +montant_loyer_brut_mandataire +
-                    (Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .montant_avance_proprietaire +
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .caution_par_proprietaire +
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .montant_loyer);
+                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .caution_par_proprietaire;
 
-                  montant_tax =
-                    +montant_tax_mandataire +
+                  let montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .tax_avance_proprietaire +
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .tax_par_periodicite;
 
-                  montant_a_verse = +montant_loyer_net;
+                  let montant_loyer_net = montant_loyer_brut - montant_tax;
+
+                  montant_a_verse += montant_loyer_net;
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -323,14 +306,16 @@ module.exports = {
           }
         }
       }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        {
-          date_comptabilisation: null,
-          caution_versee: true,
-          avance_versee: true,
-        }
-      );
+      if (Cloture) {
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          {
+            date_comptabilisation: null,
+            caution_versee: true,
+            avance_versee: true,
+          }
+        );
+      }
     } //end if
 
     if (
@@ -343,16 +328,17 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
+              
+              montant_loyer_brut_mandataire =
+              Contrat.foncier.proprietaire[j].caution_par_proprietaire +
+              Contrat.foncier.proprietaire[j].montant_loyer;
+              
+              montant_tax_mandataire =
+              Contrat.foncier.proprietaire[j].tax_par_periodicite;
+              
               montant_loyer_net_mandataire =
                 Contrat.foncier.proprietaire[j].caution_par_proprietaire +
                 Contrat.foncier.proprietaire[j].montant_apres_impot;
-
-              montant_loyer_brut_mandataire =
-                Contrat.foncier.proprietaire[j].caution_par_proprietaire +
-                Contrat.foncier.proprietaire[j].montant_loyer;
-
-              montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_par_periodicite;
 
               montant_a_verse = montant_loyer_net_mandataire;
 
@@ -451,30 +437,32 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = dateDebutLoyer.setFullYear(
-          dateDebutLoyer.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = dateDebutLoyer.setMonth(
-          dateDebutLoyer.getMonth() + periodicite
-        );
-      }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        {
-          date_comptabilisation: nextDateComptabilisation,
-          caution_versee: true,
-          avance_versee: true,
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = dateDebutLoyer.setFullYear(
+            dateDebutLoyer.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = dateDebutLoyer.setMonth(
+            dateDebutLoyer.getMonth() + periodicite
+          );
         }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message1: error.message });
-        });
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          {
+            date_comptabilisation: nextDateComptabilisation,
+            caution_versee: true,
+            avance_versee: true,
+          }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message1: error.message });
+          });
+      }
     }
 
     if (
@@ -587,28 +575,30 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = premierDateDePaiement.setFullYear(
-          premierDateDePaiement.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = premierDateDePaiement.setMonth(
-          premierDateDePaiement.getMonth() + periodicite
-        );
-      }
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        {
-          date_comptabilisation: nextDateComptabilisation,
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = premierDateDePaiement.setFullYear(
+            premierDateDePaiement.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = premierDateDePaiement.setMonth(
+            premierDateDePaiement.getMonth() + periodicite
+          );
         }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message2: error.message });
-        });
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          {
+            date_comptabilisation: nextDateComptabilisation,
+          }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message2: error.message });
+          });
+      }
     }
 
     if (
@@ -723,27 +713,29 @@ module.exports = {
           }
         }
       }
-      let nextDateComptabilisation;
-      if (periodicite == 12) {
-        nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-          dateDeComptabilisation.getFullYear() + 1
-        );
-      } else {
-        nextDateComptabilisation = dateDeComptabilisation.setMonth(
-          dateDeComptabilisation.getMonth() + periodicite
-        );
-      }
+      if (Cloture) {
+        let nextDateComptabilisation;
+        if (periodicite == 12) {
+          nextDateComptabilisation = dateDeComptabilisation.setFullYear(
+            dateDeComptabilisation.getFullYear() + 1
+          );
+        } else {
+          nextDateComptabilisation = dateDeComptabilisation.setMonth(
+            dateDeComptabilisation.getMonth() + periodicite
+          );
+        }
 
-      await ContratSchema.findByIdAndUpdate(
-        { _id: Contrat._id },
-        { date_comptabilisation: nextDateComptabilisation }
-      )
-        .then(() => {
-          console.log("Date Comptabilisation Changed !");
-        })
-        .catch((error) => {
-          res.status(402).send({ message3: error.message });
-        });
+        await ContratSchema.findByIdAndUpdate(
+          { _id: Contrat._id },
+          { date_comptabilisation: nextDateComptabilisation }
+        )
+          .then(() => {
+            console.log("Date Comptabilisation Changed !");
+          })
+          .catch((error) => {
+            res.status(402).send({ message3: error.message });
+          });
+      }
     }
 
     return {

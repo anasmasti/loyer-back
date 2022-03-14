@@ -1,13 +1,13 @@
 const Foncier = require("../../models/foncier/foncier.model");
+const FilesHelper = require("../helpers/files");
 
 module.exports = {
   modifierFoncier: async (req, res, next) => {
     let lieu = [],
-    data = null;
+      data = null;
 
     try {
       data = await JSON.parse(req.body.data);
-      console.log(data);
     } catch (error) {
       return res.status(422).send({ message: error.message });
     }
@@ -24,11 +24,12 @@ module.exports = {
         imagesCroquis = [];
 
       if (req.files) {
-        if (req.files.imgs_lieu_entrer) {
-          for (let item in req.files.imgs_lieu_entrer) {
-            imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
-          }
-        }
+        imagesLieu = await FilesHelper.storeFiles(req, "imgs_lieu_entrer");
+        // if (req.files.imgs_lieu_entrer) {
+        //     for (let item in req.files.imgs_lieu_entrer) {
+        //       imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
+        //     }
+        //   }
       }
 
       //add the existing file paths
@@ -60,7 +61,16 @@ module.exports = {
             });
           }
         }
+        // if (false) {
+
         if (req.files) {
+          // imagesAmenagement = await FilesHelper.storeUpdateAmngmentFiles(
+          //   req,
+          //   "imgs_amenagement",
+          //   idm,
+          //   data.amenagement[item]
+          // );
+
           if (req.files.imgs_amenagement) {
             for (let i in req.files.imgs_amenagement) {
               let fileData = req.files.imgs_amenagement[i].originalname;
@@ -81,6 +91,12 @@ module.exports = {
               }
             }
           }
+          // imagesCroquis = await FilesHelper.storeUpdateAmngmentFiles(
+          //   req,
+          //   "imgs_croquis",
+          //   idm,
+          //   data.amenagement[item]
+          // );
           if (req.files.imgs_croquis) {
             for (let k in req.files.imgs_croquis) {
               let fileData = req.files.imgs_croquis[k].originalname;
@@ -104,12 +120,14 @@ module.exports = {
         }
 
         for (let h in data.amenagement[item].images_apres_travaux) {
+          // console.log('test1');
           imagesAmenagement.push(
             data.amenagement[item].images_apres_travaux[h]
           );
         }
 
         for (let t in data.amenagement[item].croquis_travaux) {
+          // console.log('test2');
           imagesCroquis.push(data.amenagement[item].croquis_travaux[t]);
         }
 
@@ -170,11 +188,12 @@ module.exports = {
         imagesCroquis = [];
 
       if (req.files) {
-        if (req.files.imgs_lieu_entrer) {
-          for (let item in req.files.imgs_lieu_entrer) {
-            imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
-          }
-        }
+        imagesLieu = await FilesHelper.storeFiles(req, "imgs_lieu_entrer");
+        // if (req.files.imgs_lieu_entrer) {
+        //   for (let item in req.files.imgs_lieu_entrer) {
+        //     imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
+        //   }
+        // }
       }
 
       for (let item in data.amenagement) {
@@ -190,17 +209,24 @@ module.exports = {
         }
 
         for (let i in data.amenagement[item].imgs_amenagement) {
-          imagesAmenagement.push({
-            image: data.amenagement[item].imgs_amenagement[i].image,
-            deleted: true,
-          });
+          imagesAmenagement = await FilesHelper.storeFiles(
+            req,
+            "imgs_amenagement"
+          );
+
+          // imagesAmenagement.push({
+          //   image: data.amenagement[item].imgs_amenagement[i].image,
+          //   deleted: true,
+          // });
         }
 
         for (let k in data.amenagement[item].imgs_croquis) {
-          imagesCroquis.push({
-            image: data.amenagement[item].imgs_croquis[k].image,
-            deleted: true,
-          });
+          imagesCroquis = await FilesHelper.storeFiles(req, "imgs_croquis");
+
+          // imagesCroquis.push({
+          //   image: data.amenagement[item].imgs_croquis[k].image,
+          //   deleted: true,
+          // });
         }
 
         amenagements.push({
@@ -225,7 +251,6 @@ module.exports = {
         fournisseur = [];
       }
 
-      
       await Foncier.findByIdAndUpdate(
         req.params.IdFoncier,
         {
@@ -242,7 +267,7 @@ module.exports = {
           // etat: data.etat,
         },
         { new: true }
-        )
+      )
         .then((data) => {
           res.json(data);
         })

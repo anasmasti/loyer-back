@@ -10,13 +10,13 @@ const router = express.Router();
 router
   .route("/proprietaire/tous/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    verifyRole.checkRoles("CDGSP", "CSLA"),
     getProprietaire.getAllProprietairefromFoncier
   );
 router
   .route("/proprietaire/:Id/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    verifyRole.checkRoles("CDGSP", "CSLA"),
     getProprietaire.getProprietairePerID
   );
 router
@@ -31,19 +31,19 @@ router
 router
   .route("/proprietaire/ajouter/:IdFoncier/:matricule")
   .post(
-    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    verifyRole.checkRoles("CDGSP", "CSLA"),
     postProprietaire.postProprietaire
   );
 router
   .route("/proprietaire/modifier/:Id/:matricule")
   .put(
-    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    verifyRole.checkRoles("CDGSP", "CSLA"),
     putProprietaire.putProprietaire
   );
 router
   .route("/proprietaire/supprimer/:Id/:matricule")
   .put(
-    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    verifyRole.checkRoles("CDGSP", "CSLA"),
     deleteProprietaire.deleteProprietaire
   );
 
