@@ -119,6 +119,7 @@ module.exports = {
           )
           .then(() => {
             console.log("Done 1");
+            etatMonsuelVirement(req, res);
           });
 
         etatTaxesSch
@@ -135,6 +136,7 @@ module.exports = {
           )
           .then(() => {
             console.log("Done 2");
+            etatMonsuelTaxes(req, res);
           });
       } else {
         //post ordre de virement dans ordre de virement archive
@@ -158,10 +160,10 @@ module.exports = {
             await etatTaxes
               .save()
               .then((comptabilisationData) => {
-                etatMonsuelVirement(req, res),
-                  setTimeout(() => {
-                    etatMonsuelTaxes(req, res);
-                  }, 1000);
+                etatMonsuelVirement(req, res);
+                setTimeout(() => {
+                  etatMonsuelTaxes(req, res);
+                }, 1000);
                 // res.json({
                 //   virementData,
                 //   comptabilisationData,

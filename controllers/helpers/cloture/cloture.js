@@ -49,6 +49,7 @@ module.exports = {
       montant_avance_proprietaire: proprietaire.montant_avance_proprietaire,
       retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
+      declaration_option: proprietaire.declaration_option
     };
     return comptabilisationLoyerCrediter;
   },
