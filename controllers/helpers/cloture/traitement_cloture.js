@@ -173,6 +173,7 @@ module.exports = {
     ContratSchema,
     Cloture
   ) => {
+    console.log(Contrat);
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
       comptabilisationLoyerDebiter = [],
@@ -205,8 +206,8 @@ module.exports = {
                 Contrat.foncier.proprietaire[j].caution_par_proprietaire;
 
               montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_avance_proprietaire +
-                Contrat.foncier.proprietaire[j].tax_par_periodicite;
+                Contrat.foncier.proprietaire[j].tax_avance_proprietaire;
+              // + Contrat.foncier.proprietaire[j].tax_par_periodicite;
 
               montant_loyer_net_mandataire =
                 montant_loyer_brut_mandataire - montant_tax_mandataire;
@@ -244,13 +245,14 @@ module.exports = {
 
                   montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_avance_proprietaire +
-                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_par_periodicite;
+                      .tax_avance_proprietaire;
+                  // + Contrat.foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
 
                   montant_loyer_net = montant_loyer_brut - montant_tax;
 
                   montant_a_verse += montant_loyer_net;
+                  montant_tax_mandataire += montant_tax;
+                  montant_loyer_brut_mandataire += montant_loyer_brut;
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -318,7 +320,7 @@ module.exports = {
     } //end if
 
     if (
-      Contrat.montant_avance == 0 &&
+      (Contrat.montant_avance == 0 || Contrat.montant_avance == null) &&
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {
@@ -380,6 +382,8 @@ module.exports = {
                       .tax_par_periodicite;
 
                   montant_a_verse += montant_loyer_net;
+                  montant_loyer_brut_mandataire += montant_loyer_brut;
+                  montant_tax_mandataire += montant_tax;
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -464,6 +468,7 @@ module.exports = {
       req.body.mois == premierDateDePaiement.getMonth() + 1 &&
       req.body.annee == premierDateDePaiement.getFullYear()
     ) {
+      console.log("ici c'est berkan", "biba lkhawa jalal");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -516,6 +521,8 @@ module.exports = {
                       .tax_par_periodicite;
 
                   montant_a_verse += montant_loyer_net;
+                  montant_loyer_brut_mandataire += montant_loyer_brut;
+                  montant_tax_mandataire += montant_tax;
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -595,10 +602,11 @@ module.exports = {
     if (
       req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
       req.body.annee == dateDeComptabilisation.getFullYear() &&
-      req.body.mois <= dateFinDeContrat.getMonth() + 1 &&
-      req.body.annee <= dateFinDeContrat.getFullYear()
+      // && req.body.mois <= dateFinDeContrat.getMonth() + 1 &&
+      // req.body.annee <= dateFinDeContrat.getFullYear()
+      dateFinDeContrat == null
     ) {
-      console.log("4->", true);
+      console.log("ici c'est paris", true);
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -651,6 +659,8 @@ module.exports = {
                       .tax_par_periodicite;
 
                   montant_a_verse += montant_loyer_net;
+                  montant_loyer_brut_mandataire += montant_loyer_brut;
+                  montant_tax_mandataire += montant_tax;
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(

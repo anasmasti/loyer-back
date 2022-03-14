@@ -45,7 +45,9 @@ module.exports = {
       taux_impot: proprietaire.taux_impot,
       caution_proprietaire: proprietaire.caution_par_proprietaire,
       tax_avance_proprietaire: proprietaire.tax_avance_proprietaire,
+      montant_loyer: proprietaire.montant_loyer,
       montant_avance_proprietaire: proprietaire.montant_avance_proprietaire,
+      retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
     };
     return comptabilisationLoyerCrediter;
