@@ -15,7 +15,7 @@ router.route("/next-cloture").get(Cloture.getClotureDate);
 
 router
   .route("/situation-cloture/:matricule")
-  .post(verifyRole.checkRoles("CSLA"), situationCloture.situation_cloture);
+  .post(verifyRole.checkRoles("DC"), situationCloture.situation_cloture);
 // router
 //   .route("/generate/etat-virement/:matricule")
 //   .post(verifyRole.checkRoles("CSLA"), etat_virement.etatMonsuelVirement);
