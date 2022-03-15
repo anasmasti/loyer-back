@@ -107,6 +107,7 @@ module.exports = {
                 numero_contrat: "$$contratmap.numero_contrat",
                 validation2_DAJC: "$$contratmap.validation2_DAJC",
                 old_contrat: "$$contratmap.old_contrat",
+                etat_contrat: "$$contratmap.etat_contrat",
               },
             },
           },
