@@ -21,14 +21,13 @@ router
   );
 router
   .route("/proprietaire/count/all")
-  .get(getProprietaire.getCountProprietaire
-);
+  .get(getProprietaire.getCountProprietaire);
 router
-.route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")
-.get(
-  verifyRole.checkRoles("CDGSP", "CSLA"),
-  getProprietaire.getIdFoncierByProprietaire
-);
+  .route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")
+  .get(
+    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    getProprietaire.getIdFoncierByProprietaire
+  );
 router
   .route("/proprietaire/ajouter/:IdFoncier/:matricule")
   .post(
@@ -37,7 +36,10 @@ router
   );
 router
   .route("/proprietaire/modifier/:Id/:matricule")
-  .put(verifyRole.checkRoles("CDGSP", "CSLA"), putProprietaire.putProprietaire);
+  .put(
+    verifyRole.checkRoles("CDGSP", "CSLA"),
+    putProprietaire.putProprietaire
+  );
 router
   .route("/proprietaire/supprimer/:Id/:matricule")
   .put(

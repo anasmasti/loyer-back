@@ -8,17 +8,39 @@
     <style>
       * {
         font-family: sans-serif;
+        transform: rotate(180deg) !important;
       }
       table {
         width: 100%;
         border-collapse: collapse;
       }
       td {
-        max-width: 100px;
-        padding-left: 2em;
+        width: 100px !important;
+        font-size: 10px;
+        padding: 10px;
       }
-      td:last-child {
+      /* td:last-child {
         border-left: 1px solid #f9a11e;
+      } */
+      tr {
+        border-bottom: 1px solid rgb(207, 207, 207);
+      }
+      th {
+        background-color: #f9a11e;
+        color: white;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 10px;
+        width: 100px !important;
+        padding: 10px;
+        /* max-width: 100px; */
+      }
+      th:first-child {
+        border-top-left-radius: 12px;
+      }
+      th:last-child {
+        border-top-right-radius: 12px;
       }
       .title {
         color: #828282;
@@ -49,10 +71,9 @@
       />
     </div>
     <h2 class="title">
-      Etat des virements de loyer pour la date {{mois}}/{{annee}}
+      Etat des virements de loyer pour la date {{ mois }}/{{ annee }}
     </h2>
-    {{#each .}} {{#comptabilisation_loyer_crediter}}
-    <h4 class="center">
+    <!-- <h4 class="center">
       Numero du contrat :<span style="color: white">
         {{ numero_contrat }}
       </span>
@@ -79,7 +100,7 @@
           <h4>Périodicité :<span> {{ periodicite }} </span></h4>
         </td>
         <td>
-          <h4>Montant brut de loyer :<span> {{ montant_brut }} MAD</span></h4>
+          <h4>Montant brut de loyer :<span> {{ montant_loyer }} MAD</span></h4>
         </td>
       </tr>
       <tr>
@@ -96,7 +117,7 @@
       </tr>
       <tr>
         <td>
-          <h4>Taxe sur loyer :<span> {{ montant_taxe }} MAD</span></h4>
+          <h4>Taxe sur loyer :<span> {{ retenue_source }} MAD</span></h4>
         </td>
         <td>
           <h4>
@@ -112,7 +133,45 @@
           <h4>Montant net :<span> {{ montant_net }} MAD</span></h4>
         </td>
       </tr>
+    </table> -->
+
+    <table align="center">
+      <thead>
+        <tr class="table-header">
+          <th>Numero contrat</th>
+          <th>Type d'entité</th>
+          <th>CIN/IF</th>
+          <th>Nom et prénom / R.S</th>
+          <th>D.S</th>
+          <th>Périodicité</th>
+          <th>MT brut</th>
+          <th>Montant brut d'avance</th>
+          <th>Taux de taxe</th>
+          <th>Taxe sur loyer</th>
+          <th>Taxe sur Avance</th>
+          <th>Caution</th>
+          <th>MT Net</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each .}} {{#comptabilisation_loyer_crediter}}
+        <tr>
+          <td>{{ numero_contrat }}</td>
+          <td>{{ type_lieu }}</td>
+          <td>{{ cin }}</td>
+          <td>{{ nom_prenom }}</td>
+          <td>{{ declaration_option }}</td>
+          <td>{{ periodicite }}</td>
+          <td>{{ montant_brut }} MAD</td>
+          <td>{{ montant_avance_proprietaire }} MAD</td>
+          <td>{{ taux_impot }}</td>
+          <td>{{ retenue_source }} MAD</td>
+          <td>{{ tax_avance_proprietaire }} MAD</td>
+          <td>{{ caution_proprietaire }} MAD</td>
+          <td>{{ montant_net }} MAD</td>
+        </tr>
+        {{/comptabilisation_loyer_crediter}} {{/each}}
+      </tbody>
     </table>
-    {{/comptabilisation_loyer_crediter}} {{/each}}
   </body>
 </html>

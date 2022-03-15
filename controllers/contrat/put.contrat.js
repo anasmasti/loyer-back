@@ -138,55 +138,55 @@ module.exports = {
     //search for requested contrat
     let existedContrat = await Contrat.findById(req.params.Id);
 
-    // store the exited files
-    if (existedContrat) {
-      if (
-        existedContrat.piece_joint_contrat &&
-        piece_joint_contrat.length == 0
-      ) {
-        for (item in existedContrat.piece_joint_contrat) {
-          piece_joint_contrat.push({
-            image: existedContrat.piece_joint_contrat[item].image,
-          });
-        }
-      }
-      if (
-        existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie &&
-        images_etat_res_lieu_sortie.length == 0
-      ) {
-        for (item in existedContrat.etat_contrat.etat
-          .images_etat_res_lieu_sortie) {
-          images_etat_res_lieu_sortie.push({
-            image:
-              existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item]
-                .image,
-          });
-        }
-      }
-      if (
-        existedContrat.etat_contrat.etat.lettre_res_piece_jointe &&
-        lettre_res_piece_jointe.length == 0
-      ) {
-        for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
-          lettre_res_piece_jointe.push({
-            image:
-              existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item]
-                .image,
-          });
-        }
-      }
-      if (
-        existedContrat.etat_contrat.etat.piece_jointe_avenant &&
-        piece_jointe_avenant.length == 0
-      ) {
-        for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
-          piece_jointe_avenant.push({
-            image:
-              existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image,
-          });
-        }
-      }
-    }
+    // // store the exited files
+    // if (existedContrat) {
+    //   if (
+    //     existedContrat.piece_joint_contrat &&
+    //     piece_joint_contrat.length == 0
+    //   ) {
+    //     for (item in existedContrat.piece_joint_contrat) {
+    //       piece_joint_contrat.push({
+    //         image: existedContrat.piece_joint_contrat[item].image,
+    //       });
+    //     }
+    //   }
+    //   if (
+    //     existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie &&
+    //     images_etat_res_lieu_sortie.length == 0
+    //   ) {
+    //     for (item in existedContrat.etat_contrat.etat
+    //       .images_etat_res_lieu_sortie) {
+    //       images_etat_res_lieu_sortie.push({
+    //         image:
+    //           existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item]
+    //             .image,
+    //       });
+    //     }
+    //   }
+    //   if (
+    //     existedContrat.etat_contrat.etat.lettre_res_piece_jointe &&
+    //     lettre_res_piece_jointe.length == 0
+    //   ) {
+    //     for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
+    //       lettre_res_piece_jointe.push({
+    //         image:
+    //           existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item]
+    //             .image,
+    //       });
+    //     }
+    //   }
+    //   if (
+    //     existedContrat.etat_contrat.etat.piece_jointe_avenant &&
+    //     piece_jointe_avenant.length == 0
+    //   ) {
+    //     for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
+    //       piece_jointe_avenant.push({
+    //         image:
+    //           existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image,
+    //       });
+    //     }
+    //   }
+    // }
 
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
@@ -473,19 +473,23 @@ module.exports = {
 
     // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    // // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
+    // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
     // await Contrat.find({ _id: req.params.Id, deleted: false })
     //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
     //   .then(async (data_) => {
     //     for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-    //       let pourcentage = data_[0].foncier.proprietaire[i].pourcentage;
+    //       let partProprietaire =
+    //         data_[0].foncier.proprietaire[i].part_proprietaire;
     //       let idProprietaire = data_[0].foncier.proprietaire[i]._id;
     //       let updatedContrat = data;
+    //       let hasDeclarationOption =
+    //         data_[0].foncier.proprietaire[i].declaration_option;
 
     //       let updatedProprietaire = Calcule(
     //         updatedContrat,
-    //         pourcentage,
-    //         idProprietaire
+    //         partProprietaire,
+    //         idProprietaire,
+    //         hasDeclarationOption
     //       );
 
     //       await Proprietaire.findByIdAndUpdate(

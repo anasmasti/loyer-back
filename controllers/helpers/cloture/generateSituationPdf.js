@@ -6,8 +6,9 @@ const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
 // const storePaths = require("../etat_paths");
 
 async function generatePdf(data1, etatType) {
-  let data = data1;
-  console.log(etatType);
+  let data = data1[0];
+  // console.log(etatType);
+  console.log(data);
   let htmlFileSrouce,
     options,
     reportingPaths = [];
@@ -52,7 +53,7 @@ async function generatePdf(data1, etatType) {
             // return console.log(data);
             try {
               if (data.length == 0) {
-                console.log("teeeeest");
+                // console.log("teeeeest");
                 reportingPaths.push({
                   [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
                 });
@@ -61,10 +62,10 @@ async function generatePdf(data1, etatType) {
                   mois: today.getMonth() + 1,
                   annee: today.getFullYear(),
                 });
-                console.log(etat_paths);
+                // console.log(etat_paths);
                 await etat_paths.save();
               } else {
-                console.log("test 4");
+                // console.log("test 4");
                 for (let i = 0; i < data[0].etat_paths.length; i++) {
                   // for (j in data[0].etat_paths[i]) {
                   //   if (

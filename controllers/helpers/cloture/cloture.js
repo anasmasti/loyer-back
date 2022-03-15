@@ -14,7 +14,7 @@ module.exports = {
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
-      nom_prenom: proprietaire.nom_prenom,
+      nom_prenom: proprietaire.nom_prenom ? proprietaire.nom_prenom : proprietaire.raison_social,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
       cin: proprietaire.cin,
@@ -45,8 +45,11 @@ module.exports = {
       taux_impot: proprietaire.taux_impot,
       caution_proprietaire: proprietaire.caution_par_proprietaire,
       tax_avance_proprietaire: proprietaire.tax_avance_proprietaire,
+      montant_loyer: proprietaire.montant_loyer,
       montant_avance_proprietaire: proprietaire.montant_avance_proprietaire,
+      retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
+      declaration_option: proprietaire.declaration_option
     };
     return comptabilisationLoyerCrediter;
   },
