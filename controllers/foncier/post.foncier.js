@@ -142,6 +142,7 @@ module.exports = {
         etage: data.etage,
         lieu: lieu,
         type_lieu: data.type_lieu,
+        contrat: null
         // etat: data.etat,
       });
       await foncier

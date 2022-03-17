@@ -6,42 +6,6 @@ const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
 const FilesHelper = require("../helpers/files");
 
-// function Test(userRole) {
-//   console.log('test');
-//   // let emailsList = [];
-
-//   // await User.aggregate([
-//   //   {
-//   //     $match: {
-//   //       deleted: false,
-//   //       userRoles: {
-//   //         $elemMatch: {
-//   //           roleCode: userRole,
-//   //           deleted: false,
-//   //         },
-//   //       },
-//   //     },
-//   //   },
-//   // ])
-//   //   .then((data) => {
-//   //     for (let i = 0; i < data.length; i++) {
-//   //       emailsList.push(data[i].email);
-//   //     }
-//   //     console.log(emailsList.join());
-//   //   })
-//   //   .catch((error) => {
-//   //     console.log(error);
-//   //     res.status(400).send({ message: error.message });
-//   //   });
-
-//   // mail.sendMail(
-//   //   emailsList.join(),
-//   //   "Contrat validation",
-//   //   "validation1",
-//   //   mailData
-//   // );
-// }
-
 module.exports = {
   modifierContrat: async (req, res) => {
     let item = 0,
@@ -70,69 +34,24 @@ module.exports = {
         req,
         "piece_joint_contrat"
       );
-      // if (req.files.piece_joint_contrat) {
-      //   piece_joint_contrat.push({
-      //     image: req.files.piece_joint_contrat[0].path,
-      //   });
-      // }
-      // for (let i = 0; i < 8; i++) {
-      //   let file = req.files[`piece_joint_contrat${i + 1}`]
-      //   if (file) {
-      //     console.log(`piece_joint_contrat${i + 1}`, file[0]);
-      //     piece_joint_contrat.push({
-      //       image: file[0].path,
-      //     });
-      //   }
-      // }
 
       // images_etat_res_lieu_sortie
       images_etat_res_lieu_sortie = await FilesHelper.storeFiles(
         req,
         "images_etat_res_lieu_sortie"
       );
-      // if (req.files.images_etat_res_lieu_sortie) {
-      //   images_etat_res_lieu_sortie.push({
-      //     image: req.files.images_etat_res_lieu_sortie[0].path,
-      //   });
-      // }
-      // for (let i = 0; i < 8; i++) {
-      //   console.log(req.files[`images_etat_res_lieu_sortie${i + 1}`]);
-      //   if (req.files[`images_etat_res_lieu_sortie${i + 1}`]) {
-      //     images_etat_res_lieu_sortie.push({
-      //       image: req.files[`images_etat_res_lieu_sortie${i + 1}`].path,
-      //     });
-      //   }
-      // }
 
       // lettre_res_piece_jointe
       lettre_res_piece_jointe = await FilesHelper.storeFiles(
         req,
         "lettre_res_piece_jointe"
       );
-      // if (req.files.lettre_res_piece_jointe) {
-      //   lettre_res_piece_jointe.push({
-      //     image: req.files.lettre_res_piece_jointe[0].path,
-      //   });
-      // }
-      // for (let i = 0; i < 8; i++) {
-      //   console.log(req.files[`lettre_res_piece_jointe${i + 1}`]);
-      //   if (req.files[`lettre_res_piece_jointe${i + 1}`]) {
-      //     lettre_res_piece_jointe.push({
-      //       image: req.files[`lettre_res_piece_jointe${i + 1}`].path,
-      //     });
-      //   }
-      // }
 
       // piece_jointe_avenant
       piece_jointe_avenant = await FilesHelper.storeFiles(
         req,
         "piece_jointe_avenant"
       );
-      // if (req.files.piece_jointe_avenant) {
-      //   piece_jointe_avenant.push({
-      //     image: req.files.piece_jointe_avenant[0].path,
-      //   });
-      // }
     }
 
     //search for requested contrat
@@ -421,57 +340,7 @@ module.exports = {
       };
     }
 
-    // return console.log('testtttt');
-
-    // Sending mail to All the DC (Département Comptable) roles
-    if (
-      data.etat_contrat.libelle === "Résilié" ||
-      data.etat_contrat.libelle === "Suspendu"
-    ) {
-      let mailData = {
-        message:
-          "Le contrat n°" +
-          data.numero_contrat +
-          " est " +
-          data.etat_contrat.libelle +
-          " .",
-      };
-
-      let emailsList = [];
-
-      await User.aggregate([
-        {
-          $match: {
-            deleted: false,
-            userRoles: {
-              $elemMatch: {
-                roleCode: "DC",
-                deleted: false,
-              },
-            },
-          },
-        },
-      ])
-        .then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            emailsList.push(data[i].email);
-          }
-        })
-        .catch((error) => {
-          // console.log(error);
-          res.status(400).send({ message: error.message });
-        });
-      if (emailsList.length > 0) {
-        // mail.sendMail(
-        //   `${emailsList.join()}`,
-        //   "Contrat validation",
-        //   "validation1",
-        //   mailData
-        // );
-      }
-    }
-
-    // :::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
     // await Contrat.find({ _id: req.params.Id, deleted: false })
@@ -526,74 +395,124 @@ module.exports = {
       newDureeLocation -= dateDebutLoyer.getMonth();
       newDureeLocation += dateResiliation.getMonth();
 
-      await Contrat.find({ _id: req.params.Id, deleted: false })
-        .populate({ path: "foncier", populate: { path: "proprietaire" } })
-        .then(async (data_) => {
-          data_[0].foncier.proprietaire.forEach(async (proprietaire) => {
-            // Calcul Montant de loyer proprietaire
-            newMontantLoyerProp =
-              (proprietaire.pourcentage * data.montant_loyer) / 100;
+      // await Contrat.find({ _id: req.params.Id, deleted: false })
+      //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      //   .then(async (data_) => {
+      //     data_[0].foncier.proprietaire.forEach(async (proprietaire) => {
+      //       // Calcul Montant de loyer proprietaire
+      //       newMontantLoyerProp =
+      //         (proprietaire.pourcentage * data.montant_loyer) / 100;
 
-            // Calcul taux d'impôt
-            let Result = newMontantLoyerProp * newDureeLocation;
-            // console.log("Result", Result);
-            if (Result <= 30000) {
-              TauxImpot = 0;
-            } else {
-              if (Result > 30000 && Result <= 120000) {
-                TauxImpot = 0.1;
-              } else {
-                if (Result > 120000) {
-                  TauxImpot = 0.15;
-                }
-              }
-            }
+      //       // Calcul taux d'impôt
+      //       let Result = newMontantLoyerProp * newDureeLocation;
+      //       // console.log("Result", Result);
+      //       if (Result <= 30000) {
+      //         TauxImpot = 0;
+      //       } else {
+      //         if (Result > 30000 && Result <= 120000) {
+      //           TauxImpot = 0.1;
+      //         } else {
+      //           if (Result > 120000) {
+      //             TauxImpot = 0.15;
+      //           }
+      //         }
+      //       }
 
-            // Calcul retenue à la source
-            RetenueSource = newMontantLoyerProp * TauxImpot * newDureeLocation;
+      //       // Calcul retenue à la source
+      //       RetenueSource = newMontantLoyerProp * TauxImpot * newDureeLocation;
 
-            // Calcul taxPeriodicite
-            if (data.periodicite_paiement == "mensuelle") {
-              taxPeriodicite = RetenueSource / newDureeLocation;
-            } else {
-              if (data.periodicite_paiement == "trimestrielle") {
-                taxPeriodicite = RetenueSource / (newDureeLocation * 3);
-              } else taxPeriodicite = 0;
-            }
+      //       // Calcul taxPeriodicite
+      //       if (data.periodicite_paiement == "mensuelle") {
+      //         taxPeriodicite = RetenueSource / newDureeLocation;
+      //       } else {
+      //         if (data.periodicite_paiement == "trimestrielle") {
+      //           taxPeriodicite = RetenueSource / (newDureeLocation * 3);
+      //         } else taxPeriodicite = 0;
+      //       }
 
-            // Calcul Montant apres impot
-            montantApresImpot =
-              newMontantLoyerProp - RetenueSource / newDureeLocation;
+      //       // Calcul Montant apres impot
+      //       montantApresImpot =
+      //         newMontantLoyerProp - RetenueSource / newDureeLocation;
 
-            // Update the proprietaire
-            await Proprietaire.findByIdAndUpdate(proprietaire._id, {
-              taux_impot: TauxImpot,
-              retenue_source: RetenueSource,
-              montant_apres_impot: montantApresImpot,
-              montant_loyer: newMontantLoyerProp,
-              tax_par_periodicite: taxPeriodicite,
-            }).catch((error) => {
-              res.status(422).send({
-                message: error.message,
-              });
-            });
+      //       // Update the proprietaire
+      //       await Proprietaire.findByIdAndUpdate(proprietaire._id, {
+      //         taux_impot: TauxImpot,
+      //         retenue_source: RetenueSource,
+      //         montant_apres_impot: montantApresImpot,
+      //         montant_loyer: newMontantLoyerProp,
+      //         tax_par_periodicite: taxPeriodicite,
+      //       }).catch((error) => {
+      //         res.status(422).send({
+      //           message: error.message,
+      //         });
+      //       });
 
-            await Proprietaire.find({ _id: proprietaire._id })
-              .then((data__) => {
-                console.log(data__);
-              })
-              .catch((error) => {
-                res.status(422).send({
-                  message: error.message,
-                });
-              });
-          });
+      //       await Proprietaire.find({ _id: proprietaire._id })
+      //         .then((data__) => {
+      //           console.log(data__);
+      //         })
+      //         .catch((error) => {
+      //           res.status(422).send({
+      //             message: error.message,
+      //           });
+      //         });
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     res.status(422).send({
+      //       message: error.message,
+      //     });
+      //   });
+    }
+
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Mails :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+     // Sending mail to All the DC (Département Comptable) roles
+     if (
+      data.etat_contrat.libelle === "Résilié" ||
+      data.etat_contrat.libelle === "Suspendu"
+    ) {
+      let mailData = {
+        message:
+          "Le contrat n°" +
+          data.numero_contrat +
+          " est " +
+          data.etat_contrat.libelle +
+          " .",
+      };
+
+      let emailsList = [];
+
+      await User.aggregate([
+        {
+          $match: {
+            deleted: false,
+            userRoles: {
+              $elemMatch: {
+                roleCode: "DC",
+                deleted: false,
+              },
+            },
+          },
+        },
+      ])
+        .then((data) => {
+          for (let i = 0; i < data.length; i++) {
+            emailsList.push(data[i].email);
+          }
         })
         .catch((error) => {
-          res.status(422).send({
-            message: error.message,
-          });
+          // console.log(error);
+          res.status(400).send({ message: error.message });
         });
+      if (emailsList.length > 0) {
+        // mail.sendMail(
+        //   `${emailsList.join()}`,
+        //   "Contrat validation",
+        //   "validation1",
+        //   mailData
+        // );
+      }
     }
 
     // Save Updated data
@@ -758,7 +677,7 @@ module.exports = {
           });
           res
             .status(400)
-            .send({ message: "Merci d'insérer les information complete" });
+            .send({ message: "Merci d'insérer les informations complete" });
         }
       });
   },
