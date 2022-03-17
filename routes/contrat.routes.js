@@ -151,7 +151,7 @@ router
   .put(verifyRole.checkRoles("DAJC"), putcontrat.modifierValidationDAJC);
 router
   .route("/contrat/soumettre/:Id/:matricule")
-  .put(verifyRole.checkRoles("CSLA"), putcontrat.soumettre);
+  .put(verifyRole.checkRoles("CSLA","CDGSP"), putcontrat.soumettre);
 router
   .route("/contrat/annuler-contrat/:Id/:matricule")
   .put(
