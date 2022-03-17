@@ -726,7 +726,7 @@ module.exports = {
 
   annulerContrat: async (req, res) => {
     let etatContrat = {
-      libelle: "Soumettre",
+      libelle: "Initié",
       etat: {},
     };
     await Contrat.findByIdAndUpdate(req.params.Id, {

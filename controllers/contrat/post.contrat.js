@@ -111,7 +111,7 @@ module.exports = {
       foncier: req.params.IdFoncier,
       nombre_part: data.nombre_part,
       etat_contrat: {
-        libelle: "Soumettre",
+        libelle: "Initié",
         etat: {},
       },
       piece_joint_contrat: piece_joint_contrat,
