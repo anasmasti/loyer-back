@@ -45,7 +45,7 @@ module.exports = {
       //   if (req.files[`piece_joint_contrat${i + 1}`]) {
       //     piece_joint_contrat.push({
       //       image: req.files[`piece_joint_contrat${i + 1}`].path,
-      //     });
+      //     });`
       //   }
       // }
     }

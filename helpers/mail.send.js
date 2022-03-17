@@ -11,14 +11,49 @@ module.exports = {
       "utf8"
     );
     var template = Handlebars.compile(fileSource);
-    var htmlToSend = template(data)
+    var htmlToSend = template(data);
     let transporter = nodemailer.createTransport({
-      service: "Gmail",
+      service: "gmail",
       auth: {
         user: "attawfiqmf.app@gmail.com",
-        // pass: "Attawfiq@Gmail_2021",
+        pass: "Attawfiq@Gmail_2021",
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
+
+    // nodemailer.createTransport({
+    //   host: "smtp.ethereal.email",
+    //   port: 587,
+    //   auth: {
+    //     user: "johnson.jones44@ethereal.email",
+    //     pass: "CD3gjGGYRj9Cc7UNEn",
+    //   },
+    //   tls: {
+    //     rejectUnauthorized: false,
+    //   },
+    // });
+
+    // nodemailer.createTransport({
+    //   host: "smtp-mail.outlook.com",
+    //   secureConnection: false,
+    //   port: 587,
+    //   auth: {
+    //     // user: "attawfiqmf.app@gmail.com",
+    //     // pass: "Attawfiq@Gmail_2021",
+    //     user: "attawfiq-microfinance@hotmail.com",
+    //     pass: "attawfiq#2999",
+    //   },
+    // });
+
+    // nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "attawfiqmf.app@gmail.com",
+    //     pass: "Attawfiq@Gmail_2021",
+    //   },
+    // });
 
     var message = {
       to: to,

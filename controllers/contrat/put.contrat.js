@@ -467,8 +467,8 @@ module.exports = {
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Mails :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-     // Sending mail to All the DC (Département Comptable) roles
-     if (
+    // Sending mail to All the DC (Département Comptable) roles
+    if (
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
     ) {
@@ -526,47 +526,89 @@ module.exports = {
   },
 
   modifierValidationDMG: async (req, res) => {
-    let emailsList = [];
-
-    await User.aggregate([
-      {
-        $match: {
-          deleted: false,
-          userRoles: {
-            $elemMatch: {
-              roleCode: "DAJC",
-              deleted: false,
+    let DAJCemailsList = [];
+    let CDGSPemailsList = [];
+    // Sending mail to All the DAJC (Direction Affaires Juridiques et Conformité) roles
+    await Contrat.findByIdAndUpdate(req.params.Id, {
+      validation1_DMG: true,
+    }).then(async (contrat) => {
+      // Sending mail to DAJC (V2)
+      await User.aggregate([
+        {
+          $match: {
+            deleted: false,
+            userRoles: {
+              $elemMatch: {
+                roleCode: "DAJC",
+                deleted: false,
+              },
             },
           },
         },
-      },
-    ])
-      .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-          emailsList.push(data[i].email);
-        }
-        // console.log(emailsList.join());
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(400).send({ message: error.message });
-      });
+      ])
+        .then((data_) => {
+          for (let i = 0; i < data_.length; i++) {
+            DAJCemailsList.push(data_[i].email);
+          }
+          // console.log(emailsList.join());
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(400).send({ message: error.message });
+        });
 
-    let mailData = {
-      message: "La première validation est effectuée.",
-    };
+      let DAJCmailData = {
+        message: `Merci de valider le contrat N° ${contrat.numero_contrat}.`,
+      };
 
-    if (emailsList.length > 0) {
-      // mail.sendMail(
-      //   `${emailsList.join()}`,
-      //   "Contrat validation",
-      //   "validation1",
-      //   mailData
-      // );
-    }
+      if (DAJCemailsList.length > 0) {
+        // console.log(`${DAJCemailsList.join()}`);
+        mail.sendMail(
+          `${DAJCemailsList.join()}`,
+          "Contrat validation",
+          "validation1",
+          DAJCmailData
+        );
+      }
 
-    // Sending mail to All the DAJC (Direction Affaires Juridiques et Conformité) roles
-    await Contrat.findByIdAndUpdate(req.params.Id, { validation1_DMG: true });
+      // Sending mail to CDGSP (V1)
+      await User.aggregate([
+        {
+          $match: {
+            deleted: false,
+            userRoles: {
+              $elemMatch: {
+                roleCode: "CDGSP",
+                deleted: false,
+              },
+            },
+          },
+        },
+      ])
+        .then((data_) => {
+          for (let i = 0; i < data_.length; i++) {
+            CDGSPemailsList.push(data_[i].email);
+          }
+          // console.log(emailsList.join());
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(400).send({ message: error.message });
+        });
+
+      let CDGSPmailData = {
+        message: `La première validation est effectuée, la Direction Affaires juridique et conformité à procéder à la validation du contrat N° ${contrat.numero_contrat} `,
+      };
+
+      if (CDGSPemailsList.length > 0) {
+        mail.sendMail(
+          `${CDGSPemailsList.join()}`,
+          "Contrat validation",
+          "validation1",
+          CDGSPmailData
+        );
+      }
+    });
   },
 
   modifierValidationDAJC: async (req, res) => {
@@ -668,7 +710,7 @@ module.exports = {
             etat_contrat: etatContrat,
           });
 
-          res.json({message: "Contrat modifié avec success"});
+          res.json({ message: "Contrat modifié avec success" });
         } else {
           console.log({
             partGlobal: partGlobal,
