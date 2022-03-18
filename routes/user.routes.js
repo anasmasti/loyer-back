@@ -14,6 +14,9 @@ router
   .route("/user/update/:Id/:matricule")
   .put(verifyRole.checkRoles("Admin"), updateUserRoles.updateUserRoles);
 router
+  .route("/user/update-profile/:Id/:matricule")
+  .put(updateUserRoles.updateProfile);
+router
   .route("/user/all/:matricule")
   .get(verifyRole.checkRoles("Admin"), getUserRoles.getAllUserRoles);
 router

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-       *{
+      * {
         font-family: sans-serif;
       }
       table {
@@ -17,6 +17,7 @@
         width: 100px !important;
         font-size: 10px;
         padding: 10px;
+        text-align: center;
       }
       /* td:last-child {
         border-left: 1px solid #f9a11e;
@@ -36,10 +37,10 @@
         /* max-width: 100px; */
       }
       th:first-child {
-        border-top-left-radius: 12px ;
+        border-top-left-radius: 12px;
       }
       th:last-child {
-        border-top-right-radius: 12px ;
+        border-top-right-radius: 12px;
       }
       .title {
         color: #828282;
@@ -139,14 +140,18 @@
           <td>{{ nom_prenom }}</td>
           <td>{{ numero_contrat }}</td>
           <td>{{ cin }}</td>
-          <td>{{ nom_agence_bancaire }}</td>
+          <td>{{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} -- {{/if}}</td>
+          <!-- <td>{{ nom_agence_bancaire }}</td> -->
           <td>{{ banque }}</td>
           <td>{{ type_lieu }}</td>
           <td>{{ periodicite }}</td>
-          <td>{{ montant_brut }} MAD</td>
-          <td>{{ montant_taxe }} MAD</td>
-          <td>{{ montant_net }} MAD</td>
-          <td>{{ numero_compte_bancaire }}</td>
+          <td>{{#if montant_brut}} {{montant_brut}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if montant_taxe}} {{montant_taxe}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if montant_net}} {{montant_net}} MAD{{else}} -- {{/if}}</td>
+          <!-- <td>{{ montant_brut }} MAD</td> -->
+          <!-- <td>{{ montant_taxe }} MAD</td> -->
+          <!-- <td>{{ montant_net }} MAD</td> -->
+          <td style="word-break: break-word">{{ numero_compte_bancaire }}</td>
         </tr>
         {{/ordre_virement}} {{/each}}
       </tbody>

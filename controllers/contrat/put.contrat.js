@@ -563,12 +563,12 @@ module.exports = {
 
       if (DAJCemailsList.length > 0) {
         // console.log(`${DAJCemailsList.join()}`);
-        mail.sendMail(
-          `${DAJCemailsList.join()}`,
-          "Contrat validation",
-          "validation1",
-          DAJCmailData
-        );
+        // mail.sendMail(
+        //   `${DAJCemailsList.join()}`,
+        //   "Contrat validation",
+        //   "validation1",
+        //   DAJCmailData
+        // );
       }
 
       // Sending mail to CDGSP (V1)
@@ -601,12 +601,12 @@ module.exports = {
       };
 
       if (CDGSPemailsList.length > 0) {
-        mail.sendMail(
-          `${CDGSPemailsList.join()}`,
-          "Contrat validation",
-          "validation1",
-          CDGSPmailData
-        );
+        // mail.sendMail(
+        //   `${CDGSPemailsList.join()}`,
+        //   "Contrat validation",
+        //   "validation1",
+        //   CDGSPmailData
+        // );
       }
     });
   },

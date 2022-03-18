@@ -18,6 +18,7 @@
         width: 100px !important;
         font-size: 10px;
         padding: 10px;
+        text-align: center;
       }
       /* td:last-child {
         border-left: 1px solid #f9a11e;
@@ -164,11 +165,16 @@
           <td>{{ periodicite }}</td>
           <td>{{ montant_brut }} MAD</td>
           <td>{{ montant_avance_proprietaire }} MAD</td>
-          <td>{{ taux_impot }}</td>
-          <td>{{ retenue_source }} MAD</td>
+          <!-- <td>{{ taux_impot }}</td> -->
+          <td>{{#if taux_impot}} {{taux_impot}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if retenue_source}} {{retenue_source}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if tax_avance_proprietaire}} {{tax_avance_proprietaire}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if caution_proprietaire}} {{caution_proprietaire}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if montant_net}} {{montant_net}} MAD{{else}} -- {{/if}}</td>
+          <!-- <td>{{ retenue_source }} MAD</td>
           <td>{{ tax_avance_proprietaire }} MAD</td>
           <td>{{ caution_proprietaire }} MAD</td>
-          <td>{{ montant_net }} MAD</td>
+          <td>{{ montant_net }} MAD</td> -->
         </tr>
         {{/comptabilisation_loyer_crediter}} {{/each}}
       </tbody>
