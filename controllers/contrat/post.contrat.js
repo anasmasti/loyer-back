@@ -56,10 +56,8 @@ module.exports = {
     });
 
     for (let i in requestedFoncier.lieu) {
-      console.log("-id lieu-", requestedFoncier.lieu[i]);
       if (requestedFoncier.lieu[i].deleted == false) {
         idLieu = requestedFoncier.lieu[i].lieu;
-        console.log("id lieu ==>", idLieu);
       }
     }
     if (idLieu != null) {

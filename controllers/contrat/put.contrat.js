@@ -690,7 +690,6 @@ module.exports = {
         let partProprietaireGlobal = 0;
         // If some one is / has not a mandataire this variable will be true
         let hasnt_mandataire = false;
-        console.log(data);
         data.foncier.proprietaire.forEach((proprietaire) => {
           if (!proprietaire.deleted) {
             partProprietaireGlobal += proprietaire.part_proprietaire;

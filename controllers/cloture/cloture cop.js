@@ -74,7 +74,6 @@ module.exports = {
                     if (
                       contrat[i].foncier.proprietaire[j].is_mandataire == true
                     ) {
-                      console.log("teeeeeeeeeeeeeeeeeest");
                       montant_loyer_net_mandataire =
                         contrat[i].foncier.proprietaire[j]
                           .montant_avance_proprietaire -
@@ -288,7 +287,6 @@ module.exports = {
               req.body.mois == dateDebutLoyer.getMonth() + 1 &&
               req.body.annee == dateDebutLoyer.getFullYear()
             ) {
-              console.log("2->", true);
               for (let g = 0; g < contrat[i].foncier.lieu.length; g++) {
                 if (contrat[i].foncier.lieu[g].deleted == false) {
                   for (
@@ -501,7 +499,6 @@ module.exports = {
               req.body.mois == premierDateDePaiement.getMonth() + 1 &&
               req.body.annee == premierDateDePaiement.getFullYear()
             ) {
-              console.log("3->", true);
               for (let g = 0; g < contrat[i].foncier.lieu.length; g++) {
                 if (contrat[i].foncier.lieu[g].deleted == false) {
                   for (
@@ -700,7 +697,6 @@ module.exports = {
               req.body.mois <= dateFinDeContrat.getMonth() + 1 &&
               req.body.annee <= dateFinDeContrat.getFullYear()
             ) {
-              console.log("4->", true);
               for (let g = 0; g < contrat[i].foncier.lieu.length; g++) {
                 if (contrat[i].foncier.lieu[g].deleted == false) {
                   for (

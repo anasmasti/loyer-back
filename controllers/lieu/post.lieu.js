@@ -2,7 +2,6 @@ const Lieu = require("../../models/lieu/lieu.model");
 
 module.exports = {
   ajouterLieu: async (req, res, next) => {
-    console.log(req.body);
     //check code lieu if already exist
     const codeLieuExist = await Lieu.findOne({ deleted: false, code_lieu: req.body.code_lieu });
 

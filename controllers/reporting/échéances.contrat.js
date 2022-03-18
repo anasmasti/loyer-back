@@ -7,7 +7,6 @@ module.exports = {
         let today = new Date()
         let todayAfterThreeMonths = new Date(moment(today.setMonth(today.getMonth() + 3)).format('YYYY-MM-DD[T]HH:mm:ss'))
         let date = new Date();
-        console.log(date, '/', todayAfterThreeMonths)
 
         await Contrat.find({
             $or: [

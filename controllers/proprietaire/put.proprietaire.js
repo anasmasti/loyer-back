@@ -7,8 +7,6 @@ module.exports = {
     try {
       let proprietaire_list = [];
 
-      console.log(req.body);
-
       if (Object.keys(req.body).length === 0)
         return res.status(500).send({ message: `Contenu doit pas être vide` });
 

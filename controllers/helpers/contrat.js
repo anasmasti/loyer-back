@@ -77,7 +77,6 @@ module.exports = {
       //     // res.json(data)
       // })
       .catch((error) => {
-        console.log("error here");
         res.status(400).send({ message: error.message });
       });
   },
@@ -95,7 +94,6 @@ module.exports = {
     let storedFiles = [];
     for (let i = 0; i < 8; i++) {
       let file = req.files[`${fileName}${i + 1}`];
-      console.log(`${fileName}${i + 1}`, req.files[`${fileName}${i + 1}`]);
       if (file) {
         storedFiles.push({
           image: file[0].path,

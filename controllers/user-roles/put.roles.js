@@ -2,7 +2,6 @@ const userRoles = require("../../models/roles/roles.model");
 
 module.exports = {
   updateUserRoles: async (req, res) => {
-    console.log(req.body);
     let item = 0;
     let allUserRoles = [];
 
@@ -62,8 +61,7 @@ module.exports = {
     userRoles
       .findByIdAndUpdate({ _id: req.params.Id }, updatedUser)
       .then(async (data) => {
-        await res.json(data);
-        await console.log(data);
+        res.json(data);
       })
       .catch((error) => {
         res.status(400).send({ message: error.message });

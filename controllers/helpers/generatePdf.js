@@ -44,7 +44,6 @@ async function generatePdf(data, reportingType) {
           .then(async (data) => {
             try {
               if (data.length == 0) {
-                console.log('teeeeest 2');
                 reportingPaths.push({
                   [reportingType]: 'download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf'
                 })

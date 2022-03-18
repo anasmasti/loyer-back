@@ -7,8 +7,6 @@ const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
 
 async function generatePdf(data1, etatType) {
   let data = data1[0];
-  // console.log(etatType);
-  console.log(data);
   let htmlFileSrouce,
     options,
     reportingPaths = [];
