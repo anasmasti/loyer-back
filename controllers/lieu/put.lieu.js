@@ -11,24 +11,27 @@ module.exports = {
       }
     }
 
-    if (codeLieuExist.intitule_lieu != req.body.intitule_lieu) {
-      await Lieu.findOne({
-        type_lieu: "Logement de fonction",
-        attached_DR: codeLieuExist._id,
-      }).then((LfData) => {
-        // return res.json(LfData);
-        if (LfData.length > 0) {
-          LfData.forEach((lieu) => {
-            Lieu.findByIdAndUpdate(
-              { _id: lieu._id },
-              {
-                intitule_lieu: `LF/${req.body.intitule_lieu}`,
-              }
-            );
-          });
-        }
-      });
-    }
+    await Lieu.findOne({ _id: req.params.Id }).then((lieuData) => {
+      if (lieuData.intitule_lieu != req.body.intitule_lieu) {
+        await Lieu.findOne({
+          type_lieu: "Logement de fonction",
+          attached_DR: lieuData._id,
+        }).then((LfData) => {
+          // return res.json(LfData);
+          if (LfData.length > 0) {
+            LfData.forEach((lieu) => {
+              Lieu.findByIdAndUpdate(
+                { _id: lieu._id },
+                {
+                  intitule_lieu: `LF/${req.body.intitule_lieu}`,
+                }
+              );
+            });
+          }
+        });
+      }
+    });
+
     let directeurRegional = [],
       item = 0;
 
