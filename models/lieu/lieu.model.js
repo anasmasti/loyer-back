@@ -27,15 +27,20 @@ const lieuSchema = new Schema(
       ref: "Lieu",
       default: null,
     },
+    attached_SUP: {
+      type: Schema.Types.ObjectId,
+      ref: "Lieu",
+      default: null,
+    },
     // code_rattache_DR: {
     //   type: String,
     // },
-    code_rattache_SUP: {
-      type: String,
-    },
-    intitule_rattache_SUP_PV: {
-      type: String,
-    },
+    // code_rattache_SUP: {
+    //   type: String,
+    // },
+    // intitule_rattache_SUP_PV: {
+    //   type: String,
+    // },
     centre_cout_siege: {
       type: String,
     },
