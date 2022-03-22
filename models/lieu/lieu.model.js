@@ -22,9 +22,14 @@ const lieuSchema = new Schema(
     type_lieu: {
       type: String,
     },
-    code_rattache_DR: {
-      type: String,
+    attached_DR: {
+      type: Schema.Types.ObjectId,
+      ref: "Lieu",
+      default: null,
     },
+    // code_rattache_DR: {
+    //   type: String,
+    // },
     code_rattache_SUP: {
       type: String,
     },

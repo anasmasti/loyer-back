@@ -7,6 +7,7 @@ module.exports = {
   //get all lieu
   getAllLieu: async (_, res) => {
     await Lieu.find({ deleted: false })
+      .populate({ path: "attached_DR", select: "-_id intitule_lieu code_lieu" })
       .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);
@@ -19,6 +20,7 @@ module.exports = {
   //get lieu by Id
   getLieuById: async (req, res) => {
     await Lieu.findById({ _id: req.params.Id })
+      .populate({ path: "attached_DR", select: "-_id intitule_lieu code_lieu" })
       .then((data) => {
         res.json(data);
       })
@@ -37,7 +39,7 @@ module.exports = {
 
       const SUP = await Lieu.find(
         { type_lieu: "Supervision", deleted: false },
-        { _id: 0, code_lieu: 1, intitule_lieu: 1,code_rattache_DR: 1 }
+        { _id: 0, code_lieu: 1, intitule_lieu: 1, code_rattache_DR: 1 }
       );
 
       res.json({
@@ -63,7 +65,10 @@ module.exports = {
   getContratByLieu: async (req, res) => {
     var _id = mongoose.Types.ObjectId(req.params.Id);
     await Contrat.findOne({ foncier: _id, deleted: false })
-      .populate({ path: "foncier", populate: { path: "proprietaire", match:{ deleted: false } } })
+      .populate({
+        path: "foncier",
+        populate: { path: "proprietaire", match: { deleted: false } },
+      })
       .then((data) => {
         res.json([data]);
       })
@@ -75,21 +80,25 @@ module.exports = {
   getLieuByType: async (req, res) => {
     let lieuByType = [];
     Lieu.find({ deleted: false, type_lieu: req.body.type_lieu })
-    .then(async (data) => {
-      data.forEach(async (lieu) => {
-        const usedLieu = await Foncier.find({ deleted: false , "lieu.deleted": false ,"lieu.lieu": lieu._id })
-        if (usedLieu.length == 0) {
-          lieuByType.push(lieu) 
-        }
-      })
-      setTimeout(() => {
-        // if (lieuByType.length > 0) {
-          res.json(lieuByType)
-        // }
-      }, 1000);
-    })
+      .populate({ path: "attached_DR", select: "-_id intitule_lieu code_lieu" })
+      .then(async (data) => {
+        data.forEach(async (lieu) => {
+          const usedLieu = await Foncier.find({
+            deleted: false,
+            "lieu.deleted": false,
+            "lieu.lieu": lieu._id,
+          });
+          if (usedLieu.length == 0) {
+            lieuByType.push(lieu);
+          }
+        });
+        setTimeout(() => {
+          // if (lieuByType.length > 0) {
+          res.json(lieuByType);
+          // }
+        }, 1000);
+      });
   },
-
 
   // getLieuByType: async (req, res) => {
   //   await Lieu.find({ deleted: false, type_lieu: req.body.type_lieu }).then(
@@ -110,9 +119,9 @@ module.exports = {
   //           res.json([arr]);
   //         }
   //       // data.forEach(async (lieu) => {
-          
+
   //       //   });
-          
+
   //       }
 
   //       // await  myPromise.then(data => res.json(data));
@@ -123,16 +132,20 @@ module.exports = {
   getUnusedLieu: async (req, res) => {
     let lieuByType = [];
     Lieu.find({ deleted: false, type_lieu: req.body.type_lieu })
-    .then(async (data) => {
-      data.forEach(async (lieu) => {
-        const usedLieu = await Lieu.find({ deleted: false , code_rattache_DR: lieu.code_lieu })
-        if (usedLieu.length == 0) {
-          lieuByType.push(lieu) 
-        }
-      })
-      setTimeout(() => {
-        res.json(lieuByType)
-      }, 1000);
-    })
-  }
+      .populate({ path: "attached_DR", select: "-_id intitule_lieu code_lieu" })
+      .then(async (data) => {
+        data.forEach(async (lieu) => {
+          const usedLieu = await Lieu.find({
+            deleted: false,
+            code_rattache_DR: lieu.code_lieu,
+          });
+          if (usedLieu.length == 0) {
+            lieuByType.push(lieu);
+          }
+        });
+        setTimeout(() => {
+          res.json(lieuByType);
+        }, 1000);
+      });
+  },
 };
