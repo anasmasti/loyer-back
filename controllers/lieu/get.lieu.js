@@ -8,6 +8,7 @@ module.exports = {
   getAllLieu: async (_, res) => {
     await Lieu.find({ deleted: false })
       .populate({ path: "attached_DR", select: "intitule_lieu code_lieu" })
+      .populate({ path: "attached_SUP", select: "intitule_lieu code_lieu" })
       .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);
@@ -21,6 +22,7 @@ module.exports = {
   getLieuById: async (req, res) => {
     await Lieu.findById({ _id: req.params.Id })
       .populate({ path: "attached_DR", select: "intitule_lieu code_lieu" })
+      .populate({ path: "attached_SUP", select: "intitule_lieu code_lieu" })
       .then((data) => {
         res.json(data);
       })
@@ -40,10 +42,12 @@ module.exports = {
       const SUP = await Lieu.find(
         { type_lieu: "Supervision", deleted: false },
         { _id: 0, code_lieu: 1, intitule_lieu: 1 }
-      ).populate({
-        path: "attached_DR",
-        select: "-_id intitule_lieu code_lieu",
-      });
+      )
+        .populate({
+          path: "attached_DR",
+          select: "intitule_lieu code_lieu",
+        })
+        .populate({ path: "attached_SUP", select: "intitule_lieu code_lieu" });
 
       res.json({
         DR,
@@ -84,6 +88,7 @@ module.exports = {
     let lieuByType = [];
     Lieu.find({ deleted: false, type_lieu: req.body.type_lieu })
       .populate({ path: "attached_DR", select: "intitule_lieu code_lieu" })
+      .populate({ path: "attached_SUP", select: "intitule_lieu code_lieu" })
       .then(async (data) => {
         data.forEach(async (lieu) => {
           const usedLieu = await Foncier.find({
@@ -136,6 +141,7 @@ module.exports = {
     let lieuByType = [];
     Lieu.find({ deleted: false, type_lieu: req.body.type_lieu })
       .populate({ path: "attached_DR", select: "intitule_lieu code_lieu" })
+      .populate({ path: "attached_SUP", select: "intitule_lieu code_lieu" })
       .then(async (data) => {
         data.forEach(async (lieu) => {
           const usedLieu = await Lieu.find({
