@@ -10,6 +10,27 @@ module.exports = {
         return res.status(422).send({ message: "Le code lieu est deja pris" });
       }
     }
+
+    await Lieu.findOne({ _id: req.params.Id }).then(async (lieuData) => {
+      if (lieuData.intitule_lieu != req.body.intitule_lieu) {
+        await Lieu.find({
+          type_lieu: "Logement de fonction",
+          attached_DR: lieuData._id,
+        }).then((LfData) => {
+          if (LfData.length > 0) {
+            LfData.forEach(async (lieuLF) => {
+              await Lieu.findByIdAndUpdate(
+                { _id: lieuLF._id },
+                {
+                  intitule_lieu: `LF/${req.body.intitule_lieu}`,
+                }
+              );
+            });
+          }
+        });
+      }
+    });
+
     let directeurRegional = [],
       item = 0;
 
