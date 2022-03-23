@@ -8,11 +8,16 @@ module.exports = {
   etatLoyer: async (req, res, TypeFoncier) => {
     let Result = [];
     let TotalMontantLoyer = 0;
-    // Today's Date
-    let currentDate = new Date();
+    // Generation Date
+    let generationDate = new Date(
+      req.params.annee +
+        "-" +
+        ("0" + parseInt(req.params.mois)).slice(-2) +
+        "-01T00:00:00.000Z"
+    );
+    // let generationDate = req.params.annee + '-0' + (parseInt(req.params.mois)) + '-21T10:08:54.416Z'
 
-    // let today = new Date();
-    // let currentDate = moment(today).format('YYYY-MM-DD');
+    // return res.json(generationDate)
 
     Contrat.aggregate([
       {
@@ -99,27 +104,29 @@ module.exports = {
                   "foncier.lieu": { $exists: true, $not: { $size: 0 } },
                   "etat_contrat.libelle": "Résilié",
                   date_debut_loyer: {
-                    $lte: currentDate,
+                    $lte: generationDate,
                   },
                   "etat_contrat.etat.date_resiliation": {
-                    $gte: currentDate,
+                    $gte: generationDate,
                   },
                 },
                 {
                   foncier: { $exists: true, $not: { $size: 0 } },
                   "foncier.lieu": { $exists: true, $not: { $size: 0 } },
+                  "etat_contrat.libelle": "Actif",
                   date_debut_loyer: {
-                    $lte: currentDate,
+                    $lte: generationDate,
                   },
                   date_fin_contrat: {
-                    $gte: currentDate,
+                    $gte: generationDate,
                   },
                 },
                 {
                   foncier: { $exists: true, $not: { $size: 0 } },
                   "foncier.lieu": { $exists: true, $not: { $size: 0 } },
+                  "etat_contrat.libelle": "Actif",
                   date_debut_loyer: {
-                    $lte: currentDate,
+                    $lte: generationDate,
                   },
                   date_fin_contrat: null,
                 },
@@ -130,8 +137,6 @@ module.exports = {
       },
     ])
       .then((data) => {
-        //  res.json(data)
-        // res.json(Result);
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
             TotalMontantLoyer += data[i].montant_loyer;
@@ -163,15 +168,18 @@ module.exports = {
             default:
               break;
           }
-          generatePdf(
-            {
-              mois: currentDate.getMonth() + 1,
-              annee: currentDate.getFullYear(),
-              total_montant_loyer: TotalMontantLoyer,
-              lieu_data: Result,
-            },
-            etatReporting
-          );
+          res.json(data);
+          // generatePdf(
+          //   {
+          //     // mois: currentDate.getMonth() + 1,
+          //     // annee: currentDate.getFullYear(),
+          //     mois: req.params.mois,
+          //     annee: req.params.annee,
+          //     total_montant_loyer: TotalMontantLoyer,
+          //     lieu_data: Result,
+          //   },
+          //   etatReporting
+          // );
         } else
           res
             .status(422)
