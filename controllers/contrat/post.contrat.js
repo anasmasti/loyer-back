@@ -62,17 +62,30 @@ module.exports = {
     }
     if (idLieu != null) {
       //find lieu that is requested from foncier
-      requestedLieu = await Lieu.findById({ _id: idLieu });
+      requestedLieu = await Lieu.findById({ _id: idLieu }).populate({
+        path: "attached_DR",
+        select: "intitule_lieu code_lieu",
+      });
     } else {
       return res.status(422).send({
         message: "Aucune entité organisationnelle attachée à ce local !",
       });
     }
+    // //set numero de contrat
+    // let numeroContrat;
+    // requestedLieu.type_lieu == "Logement de fonction"
+    //   ? (numeroContrat =
+    //       requestedLieu.code_rattache_DR + "/" + requestedLieu.intitule_lieu)
+    //   : (numeroContrat =
+    //       requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu);
+
     //set numero de contrat
     let numeroContrat;
     requestedLieu.type_lieu == "Logement de fonction"
       ? (numeroContrat =
-          requestedLieu.code_rattache_DR + "/" + requestedLieu.intitule_lieu)
+          requestedLieu.attached_DR.code_lieu +
+          "/" +
+          requestedLieu.intitule_lieu)
       : (numeroContrat =
           requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu);
 

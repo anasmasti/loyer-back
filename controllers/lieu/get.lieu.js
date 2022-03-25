@@ -146,7 +146,7 @@ module.exports = {
         data.forEach(async (lieu) => {
           const usedLieu = await Lieu.find({
             deleted: false,
-            code_rattache_DR: lieu.code_lieu,
+            "attached_DR.code_lieu": lieu.code_lieu,
           });
           if (usedLieu.length == 0) {
             lieuByType.push(lieu);

@@ -33,7 +33,7 @@ module.exports = {
       direction_regional:
       lieu.lieu.type_lieu == "Direction régionale"
       ? lieu.lieu.code_lieu
-      : lieu.lieu.code_rattache_DR,
+      : lieu.lieu.attached_DR.code_lieu,
       point_de_vente:
       lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       numero_contrat: numero_contrat,
@@ -67,7 +67,7 @@ module.exports = {
       direction_regional:
         lieu.lieu.type_lieu == "Direction régionale"
           ? lieu.lieu.code_lieu
-          : lieu.lieu.code_rattache_DR,
+          : lieu.lieu.attached_DR.code_lieu,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       montant: montantDebiter,

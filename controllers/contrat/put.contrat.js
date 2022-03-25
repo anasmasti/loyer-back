@@ -1,5 +1,6 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const Foncier = require("../../models/foncier/foncier.model");
 const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
@@ -55,7 +56,9 @@ module.exports = {
     }
 
     //search for requested contrat
-    let existedContrat = await Contrat.findById(req.params.Id);
+    let existedContrat = await Contrat.findById(req.params.Id).populate({
+      path: "foncier",
+    });
 
     // // store the exited files
     // if (existedContrat) {
@@ -378,9 +381,29 @@ module.exports = {
     //       message: error.message,
     //     });
     //   });
-
-    // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
     if (data.etat_contrat.libelle === "Résilié") {
+      // Make the lieu that attached to this foncier (transféré)
+      // let lieu = {
+      //   deleted = true,
+
+      // }
+      Foncier.findOne({ _id: existedContrat.foncier._id }).then((foncier) => {
+        let lieux = [];
+        foncier.lieu.forEach((lieu) => {
+          if (!lieu.deleted) {
+            let updatedLieu = {
+              deleted: true,
+              etat_lieu: lieu.etat_lieu,
+              lieu: lieu.lieu,
+            };
+            lieux.push(updatedLieu);
+          } else {
+            lieux.push(lieu);
+          }
+        });
+      });
+
+      // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
       let newDureeLocation;
       let dateDebutLoyer = new Date(data.date_debut_loyer);
       let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation);

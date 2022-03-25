@@ -113,7 +113,14 @@ module.exports = {
           },
           lieu: {
             $map: {
-              input: "$lieu",
+              // input: "$lieu",
+              input: {
+                $filter: {
+                  input: "$lieu",
+                  as: "lieufillter",
+                  cond: { $eq: ["$$lieufillter.deleted", false] },
+                },
+              },
               as: "lieumap",
               in: {
                 deleted: "$$lieumap.deleted",
@@ -149,7 +156,7 @@ module.exports = {
         path: "lieu",
         populate: {
           path: "lieu",
-          select: "-_id intitule_lieu type_lieu code_lieu code_rattache_DR",
+          select: "-_id intitule_lieu type_lieu code_lieu",
         },
       })
       .populate({
