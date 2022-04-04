@@ -1,12 +1,12 @@
 const Foncier = require("../../models/foncier/foncier.model");
-const FilesHelper = require("../helpers/files")
+const FilesHelper = require("../helpers/files");
 module.exports = {
   ajouterFoncier: async (req, res, next) => {
     let lieu = [],
       data = null;
     try {
       data = await JSON.parse(req.body.data);
-      console.log("test");
+      console.log(data);
     } catch (error) {
       return res.status(422).send({ message: error.message });
     }
@@ -15,7 +15,7 @@ module.exports = {
       lieu: data.lieu,
       deleted: false,
       // transferer: false,
-      etat_lieu: 'Occupé'
+      etat_lieu: "Occupé",
     });
 
     if (data.has_amenagements == true) {
@@ -47,20 +47,28 @@ module.exports = {
         //   });
         // }
         if (req.files) {
-          imagesAmenagement = await FilesHelper.storeAmngmentFiles(req, "imgs_amenagement", data.amenagement[item].idm);
+          imagesAmenagement = await FilesHelper.storeAmngmentFiles(
+            req,
+            "imgs_amenagement",
+            data.amenagement[item].idm
+          );
           // if (req.files.imgs_amenagement) {
-            // for (let i in req.files.imgs_amenagement) {
-            //   if (
-            //     req.files.imgs_amenagement[i].originalname ==
-            //     data.amenagement[item].idm
-            //   )
-            //     imagesAmenagement.push({
-            //       image: req.files.imgs_amenagement[i].path,
-            //       image_idm: idm,
-            //     });
-            // }
+          // for (let i in req.files.imgs_amenagement) {
+          //   if (
+          //     req.files.imgs_amenagement[i].originalname ==
+          //     data.amenagement[item].idm
+          //   )
+          //     imagesAmenagement.push({
+          //       image: req.files.imgs_amenagement[i].path,
+          //       image_idm: idm,
+          //     });
           // }
-          imagesCroquis = await FilesHelper.storeAmngmentFiles(req, "imgs_croquis", data.amenagement[item].idm);
+          // }
+          imagesCroquis = await FilesHelper.storeAmngmentFiles(
+            req,
+            "imgs_croquis",
+            data.amenagement[item].idm
+          );
 
           // if (req.files.imgs_croquis) {
           //   for (let k in req.files.imgs_croquis) {
@@ -126,13 +134,16 @@ module.exports = {
         item = 0;
 
       if (req.files) {
-        if (req.files.imgs_lieu_entrer) {
-          for (item in req.files.imgs_lieu_entrer) {
-            imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
-          }
-        }
-      }
+        imagesLieu = await FilesHelper.storeFiles(req, "imgs_lieu_entrer");
 
+        // if (req.files.imgs_lieu_entrer) {
+        //   for (item in req.files.imgs_lieu_entrer) {
+        //     imagesLieu.push({ image: req.files.imgs_lieu_entrer[item].path });
+        //   }
+        // }
+      }
+      console.log("Innnn");
+      console.log(imagesLieu);
       const foncier = new Foncier({
         adresse: data.adresse,
         ville: data.ville,
@@ -143,7 +154,7 @@ module.exports = {
         etage: data.etage,
         lieu: lieu,
         type_lieu: data.type_lieu,
-        contrat: null
+        contrat: null,
         // etat: data.etat,
       });
       await foncier
