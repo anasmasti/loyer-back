@@ -156,6 +156,7 @@ module.exports = {
         path: "lieu",
         populate: {
           path: "lieu",
+          populate: { path: "attached_DR" },
           select: "-_id intitule_lieu type_lieu code_lieu",
         },
       })
