@@ -20,25 +20,27 @@ router.route("/foncier/ajouter/:matricule").post(
     { name: "imgs_lieu_entrer7", maxCount: 1 },
     { name: "imgs_lieu_entrer8", maxCount: 1 },
 
-    // imgs_amenagement
-    { name: "imgs_amenagement1", maxCount: 1 },
-    { name: "imgs_amenagement2", maxCount: 1 },
-    { name: "imgs_amenagement3", maxCount: 1 },
-    { name: "imgs_amenagement4", maxCount: 1 },
-    { name: "imgs_amenagement5", maxCount: 1 },
-    { name: "imgs_amenagement6", maxCount: 1 },
-    { name: "imgs_amenagement7", maxCount: 1 },
-    { name: "imgs_amenagement8", maxCount: 1 },
+    { name: "imgs_amenagement", maxCount: 5 },
+    { name: "imgs_croquis", maxCount: 5 },
+    // // imgs_amenagement
+    // { name: "imgs_amenagement1", maxCount: 1 },
+    // { name: "imgs_amenagement2", maxCount: 1 },
+    // { name: "imgs_amenagement3", maxCount: 1 },
+    // { name: "imgs_amenagement4", maxCount: 1 },
+    // { name: "imgs_amenagement5", maxCount: 1 },
+    // { name: "imgs_amenagement6", maxCount: 1 },
+    // { name: "imgs_amenagement7", maxCount: 1 },
+    // { name: "imgs_amenagement8", maxCount: 1 },
 
-    // imgs_croquis
-    { name: "imgs_croquis1", maxCount: 1 },
-    { name: "imgs_croquis2", maxCount: 1 },
-    { name: "imgs_croquis3", maxCount: 1 },
-    { name: "imgs_croquis4", maxCount: 1 },
-    { name: "imgs_croquis5", maxCount: 1 },
-    { name: "imgs_croquis6", maxCount: 1 },
-    { name: "imgs_croquis7", maxCount: 1 },
-    { name: "imgs_croquis8", maxCount: 1 },
+    // // imgs_croquis
+    // { name: "imgs_croquis1", maxCount: 1 },
+    // { name: "imgs_croquis2", maxCount: 1 },
+    // { name: "imgs_croquis3", maxCount: 1 },
+    // { name: "imgs_croquis4", maxCount: 1 },
+    // { name: "imgs_croquis5", maxCount: 1 },
+    // { name: "imgs_croquis6", maxCount: 1 },
+    // { name: "imgs_croquis7", maxCount: 1 },
+    // { name: "imgs_croquis8", maxCount: 1 },
   ]),
   postFoncier.ajouterFoncier
 );
@@ -55,25 +57,27 @@ router.route("/foncier/modifier/:IdFoncier/:matricule").put(
     { name: "imgs_lieu_entrer7", maxCount: 1 },
     { name: "imgs_lieu_entrer8", maxCount: 1 },
 
-    // imgs_amenagement
-    { name: "imgs_amenagement1", maxCount: 1 },
-    { name: "imgs_amenagement2", maxCount: 1 },
-    { name: "imgs_amenagement3", maxCount: 1 },
-    { name: "imgs_amenagement4", maxCount: 1 },
-    { name: "imgs_amenagement5", maxCount: 1 },
-    { name: "imgs_amenagement6", maxCount: 1 },
-    { name: "imgs_amenagement7", maxCount: 1 },
-    { name: "imgs_amenagement8", maxCount: 1 },
+    { name: "imgs_amenagement", maxCount: 5 },
+    { name: "imgs_croquis", maxCount: 5 },
+    // // imgs_amenagement
+    // { name: "imgs_amenagement1", maxCount: 1 },
+    // { name: "imgs_amenagement2", maxCount: 1 },
+    // { name: "imgs_amenagement3", maxCount: 1 },
+    // { name: "imgs_amenagement4", maxCount: 1 },
+    // { name: "imgs_amenagement5", maxCount: 1 },
+    // { name: "imgs_amenagement6", maxCount: 1 },
+    // { name: "imgs_amenagement7", maxCount: 1 },
+    // { name: "imgs_amenagement8", maxCount: 1 },
 
-    // imgs_croquis
-    { name: "imgs_croquis1", maxCount: 1 },
-    { name: "imgs_croquis2", maxCount: 1 },
-    { name: "imgs_croquis3", maxCount: 1 },
-    { name: "imgs_croquis4", maxCount: 1 },
-    { name: "imgs_croquis5", maxCount: 1 },
-    { name: "imgs_croquis6", maxCount: 1 },
-    { name: "imgs_croquis7", maxCount: 1 },
-    { name: "imgs_croquis8", maxCount: 1 },
+    // // imgs_croquis
+    // { name: "imgs_croquis1", maxCount: 1 },
+    // { name: "imgs_croquis2", maxCount: 1 },
+    // { name: "imgs_croquis3", maxCount: 1 },
+    // { name: "imgs_croquis4", maxCount: 1 },
+    // { name: "imgs_croquis5", maxCount: 1 },
+    // { name: "imgs_croquis6", maxCount: 1 },
+    // { name: "imgs_croquis7", maxCount: 1 },
+    // { name: "imgs_croquis8", maxCount: 1 },
   ]),
   putFoncier.modifierFoncier
 );

@@ -47,43 +47,70 @@ module.exports = {
         //   });
         // }
         if (req.files) {
-          imagesAmenagement = await FilesHelper.storeAmngmentFiles(
-            req,
-            "imgs_amenagement",
-            data.amenagement[item].idm
-          );
-          // if (req.files.imgs_amenagement) {
-          // for (let i in req.files.imgs_amenagement) {
-          //   if (
-          //     req.files.imgs_amenagement[i].originalname ==
-          //     data.amenagement[item].idm
-          //   )
-          //     imagesAmenagement.push({
-          //       image: req.files.imgs_amenagement[i].path,
-          //       image_idm: idm,
-          //     });
-          // }
-          // }
-          imagesCroquis = await FilesHelper.storeAmngmentFiles(
-            req,
-            "imgs_croquis",
-            data.amenagement[item].idm
-          );
-
-          // if (req.files.imgs_croquis) {
-          //   for (let k in req.files.imgs_croquis) {
-          //     if (
-          //       req.files.imgs_croquis[k].originalname ==
-          //       data.amenagement[item].idm
-          //     ) {
-          //       imagesCroquis.push({
-          //         image: req.files.imgs_croquis[k].path,
-          //         image_idm: idm,
-          //       });
-          //     }
-          //   }
-          // }
+          if (req.files.imgs_amenagement) {
+            for (let i in req.files.imgs_amenagement) {
+              if (
+                req.files.imgs_amenagement[i].originalname ==
+                data.amenagement[item].idm
+              )
+                imagesAmenagement.push({
+                  image: req.files.imgs_amenagement[i].path,
+                  image_idm: idm,
+                });
+            }
+          }
+          if (req.files.imgs_croquis) {
+            for (let k in req.files.imgs_croquis) {
+              if (
+                req.files.imgs_croquis[k].originalname ==
+                data.amenagement[item].idm
+              ) {
+                imagesCroquis.push({
+                  image: req.files.imgs_croquis[k].path,
+                  image_idm: idm,
+                });
+              }
+            }
+          }
         }
+        // if (req.files) {
+        //   imagesAmenagement = await FilesHelper.storeAmngmentFiles(
+        //     req,
+        //     "imgs_amenagement",
+        //     data.amenagement[item].idm
+        //   );
+        //   // if (req.files.imgs_amenagement) {
+        //   // for (let i in req.files.imgs_amenagement) {
+        //   //   if (
+        //   //     req.files.imgs_amenagement[i].originalname ==
+        //   //     data.amenagement[item].idm
+        //   //   )
+        //   //     imagesAmenagement.push({
+        //   //       image: req.files.imgs_amenagement[i].path,
+        //   //       image_idm: idm,
+        //   //     });
+        //   // }
+        //   // }
+        //   imagesCroquis = await FilesHelper.storeAmngmentFiles(
+        //     req,
+        //     "imgs_croquis",
+        //     data.amenagement[item].idm
+        //   );
+
+        //   // if (req.files.imgs_croquis) {
+        //   //   for (let k in req.files.imgs_croquis) {
+        //   //     if (
+        //   //       req.files.imgs_croquis[k].originalname ==
+        //   //       data.amenagement[item].idm
+        //   //     ) {
+        //   //       imagesCroquis.push({
+        //   //         image: req.files.imgs_croquis[k].path,
+        //   //         image_idm: idm,
+        //   //       });
+        //   //     }
+        //   //   }
+        //   // }
+        // }
         amenagements.push({
           idm: idm,
           nature_amenagement: data.amenagement[item].nature_amenagement,
@@ -142,8 +169,6 @@ module.exports = {
         //   }
         // }
       }
-      console.log("Innnn");
-      console.log(imagesLieu);
       const foncier = new Foncier({
         adresse: data.adresse,
         ville: data.ville,

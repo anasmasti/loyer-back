@@ -9,8 +9,6 @@ module.exports = {
         });
       }
     }
-    console.log("storedFiles");
-    console.log(storedFiles);
     return storedFiles;
   },
 
