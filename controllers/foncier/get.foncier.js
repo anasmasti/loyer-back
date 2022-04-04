@@ -28,6 +28,14 @@ module.exports = {
       },
       {
         $lookup: {
+          from: Lieu.collection.name,
+          localField: "attached_DR",
+          foreignField: "_id",
+          as: "attachedLieu",
+        },
+      },
+      {
+        $lookup: {
           from: Contrat.collection.name,
           localField: "contrat",
           foreignField: "_id",

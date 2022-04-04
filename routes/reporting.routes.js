@@ -38,7 +38,7 @@ router
   .route("/generate/PV")
   .get(etatPV.etatLoyerPV);
 router
-  .route("/generate/SV/:mois/:annee")
+  .route("/generate/SV")
   .get(etatSupervision.etatLoyerSupervision);
 router
   .route("/reporting/all")

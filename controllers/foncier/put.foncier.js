@@ -19,7 +19,7 @@ module.exports = {
     if (data.has_amenagements == true) {
       let amenagements = [],
         imagesLieu = [],
-        fournisseur = [],
+        // fournisseur = [],
         imagesAmenagement = [],
         imagesCroquis = [];
 
@@ -42,25 +42,25 @@ module.exports = {
         let idm = idmData.replace(".pdf", "");
 
         //update fournisseurs in amenagements array
-        for (let j in data.amenagement[item].fournisseur) {
-          if (data.amenagement[item].deleted == false) {
-            fournisseur.push({
-              nom: data.amenagement[item].fournisseur[j].nom,
-              prenom: data.amenagement[item].fournisseur[j].prenom,
-              amenagements_effectuer:
-                data.amenagement[item].fournisseur[j].amenagements_effectuer,
-              deleted: data.amenagement[item].fournisseur[j].deleted || false,
-            });
-          } else if (data.amenagement[item].deleted == true) {
-            fournisseur.push({
-              nom: data.amenagement[item].fournisseur[j].nom,
-              prenom: data.amenagement[item].fournisseur[j].prenom,
-              amenagements_effectuer:
-                data.amenagement[item].fournisseur[j].amenagements_effectuer,
-              deleted: true,
-            });
-          }
-        }
+        // for (let j in data.amenagement[item].fournisseur) {
+        //   if (data.amenagement[item].deleted == false) {
+        //     fournisseur.push({
+        //       nom: data.amenagement[item].fournisseur[j].nom,
+        //       prenom: data.amenagement[item].fournisseur[j].prenom,
+        //       amenagements_effectuer:
+        //         data.amenagement[item].fournisseur[j].amenagements_effectuer,
+        //       deleted: data.amenagement[item].fournisseur[j].deleted || false,
+        //     });
+        //   } else if (data.amenagement[item].deleted == true) {
+        //     fournisseur.push({
+        //       nom: data.amenagement[item].fournisseur[j].nom,
+        //       prenom: data.amenagement[item].fournisseur[j].prenom,
+        //       amenagements_effectuer:
+        //         data.amenagement[item].fournisseur[j].amenagements_effectuer,
+        //       deleted: true,
+        //     });
+        //   }
+        // }
         // if (false) {
 
         if (req.files) {
@@ -147,11 +147,11 @@ module.exports = {
           evaluation_fournisseur: data.amenagement[item].evaluation_fournisseur,
           date_fin_travaux: data.amenagement[item].date_fin_travaux,
           date_livraison_local: data.amenagement[item].date_livraison_local,
+          fournisseur: data.amenagement[item].fournisseur,
           images_apres_travaux: imagesAmenagement,
           croquis_travaux: imagesCroquis,
-          fournisseur: fournisseur,
         });
-        fournisseur = [];
+        // fournisseur = [];
         imagesAmenagement = [];
         imagesCroquis = [];
       }
@@ -183,7 +183,7 @@ module.exports = {
     } else if (data.has_amenagements == false) {
       let amenagements = [],
         imagesLieu = [],
-        fournisseur = [],
+        // fournisseur = [],
         imagesAmenagement = [],
         imagesCroquis = [];
 
@@ -198,15 +198,15 @@ module.exports = {
 
       for (let item in data.amenagement) {
         //update fournisseurs in amenagements array
-        for (let j in data.amenagement[item].fournisseur) {
-          fournisseur.push({
-            nom: data.amenagement[item].fournisseur[j].nom,
-            prenom: data.amenagement[item].fournisseur[j].prenom,
-            amenagements_effectuer:
-              data.amenagement[item].fournisseur[j].amenagements_effectuer,
-            deleted: true,
-          });
-        }
+        // for (let j in data.amenagement[item].fournisseur) {
+        //   fournisseur.push({
+        //     nom: data.amenagement[item].fournisseur[j].nom,
+        //     prenom: data.amenagement[item].fournisseur[j].prenom,
+        //     amenagements_effectuer:
+        //       data.amenagement[item].fournisseur[j].amenagements_effectuer,
+        //     deleted: true,
+        //   });
+        // }
 
         for (let i in data.amenagement[item].imgs_amenagement) {
           imagesAmenagement = await FilesHelper.storeFiles(
@@ -244,11 +244,11 @@ module.exports = {
           evaluation_fournisseur: data.amenagement[item].evaluation_fournisseur,
           date_fin_travaux: data.amenagement[item].date_fin_travaux,
           date_livraison_local: data.amenagement[item].date_livraison_local,
+          fournisseur: data.amenagement[item].fournisseur,
           images_apres_travaux: imagesAmenagement,
           croquis_travaux: imagesCroquis,
-          fournisseur: fournisseur,
         });
-        fournisseur = [];
+        // fournisseur = [];
       }
 
       await Foncier.findByIdAndUpdate(
