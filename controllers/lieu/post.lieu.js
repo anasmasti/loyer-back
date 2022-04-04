@@ -2,9 +2,11 @@ const Lieu = require("../../models/lieu/lieu.model");
 
 module.exports = {
   ajouterLieu: async (req, res, next) => {
-    console.log(req.body);
     //check code lieu if already exist
-    const codeLieuExist = await Lieu.findOne({ deleted: false, code_lieu: req.body.code_lieu });
+    const codeLieuExist = await Lieu.findOne({
+      deleted: false,
+      code_lieu: req.body.code_lieu,
+    });
 
     if (
       codeLieuExist &&
@@ -15,7 +17,10 @@ module.exports = {
     }
 
     //check intitulé lieu if already exist
-    const intituleLieuExist = await Lieu.findOne({ deleted: false, intitule_lieu: req.body.intitule_lieu });
+    const intituleLieuExist = await Lieu.findOne({
+      deleted: false,
+      intitule_lieu: req.body.intitule_lieu,
+    });
 
     if (
       intituleLieuExist &&
@@ -24,7 +29,6 @@ module.exports = {
     ) {
       return res.status(422).send({ message: "L'intitulé lieu est deja pris" });
     }
-
 
     let directeurRegional = [],
       item = 0;
@@ -37,7 +41,7 @@ module.exports = {
         deleted_directeur: false,
       });
     }
-       
+
     // if (req.body.type_lieu == "Logement de fonction") {
     //   const directionRegional = await Lieu.findOne({ code_lieu: req.body.code_rattache_DR });
 
@@ -48,7 +52,6 @@ module.exports = {
     // }
     // else intituleLieu = req.body.intitule_lieu
 
-
     const lieu = new Lieu({
       code_lieu: req.body.code_lieu,
       intitule_lieu: req.body.intitule_lieu,
@@ -56,9 +59,11 @@ module.exports = {
       telephone: req.body.telephone,
       fax: req.body.fax,
       type_lieu: req.body.type_lieu,
-      code_rattache_DR: req.body.code_rattache_DR,
-      code_rattache_SUP: req.body.code_rattache_SUP,
-      intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
+      // code_rattache_DR: req.body.code_rattache_DR,
+      attached_DR: req.body.attached_DR,
+      attached_SUP: req.body.attached_SUP,
+      // code_rattache_SUP: req.body.code_rattache_SUP,
+      // intitule_rattache_SUP_PV: req.body.intitule_rattache_SUP_PV,
       centre_cout_siege: req.body.centre_cout_siege,
       categorie_pointVente: req.body.categorie_pointVente,
       etat_logement_fonction: req.body.etat_logement_fonction,

@@ -18,7 +18,7 @@ router
   .route("/lieu/all-lieu/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getAllLieu);
 router
-  .route("/lieu/lieu-by-id/:Id:matricule")
+  .route("/lieu/lieu-by-id/:Id/:matricule")
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuById);
 router
   .route("/lieu/Dr/Sup/:matricule")

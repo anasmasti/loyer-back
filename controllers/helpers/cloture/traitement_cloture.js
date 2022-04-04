@@ -173,7 +173,6 @@ module.exports = {
     ContratSchema,
     Cloture
   ) => {
-    console.log(Contrat);
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
       comptabilisationLoyerDebiter = [],
@@ -469,7 +468,6 @@ module.exports = {
       req.body.mois == premierDateDePaiement.getMonth() + 1 &&
       req.body.annee == premierDateDePaiement.getFullYear()
     ) {
-      console.log("ici c'est berkan", "biba lkhawa jalal");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -607,7 +605,6 @@ module.exports = {
       // req.body.annee <= dateFinDeContrat.getFullYear()
       dateFinDeContrat == null
     ) {
-      console.log("ici c'est paris", true);
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {

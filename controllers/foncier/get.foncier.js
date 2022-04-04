@@ -28,6 +28,14 @@ module.exports = {
       },
       {
         $lookup: {
+          from: Lieu.collection.name,
+          localField: "attached_DR",
+          foreignField: "_id",
+          as: "attachedLieu",
+        },
+      },
+      {
+        $lookup: {
           from: Contrat.collection.name,
           localField: "contrat",
           foreignField: "_id",
@@ -107,12 +115,20 @@ module.exports = {
                 numero_contrat: "$$contratmap.numero_contrat",
                 validation2_DAJC: "$$contratmap.validation2_DAJC",
                 old_contrat: "$$contratmap.old_contrat",
+                etat_contrat: "$$contratmap.etat_contrat",
               },
             },
           },
           lieu: {
             $map: {
-              input: "$lieu",
+              // input: "$lieu",
+              input: {
+                $filter: {
+                  input: "$lieu",
+                  as: "lieufillter",
+                  cond: { $eq: ["$$lieufillter.deleted", false] },
+                },
+              },
               as: "lieumap",
               in: {
                 deleted: "$$lieumap.deleted",
@@ -148,7 +164,8 @@ module.exports = {
         path: "lieu",
         populate: {
           path: "lieu",
-          select: "-_id intitule_lieu type_lieu code_lieu code_rattache_DR",
+          populate: { path: "attached_DR" },
+          select: "-_id intitule_lieu type_lieu code_lieu",
         },
       })
       .populate({

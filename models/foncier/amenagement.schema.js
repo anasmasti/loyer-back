@@ -28,8 +28,11 @@ const amenagementSchema = new Schema({
   date_passation_commande: {
     type: String,
   },
+  // fournisseur: {
+  //   type: [fournisseurSchema],
+  // },
   fournisseur: {
-    type: [fournisseurSchema],
+    type: String,
   },
   evaluation_fournisseur: {
     type: String,

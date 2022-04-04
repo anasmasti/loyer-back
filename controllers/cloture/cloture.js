@@ -20,7 +20,13 @@ module.exports = {
         path: "foncier",
         populate: [
           { path: "proprietaire", populate: { path: "proprietaire_list" } },
-          { path: "lieu.lieu" },
+          {
+            path: "lieu.lieu",
+            populate: {
+              path: "attached_DR",
+              select: "intitule_lieu code_lieu",
+            },
+          },
         ],
       });
 
@@ -28,7 +34,6 @@ module.exports = {
 
       //traitement pour date generation de comptabilisation
       let dateGenerationDeComptabilisation = null;
-      console.log(req.body.mois,req.body.annee);
       let result;
       if (req.body.mois == 12) {
         dateGenerationDeComptabilisation = new Date(

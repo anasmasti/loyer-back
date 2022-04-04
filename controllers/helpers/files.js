@@ -3,14 +3,12 @@ module.exports = {
     let storedFiles = [];
     for (let i = 0; i < 8; i++) {
       let file = req.files[`${fileName}${i + 1}`];
-      console.log(`${fileName}${i + 1}`, req.files[`${fileName}${i + 1}`]);
       if (file) {
         storedFiles.push({
           image: file[0].path,
         });
       }
     }
-    console.log(storedFiles);
     return storedFiles;
   },
 
@@ -18,7 +16,6 @@ module.exports = {
     let storedFiles = [];
     for (let i = 0; i < 8; i++) {
       let file = req.files[`${fileName}${i + 1}`];
-      console.log(`${fileName}${i + 1}`, req.files[`${fileName}${i + 1}`]);
       if (file) {
         if (file[0].originalname == idm) {
           storedFiles.push({
@@ -34,11 +31,8 @@ module.exports = {
     let storedFiles = [];
     for (let i = 0; i < 8; i++) {
       let file = req.files[`${fileName}${i + 1}`];
-      console.log(`${fileName}${i + 1}`, req.files[`${fileName}${i + 1}`]);
-      // console.log(file);
       if (file) {
         let originalName = file[0].originalname ? file[0].originalname.replace(".pdf", "") : "";
-        console.log("idm", idm);
         // if (originalName == idm) {
           if (amenagement.deleted == false) {
             storedFiles.push({

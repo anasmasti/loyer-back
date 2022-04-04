@@ -24,10 +24,15 @@ module.exports = {
         path: "foncier",
         populate: [
           { path: "proprietaire", populate: { path: "proprietaire_list" } },
-          { path: "lieu.lieu" },
+          {
+            path: "lieu.lieu",
+            populate: {
+              path: "attached_DR",
+              select: "intitule_lieu code_lieu",
+            },
+          },
         ],
       });
-      console.log(contrat);
       // console.log(req.body.annee,req.body.mois);
 
       // return res.json(contrat);
@@ -106,7 +111,6 @@ module.exports = {
         annee: req.body.annee,
       });
       if (existedEtatVirement && existedEtatTaxes) {
-        console.log(existedEtatVirement._id, existedEtatTaxes._id);
         etatVirementSch
           .findByIdAndUpdate(
             { _id: existedEtatVirement._id },
@@ -118,7 +122,6 @@ module.exports = {
             }
           )
           .then(() => {
-            console.log("Done 1");
             etatMonsuelVirement(req, res);
           });
 
@@ -135,7 +138,6 @@ module.exports = {
             }
           )
           .then(() => {
-            console.log("Done 2");
             etatMonsuelTaxes(req, res);
           });
       } else {

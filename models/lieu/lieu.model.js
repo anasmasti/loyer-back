@@ -22,15 +22,25 @@ const lieuSchema = new Schema(
     type_lieu: {
       type: String,
     },
-    code_rattache_DR: {
-      type: String,
+    attached_DR: {
+      type: Schema.Types.ObjectId,
+      ref: "Lieu",
+      default: null,
     },
-    code_rattache_SUP: {
-      type: String,
+    attached_SUP: {
+      type: Schema.Types.ObjectId,
+      ref: "Lieu",
+      default: null,
     },
-    intitule_rattache_SUP_PV: {
-      type: String,
-    },
+    // code_rattache_DR: {
+    //   type: String,
+    // },
+    // code_rattache_SUP: {
+    //   type: String,
+    // },
+    // intitule_rattache_SUP_PV: {
+    //   type: String,
+    // },
     centre_cout_siege: {
       type: String,
     },

@@ -45,7 +45,7 @@ module.exports = {
       //   if (req.files[`piece_joint_contrat${i + 1}`]) {
       //     piece_joint_contrat.push({
       //       image: req.files[`piece_joint_contrat${i + 1}`].path,
-      //     });
+      //     });`
       //   }
       // }
     }
@@ -56,25 +56,36 @@ module.exports = {
     });
 
     for (let i in requestedFoncier.lieu) {
-      console.log("-id lieu-", requestedFoncier.lieu[i]);
       if (requestedFoncier.lieu[i].deleted == false) {
         idLieu = requestedFoncier.lieu[i].lieu;
-        console.log("id lieu ==>", idLieu);
       }
     }
     if (idLieu != null) {
       //find lieu that is requested from foncier
-      requestedLieu = await Lieu.findById({ _id: idLieu });
+      requestedLieu = await Lieu.findById({ _id: idLieu }).populate({
+        path: "attached_DR",
+        select: "intitule_lieu code_lieu",
+      });
     } else {
       return res.status(422).send({
         message: "Aucune entité organisationnelle attachée à ce local !",
       });
     }
+    // //set numero de contrat
+    // let numeroContrat;
+    // requestedLieu.type_lieu == "Logement de fonction"
+    //   ? (numeroContrat =
+    //       requestedLieu.code_rattache_DR + "/" + requestedLieu.intitule_lieu)
+    //   : (numeroContrat =
+    //       requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu);
+
     //set numero de contrat
     let numeroContrat;
     requestedLieu.type_lieu == "Logement de fonction"
       ? (numeroContrat =
-          requestedLieu.code_rattache_DR + "/" + requestedLieu.intitule_lieu)
+          requestedLieu.attached_DR.code_lieu +
+          "/" +
+          requestedLieu.intitule_lieu)
       : (numeroContrat =
           requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu);
 
@@ -111,7 +122,7 @@ module.exports = {
       foncier: req.params.IdFoncier,
       nombre_part: data.nombre_part,
       etat_contrat: {
-        libelle: "Soumettre",
+        libelle: "Initié",
         etat: {},
       },
       piece_joint_contrat: piece_joint_contrat,

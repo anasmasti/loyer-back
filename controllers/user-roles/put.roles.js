@@ -2,10 +2,9 @@ const userRoles = require("../../models/roles/roles.model");
 
 module.exports = {
   updateUserRoles: async (req, res) => {
-    console.log(req.body);
     let item = 0;
     let allUserRoles = [];
-    
+
     for (item in req.body.userRoles) {
       allUserRoles.push({
         roleName: req.body.userRoles[item].roleName,
@@ -45,6 +44,28 @@ module.exports = {
         res
           .status(400)
           .send({ message: error.message } || "Can't Update User Roles");
+      });
+  },
+
+  updateProfile: async (req, res) => {
+    let user = req.body;
+
+    let updatedUser = {
+      nom: user.nom,
+      prenom: user.nom,
+      email: user.email,
+      password: user.password,
+    };
+    
+    console.log(updatedUser);
+
+    userRoles
+      .findByIdAndUpdate({ _id: req.params.Id }, updatedUser)
+      .then(async (data) => {
+        res.json(data);
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
       });
   },
 };

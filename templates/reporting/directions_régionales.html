@@ -60,7 +60,7 @@
         margin: 40px auto 40px auto;
         text-align: center;
       }
-      .head-title{
+      .head-title {
         width: 70%;
         text-align: center;
       }
@@ -71,14 +71,18 @@
     </style>
   </head>
   <body>
-    <div style="text-align: center;">
-      <img src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg" style="width: 150px;">
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
     </div>
     <h2 class="title">
-      Etat de loyer direction régionale Reporting pour la date
-      {{mois}}/{{annee}}
+      Etat de loyer direction régionale Reporting
+      <!-- Etat de loyer direction régionale Reporting pour la date
+      {{mois}}/{{annee}} -->
     </h2>
-    <table align="center">
+    <!-- <table align="center">
       <thead>
         <tr class="table-header">
           <th>Numero Contrat</th>
@@ -99,6 +103,31 @@
             Total montant de loyer : {{ total_montant_loyer }} MAD
           </th>
         </tr>
+      </tbody>
+    </table> -->
+
+    <table align="center">
+      <thead>
+        <tr class="table-header">
+          <th>Code lieu</th>
+          <th>Intitule Lieu</th>
+          <th>Code localité</th>
+          <th>Type lieu</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each lieu_data}}
+        <tr>
+          <td>{{#if code_lieu}} {{code_lieu}} {{else}} -- {{/if}}</td>
+          <td>
+            {{#if intitule_lieu}} {{intitule_lieu}} {{else}} -- {{/if}}
+          </td>
+          <td>
+            {{#if code_localite}} {{code_localite}} {{else}} -- {{/if}}
+          </td>
+          <td>{{#if type_lieu}} {{type_lieu}} {{else}} -- {{/if}}</td>
+        </tr>
+        {{/each}}
       </tbody>
     </table>
   </body>

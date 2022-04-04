@@ -185,10 +185,8 @@ module.exports = {
                     CompareDate = new Date(data[i].date_comptabilisation);
                   } else {
                     if (data[i].date_premier_paiement != null) {
-                      console.log("test2");
                       CompareDate = new Date(data[i].date_premier_paiement);
                     } else {
-                      console.log("test3");
                       CompareDate = new Date(data[i].date_debut_loyer);
                     }
                   }
@@ -231,7 +229,6 @@ module.exports = {
         // Download the xml file
         var builder = new xml2js.Builder();
         var xml = builder.buildObject(Annex1);
-        console.log(AlphabeticalMonth, req.params.annee);
 
         fs.writeFile(
           `download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${req.params.annee}.xml`,
@@ -240,7 +237,6 @@ module.exports = {
             if (error) {
               res.status(403).json({ message: error.message });
             } else {
-              console.log(" ths is else ");
               res.download(
                 `download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${req.params.annee}.xml`
               );

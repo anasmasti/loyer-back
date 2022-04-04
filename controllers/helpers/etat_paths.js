@@ -25,7 +25,6 @@ async function storePaths(mois, annee, extentionSent, dateToString, etatType) {
           });
           return await etat_paths.save();
         } else {
-          console.log("test 4");
           for (let i = 0; i < data[0].etat_paths.length; i++) {
             // for (j in data[0].etat_paths[i]) {
             //   if (
