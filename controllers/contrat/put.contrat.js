@@ -732,7 +732,7 @@ module.exports = {
             etat_contrat: etatContrat,
           });
 
-          res.json({ message: "Contrat modifié avec success" });
+          res.json({ message: "Contrat soumis à la validation." });
         } else {
           console.log({
             partGlobal: partGlobal,
@@ -741,7 +741,7 @@ module.exports = {
           });
           res
             .status(400)
-            .send({ message: "Merci d'insérer les informations complete" });
+            .send({ message: "Prière de verifier les données saisies." });
         }
       });
   },
