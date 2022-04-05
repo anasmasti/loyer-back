@@ -140,14 +140,17 @@
           <td>{{ nom_prenom }}</td>
           <td>{{ numero_contrat }}</td>
           <td>{{ cin }}</td>
-          <td>{{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} -- {{/if}}</td>
+          <td>
+            {{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} --
+            {{/if}}
+          </td>
           <!-- <td>{{ nom_agence_bancaire }}</td> -->
           <td>{{ banque }}</td>
           <td>{{ type_lieu }}</td>
           <td>{{ periodicite }}</td>
-          <td>{{#if montant_brut}} {{montant_brut}} MAD{{else}} -- {{/if}}</td>
-          <td>{{#if montant_taxe}} {{montant_taxe}} MAD{{else}} -- {{/if}}</td>
-          <td>{{#if montant_net}} {{montant_net}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if montant_brut}} {{montant_brut}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_taxe}} {{montant_taxe}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
           <!-- <td>{{ montant_brut }} MAD</td> -->
           <!-- <td>{{ montant_taxe }} MAD</td> -->
           <!-- <td>{{ montant_net }} MAD</td> -->
