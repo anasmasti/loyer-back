@@ -28,7 +28,6 @@ module.exports = {
             path: "lieu.lieu",
             populate: {
               path: "attached_DR",
-              select: "intitule_lieu code_lieu",
             },
           },
         ],

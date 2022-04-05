@@ -10,11 +10,13 @@ module.exports = {
     dateDebutLoyer,
     montant_caution,
     numero_contrat,
-    periodicite,
+    periodicite
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
-      nom_prenom: proprietaire.nom_prenom ? proprietaire.nom_prenom : proprietaire.raison_social,
+      nom_prenom: proprietaire.nom_prenom
+        ? proprietaire.nom_prenom
+        : proprietaire.raison_social,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
       cin: proprietaire.cin,
@@ -31,11 +33,13 @@ module.exports = {
       etablissement: "01",
       centre_de_cout: "NS",
       direction_regional:
-      lieu.lieu.type_lieu == "Direction régionale"
-      ? lieu.lieu.code_lieu
-      : lieu.lieu.attached_DR.code_lieu,
+        lieu.lieu.type_lieu == "Direction régionale"
+          ? lieu.lieu.code_lieu
+          : lieu.lieu.type_lieu == "Siège"
+          ? "--"
+          : lieu.lieu.attached_DR.code_lieu,
       point_de_vente:
-      lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
+        lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       numero_contrat: numero_contrat,
       periodicite: periodicite,
       montant_net: montant_loyer_net,
@@ -49,7 +53,7 @@ module.exports = {
       montant_avance_proprietaire: proprietaire.montant_avance_proprietaire,
       retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
-      declaration_option: proprietaire.declaration_option
+      declaration_option: proprietaire.declaration_option,
     };
     return comptabilisationLoyerCrediter;
   },
@@ -67,6 +71,8 @@ module.exports = {
       direction_regional:
         lieu.lieu.type_lieu == "Direction régionale"
           ? lieu.lieu.code_lieu
+          : lieu.lieu.type_lieu == "Siège"
+          ? "--"
           : lieu.lieu.attached_DR.code_lieu,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
@@ -88,10 +94,14 @@ module.exports = {
   ) => {
     let orderVirement = {
       type_enregistrement: "0602",
-      cin: proprietaire.cin ? proprietaire.cin : proprietaire.n_registre_commerce,
+      cin: proprietaire.cin
+        ? proprietaire.cin
+        : proprietaire.n_registre_commerce,
       passport: proprietaire.passport,
       carte_sejour: proprietaire.carte_sejour,
-      nom_prenom: proprietaire.nom_prenom ? proprietaire.nom_prenom : proprietaire.raison_social,
+      nom_prenom: proprietaire.nom_prenom
+        ? proprietaire.nom_prenom
+        : proprietaire.raison_social,
       numero_compte_bancaire: proprietaire.n_compte_bancaire,
       mois: mois,
       annee: annee,
