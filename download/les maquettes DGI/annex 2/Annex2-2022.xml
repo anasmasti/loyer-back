@@ -4,8 +4,43 @@
   <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>0</totalMntBrutLoyer>
-  <totalMntRetenueSource>0</totalMntRetenueSource>
-  <totalMntNetLoyer>0</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier/>
+  <totalMntBrutLoyer>50000</totalMntBrutLoyer>
+  <totalMntRetenueSource>4000</totalMntRetenueSource>
+  <totalMntNetLoyer>46000</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>1</ifuBailleur>
+      <numCNIBailleur>BB196497</numCNIBailleur>
+      <numCEBailleur>3546872</numCEBailleur>
+      <nomPrenomBailleur>Ahmed Taoufiq</nomPrenomBailleur>
+      <adresseBailleur>Casablanca</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>30000</mntBrutLoyer>
+      <mntRetenueSource>2400</mntRetenueSource>
+      <mntNetLoyer>27600</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>2</ifuBailleur>
+      <numCNIBailleur>BJ193607</numCNIBailleur>
+      <numCEBailleur>1000</numCEBailleur>
+      <nomPrenomBailleur>Yassine AM</nomPrenomBailleur>
+      <adresseBailleur>Test Adresse</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000</mntBrutLoyer>
+      <mntRetenueSource>1600</mntRetenueSource>
+      <mntNetLoyer>18400</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
 </VersementRASRF>
