@@ -13,6 +13,7 @@ module.exports = {
       .then((data) => {
         // if (data.length > 0) {
           //traitement du date
+          // return res.json(data)
           let dateGenerationVirement = data.date_generation_de_comptabilisation;
           let dateWithSlash =
             "01" +

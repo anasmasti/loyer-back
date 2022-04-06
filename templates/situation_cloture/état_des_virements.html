@@ -70,7 +70,7 @@
       />
     </div>
     <h2 class="title">
-      Etat des virements de loyer pour la date {{mois}}/{{annee}}
+      Etat des virements par mandataire. <br>{{mois}}/{{annee}}
     </h2>
     <!-- <h4 class="center">
       Numero du contrat :<span style="color: white;"> {{ numero_contrat }} </span>
@@ -128,10 +128,10 @@
           <th>Banque</th>
           <th>Type d'entité</th>
           <th>Périodicité</th>
-          <th>MT brut</th>
+          <th>MT brut global</th>
           <th>Taxe</th>
           <th>MT Net</th>
-          <th>N° de compte</th>
+          <!-- <th>N° de compte</th> -->
         </tr>
       </thead>
       <tbody>
@@ -140,18 +140,21 @@
           <td>{{ nom_prenom }}</td>
           <td>{{ numero_contrat }}</td>
           <td>{{ cin }}</td>
-          <td>{{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} -- {{/if}}</td>
+          <td>
+            {{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} --
+            {{/if}}
+          </td>
           <!-- <td>{{ nom_agence_bancaire }}</td> -->
           <td>{{ banque }}</td>
           <td>{{ type_lieu }}</td>
           <td>{{ periodicite }}</td>
-          <td>{{#if montant_brut}} {{montant_brut}} MAD{{else}} -- {{/if}}</td>
-          <td>{{#if montant_taxe}} {{montant_taxe}} MAD{{else}} -- {{/if}}</td>
-          <td>{{#if montant_net}} {{montant_net}} MAD{{else}} -- {{/if}}</td>
+          <td>{{#if montant_brut}} {{montant_brut}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_taxe}} {{montant_taxe}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
           <!-- <td>{{ montant_brut }} MAD</td> -->
           <!-- <td>{{ montant_taxe }} MAD</td> -->
           <!-- <td>{{ montant_net }} MAD</td> -->
-          <td style="word-break: break-word">{{ numero_compte_bancaire }}</td>
+          <!-- <td style="word-break: break-word">{{ numero_compte_bancaire }}</td> -->
         </tr>
         {{/ordre_virement}} {{/each}}
       </tbody>

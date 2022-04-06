@@ -201,6 +201,7 @@ module.exports = {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
               montant_loyer_brut_mandataire =
+              // Contrat.foncier.proprietaire[j].
                 Contrat.foncier.proprietaire[j].montant_avance_proprietaire +
                 Contrat.foncier.proprietaire[j].caution_par_proprietaire;
 
