@@ -480,12 +480,12 @@ module.exports = {
           res.status(400).send({ message: error.message });
         });
       if (emailsList.length > 0) {
-        // mail.sendMail(
-        //   `${emailsList.join()}`,
-        //   "Contrat validation",
-        //   "validation1",
-        //   mailData
-        // );
+        mail.sendMail(
+          `${emailsList.join()}`,
+          "Contrat validation",
+          "validation1",
+          mailData
+        );
       }
     }
 
