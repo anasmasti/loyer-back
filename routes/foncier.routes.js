@@ -83,10 +83,14 @@ router.route("/foncier/modifier/:IdFoncier/:matricule").put(
 );
 router
   .route("/foncier/all/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getFoncier.getAllFoncier);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+  getFoncier.getAllFoncier);
 router
   .route("/foncier/:IdFoncier/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getFoncier.getFoncierById);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+  getFoncier.getFoncierById);
 router
   .route("/foncier/supprimer/:IdFoncier/:matricule")
   .put(verifyRole.checkRoles("CDGSP", "CSLA"), deleteFoncier.deleteFoncier);
