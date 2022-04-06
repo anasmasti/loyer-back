@@ -106,6 +106,8 @@ module.exports = {
                   montant_loyer_net = 0;
                   montant_loyer_brut = 0;
                   montant_tax = 0;
+                  montant_loyer_brut_loyer = 0;
+                  montant_loyer_brut_taxes = 0;
                 }
               }
 
@@ -185,7 +187,9 @@ module.exports = {
 
     let montant_loyer_net,
       montant_loyer_brut,
-      montant_tax = 0;
+      montant_tax = 0,
+      montant_loyer_brut_taxes,
+      montant_loyer_brut_loyer;
     let montant_loyer_net_mandataire,
       montant_loyer_brut_mandataire,
       montant_tax_mandataire = 0;
@@ -200,8 +204,9 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
+              montant_loyer_brut_loyer = 0;
               montant_loyer_brut_mandataire =
-              // Contrat.foncier.proprietaire[j].
+                // Contrat.foncier.proprietaire[j].
                 Contrat.foncier.proprietaire[j].montant_avance_proprietaire +
                 Contrat.foncier.proprietaire[j].caution_par_proprietaire;
 
@@ -222,7 +227,7 @@ module.exports = {
                   dateGenerationDeComptabilisation,
                   montant_loyer_net_mandataire,
                   montant_tax_mandataire,
-                  montant_loyer_brut_mandataire,
+                  montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   Contrat.foncier.proprietaire[j].caution_par_proprietaire,
                   Contrat.numero_contrat,
@@ -243,6 +248,9 @@ module.exports = {
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .caution_par_proprietaire;
 
+                  // Montant brut sur loyer
+                  montant_loyer_brut_taxes = 0;
+
                   montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .tax_avance_proprietaire;
@@ -262,7 +270,7 @@ module.exports = {
                       dateGenerationDeComptabilisation,
                       montant_loyer_net,
                       montant_tax,
-                      montant_loyer_brut,
+                      montant_loyer_brut_taxes,
                       dateDebutLoyer,
                       Contrat.foncier.proprietaire[j].proprietaire_list[k]
                         .caution_par_proprietaire,
@@ -273,6 +281,8 @@ module.exports = {
                   montant_loyer_net = 0;
                   montant_loyer_brut = 0;
                   montant_tax = 0;
+                  montant_loyer_brut_loyer = 0;
+                  montant_loyer_brut_taxes = 0;
                 }
               }
 
@@ -328,14 +338,16 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
-              
+              montant_loyer_brut_loyer =
+                Contrat.foncier.proprietaire[j].montant_loyer;
+
               montant_loyer_brut_mandataire =
-              Contrat.foncier.proprietaire[j].caution_par_proprietaire +
-              Contrat.foncier.proprietaire[j].montant_loyer;
-              
+                Contrat.foncier.proprietaire[j].caution_par_proprietaire +
+                Contrat.foncier.proprietaire[j].montant_loyer;
+
               montant_tax_mandataire =
-              Contrat.foncier.proprietaire[j].tax_par_periodicite;
-              
+                Contrat.foncier.proprietaire[j].tax_par_periodicite;
+
               montant_loyer_net_mandataire =
                 Contrat.foncier.proprietaire[j].caution_par_proprietaire +
                 Contrat.foncier.proprietaire[j].montant_apres_impot;
@@ -350,7 +362,7 @@ module.exports = {
                   dateGenerationDeComptabilisation,
                   montant_loyer_net_mandataire,
                   montant_tax_mandataire,
-                  montant_loyer_brut_mandataire,
+                  montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   Contrat.foncier.proprietaire[j].caution_par_proprietaire,
                   Contrat.numero_contrat,
@@ -366,6 +378,10 @@ module.exports = {
                   k < Contrat.foncier.proprietaire[j].proprietaire_list.length;
                   k++
                 ) {
+                  montant_loyer_brut_taxes =
+                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .montant_loyer;
+
                   montant_loyer_net =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .caution_par_proprietaire +
@@ -394,7 +410,7 @@ module.exports = {
                       dateGenerationDeComptabilisation,
                       montant_loyer_net,
                       montant_tax,
-                      montant_loyer_brut,
+                      montant_loyer_brut_taxes,
                       dateDebutLoyer,
                       Contrat.foncier.proprietaire[j].proprietaire_list[k]
                         .caution_par_proprietaire,
@@ -405,6 +421,8 @@ module.exports = {
                   montant_loyer_net = 0;
                   montant_loyer_brut = 0;
                   montant_tax = 0;
+                  montant_loyer_brut_loyer = 0;
+                  montant_loyer_brut_taxes = 0;
                 }
               }
 
@@ -473,6 +491,9 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
+              montant_loyer_brut_loyer =
+                Contrat.foncier.proprietaire[j].montant_loyer;
+
               montant_loyer_net_mandataire =
                 Contrat.foncier.proprietaire[j].montant_apres_impot;
 
@@ -492,7 +513,7 @@ module.exports = {
                   dateGenerationDeComptabilisation,
                   montant_loyer_net_mandataire,
                   montant_tax_mandataire,
-                  montant_loyer_brut_mandataire,
+                  montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   0,
                   Contrat.numero_contrat,
@@ -508,6 +529,10 @@ module.exports = {
                   k < Contrat.foncier.proprietaire[j].proprietaire_list.length;
                   k++
                 ) {
+                  montant_loyer_brut_taxes =
+                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .montant_loyer;
+
                   montant_loyer_net =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .montant_apres_impot;
@@ -532,7 +557,7 @@ module.exports = {
                       dateGenerationDeComptabilisation,
                       montant_loyer_net,
                       montant_tax,
-                      montant_loyer_brut,
+                      montant_loyer_brut_taxes,
                       dateDebutLoyer,
                       0,
                       Contrat.numero_contrat,
@@ -542,6 +567,8 @@ module.exports = {
                   montant_loyer_net = 0;
                   montant_loyer_brut = 0;
                   montant_tax = 0;
+                  montant_loyer_brut_loyer = 0;
+                  montant_loyer_brut_taxes = 0;
                 }
               }
 
@@ -610,6 +637,9 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
             if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
+              montant_loyer_brut_loyer =
+                Contrat.foncier.proprietaire[j].montant_loyer;
+
               montant_loyer_net_mandataire =
                 Contrat.foncier.proprietaire[j].montant_apres_impot;
 
@@ -645,6 +675,10 @@ module.exports = {
                   k < Contrat.foncier.proprietaire[j].proprietaire_list.length;
                   k++
                 ) {
+                  montant_loyer_brut_taxes =
+                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
+                      .montant_loyer;
+
                   montant_loyer_net =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .montant_apres_impot;
@@ -669,7 +703,7 @@ module.exports = {
                       dateGenerationDeComptabilisation,
                       montant_loyer_net,
                       montant_tax,
-                      montant_loyer_brut,
+                      montant_loyer_brut_taxes,
                       dateDebutLoyer,
                       0,
                       Contrat.numero_contrat,
@@ -679,6 +713,8 @@ module.exports = {
                   montant_loyer_net = 0;
                   montant_loyer_brut = 0;
                   montant_tax = 0;
+                  montant_loyer_brut_loyer = 0;
+                  montant_loyer_brut_taxes = 0;
                 }
               }
 

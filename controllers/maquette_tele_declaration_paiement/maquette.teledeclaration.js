@@ -34,7 +34,7 @@ function CreateAnnex1objectFromContrat(CurrentMonthContrats, annee, mois) {
     ) {
       ifuBailleur += 1;
       DetailRetenueRevFoncier.push({
-        ifuBailleur: ifuBailleur,
+        ifuBailleur: `IF${ifuBailleur}`,
         numCNIBailleur: CurrentMonthContrats[index].foncier.proprietaire[j].cin,
         numCEBailleur:
           CurrentMonthContrats[index].foncier.proprietaire[j].carte_sejour,
@@ -47,12 +47,17 @@ function CreateAnnex1objectFromContrat(CurrentMonthContrats, annee, mois) {
           code: "LUC",
         },
         mntBrutLoyer:
-          CurrentMonthContrats[index].foncier.proprietaire[j].montant_loyer,
+          CurrentMonthContrats[index].foncier.proprietaire[
+            j
+          ].montant_loyer.toFixed(2),
         mntRetenueSource:
-          CurrentMonthContrats[index].foncier.proprietaire[j].retenue_source,
+          CurrentMonthContrats[index].foncier.proprietaire[
+            j
+          ].retenue_source.toFixed(2),
         mntNetLoyer:
-          CurrentMonthContrats[index].foncier.proprietaire[j]
-            .montant_apres_impot,
+          CurrentMonthContrats[index].foncier.proprietaire[
+            j
+          ].montant_apres_impot.toFixed(2),
         tauxRetenueRevFoncier: {
           code: "TSR.10.2018",
         },
@@ -76,9 +81,9 @@ function CreateAnnex1objectFromContrat(CurrentMonthContrats, annee, mois) {
       // exerciceFiscalAu: 2021 + "-" + 12 + "-" + 31,
       annee: annee,
       mois: mois,
-      totalMntBrutLoyer: TotalMntBrutLoyer,
-      totalMntRetenueSource: TotalMntRetenueSource,
-      totalMntNetLoyer: TotalMntLoyer,
+      totalMntBrutLoyer: TotalMntBrutLoyer.toFixed(2),
+      totalMntRetenueSource: TotalMntRetenueSource.toFixed(2),
+      totalMntNetLoyer: TotalMntLoyer.toFixed(2),
       listDetailRetenueRevFoncier: {
         DetailRetenueRevFoncier,
       },
@@ -111,7 +116,7 @@ function CreateAnnex1ObjectFromArchvCompt(
       archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net;
     //List DetailRetenueRevFoncier
     DetailRetenueRevFoncier.push({
-      ifuBailleur: i + 1,
+      ifuBailleur: `IF${i + 1}`,
       numCNIBailleur:
         archivecomptabilisation.comptabilisation_loyer_crediter[i].cin,
       numCEBailleur:
@@ -127,12 +132,18 @@ function CreateAnnex1ObjectFromArchvCompt(
         code: "LUC",
       },
       mntBrutLoyer:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_brut, //!!!!!!!
+        archivecomptabilisation.comptabilisation_loyer_crediter[
+          i
+        ].montant_brut.toFixed(2), //!!!!!!!
       // mntRetenueSource: data[0].retenue_source_par_mois,
       mntRetenueSource:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_tax,
+        archivecomptabilisation.comptabilisation_loyer_crediter[
+          i
+        ].montant_tax.toFixed(2),
       mntNetLoyer:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net,
+        archivecomptabilisation.comptabilisation_loyer_crediter[
+          i
+        ].montant_net.toFixed(2),
       tauxRetenueRevFoncier: {
         code: "TSR.10.2018",
       },
@@ -152,9 +163,9 @@ function CreateAnnex1ObjectFromArchvCompt(
       // exerciceFiscalAu: 2021 + "-" + 12 + "-" + 31,
       annee: annee,
       mois: mois,
-      totalMntBrutLoyer: TotalMntBrutLoyer,
-      totalMntRetenueSource: TotalMntRetenueSource,
-      totalMntNetLoyer: TotalMntLoyer,
+      totalMntBrutLoyer: TotalMntBrutLoyer.toFixed(2),
+      totalMntRetenueSource: TotalMntRetenueSource.toFixed(2),
+      totalMntNetLoyer: TotalMntLoyer.toFixed(2),
       listDetailRetenueRevFoncier: {
         DetailRetenueRevFoncier,
       },

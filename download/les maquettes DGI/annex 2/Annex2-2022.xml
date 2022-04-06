@@ -4,12 +4,12 @@
   <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>570000</totalMntBrutLoyer>
-  <totalMntRetenueSource>38000</totalMntRetenueSource>
-  <totalMntNetLoyer>532000</totalMntNetLoyer>
+  <totalMntBrutLoyer>570000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>38000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>532000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
       <numCNIBailleur>L556555</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>SASA SASA</nomPrenomBailleur>
@@ -18,15 +18,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>15400</mntBrutLoyer>
-      <mntRetenueSource>770</mntRetenueSource>
-      <mntNetLoyer>14630</mntNetLoyer>
+      <mntBrutLoyer>15400.00</mntBrutLoyer>
+      <mntRetenueSource>770.00</mntRetenueSource>
+      <mntNetLoyer>14630.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>2</ifuBailleur>
+      <ifuBailleur>IF2</ifuBailleur>
       <numCNIBailleur>K36582</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>LALA LALA </nomPrenomBailleur>
@@ -35,15 +35,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>6600</mntBrutLoyer>
-      <mntRetenueSource>330</mntRetenueSource>
-      <mntNetLoyer>6270</mntNetLoyer>
+      <mntBrutLoyer>6600.00</mntBrutLoyer>
+      <mntRetenueSource>330.00</mntRetenueSource>
+      <mntNetLoyer>6270.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>3</ifuBailleur>
+      <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>H356655</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>PAPA LALA </nomPrenomBailleur>
@@ -52,15 +52,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>48000</mntBrutLoyer>
-      <mntRetenueSource>5400</mntRetenueSource>
-      <mntNetLoyer>42600</mntNetLoyer>
+      <mntBrutLoyer>48000.00</mntBrutLoyer>
+      <mntRetenueSource>5400.00</mntRetenueSource>
+      <mntNetLoyer>42600.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>4</ifuBailleur>
+      <ifuBailleur>IF4</ifuBailleur>
       <numCNIBailleur>H456464</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>LALA MED</nomPrenomBailleur>
@@ -69,15 +69,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>90000</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>90000</mntNetLoyer>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>90000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>5</ifuBailleur>
+      <ifuBailleur>IF5</ifuBailleur>
       <numCNIBailleur>M333333</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>NANA LALA</nomPrenomBailleur>
@@ -86,15 +86,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>90000</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>90000</mntNetLoyer>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>90000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>6</ifuBailleur>
+      <ifuBailleur>IF6</ifuBailleur>
       <numCNIBailleur>L5548712</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>MAMA MAM</nomPrenomBailleur>
@@ -103,15 +103,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>0</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>0</mntNetLoyer>
+      <mntBrutLoyer>0.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>0.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>7</ifuBailleur>
+      <ifuBailleur>IF7</ifuBailleur>
       <numCNIBailleur>L568932</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>SASA BABA</nomPrenomBailleur>
@@ -120,15 +120,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>180000</mntBrutLoyer>
-      <mntRetenueSource>18000</mntRetenueSource>
-      <mntNetLoyer>162000</mntNetLoyer>
+      <mntBrutLoyer>180000.00</mntBrutLoyer>
+      <mntRetenueSource>18000.00</mntRetenueSource>
+      <mntNetLoyer>162000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>8</ifuBailleur>
+      <ifuBailleur>IF8</ifuBailleur>
       <numCNIBailleur>M3546446</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>MED MEDD</nomPrenomBailleur>
@@ -137,15 +137,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>50000</mntBrutLoyer>
-      <mntRetenueSource>4500</mntRetenueSource>
-      <mntNetLoyer>45500</mntNetLoyer>
+      <mntBrutLoyer>50000.00</mntBrutLoyer>
+      <mntRetenueSource>4500.00</mntRetenueSource>
+      <mntNetLoyer>45500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>9</ifuBailleur>
+      <ifuBailleur>IF9</ifuBailleur>
       <numCNIBailleur>P3566465</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>VAVA VAVA</nomPrenomBailleur>
@@ -154,9 +154,9 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>90000</mntBrutLoyer>
-      <mntRetenueSource>9000</mntRetenueSource>
-      <mntNetLoyer>81000</mntNetLoyer>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>9000.00</mntRetenueSource>
+      <mntNetLoyer>81000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

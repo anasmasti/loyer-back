@@ -13,10 +13,8 @@ const etatMonsuelVirement = async (req, res) => {
     })
     .then((data) => {
       if (data.length > 0) {
-        // res.json(data);
-
         // Generate Pdf
-        generatePdf(data, "état_des_virements");
+        generatePdf(data, "état_des_virements", req.body.mois, req.body.annee);
 
         // Generate Excel
         const dataExcel = [];

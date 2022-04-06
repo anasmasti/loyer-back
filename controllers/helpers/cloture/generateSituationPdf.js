@@ -5,12 +5,14 @@ const moment = require("moment");
 const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
 // const storePaths = require("../etat_paths");
 
-async function generatePdf(data1, etatType) {
+async function generatePdf(data1, etatType, mois, annee) {
+  // return res.json(date)
+  date = `${mois}_${annee}`;
   let data = data1[0];
   let htmlFileSrouce,
     options,
     reportingPaths = [];
-    // let dateToString = moment(today).format('YYYY-MM-DD')
+  // let dateToString = moment(today).format('YYYY-MM-DD')
   let today = new Date();
   let dateToString = moment(today).format("YYYY-MM");
   let etatReportingOptions = ["état_des_virements", "état_des_taxes"];
@@ -33,10 +35,10 @@ async function generatePdf(data1, etatType) {
     allowProtoMethodsByDefault: true,
     allowProtoPropertiesByDefault: true,
   });
-// console.log(`/download/generated situation/${etatType}_pdf/${etatType}_${dateToString}.pdf`);
+  // console.log(`/download/generated situation/${etatType}_pdf/${etatType}_${dateToString}.pdf`);
   let extention = "pdf";
   htmlPdf.create(htmlToSend, options).toFile(
-    `download/generated situation/${etatType}_pdf/${etatType}_${dateToString}.pdf`,
+    `download/generated situation/${etatType}_pdf/${etatType}_${date}.pdf`,
     // `/download/generated situation/etat_virement/etat_virement_${dateToString}.pdf`,
     async function (err, res) {
       if (err) {
@@ -44,8 +46,8 @@ async function generatePdf(data1, etatType) {
       } else {
         await etatPaths
           .find({
-            mois: today.getMonth() + 1,
-            annee: today.getFullYear(),
+            mois: mois,
+            annee: annee,
           })
           .then(async (data) => {
             // return console.log(data);
@@ -53,12 +55,12 @@ async function generatePdf(data1, etatType) {
               if (data.length == 0) {
                 // console.log("teeeeest");
                 reportingPaths.push({
-                  [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
+                  [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${date}.${extention}`,
                 });
                 let etat_paths = new etatPaths({
                   etat_paths: reportingPaths,
-                  mois: today.getMonth() + 1,
-                  annee: today.getFullYear(),
+                  mois: mois,
+                  annee: annee,
                 });
                 // console.log(etat_paths);
                 await etat_paths.save();
@@ -90,11 +92,11 @@ async function generatePdf(data1, etatType) {
                 }
                 if (pathExist == false) {
                   reportingPaths.push({
-                    [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
+                    [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${date}.${extention}`,
                   });
                 }
                 await etatPaths.findOneAndUpdate(
-                  { mois: today.getMonth() + 1, annee: today.getFullYear() },
+                  { mois: mois, annee: annee },
                   {
                     etat_paths: reportingPaths,
                     mois: data[0].mois,

@@ -14,7 +14,8 @@ module.exports = {
 
     // Current Date
     let currentDate = new Date();
-    let currentYear = currentDate.getFullYear();
+    // let currentYear = currentDate.getFullYear();
+    let currentYear = req.params.annee;
 
     // Get the (archivecomptabilisation) data and put it in ArchCmptb variable
     archivecomptabilisation
@@ -43,7 +44,7 @@ module.exports = {
               //List DetailRetenueRevFoncier
               index += 1;
               DetailRetenueRevFoncier.push({
-                ifuBailleur: index,
+                ifuBailleur: `IF${index}`,
                 numCNIBailleur:
                   ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
                 numCEBailleur:
@@ -62,14 +63,17 @@ module.exports = {
                   code: "LUC",
                 },
                 mntBrutLoyer:
-                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                    .montant_brut, //!!!!!!!
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[
+                    j
+                  ].montant_brut.toFixed(2), //!!!!!!!
                 mntRetenueSource:
-                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                    .montant_tax,
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[
+                    j
+                  ].montant_tax.toFixed(2),
                 mntNetLoyer:
-                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                    .montant_net,
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[
+                    j
+                  ].montant_net.toFixed(2),
                 tauxRetenueRevFoncier: {
                   code: "TSR.10.2018",
                 },
@@ -87,9 +91,9 @@ module.exports = {
               exerciceFiscalDu: req.params.annee + "-" + "1" + "-" + "1",
               exerciceFiscalAu: req.params.annee + "-" + 12 + "-" + 31,
               annee: currentYear,
-              totalMntBrutLoyer: TotalMntBrutLoyer,
-              totalMntRetenueSource: TotalMntRetenueSource,
-              totalMntNetLoyer: TotalMntLoyer,
+              totalMntBrutLoyer: TotalMntBrutLoyer.toFixed(2),
+              totalMntRetenueSource: TotalMntRetenueSource.toFixed(2),
+              totalMntNetLoyer: TotalMntLoyer.toFixed(2),
               listDetailRetenueRevFoncier: {
                 DetailRetenueRevFoncier,
               },

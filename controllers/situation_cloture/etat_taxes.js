@@ -17,7 +17,7 @@ const etatMonsuelTaxes = async (req, res) => {
     .then((data) => {
       if (data.length > 0) {
         // Generate PDF
-        generatePdf(data, "état_des_taxes");
+        generatePdf(data, "état_des_taxes", req.body.mois, req.body.annee);
 
         // Generate Excel
         const dataExcel = [];
