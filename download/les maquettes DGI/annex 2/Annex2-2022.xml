@@ -4,9 +4,9 @@
   <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>50000</totalMntBrutLoyer>
-  <totalMntRetenueSource>4000</totalMntRetenueSource>
-  <totalMntNetLoyer>46000</totalMntNetLoyer>
+  <totalMntBrutLoyer>100000</totalMntBrutLoyer>
+  <totalMntRetenueSource>11500</totalMntRetenueSource>
+  <totalMntNetLoyer>88500</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>1</ifuBailleur>
@@ -38,6 +38,57 @@
       <mntBrutLoyer>20000</mntBrutLoyer>
       <mntRetenueSource>1600</mntRetenueSource>
       <mntNetLoyer>18400</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>3</ifuBailleur>
+      <numCNIBailleur>12345678</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Youssef You</nomPrenomBailleur>
+      <adresseBailleur>123132</adresseBailleur>
+      <adresseBien>aaaaaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>10000</mntBrutLoyer>
+      <mntRetenueSource>1500</mntRetenueSource>
+      <mntNetLoyer>8500</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>4</ifuBailleur>
+      <numCNIBailleur>1212312</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Anas You</nomPrenomBailleur>
+      <adresseBailleur>1000</adresseBailleur>
+      <adresseBien>aaaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000</mntBrutLoyer>
+      <mntRetenueSource>3000</mntRetenueSource>
+      <mntNetLoyer>17000</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>5</ifuBailleur>
+      <numCNIBailleur>12345989</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Test Tset</nomPrenomBailleur>
+      <adresseBailleur>1000</adresseBailleur>
+      <adresseBien>aaaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000</mntBrutLoyer>
+      <mntRetenueSource>3000</mntRetenueSource>
+      <mntNetLoyer>17000</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

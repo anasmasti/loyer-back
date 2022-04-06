@@ -10,13 +10,13 @@ const router = express.Router();
 router
   .route("/proprietaire/tous/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
+    verifyRole.checkRoles("DC","CDGSP", "CSLA"),
     getProprietaire.getAllProprietairefromFoncier
   );
 router
   .route("/proprietaire/:Id/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
+    verifyRole.checkRoles("DC","CDGSP", "CSLA"),
     getProprietaire.getProprietairePerID
   );
 router

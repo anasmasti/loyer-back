@@ -20,6 +20,14 @@ module.exports = {
       },
       {
         $lookup: {
+          from: Contrat.collection.name,
+          localField: "contrat",
+          foreignField: "_id",
+          as: "populatedContrat",
+        },
+      },
+      {
+        $lookup: {
           from: Lieu.collection.name,
           localField: "lieu.lieu",
           foreignField: "_id",
@@ -29,17 +37,17 @@ module.exports = {
       {
         $lookup: {
           from: Lieu.collection.name,
-          localField: "attached_DR",
+          localField: "populatedLieu.attached_DR",
           foreignField: "_id",
-          as: "attachedLieu",
+          as: "attachedDR",
         },
       },
       {
         $lookup: {
-          from: Contrat.collection.name,
-          localField: "contrat",
+          from: Lieu.collection.name,
+          localField: "populatedLieu.attached_SUP",
           foreignField: "_id",
-          as: "populatedContrat",
+          as: "attachedSUP",
         },
       },
       {
@@ -134,10 +142,47 @@ module.exports = {
                 deleted: "$$lieumap.deleted",
                 etat_lieu: "$$lieumap.etat_lieu",
                 lieu: {
-                  $arrayElemAt: [
-                    "$populatedLieu",
-                    { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
-                  ],
+                  // $arrayElemAt: [
+                  //   "$populatedLieu",
+                  //   { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
+                  // ],
+                  $map: {
+                    input: "$populatedLieu",
+                    as: "populatedLieuMap",
+                    in: {
+                      _id: "$$populatedLieuMap._id",
+                      deleted: "$$populatedLieuMap.deleted",
+                      attached_DR: {
+                        $map: {
+                          input: "$attachedDR",
+                          as: "attachedDRMap",
+                          in: {
+                            _id: "$$attachedDRMap._id",
+                            deleted: "$$attachedDRMap.deleted",
+                            code_lieu: "$$attachedDRMap.code_lieu",
+                            intitule_lieu: "$$attachedDRMap.intitule_lieu",
+                            type_lieu: "$$attachedDRMap.type_lieu",
+                          },
+                        },
+                      },
+                      attached_SUP: {
+                        $map: {
+                          input: "$attachedSUP",
+                          as: "attachedSUPMap",
+                          in: {
+                            _id: "$$attachedSUPMap._id",
+                            deleted: "$$attachedSUPMap.deleted",
+                            code_lieu: "$$attachedSUPMap.code_lieu",
+                            intitule_lieu: "$$attachedSUPMap.intitule_lieu",
+                            type_lieu: "$$attachedSUPMap.type_lieu",
+                          },
+                        },
+                      },
+                      code_lieu: "$$populatedLieuMap.code_lieu",
+                      intitule_lieu: "$$populatedLieuMap.intitule_lieu",
+                      type_lieu: "$$populatedLieuMap.type_lieu",
+                    },
+                  },
                 },
               },
             },
