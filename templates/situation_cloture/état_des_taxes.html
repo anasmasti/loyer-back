@@ -11,14 +11,19 @@
         transform: rotate(180deg) !important;
       }
       table {
-        width: 100%;
+        width: calc(100% - 5px);
         border-collapse: collapse;
       }
       td {
-        width: 100px !important;
+        /* width: 100px !important; */
+        max-width: 70px;
         font-size: 10px;
         padding: 10px;
-        text-align: center;
+        /* text-align: center; */
+        /* word-break: break-all; */
+      }
+      .num_contrat_col {
+        word-break: break-all;
       }
       /* td:last-child {
         border-left: 1px solid #f9a11e;
@@ -158,7 +163,7 @@
       <tbody>
         {{#each .}} {{#comptabilisation_loyer_crediter}}
         <tr>
-          <td>{{ numero_contrat }}</td>
+          <td class="num_contrat_col">{{ numero_contrat }}</td>
           <td>{{ type_lieu }}</td>
           <td>{{ cin }}</td>
           <td>{{ nom_prenom }}</td>
