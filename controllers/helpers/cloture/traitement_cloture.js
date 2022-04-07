@@ -197,6 +197,8 @@ module.exports = {
 
     if (
       Contrat.montant_avance > 0 &&
+      // req.body.mois == dateDebutLoyer.getMonth() + 1 &&
+      // req.body.annee == dateDebutLoyer.getFullYear()
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {

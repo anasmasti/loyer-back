@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>4</mois>
-  <totalMntBrutLoyer>50000</totalMntBrutLoyer>
-  <totalMntRetenueSource>7500</totalMntRetenueSource>
-  <totalMntNetLoyer>42500</totalMntNetLoyer>
+  <totalMntBrutLoyer>50000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>7500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>42500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
       <numCNIBailleur>12345678</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>Youssef You</nomPrenomBailleur>
@@ -19,15 +19,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000</mntBrutLoyer>
-      <mntRetenueSource>1500</mntRetenueSource>
-      <mntNetLoyer>8500</mntNetLoyer>
+      <mntBrutLoyer>10000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>8500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>2</ifuBailleur>
+      <ifuBailleur>IF2</ifuBailleur>
       <numCNIBailleur>1212312</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>Anas You</nomPrenomBailleur>
@@ -36,15 +36,15 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000</mntBrutLoyer>
-      <mntRetenueSource>3000</mntRetenueSource>
-      <mntNetLoyer>17000</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>3</ifuBailleur>
+      <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>12345989</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>Test Tset</nomPrenomBailleur>
@@ -53,9 +53,9 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000</mntBrutLoyer>
-      <mntRetenueSource>3000</mntRetenueSource>
-      <mntNetLoyer>17000</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

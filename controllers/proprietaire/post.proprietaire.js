@@ -11,7 +11,9 @@ module.exports = {
       if (
         req.body.cin == "" &&
         req.body.passport == "" &&
-        req.body.carte_sejour == ""
+        req.body.carte_sejour == "" &&
+        req.body.type_proprietaire == "Personne physique"
+
       ) {
         return res.status(422).send({
           message: `Propriétaire doit contenir au moin Cin , Passport ou Carte séjour`,
