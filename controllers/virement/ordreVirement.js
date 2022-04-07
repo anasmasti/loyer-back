@@ -58,11 +58,10 @@ module.exports = {
           zoneInitialiseSpace.padEnd(4, " ") +
           // dateGenerationVirementToString +
           dateGenerationFichier +
-          " " +
-          "ATTAWFIQ MICRO FINANCE  " +
+          "FBP. Micro-Crédit  " +
           zoneInitialiseSpace.padEnd(13, " ") +
           "Fra.LY" +
-          dateWithoutDay +
+          (("0" + req.params.mois).slice(-2) + req.params.annee.toString().slice(-2)) +
           zoneInitialiseSpace.padEnd(9, " ") +
           "0000000000000000" +
           ")" +

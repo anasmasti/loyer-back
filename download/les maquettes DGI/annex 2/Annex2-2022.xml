@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+<DeclarationRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DeclarationRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <totalMntBrutLoyer>100000.00</totalMntBrutLoyer>
@@ -18,9 +18,10 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>30000.00</mntBrutLoyer>
-      <mntRetenueSource>2400.00</mntRetenueSource>
-      <mntNetLoyer>27600.00</mntNetLoyer>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>30000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>2400.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>27600.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -35,9 +36,10 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>1600.00</mntRetenueSource>
-      <mntNetLoyer>18400.00</mntNetLoyer>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>20000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1600.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>18400.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -52,9 +54,10 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>8500.00</mntNetLoyer>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>10000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1500.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>8500.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -69,9 +72,10 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>17000.00</mntNetLoyer>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>20000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>3000.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>17000.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -86,12 +90,13 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>17000.00</mntNetLoyer>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>20000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>3000.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>17000.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
-</VersementRASRF>
+</DeclarationRASRF>
