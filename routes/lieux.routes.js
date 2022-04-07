@@ -8,11 +8,11 @@ const router = express.Router();
 
 router
   .route("/lieu/ajouter/:matricule")
-  .post(verifyRole.checkRoles("CDGSP", "CSLA"), postLieu.ajouterLieu);
+  .post(verifyRole.checkRoles("DAJC","CDGSP", "CSLA"), postLieu.ajouterLieu);
 
 router
   .route("/lieu/modifier/:Id/:matricule")
-  .patch(verifyRole.checkRoles("CDGSP", "CSLA"), modifierLieu.modifierLieu);
+  .patch(verifyRole.checkRoles("DAJC","CDGSP", "CSLA"), modifierLieu.modifierLieu);
 
 router
   .route("/lieu/all-lieu/:matricule")
@@ -21,7 +21,9 @@ router
     getLieu.getAllLieu);
 router
   .route("/lieu/lieu-by-id/:Id/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuById);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+    getLieu.getLieuById);
 router
   .route("/lieu/Dr/Sup/:matricule")
   .get(
@@ -33,15 +35,21 @@ router
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getCountLieu);
 router
   .route("/lieu/detail/:Id/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuById);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+  getLieu.getLieuById);
 router
   .route("/lieu/delete/:Id/:matricule")
   .patch(verifyRole.checkRoles("CDGSP", "CSLA"), deleteLieu.deletedLieu);
 router
   .route("/lieu/contratByLieu/:Id/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getContratByLieu);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+    getLieu.getContratByLieu);
 router
   .route("/lieu/lieu-by-type/:matricule")
-  .post(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuByType);
+  .post(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+    getLieu.getLieuByType);
 
 module.exports = router;

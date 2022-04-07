@@ -4,9 +4,9 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>570000.00</totalMntBrutLoyer>
+  <totalMntBrutLoyer>497000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>38000.00</totalMntRetenueSource>
-  <totalMntNetLoyer>532000.00</totalMntNetLoyer>
+  <totalMntNetLoyer>459000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
@@ -19,9 +19,9 @@
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>15400.00</mntBrutLoyerAnnuel>
+      <mntBrutLoyerAnnuel>7700.00</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>770.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>14630.00</mntNetLoyerAnnuel>
+      <mntNetLoyerAnnuel>6930.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -37,9 +37,9 @@
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>6600.00</mntBrutLoyerAnnuel>
+      <mntBrutLoyerAnnuel>3300.00</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>330.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>6270.00</mntNetLoyerAnnuel>
+      <mntNetLoyerAnnuel>2970.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -55,9 +55,9 @@
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>48000.00</mntBrutLoyerAnnuel>
+      <mntBrutLoyerAnnuel>36000.00</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>5400.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>42600.00</mntNetLoyerAnnuel>
+      <mntNetLoyerAnnuel>30600.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -145,9 +145,9 @@
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>50000.00</mntBrutLoyerAnnuel>
+      <mntBrutLoyerAnnuel>30000.00</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>4500.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>45500.00</mntNetLoyerAnnuel>
+      <mntNetLoyerAnnuel>25500.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -163,9 +163,9 @@
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>90000.00</mntBrutLoyerAnnuel>
+      <mntBrutLoyerAnnuel>60000.00</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>9000.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>81000.00</mntNetLoyerAnnuel>
+      <mntNetLoyerAnnuel>51000.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
