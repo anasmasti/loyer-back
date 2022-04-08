@@ -23,7 +23,11 @@ module.exports = {
       }).populate({
         path: "foncier",
         populate: [
-          { path: "proprietaire", populate: { path: "proprietaire_list" } },
+          {
+            path: "proprietaire",
+            populate: { path: "proprietaire_list" },
+            match: { deleted: false },
+          },
           {
             path: "lieu.lieu",
             populate: {
