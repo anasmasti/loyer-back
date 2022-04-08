@@ -190,6 +190,7 @@ module.exports = {
         },
       },
     ])
+    // Foncier.find({ deleted: false })
       .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);

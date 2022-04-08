@@ -52,9 +52,10 @@ module.exports = {
       //   etat: ContratData.etat_contrat.etat,
       // },
       etat_contrat: {
-        libelle: "En cours de validation",
+        libelle: "Initié",
         etat: {
           n_avenant: ContratData.etat_contrat.etat.n_avenant,
+          is_avenant: true,
           motif: ContratData.etat_contrat.etat.motif,
           date_effet_av: ContratData.etat_contrat.etat.date_effet_av,
           piece_jointe_avenant: piece_jointe_avenant,
@@ -68,6 +69,10 @@ module.exports = {
         },
       ],
       piece_joint_contrat: piece_jointe_avenant,
+    });
+
+    ContratData.etat_contrat.etat.deleted_proprietaires.forEach(async proprietaire => {
+      await Proprietaire.findByIdAndUpdate({_id: proprietaire._id}, {statut: 'Inactif'})
     });
 
     await nouveauContrat
@@ -101,5 +106,5 @@ module.exports = {
       }
     }
     return storedFiles;
-  },
+  },  
 };

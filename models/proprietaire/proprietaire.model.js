@@ -112,6 +112,10 @@ const ProprietaireSchema = new Schema(
       type: String,
       default: null,
     },
+    statut: {
+      type: String,
+      default: "Actif"
+    },
     proprietaire_list: [
       {
         type: Schema.Types.ObjectId,

@@ -27,7 +27,6 @@ router
 router
   .route("/lieu/Dr/Sup/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
     getLieu.getAllDirectionsAndSupervions
   );
 router
