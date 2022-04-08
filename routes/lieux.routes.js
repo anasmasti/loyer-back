@@ -25,7 +25,6 @@ router
 router
   .route("/lieu/Dr/Sup/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
     getLieu.getAllDirectionsAndSupervions
   );
 router
@@ -39,9 +38,13 @@ router
   .patch(verifyRole.checkRoles("CDGSP", "CSLA"), deleteLieu.deletedLieu);
 router
   .route("/lieu/contratByLieu/:Id/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getContratByLieu);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+  getLieu.getContratByLieu);
 router
   .route("/lieu/lieu-by-type/:matricule")
-  .post(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuByType);
+  .post(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+  getLieu.getLieuByType);
 
 module.exports = router;

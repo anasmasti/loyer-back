@@ -6,6 +6,7 @@ const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
 const FilesHelper = require("../helpers/files");
+const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 
 module.exports = {
   modifierContrat: async (req, res) => {
@@ -24,7 +25,7 @@ module.exports = {
     // console.log(req.body.data);
     try {
       data = JSON.parse(req.body.data);
-      // console.log(data);
+      // return console.log(data);
     } catch (error) {
       res.status(422).send({ message: error.message });
     }
@@ -592,61 +593,96 @@ module.exports = {
         let contratAV = data;
         let oldContrats = contratAV.old_contrat;
         let oldContrat;
-        let dateDeffetAV = new Date(contratAV.date_debut_loyer);
         let dateFinOldContrat;
-        if (oldContrats.length > 0) {
-          // Get the old contrat
-          oldContrat = oldContrats.find((contrat) => {
-            return contrat.contrat.etat_contrat.libelle == "Actif";
-          }).contrat;
-          // Get old contrat's final date by subtracting 1 day from date d'effet av
-          dateDeffetAV.setDate(0);
-          dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
+        let etatOldContrat;
+        let etatNewContrat;
+        
+        let nextCloture;
+        await archiveComptabilisation
+        .find()
+        .sort({ date_generation_de_comptabilisation: "desc" })
+        .select({ date_generation_de_comptabilisation: 1 })
+        .then(async (data) => {
+          // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+          if (oldContrats.length > 0) {
+            // Get the old contrat
+            oldContrat = oldContrats.find((contrat) => {
+              return contrat.contrat.etat_contrat.libelle == "Actif";
+            }).contrat;
+            // Get old contrat's final date by subtracting 1 day from date d'effet av
+            // dateDeffetAV.setDate(0);
+            dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
-          // Customise the old contrat etat
-          let etatOldContrat = {
-            libelle: "Modifié",
-            etat: oldContrat.etat_contrat.etat,
-          };
+              nextCloture = new Date(
+                data[0].date_generation_de_comptabilisation
+              );
+              let currentMonth = nextCloture.getMonth() + 1;
+              let currentYear = nextCloture.getFullYear();
+              let dateDeffetAV = new Date(contratAV.date_debut_loyer);
+              let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
+              let dateDeffetAVYear = dateDeffetAV.getFullYear();
 
-          // Customise the new contrat etat
-          let etatNewContrat = {
-            libelle: "Actif",
-            etat: contratAV.etat_contrat.etat,
-          };
-
-          // Delete proprietaires
-          if (contratAV.etat_contrat.etat.deleted_proprietaires.length > 0) {
-            contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
-              (proprietaire) => {
-                ContratHelper.deleteProprietaire(req, res, proprietaire);
+              if (
+                (dateDeffetAVMonth == currentMonth &&
+                dateDeffetAVYear == currentYear) || ( dateDeffetAVMonth < currentMonth &&
+                  dateDeffetAVYear < currentYear)
+              ) {
+                // Customise the old contrat etat
+                etatOldContrat = {
+                  libelle: "Modifié",
+                  etat: oldContrat.etat_contrat.etat,
+                };
+                // Customise the new contrat etat
+                etatNewContrat = {
+                  libelle: "Actif",
+                  etat: contratAV.etat_contrat.etat,
+                };
+    
+                // Delete proprietaires
+                if (contratAV.etat_contrat.etat.deleted_proprietaires.length > 0) {
+                  contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
+                    (proprietaire) => {
+                      ContratHelper.deleteProprietaire(req, res, proprietaire);
+                    }
+                  );
+                }
+              } else {
+                // Customise the old contrat etat
+                etatOldContrat = oldContrat.etat_contrat;
+                // Customise the new contrat etat
+                etatNewContrat = contratAV.etat_contrat;
               }
-            );
-          }
+    
+              // Update the old contrat
+              await Contrat.findByIdAndUpdate(oldContrat._id, {
+                // date_fin_contrat: dateFinOldContrat,
+                etat_contrat: etatOldContrat,
+              });
+    
+              // Update the AV contrat
+              await Contrat.findByIdAndUpdate(req.params.Id, {
+                date_comptabilisation: oldContrat.date_comptabilisation,
+                etat_contrat: etatNewContrat,
+                validation2_DAJC: true,
+              });
 
-          // Update the old contrat
-          await Contrat.findByIdAndUpdate(oldContrat._id, {
-            date_fin_contrat: dateFinOldContrat,
-            etat_contrat: etatOldContrat,
-          });
+            } else {
+              let etatContrat = {
+                libelle: "Actif",
+                etat: {},
+              };
+    
+              await Contrat.findByIdAndUpdate(req.params.Id, {
+                validation2_DAJC: true,
+                etat_contrat: etatContrat,
+              });
+            }
+              // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+            })
+            .catch((error) => {
+              res.status(402).send({ message: error.message });
+            });
 
-          // Update the AV contrat
-          await Contrat.findByIdAndUpdate(req.params.Id, {
-            date_comptabilisation: oldContrat.date_comptabilisation,
-            etat_contrat: etatNewContrat,
-            validation2_DAJC: true,
-          });
-        } else {
-          let etatContrat = {
-            libelle: "Actif",
-            etat: {},
-          };
-
-          await Contrat.findByIdAndUpdate(req.params.Id, {
-            validation2_DAJC: true,
-            etat_contrat: etatContrat,
-          });
-        }
       });
   },
 
@@ -672,6 +708,8 @@ module.exports = {
             }
           }
         });
+
+        // message = "le contrat du point de vente , logement de fonction , Direction , Supervision , siége est crée, et soumis à la validation "
 
         if (partProprietaireGlobal == partGlobal && !hasnt_mandataire) {
           let etatContrat = {

@@ -25,7 +25,7 @@ router
 router
   .route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
+    // verifyRole.checkRoles("CDGSP", "CSLA", "DC"),
     getProprietaire.getIdFoncierByProprietaire
   );
 router
