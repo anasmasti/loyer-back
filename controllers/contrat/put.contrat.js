@@ -596,22 +596,22 @@ module.exports = {
         let dateFinOldContrat;
         let etatOldContrat;
         let etatNewContrat;
-        
+
         let nextCloture;
         await archiveComptabilisation
-        .find()
-        .sort({ date_generation_de_comptabilisation: "desc" })
-        .select({ date_generation_de_comptabilisation: 1 })
-        .then(async (data) => {
-          // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-          if (oldContrats.length > 0) {
-            // Get the old contrat
-            oldContrat = oldContrats.find((contrat) => {
-              return contrat.contrat.etat_contrat.libelle == "Actif";
-            }).contrat;
-            // Get old contrat's final date by subtracting 1 day from date d'effet av
-            // dateDeffetAV.setDate(0);
-            dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
+          .find()
+          .sort({ date_generation_de_comptabilisation: "desc" })
+          .select({ date_generation_de_comptabilisation: 1 })
+          .then(async (data) => {
+            // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+            if (oldContrats.length > 0) {
+              // Get the old contrat
+              oldContrat = oldContrats.find((contrat) => {
+                return contrat.contrat.etat_contrat.libelle == "Actif";
+              }).contrat;
+              // Get old contrat's final date by subtracting 1 day from date d'effet av
+              // dateDeffetAV.setDate(0);
+              dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
               nextCloture = new Date(
                 data[0].date_generation_de_comptabilisation
@@ -624,7 +624,8 @@ module.exports = {
 
               if (
                 (dateDeffetAVMonth == currentMonth &&
-                dateDeffetAVYear == currentYear) || ( dateDeffetAVMonth < currentMonth &&
+                  dateDeffetAVYear == currentYear) ||
+                (dateDeffetAVMonth < currentMonth &&
                   dateDeffetAVYear < currentYear)
               ) {
                 // Customise the old contrat etat
@@ -637,9 +638,11 @@ module.exports = {
                   libelle: "Actif",
                   etat: contratAV.etat_contrat.etat,
                 };
-    
+
                 // Delete proprietaires
-                if (contratAV.etat_contrat.etat.deleted_proprietaires.length > 0) {
+                if (
+                  contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
+                ) {
                   contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
                     (proprietaire) => {
                       ContratHelper.deleteProprietaire(req, res, proprietaire);
@@ -652,37 +655,35 @@ module.exports = {
                 // Customise the new contrat etat
                 etatNewContrat = contratAV.etat_contrat;
               }
-    
+
               // Update the old contrat
               await Contrat.findByIdAndUpdate(oldContrat._id, {
                 // date_fin_contrat: dateFinOldContrat,
                 etat_contrat: etatOldContrat,
               });
-    
+
               // Update the AV contrat
               await Contrat.findByIdAndUpdate(req.params.Id, {
                 date_comptabilisation: oldContrat.date_comptabilisation,
                 etat_contrat: etatNewContrat,
                 validation2_DAJC: true,
               });
-
             } else {
               let etatContrat = {
                 libelle: "Actif",
                 etat: {},
               };
-    
+
               await Contrat.findByIdAndUpdate(req.params.Id, {
                 validation2_DAJC: true,
                 etat_contrat: etatContrat,
               });
             }
-              // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-            })
-            .catch((error) => {
-              res.status(402).send({ message: error.message });
-            });
-
+            // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+          })
+          .catch((error) => {
+            res.status(402).send({ message: error.message });
+          });
       });
   },
 
@@ -701,15 +702,13 @@ module.exports = {
         // If some one is / has not a mandataire this variable will be true
         let hasnt_mandataire = false;
         data.foncier.proprietaire.forEach((proprietaire) => {
-          if (!proprietaire.deleted) {
+          if (!proprietaire.deleted && proprietaire != "À supprimer") {
             partProprietaireGlobal += proprietaire.part_proprietaire;
             if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
               hasnt_mandataire = true;
             }
           }
         });
-
-        // message = "le contrat du point de vente , logement de fonction , Direction , Supervision , siége est crée, et soumis à la validation "
 
         if (partProprietaireGlobal == partGlobal && !hasnt_mandataire) {
           let etatContrat = {
