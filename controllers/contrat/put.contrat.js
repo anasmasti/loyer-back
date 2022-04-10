@@ -506,83 +506,106 @@ module.exports = {
     // Sending mail to All the DAJC (Direction Affaires Juridiques et Conformité) roles
     await Contrat.findByIdAndUpdate(req.params.Id, {
       validation1_DMG: true,
-    }).then(async (contrat) => {
-      // Sending mail to DAJC (V2)
-      await User.aggregate([
-        {
-          $match: {
-            deleted: false,
-            userRoles: {
-              $elemMatch: {
-                roleCode: "DAJC",
+    }).then(async (updatedContrat) => {
+      await Contrat.findOne({ _id: req.params.Id, deleted: false })
+        .populate({
+          path: "foncier",
+          populate: {
+            path: "proprietaire",
+            populate: { path: "proprietaire_list" },
+          },
+        })
+        .then(async (contrat) => {
+          // return res.json(contrat);
+          // console.log(contrat);
+          // Sending mail to DAJC (V2)
+          await User.aggregate([
+            {
+              $match: {
                 deleted: false,
+                userRoles: {
+                  $elemMatch: {
+                    roleCode: "DAJC",
+                    deleted: false,
+                  },
+                },
               },
             },
-          },
-        },
-      ])
-        .then((data_) => {
-          for (let i = 0; i < data_.length; i++) {
-            DAJCemailsList.push(data_[i].email);
+          ])
+            .then((data_) => {
+              for (let i = 0; i < data_.length; i++) {
+                DAJCemailsList.push(data_[i].email);
+              }
+              // console.log(emailsList.join());
+            })
+            .catch((error) => {
+              console.log(error);
+              res.status(400).send({ message: error.message });
+            });
+
+          let DAJCmailData = {
+            message:
+              "Le contrat n°" +
+              contrat.numero_contrat +
+              " du " +
+              contrat.foncier.type_lieu +
+              " est en attente de validation.",
+          };
+
+          if (DAJCemailsList.length > 0) {
+            // console.log(`${DAJCemailsList.join()}`);
+            mail.sendMail(
+              `${DAJCemailsList.join()}`,
+              "Contrat validation",
+              "validation1",
+              DAJCmailData
+            );
           }
-          // console.log(emailsList.join());
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(400).send({ message: error.message });
+
+          // Sending mail to CDGSP (V1)
+          //   await User.aggregate([
+          //     {
+          //       $match: {
+          //         deleted: false,
+          //         userRoles: {
+          //           $elemMatch: {
+          //             roleCode: "CDGSP",
+          //             deleted: false,
+          //           },
+          //         },
+          //       },
+          //     },
+          //   ])
+          //     .then((data_) => {
+          //       for (let i = 0; i < data_.length; i++) {
+          //         CDGSPemailsList.push(data_[i].email);
+          //       }
+          //       // console.log(emailsList.join());
+          //     })
+          //     .catch((error) => {
+          //       console.log(error);
+          //       res.status(400).send({ message: error.message });
+          //     });
+
+          //   let CDGSPmailData = {
+          //     message:
+          //           "Le contrat n°" +
+          //           contrat.numero_contrat +
+          //           " du " +
+          //           contrat.foncier.type_lieu +
+          //           " est soumis à la validation."
+          //   };
+
+          //   if (CDGSPemailsList.length > 0) {
+          //     mail.sendMail(
+          //       `${CDGSPemailsList.join()}`,
+          //       "Contrat validation",
+          //       "validation1",
+          //       CDGSPmailData
+          //     );
+          //   }
+          // });
         });
-
-      let DAJCmailData = {
-        message: `Merci de valider le contrat N° ${contrat.numero_contrat}.`,
-      };
-
-      if (DAJCemailsList.length > 0) {
-        // console.log(`${DAJCemailsList.join()}`);
-        mail.sendMail(
-          `${DAJCemailsList.join()}`,
-          "Contrat validation",
-          "validation1",
-          DAJCmailData
-        );
-      }
-
-      // Sending mail to CDGSP (V1)
-      await User.aggregate([
-        {
-          $match: {
-            deleted: false,
-            userRoles: {
-              $elemMatch: {
-                roleCode: "CDGSP",
-                deleted: false,
-              },
-            },
-          },
-        },
-      ])
-        .then((data_) => {
-          for (let i = 0; i < data_.length; i++) {
-            CDGSPemailsList.push(data_[i].email);
-          }
-          // console.log(emailsList.join());
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(400).send({ message: error.message });
-        });
-
-      let CDGSPmailData = {
-        message: `La première validation est effectuée, la Direction Affaires juridique et conformité à procéder à la validation du contrat N° ${contrat.numero_contrat} `,
-      };
-
-      if (CDGSPemailsList.length > 0) {
-        mail.sendMail(
-          `${CDGSPemailsList.join()}`,
-          "Contrat validation",
-          "validation1",
-          CDGSPmailData
-        );
-      }
     });
   },
 
@@ -677,6 +700,70 @@ module.exports = {
               await Contrat.findByIdAndUpdate(req.params.Id, {
                 validation2_DAJC: true,
                 etat_contrat: etatContrat,
+              }).then(async (updatedContrat) => {
+                await Contrat.findOne({ _id: req.params.Id, deleted: false })
+                  .populate({
+                    path: "foncier",
+                    populate: {
+                      path: "proprietaire",
+                      populate: { path: "proprietaire_list" },
+                    },
+                  })
+                  .then(async (data) => {
+                    // Sending mail to DAJC, CDGSP, CSLA
+                    await User.aggregate([
+                      {
+                        $match: {
+                          deleted: false,
+                          userRoles: {
+                            $elemMatch: {
+                              deleted: false,
+                              $or: [
+                                {
+                                  roleCode: "DAJC",
+                                },
+                                {
+                                  roleCode: "CDGSP",
+                                },
+                                {
+                                  roleCode: "CSLA",
+                                },
+                              ],
+                            },
+                          },
+                        },
+                      },
+                    ])
+                      .then(async (data_) => {
+                        for (let i = 0; i < data_.length; i++) {
+                          DAJCemailsList.push(data_[i].email);
+                        }
+                        // console.log(emailsList.join());
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                        res.status(400).send({ message: error.message });
+                      });
+
+                    let DAJCmailData = {
+                      message:
+                        "Le contrat n°" +
+                        contrat.numero_contrat +
+                        " du " +
+                        contrat.foncier.type_lieu +
+                        " est crée.",
+                    };
+
+                    if (DAJCemailsList.length > 0) {
+                      // console.log(`${DAJCemailsList.join()}`);
+                      mail.sendMail(
+                        `${DAJCemailsList.join()}`,
+                        "Contrat validation",
+                        "validation1",
+                        DAJCmailData
+                      );
+                    }
+                  });
               });
             }
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -697,6 +784,7 @@ module.exports = {
         },
       })
       .then(async (data) => {
+        // return res.json(data);
         let partGlobal = data.nombre_part;
         let partProprietaireGlobal = 0;
         // If some one is / has not a mandataire this variable will be true
@@ -719,7 +807,48 @@ module.exports = {
           await Contrat.findByIdAndUpdate(req.params.Id, {
             etat_contrat: etatContrat,
           });
+          // Sending mail to CDGSP
+          let mailData = {
+            message:
+              "Le contrat n°" +
+              data.numero_contrat +
+              " du " +
+              data.foncier.type_lieu +
+              " est soumis à la validation.",
+          };
 
+          let emailsList = [];
+
+          await User.aggregate([
+            {
+              $match: {
+                deleted: false,
+                userRoles: {
+                  $elemMatch: {
+                    roleCode: "CDGSP",
+                    deleted: false,
+                  },
+                },
+              },
+            },
+          ])
+            .then((data) => {
+              for (let i = 0; i < data.length; i++) {
+                emailsList.push(data[i].email);
+              }
+            })
+            .catch((error) => {
+              // console.log(error);
+              res.status(400).send({ message: error.message });
+            });
+          if (emailsList.length > 0) {
+            mail.sendMail(
+              `${emailsList.join()}`,
+              "Soumettre",
+              "validation1",
+              mailData
+            );
+          }
           res.json({ message: "Contrat soumis à la validation." });
         } else {
           console.log({
