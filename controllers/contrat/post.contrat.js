@@ -118,7 +118,7 @@ module.exports = {
       n_engagement_depense: data.n_engagement_depense,
       echeance_revision_loyer: data.echeance_revision_loyer,
       date_comptabilisation: null,
-      type_lieu: data.type_lieu,
+      // type_lieu: data.type_lieu,
       foncier: req.params.IdFoncier,
       nombre_part: data.nombre_part,
       etat_contrat: {
