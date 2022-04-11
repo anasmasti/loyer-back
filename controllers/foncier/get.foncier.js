@@ -95,6 +95,7 @@ module.exports = {
                 caution_par_proprietaire:
                   "$$proprietairemap.caution_par_proprietaire",
                 proprietaire_list: "$$proprietairemap.proprietaire_list",
+                statut: "$$proprietairemap.statut"
               },
             },
           },
@@ -204,7 +205,7 @@ module.exports = {
     Foncier.findById({ _id: req.params.IdFoncier })
       .populate(
         "proprietaire",
-        "cin nom_prenom n_registre_commerce raison_social -_id"
+        "cin nom_prenom n_registre_commerce raison_social -_id is_mandataire"
       )
       .populate({
         path: "lieu",
