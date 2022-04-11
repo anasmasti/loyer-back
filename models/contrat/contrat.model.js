@@ -139,6 +139,10 @@ const ContratSchema = new Schema(
     date_comptabilisation: {
       type: Date,
     },
+    is_avenant: {
+      type: Boolean,
+      default: false,
+    },
     old_contrat: [
       {
         contrat: Schema.Types.ObjectId,
