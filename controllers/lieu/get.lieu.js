@@ -74,7 +74,7 @@ module.exports = {
     await Contrat.findOne({ foncier: _id, deleted: false })
       .populate({
         path: "foncier",
-        populate: { path: "proprietaire", match: { deleted: false } },
+        populate: { path: "proprietaire", match: { deleted: false, statut: { $in: ["Actif", "À ajouter"] } } },
       })
       .then((data) => {
         res.json([data]);

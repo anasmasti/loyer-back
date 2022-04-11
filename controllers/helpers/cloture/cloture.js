@@ -1,3 +1,5 @@
+const Contrat = require("../../../models/contrat/contrat.model");
+
 module.exports = {
   createComptLoyerCredObject: (
     foncier,
@@ -121,5 +123,126 @@ module.exports = {
       montant_taxe: montant_tax,
     };
     return orderVirement;
+  },
+
+  checkContratsAv: async (contratId) => {
+    // await Contrat.findById(
+    //   { _id: contratId },
+    //   { deleted: false, is_avenant: true, "etat_contrat.libelle": "Actif" }
+    // ).then((contrat) => {
+    //   let currentMonth = nextCloture.getMonth() + 1;
+    //   let currentYear = nextCloture.getFullYear();
+    //   let dateDeffetAV = new Date(contratAV.date_debut_loyer);
+    //   let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
+    //   let dateDeffetAVYear = dateDeffetAV.getFullYear();
+    //   let dateEAV = new Date(contratAV.date_debut_loyer);
+    //   let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
+    //   let dateDeffetAVYear = dateDeffetAV.getFullYear();
+
+    //   if (
+    //     (dateDeffetAVMonth == currentMonth &&
+    //       dateDeffetAVYear == currentYear) &&
+    //     ()
+    //   ) {
+
+    //   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //   if (oldContrats.length > 0) {
+    //     // Get the old contrat
+    //     oldContrat = oldContrats.find((contrat) => {
+    //       return contrat.contrat.etat_contrat.libelle == "Actif";
+    //     }).contrat;
+    //     // Get old contrat's final date by subtracting 1 day from date d'effet av
+    //     // dateDeffetAV.setDate(0);
+    //     dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
+
+    //     nextCloture = new Date(
+    //       data[0].date_generation_de_comptabilisation
+    //     );
+       
+
+    //     if (
+    //       (dateDeffetAVMonth == currentMonth &&
+    //         dateDeffetAVYear == currentYear) ||
+    //       (dateDeffetAVMonth < currentMonth &&
+    //         dateDeffetAVYear < currentYear)
+    //     ) {
+    //       // Customise the old contrat etat
+    //       etatOldContrat = {
+    //         libelle: "Modifié",
+    //         etat: oldContrat.etat_contrat.etat,
+    //       };
+    //       // Customise the new contrat etat
+    //       etatNewContrat = {
+    //         libelle: "Actif",
+    //         etat: contratAV.etat_contrat.etat,
+    //       };
+
+    //       // Delete proprietaires
+    //       if (
+    //         contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
+    //       ) {
+    //         contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
+    //           (proprietaire) => {
+    //             ContratHelper.deleteProprietaire(req, res, proprietaire);
+    //           }
+    //         );
+    //       }
+    //     } else {
+    //       // Customise the old contrat etat
+    //       etatOldContrat = oldContrat.etat_contrat;
+    //       // Customise the new contrat etat
+    //       etatNewContrat = contratAV.etat_contrat;
+    //     }
+
+    //     // Update the old contrat
+    //     await Contrat.findByIdAndUpdate(oldContrat._id, {
+    //       // date_fin_contrat: dateFinOldContrat,
+    //       etat_contrat: etatOldContrat,
+    //     });
+
+    //     // Update the AV contrat
+    //     await Contrat.findByIdAndUpdate(req.params.Id, {
+    //       date_comptabilisation: oldContrat.date_comptabilisation,
+    //       etat_contrat: etatNewContrat,
+    //       validation2_DAJC: true,
+    //     });
+    //   }
+    // });
   },
 };

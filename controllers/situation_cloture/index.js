@@ -7,19 +7,29 @@ const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
 const generatePdf = require("../helpers/cloture/generateSituationPdf");
 const etatMonsuelTaxes = require("./etat_taxes");
 const etatMonsuelVirement = require("./etat_virement");
+const Cloture = require("../../controllers/cloture/cloture");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      let comptabilisationLoyerCrediter = [],
+      let comptabilisationLoyerCrediter = [], 
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
         ordreVirement = [];
 
+      // let todayDate = new Date();
+
       //get current contrat of this month
-      let contrat = await Contrat.find({
+      let requestedContrats = await Contrat.find({
         deleted: false,
         "etat_contrat.libelle": { $in: ["Actif"] },
+        // $or: [
+        //   {
+        //     is_avenant: true,
+        //     $and: [{ date_effet_av: { $lte: todayDate } }],
+        //   },
+        //   { is_avenant: false },
+        // ],
       }).populate({
         path: "foncier",
         populate: [
@@ -36,7 +46,6 @@ module.exports = {
           },
         ],
       });
-      // console.log(req.body.annee,req.body.mois);
 
       // return res.json(contrat);
 
@@ -57,7 +66,9 @@ module.exports = {
         );
       }
 
-      if (contrat.length > 0) {
+      if (requestedContrats.length > 0) {
+        // contrat = getListContrat(requestedContrats);
+        contrat = requestedContrats;
         //comptabilisation pour le paiement des loyers
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif

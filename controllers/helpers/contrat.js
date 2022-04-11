@@ -48,6 +48,7 @@ module.exports = {
       date_comptabilisation: null, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
       is_avenant: true,
+      nombre_part: ContratData.nombre_part,
       // etat_contrat: {
       //   libelle: "En cours de validation",
       //   etat: ContratData.etat_contrat.etat,
