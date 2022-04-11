@@ -90,9 +90,9 @@
           <td>{{ statut_caution }}</td>
           <td>{{ duree_caution }}</td>
           <td>{{ montant_caution }}</td>
-          <td>{{dateFormat date_reprise_caution "DD-MM-YYYY"}}</td>
-          <td>{{dateFormat date_debut_loyer "DD-MM-YYYY"}}</td>
-          <td>{{dateFormat date_fin_contrat "DD-MM-YYYY"}}</td>
+          <td>{{#if date_reprise_caution}} {{dateFormat date_reprise_caution "DD-MM-YYYY"}} {{else}} -- {{/if}}</td>
+          <td>{{#if date_debut_loyer}} {{dateFormat date_debut_loyer "DD-MM-YYYY"}} {{else}} -- {{/if}}</td>
+          <td>{{#if date_fin_contrat}} {{dateFormat date_fin_contrat "DD-MM-YYYY"}} {{else}} -- {{/if}}</td>
         </tr>
         {{/each}}
       </tbody>

@@ -39,8 +39,8 @@ module.exports = {
         lieu.lieu.type_lieu == "Direction régionale"
           ? lieu.lieu.code_lieu
           : lieu.lieu.type_lieu == "Siège"
-          ? "--"
-          : lieu.lieu.attached_DR.code_lieu,
+          ? null
+          : lieu.lieu.attached_DR.code_lieu || null,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       numero_contrat: numero_contrat,
@@ -77,8 +77,8 @@ module.exports = {
         lieu.lieu.type_lieu == "Direction régionale"
           ? lieu.lieu.code_lieu
           : lieu.lieu.type_lieu == "Siège"
-          ? "--"
-          : lieu.lieu.attached_DR.code_lieu,
+          ? null
+          : lieu.lieu.attached_DR.code_lieu || null,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       montant: montantDebiter,

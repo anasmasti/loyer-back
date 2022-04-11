@@ -814,7 +814,7 @@ module.exports = {
               data.numero_contrat +
               " du " +
               data.foncier.type_lieu +
-              " est soumis à la validation.",
+              " est crée et soumis à la validation.",
           };
 
           let emailsList = [];
