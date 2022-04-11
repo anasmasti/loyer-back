@@ -47,6 +47,7 @@ module.exports = {
       // date_comptabilisation: ContratData.date_comptabilisation,
       date_comptabilisation: null, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
+      is_avenant: true,
       // etat_contrat: {
       //   libelle: "En cours de validation",
       //   etat: ContratData.etat_contrat.etat,
@@ -71,9 +72,14 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-    ContratData.etat_contrat.etat.deleted_proprietaires.forEach(async proprietaire => {
-      await Proprietaire.findByIdAndUpdate({_id: proprietaire._id}, {statut: 'Inactif'})
-    });
+    ContratData.etat_contrat.etat.deleted_proprietaires.forEach(
+      async (proprietaire) => {
+        await Proprietaire.findByIdAndUpdate(
+          { _id: proprietaire },
+          { statut: "À supprimer" }
+        );
+      }
+    );
 
     await nouveauContrat
       .save()
@@ -106,5 +112,5 @@ module.exports = {
       }
     }
     return storedFiles;
-  },  
+  },
 };

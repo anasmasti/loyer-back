@@ -41,9 +41,6 @@ const EtatContratSchema = new Schema(
     n_avenant: {
       type: String,
     },
-    is_avenant: {
-      type: String,
-    },
     // contrat_av: {
     //     type: String,
     // },
