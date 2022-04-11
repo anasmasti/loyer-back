@@ -12,23 +12,24 @@ module.exports = {
     try {
       let filtredContrat = await Contrat.find({
         deleted: false,
-      }).populate({ path: 'foncier', populate: { path: 'lieu.lieu' } });
+      }).populate({ path: "foncier", populate: { path: "lieu.lieu" } });
       // return res.json(filtredContrat)
       for (let i = 0; i < filtredContrat.length; i++) {
-        for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
-          if (filtredContrat[i].foncier.lieu[j].deleted == false) {
-            if (
-              filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Point de vente" &&
-              (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
-            ) {
-              totalMontantLoyerPV += await filtredContrat[i].montant_loyer;
-            }
-          }
+        // for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
+        //   if (filtredContrat[i].foncier.lieu[j].deleted == false) {
+        if (
+          // filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Point de vente" &&
+          filtredContrat[i].foncier.type_lieu == "Point de vente" &&
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
+        ) {
+          totalMontantLoyerPV += await filtredContrat[i].montant_loyer;
         }
       }
+      //   }
+      // }
       allBarChartHorizontalData.push({
         name: "Point de vente",
-        value: totalMontantLoyerPV + 'MAD',
+        value: totalMontantLoyerPV + "MAD",
         extra: {
           code: "PV",
         },
@@ -49,58 +50,61 @@ module.exports = {
       //   },
       // });
       for (let i = 0; i < filtredContrat.length; i++) {
-        for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
-          if (filtredContrat[i].foncier.lieu[j].deleted == false) {
-            if (
-              filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Logement de fonction" &&
-              (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
-            ) {
-              totalMontantLoyerLGF += await filtredContrat[i].montant_loyer;
-            }
-          }
+        // for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
+        //   if (filtredContrat[i].foncier.lieu[j].deleted == false) {
+        if (
+          // filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Logement de fonction" &&
+          filtredContrat[i].foncier.type_lieu == "Logement de fonction" &&
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
+        ) {
+          totalMontantLoyerLGF += await filtredContrat[i].montant_loyer;
         }
       }
+      //   }
+      // }
       allBarChartHorizontalData.push({
         name: "Logement de fonction",
-        value: totalMontantLoyerLGF + 'MAD',
+        value: totalMontantLoyerLGF + "MAD",
         extra: {
           code: "LGF",
         },
       });
       for (let i = 0; i < filtredContrat.length; i++) {
-        for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
-          if (filtredContrat[i].foncier.lieu[j].deleted == false) {
-            if (
-              filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Siège" &&
-              (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
-            ) {
-              totalMontantLoyerSG += await filtredContrat[i].montant_loyer;
-            }
-          }
+        // for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
+        //   if (filtredContrat[i].foncier.lieu[j].deleted == false) {
+        if (
+          // filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Siège" &&
+          filtredContrat[i].foncier.type_lieu == "Siège" &&
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
+        ) {
+          totalMontantLoyerSG += await filtredContrat[i].montant_loyer;
         }
       }
+      //   }
+      // }
       allBarChartHorizontalData.push({
         name: "Siège",
-        value: totalMontantLoyerSG + 'MAD',
+        value: totalMontantLoyerSG + "MAD",
         extra: {
           code: "SG",
         },
       });
       for (let i = 0; i < filtredContrat.length; i++) {
-        for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
-          if (filtredContrat[i].foncier.lieu[j].deleted == false) {
-            if (
-              filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Direction régionale" &&
-              (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
-            ) {
-              totalMontantLoyerDR += await filtredContrat[i].montant_loyer;
-            }
-          }
+        // for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
+        //   if (filtredContrat[i].foncier.lieu[j].deleted == false) {
+        if (
+          // filtredContrat[i].foncier.lieu[j].lieu.type_lieu == "Direction régionale" &&
+          filtredContrat[i].foncier.type_lieu == "Direction régionale" &&
+          (filtredContrat[i].etat_contrat.libelle == "Actif" || "Avenant")
+        ) {
+          totalMontantLoyerDR += await filtredContrat[i].montant_loyer;
         }
       }
+      //   }
+      // }
       allBarChartHorizontalData.push({
         name: "Direction régionale",
-        value: totalMontantLoyerDR + 'MAD',
+        value: totalMontantLoyerDR + "MAD",
         extra: {
           code: "DR",
         },
