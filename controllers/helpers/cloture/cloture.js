@@ -20,7 +20,9 @@ module.exports = {
         : proprietaire.raison_social,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
-      cin: proprietaire.cin,
+      cin: proprietaire.cin
+        ? proprietaire.cin
+        : proprietaire.n_registre_commerce,
       passport: proprietaire.passport,
       carte_sejour: proprietaire.carte_sejour,
       type: "LOY",
