@@ -15,6 +15,7 @@ module.exports = {
     numero_contrat,
     periodicite
   ) => {
+    console.log(lieu);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
       nom_prenom: proprietaire.nom_prenom
@@ -32,7 +33,7 @@ module.exports = {
       adresse_lieu: foncier.adresse,
       origine: "PAISOFT",
       devises: "MAD",
-      intitule_lieu: lieu.lieu.intitule_lieu,
+      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       type_lieu: lieu.lieu.type_lieu,
       code_lieu: lieu.lieu.code_lieu,
       etablissement: "01",
@@ -72,7 +73,7 @@ module.exports = {
     montantDebiter
   ) => {
     let comptabilisationLoyerDebite = {
-      intitule_lieu: lieu.lieu.intitule_lieu,
+      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       montant_caution: montant_caution,
       numero_contrat: numero_contrat,
       direction_regional:
@@ -114,7 +115,7 @@ module.exports = {
       annee: annee,
       nom_agence_bancaire: proprietaire.nom_agence_bancaire,
       banque: proprietaire.banque,
-      intitule_lieu: lieu.lieu.intitule_lieu,
+      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       type_lieu: lieu.lieu.type_lieu,
       numero_contrat: numero_contrat,
       periodicite: periodicite,
@@ -138,50 +139,12 @@ module.exports = {
     //   let dateEAV = new Date(contratAV.date_debut_loyer);
     //   let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
     //   let dateDeffetAVYear = dateDeffetAV.getFullYear();
-
     //   if (
     //     (dateDeffetAVMonth == currentMonth &&
     //       dateDeffetAVYear == currentYear) &&
     //     ()
     //   ) {
-
     //   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //   if (oldContrats.length > 0) {
     //     // Get the old contrat
     //     oldContrat = oldContrats.find((contrat) => {
@@ -190,12 +153,9 @@ module.exports = {
     //     // Get old contrat's final date by subtracting 1 day from date d'effet av
     //     // dateDeffetAV.setDate(0);
     //     dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
-
     //     nextCloture = new Date(
     //       data[0].date_generation_de_comptabilisation
     //     );
-       
-
     //     if (
     //       (dateDeffetAVMonth == currentMonth &&
     //         dateDeffetAVYear == currentYear) ||
@@ -212,7 +172,6 @@ module.exports = {
     //         libelle: "Actif",
     //         etat: contratAV.etat_contrat.etat,
     //       };
-
     //       // Delete proprietaires
     //       if (
     //         contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
@@ -229,13 +188,11 @@ module.exports = {
     //       // Customise the new contrat etat
     //       etatNewContrat = contratAV.etat_contrat;
     //     }
-
     //     // Update the old contrat
     //     await Contrat.findByIdAndUpdate(oldContrat._id, {
     //       // date_fin_contrat: dateFinOldContrat,
     //       etat_contrat: etatOldContrat,
     //     });
-
     //     // Update the AV contrat
     //     await Contrat.findByIdAndUpdate(req.params.Id, {
     //       date_comptabilisation: oldContrat.date_comptabilisation,

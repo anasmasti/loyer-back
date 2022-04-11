@@ -45,7 +45,7 @@ module.exports = {
       n_engagement_depense: ContratData.n_engagement_depense,
       echeance_revision_loyer: ContratData.echeance_revision_loyer,
       // date_comptabilisation: ContratData.date_comptabilisation,
-      date_comptabilisation: null, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      date_comptabilisation: ContratData.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
       is_avenant: true,
       nombre_part: ContratData.nombre_part,

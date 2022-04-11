@@ -100,6 +100,7 @@ module.exports = {
         proprietaire_list: req.body.proprietaire_list,
         type_proprietaire: req.body.type_proprietaire,
         declaration_option: req.body.declaration_option,
+        statut: req.body.statut,
       })
         .then(async (data) => {
           // Fill the has_mandataire with the proprietaire id if the inserted proprietaire is a mandataire
