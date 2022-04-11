@@ -710,6 +710,7 @@ module.exports = {
                     },
                   })
                   .then(async (data) => {
+                    let contrat = data;
                     // Sending mail to DAJC, CDGSP, CSLA
                     await User.aggregate([
                       {
@@ -752,7 +753,7 @@ module.exports = {
                         " du " +
                         contrat.foncier.type_lieu +
                         " est crée et en attente de validation.",
-                      };
+                    };
 
                     if (DAJCemailsList.length > 0) {
                       // console.log(`${DAJCemailsList.join()}`);
@@ -780,7 +781,11 @@ module.exports = {
         path: "foncier",
         populate: {
           path: "proprietaire",
-          populate: { path: "proprietaire_list" },
+          populate: {
+            path: "proprietaire_list",
+            match: { statut: { $in: ["Actif", "À ajouter"] } },
+          },
+          match: { statut: { $in: ["Actif", "À ajouter"] } },
         },
       })
       .then(async (data) => {
@@ -807,6 +812,7 @@ module.exports = {
           await Contrat.findByIdAndUpdate(req.params.Id, {
             etat_contrat: etatContrat,
           });
+          
           // Sending mail to CDGSP
           let mailData = {
             message:
@@ -850,6 +856,11 @@ module.exports = {
             );
           }
           res.json({ message: "Contrat soumis à la validation." });
+          console.log({
+            partGlobal: partGlobal,
+            partProp: partProprietaireGlobal,
+            hasnt_mandataire: hasnt_mandataire,
+          });
         } else {
           console.log({
             partGlobal: partGlobal,

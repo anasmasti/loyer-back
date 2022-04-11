@@ -3,14 +3,14 @@ const Foncier = require("../../models/foncier/foncier.model");
 
 module.exports = {
   deletedLieu: async (req, res) => {
-    await Lieu.find({ attachedDR: req.params.Id }).then((lieux) => {
-      if (lieux.length > 0) {
+    // await Lieu.find({ attachedDR: req.params.Id }).then((lieux) => {
+    //   if (lieux.length > 0) {
         
-      }
-      else {
-        await Foncier.find({  })
-      }
-    })
+    //   }
+    //   else {
+    //     await Foncier.find({  })
+    //   }
+    // })
 
     await Lieu.findByIdAndUpdate(
       { _id: req.params.Id },

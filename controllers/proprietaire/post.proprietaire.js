@@ -82,6 +82,7 @@ module.exports = {
         proprietaire_list: req.body.proprietaire_list,
         type_proprietaire: req.body.type_proprietaire,
         declaration_option: req.body.declaration_option,
+        statut: req.body.statut
       });
 
       await proprietaire
