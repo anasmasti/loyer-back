@@ -549,7 +549,7 @@ module.exports = {
               contrat.numero_contrat +
               " du " +
               contrat.foncier.type_lieu +
-              " est en attente de validation.",
+              " est crée et en attente de validation.",
           };
 
           if (DAJCemailsList.length > 0) {
@@ -751,8 +751,8 @@ module.exports = {
                         contrat.numero_contrat +
                         " du " +
                         contrat.foncier.type_lieu +
-                        " est crée.",
-                    };
+                        " est crée et en attente de validation.",
+                      };
 
                     if (DAJCemailsList.length > 0) {
                       // console.log(`${DAJCemailsList.join()}`);

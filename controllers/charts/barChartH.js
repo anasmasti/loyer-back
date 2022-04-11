@@ -13,7 +13,7 @@ module.exports = {
       let filtredContrat = await Contrat.find({
         deleted: false,
       }).populate({ path: 'foncier', populate: { path: 'lieu.lieu' } });
-
+      // return res.json(filtredContrat)
       for (let i = 0; i < filtredContrat.length; i++) {
         for (let j = 0; j < filtredContrat[i].foncier.lieu.length; j++) {
           if (filtredContrat[i].foncier.lieu[j].deleted == false) {
