@@ -169,13 +169,26 @@
           <td>{{ nom_prenom }}</td>
           <td>{{ declaration_option }}</td>
           <td>{{ periodicite }}</td>
-          <td>{{ montant_loyer }}</td>
+          <td>
+            {{#if montant_avance_proprietaire}} -- {{else}}{{#if montant_loyer}}
+            {{montant_loyer}}{{else}} -- {{/if}}{{/if}}
+          </td>
+          <!-- <td>{{ montant_loyer }}</td> -->
           <td>{{ montant_avance_proprietaire }}</td>
           <!-- <td>{{ taux_impot }}</td> -->
           <td>{{#if taux_impot}} {{taux_impot}} %{{else}} -- {{/if}}</td>
-          <td>{{#if retenue_source}} {{retenue_source}}{{else}} -- {{/if}}</td>
-          <td>{{#if tax_avance_proprietaire}} {{tax_avance_proprietaire}}{{else}} -- {{/if}}</td>
-          <td>{{#if caution_proprietaire}} {{caution_proprietaire}}{{else}} -- {{/if}}</td>
+          <td>
+            {{#if tax_avance_proprietaire}} -- {{else}}{{#if retenue_source}}
+            {{retenue_source}}{{else}} -- {{/if}}{{/if}}
+          </td>
+          <td>
+            {{#if tax_avance_proprietaire}} {{tax_avance_proprietaire}}{{else}}
+            -- {{/if}}
+          </td>
+          <td>
+            {{#if caution_proprietaire}} {{caution_proprietaire}}{{else}} --
+            {{/if}}
+          </td>
           <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
           <!-- <td>{{ retenue_source }} MAD</td>
           <td>{{ tax_avance_proprietaire }} MAD</td>

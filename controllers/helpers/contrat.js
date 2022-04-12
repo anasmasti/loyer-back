@@ -1,5 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
+const User = require("../../models/roles/roles.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const mail = require("../../helpers/mail.send");
 
 module.exports = {
   createContratAV: async (
@@ -113,5 +115,69 @@ module.exports = {
       }
     }
     return storedFiles;
+  },
+
+  sendMailToAll: async (contratId) => {
+    await Contrat.findOne({ _id: contratId, deleted: false })
+      .populate({
+        path: "foncier",
+        populate: {
+          path: "proprietaire",
+          populate: { path: "proprietaire_list" },
+        },
+      })
+      .then(async (contrat) => {
+        await User.aggregate([
+          {
+            $match: {
+              deleted: false,
+              userRoles: {
+                $elemMatch: {
+                  deleted: false,
+                  $or: [
+                    {
+                      roleCode: "DAJC",
+                    },
+                    {
+                      roleCode: "CDGSP",
+                    },
+                    {
+                      roleCode: "CSLA",
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ])
+          .then(async (data_) => {
+            let DAJCemailsList = [];
+            for (let i = 0; i < data_.length; i++) {
+              DAJCemailsList.push(data_[i].email);
+            }
+
+            let DAJCmailData = {
+              message:
+                "Le contrat n°" +
+                contrat.numero_contrat +
+                " ( " +
+                contrat.foncier.type_lieu +
+                " ) a été validé.",
+            };
+
+            if (DAJCemailsList.length > 0) {
+              mail.sendMail(
+                `${DAJCemailsList.join()}`,
+                "Contrat validé",
+                "validation1",
+                DAJCmailData
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            res.status(400).send({ message: error.message });
+          });
+      });
   },
 };

@@ -3,6 +3,7 @@ const verifyRole = require("../middleware/verify-user-role");
 const postcontrat = require("../controllers/contrat/post.contrat");
 const getcontrat = require("../controllers/contrat/get.contrat");
 const putcontrat = require("../controllers/contrat/put.contrat");
+const ContratHelper = require("../controllers/helpers/contrat");
 const deletecontrat = require("../controllers/contrat/delete.contrat");
 const upload = require("../middleware/upload");
 const router = express.Router();
@@ -149,6 +150,7 @@ router
 router
   .route("/contrat/validation2/:Id/:matricule")
   .put(verifyRole.checkRoles("DAJC"), putcontrat.modifierValidationDAJC);
+  // putcontrat.modifierValidationDAJC);
 router
   .route("/contrat/soumettre/:Id/:matricule")
   .put(verifyRole.checkRoles("CSLA","CDGSP"), putcontrat.soumettre);
