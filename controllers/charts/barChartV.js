@@ -35,7 +35,7 @@ module.exports = {
           type_lieu: "Point de vente",
           deleted: false,
         }).countDocuments({
-          code_rattache_DR: DirectionRegionales[i].code_lieu,
+          attached_DR: DirectionRegionales[i]._id,
           deleted: false,
         });
         allBarChartData.push({
