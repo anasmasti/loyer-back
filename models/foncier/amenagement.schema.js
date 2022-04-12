@@ -38,7 +38,7 @@ const amenagementSchema = new Schema({
     type: String,
   },
   date_fin_travaux: {
-    type: String,
+    type: Date,
   },
   date_livraison_local: {
     type: String,

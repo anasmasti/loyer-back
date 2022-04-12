@@ -547,16 +547,16 @@ module.exports = {
             message:
               "Le contrat n°" +
               contrat.numero_contrat +
-              " du " +
+              " ( " +
               contrat.foncier.type_lieu +
-              " est crée et en attente de validation.",
+              " ) est crée et en attente de validation.",
           };
 
           if (DAJCemailsList.length > 0) {
             // console.log(`${DAJCemailsList.join()}`);
             mail.sendMail(
               `${DAJCemailsList.join()}`,
-              "Contrat validation",
+              "Contrat à valider",
               "validation1",
               DAJCmailData
             );
@@ -611,8 +611,9 @@ module.exports = {
 
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
-      .populate({ path: "old_contrat.contrat" })
-      .then(async (data) => {
+    .populate({ path: "old_contrat.contrat" })
+    .then(async (data) => {
+        console.log('Heeeeeeeeeeeey', data)
         let contratAV = data;
         let oldContrats = contratAV.old_contrat;
         let oldContrat;
@@ -625,9 +626,10 @@ module.exports = {
           .find()
           .sort({ date_generation_de_comptabilisation: "desc" })
           .select({ date_generation_de_comptabilisation: 1 })
-          .then(async (data) => {
+          .then(async (Comptabilisationdata) => {
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             if (oldContrats.length > 0) {
+              console.log('Innnnnnnnnnnnnnn' )
               // Get the old contrat
               oldContrat = oldContrats.find((contrat) => {
                 return contrat.contrat.etat_contrat.libelle == "Actif";
@@ -637,7 +639,7 @@ module.exports = {
               dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
               nextCloture = new Date(
-                data[0].date_generation_de_comptabilisation
+                Comptabilisationdata[0].date_generation_de_comptabilisation
               );
               let currentMonth = nextCloture.getMonth() + 1;
               let currentYear = nextCloture.getFullYear();
@@ -645,6 +647,8 @@ module.exports = {
               let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
               let dateDeffetAVYear = dateDeffetAV.getFullYear();
 
+              console.log('---------------------------', dateDeffetAVMonth)
+              console.log('---------------------------', dateDeffetAVYear)
               if (
                 (dateDeffetAVMonth == currentMonth &&
                   dateDeffetAVYear == currentYear) ||
@@ -678,7 +682,6 @@ module.exports = {
                 // Customise the new contrat etat
                 etatNewContrat = contratAV.etat_contrat;
               }
-
               // Update the old contrat
               await Contrat.findByIdAndUpdate(oldContrat._id, {
                 // date_fin_contrat: dateFinOldContrat,
@@ -690,6 +693,11 @@ module.exports = {
                 date_comptabilisation: oldContrat.date_comptabilisation,
                 etat_contrat: etatNewContrat,
                 validation2_DAJC: true,
+              }).then(async () => {
+                // Sending mail to DAJC, CDGSP and CSLA
+                ContratHelper.sendMailToAll(req.params.Id);
+              }).catch(error => {
+                console.log(error.message)
               });
             } else {
               let etatContrat = {
@@ -701,70 +709,9 @@ module.exports = {
                 validation2_DAJC: true,
                 etat_contrat: etatContrat,
               }).then(async (updatedContrat) => {
-                await Contrat.findOne({ _id: req.params.Id, deleted: false })
-                  .populate({
-                    path: "foncier",
-                    populate: {
-                      path: "proprietaire",
-                      populate: { path: "proprietaire_list" },
-                    },
-                  })
-                  .then(async (data) => {
-                    let contrat = data;
-                    // Sending mail to DAJC, CDGSP, CSLA
-                    await User.aggregate([
-                      {
-                        $match: {
-                          deleted: false,
-                          userRoles: {
-                            $elemMatch: {
-                              deleted: false,
-                              $or: [
-                                {
-                                  roleCode: "DAJC",
-                                },
-                                {
-                                  roleCode: "CDGSP",
-                                },
-                                {
-                                  roleCode: "CSLA",
-                                },
-                              ],
-                            },
-                          },
-                        },
-                      },
-                    ])
-                      .then(async (data_) => {
-                        for (let i = 0; i < data_.length; i++) {
-                          DAJCemailsList.push(data_[i].email);
-                        }
-                        // console.log(emailsList.join());
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                        res.status(400).send({ message: error.message });
-                      });
-
-                    let DAJCmailData = {
-                      message:
-                        "Le contrat n°" +
-                        contrat.numero_contrat +
-                        " du " +
-                        contrat.foncier.type_lieu +
-                        " est crée et en attente de validation.",
-                    };
-
-                    if (DAJCemailsList.length > 0) {
-                      // console.log(`${DAJCemailsList.join()}`);
-                      mail.sendMail(
-                        `${DAJCemailsList.join()}`,
-                        "Contrat validation",
-                        "validation1",
-                        DAJCmailData
-                      );
-                    }
-                  });
+                console.log('iiiiiiiiiiiiiin');
+                // Sending mail to DAJC, CDGSP and CSLA
+                ContratHelper.sendMailToAll(req.params.Id);
               });
             }
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -790,6 +737,7 @@ module.exports = {
       })
       .then(async (data) => {
         // return res.json(data);
+        console.log(data);
         let partGlobal = data.nombre_part;
         let partProprietaireGlobal = 0;
         // If some one is / has not a mandataire this variable will be true
@@ -812,16 +760,28 @@ module.exports = {
           await Contrat.findByIdAndUpdate(req.params.Id, {
             etat_contrat: etatContrat,
           });
-          
+
           // Sending mail to CDGSP
-          let mailData = {
-            message:
-              "Le contrat n°" +
-              data.numero_contrat +
-              " du " +
-              data.foncier.type_lieu +
-              " est crée et soumis à la validation.",
-          };
+          let mailData;
+          if (data.is_avenant) {
+            mailData = {
+              message:
+                "L'avenant n°" +
+                data.numero_contrat +
+                " ( " +
+                data.foncier.type_lieu +
+                " ) est crée et soumis à la validation.",
+            };
+          } else {
+            mailData = {
+              message:
+                "Le contrat n°" +
+                data.numero_contrat +
+                " ( " +
+                data.foncier.type_lieu +
+                " ) est crée et soumis à la validation.",
+            };
+          }
 
           let emailsList = [];
 
@@ -850,7 +810,7 @@ module.exports = {
           if (emailsList.length > 0) {
             mail.sendMail(
               `${emailsList.join()}`,
-              "Soumettre",
+              "Contrat à valider",
               "validation1",
               mailData
             );
