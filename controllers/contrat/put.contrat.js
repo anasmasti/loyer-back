@@ -611,9 +611,9 @@ module.exports = {
 
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
-    .populate({ path: "old_contrat.contrat" })
-    .then(async (data) => {
-        console.log('Heeeeeeeeeeeey', data)
+      .populate({ path: "old_contrat.contrat" })
+      .then(async (data) => {
+        console.log("Heeeeeeeeeeeey", data);
         let contratAV = data;
         let oldContrats = contratAV.old_contrat;
         let oldContrat;
@@ -629,31 +629,34 @@ module.exports = {
           .then(async (Comptabilisationdata) => {
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             if (oldContrats.length > 0) {
-              console.log('Innnnnnnnnnnnnnn' )
               // Get the old contrat
               oldContrat = oldContrats.find((contrat) => {
                 return contrat.contrat.etat_contrat.libelle == "Actif";
               }).contrat;
               // Get old contrat's final date by subtracting 1 day from date d'effet av
               // dateDeffetAV.setDate(0);
-              dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
               nextCloture = new Date(
                 Comptabilisationdata[0].date_generation_de_comptabilisation
               );
               let currentMonth = nextCloture.getMonth() + 1;
               let currentYear = nextCloture.getFullYear();
-              let dateDeffetAV = new Date(contratAV.date_debut_loyer);
+              let dateDeffetAV = new Date(
+                contratAV.etat_contrat.etat.date_effet_av
+              );
               let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
               let dateDeffetAVYear = dateDeffetAV.getFullYear();
+              // dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
-              console.log('---------------------------', dateDeffetAVMonth)
-              console.log('---------------------------', dateDeffetAVYear)
               if (
                 (dateDeffetAVMonth == currentMonth &&
                   dateDeffetAVYear == currentYear) ||
+
+                (dateDeffetAVMonth > currentMonth &&
+                  dateDeffetAVYear < currentYear) ||
+
                 (dateDeffetAVMonth < currentMonth &&
-                  dateDeffetAVYear < currentYear)
+                  !(dateDeffetAVYear > currentYear))
               ) {
                 // Customise the old contrat etat
                 etatOldContrat = {
@@ -676,11 +679,16 @@ module.exports = {
                     }
                   );
                 }
+
+                // Change is_avenant to false 
               } else {
                 // Customise the old contrat etat
                 etatOldContrat = oldContrat.etat_contrat;
                 // Customise the new contrat etat
-                etatNewContrat = contratAV.etat_contrat;
+                etatNewContrat = {
+                  libelle: "Actif",
+                  etat: contratAV.etat_contrat.etat,
+                };
               }
               // Update the old contrat
               await Contrat.findByIdAndUpdate(oldContrat._id, {
@@ -693,12 +701,14 @@ module.exports = {
                 date_comptabilisation: oldContrat.date_comptabilisation,
                 etat_contrat: etatNewContrat,
                 validation2_DAJC: true,
-              }).then(async () => {
-                // Sending mail to DAJC, CDGSP and CSLA
-                ContratHelper.sendMailToAll(req.params.Id);
-              }).catch(error => {
-                console.log(error.message)
-              });
+              })
+                .then(async () => {
+                  // Sending mail to DAJC, CDGSP and CSLA
+                  ContratHelper.sendMailToAll(req.params.Id);
+                })
+                .catch((error) => {
+                  console.log(error.message);
+                });
             } else {
               let etatContrat = {
                 libelle: "Actif",
@@ -709,7 +719,7 @@ module.exports = {
                 validation2_DAJC: true,
                 etat_contrat: etatContrat,
               }).then(async (updatedContrat) => {
-                console.log('iiiiiiiiiiiiiin');
+                console.log("iiiiiiiiiiiiiin");
                 // Sending mail to DAJC, CDGSP and CSLA
                 ContratHelper.sendMailToAll(req.params.Id);
               });
