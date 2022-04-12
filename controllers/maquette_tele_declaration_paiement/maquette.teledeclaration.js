@@ -194,7 +194,16 @@ module.exports = {
         } else {
           Contrat.find({ deleted: false })
             .populate("foncier")
-            .populate({ path: "foncier", populate: { path: "proprietaire" } })
+            .populate({
+              path: "foncier",
+              populate: {
+                path: "proprietaire",
+                match: {
+                  deleted: false,
+                  statut: { $in: ["Actif", "À supprimer"] },
+                },
+              },
+            })
             .limit(2)
             .then((data) => {
               // if (data.length > 0) {
