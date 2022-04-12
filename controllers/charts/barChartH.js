@@ -29,7 +29,7 @@ module.exports = {
       // }
       allBarChartHorizontalData.push({
         name: "Point de vente",
-        value: totalMontantLoyerPV + "MAD",
+        value: totalMontantLoyerPV,
         extra: {
           code: "PV",
         },
@@ -64,7 +64,7 @@ module.exports = {
       // }
       allBarChartHorizontalData.push({
         name: "Logement de fonction",
-        value: totalMontantLoyerLGF + "MAD",
+        value: totalMontantLoyerLGF,
         extra: {
           code: "LGF",
         },
@@ -84,7 +84,7 @@ module.exports = {
       // }
       allBarChartHorizontalData.push({
         name: "Siège",
-        value: totalMontantLoyerSG + "MAD",
+        value: totalMontantLoyerSG,
         extra: {
           code: "SG",
         },
@@ -104,7 +104,7 @@ module.exports = {
       // }
       allBarChartHorizontalData.push({
         name: "Direction régionale",
-        value: totalMontantLoyerDR + "MAD",
+        value: totalMontantLoyerDR,
         extra: {
           code: "DR",
         },
