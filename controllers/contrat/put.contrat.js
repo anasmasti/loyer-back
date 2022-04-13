@@ -486,14 +486,26 @@ module.exports = {
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
     ) {
-      let mailData = {
+      let mailData; 
+      mailData ={
         message:
+        // La résiliation du contrat n° --- du local de (intitulé, code PV, code DR, Intitulé DR) est effectuée, et ce à partir du………
           "Le contrat n°" +
           data.numero_contrat +
           " est " +
           data.etat_contrat.libelle +
           " .",
       };
+
+      // mailData = {
+      //   message:
+      //   La résiliation du contrat n° --- du local de (intitulé, code PV, code DR, Intitulé DR) est effectuée, et ce à partir du………
+      //     "Le contrat n°" +
+      //     data.numero_contrat +
+      //     " est " +
+      //     data.etat_contrat.libelle +
+      //     " .",
+      // };
 
       let emailsList = [];
 
@@ -522,7 +534,7 @@ module.exports = {
       if (emailsList.length > 0) {
         mail.sendMail(
           `${emailsList.join()}`,
-          "Contrat validation",
+          "${} de contrat",
           "validation1",
           mailData
         );
@@ -649,10 +661,10 @@ module.exports = {
   },
 
   modifierValidationDAJC: async (req, res) => {
+    console.log('Teeeeeeeeeeeeeeeeeeest');
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
       .populate({ path: "old_contrat.contrat" })
       .then(async (data) => {
-        console.log("Heeeeeeeeeeeey", data);
         let contratAV = data;
         let oldContrats = contratAV.old_contrat;
         let oldContrat;
@@ -687,6 +699,7 @@ module.exports = {
               let dateDeffetAVYear = dateDeffetAV.getFullYear();
               // dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
+              console.log('ouuuuuuut');
               if (
                 (dateDeffetAVMonth == currentMonth &&
                   dateDeffetAVYear == currentYear) ||
@@ -695,6 +708,7 @@ module.exports = {
                 (dateDeffetAVMonth < currentMonth &&
                   !(dateDeffetAVYear > currentYear))
               ) {
+                console.log('iiiiiin');
                 // Customise the old contrat etat
                 etatOldContrat = {
                   libelle: "Modifié",
@@ -717,13 +731,60 @@ module.exports = {
                   );
                 }
 
-                await Foncier.findById({ _id: contratAV.foncier, deleted: false })
+                // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
+                await Contrat.find({ _id: contratAV._id, deleted: false })
+                  .populate({
+                    path: "foncier",
+                    populate: { path: "proprietaire" },
+                  })
+                  .then(async (data_) => {
+                    for (
+                      let i = 0;
+                      i < data_[0].foncier.proprietaire.length;
+                      i++
+                    ) {
+                    let partProprietaire =
+                        data_[0].foncier.proprietaire[i].part_proprietaire;
+                      let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+                      let updatedContrat = data_[0];
+                      let hasDeclarationOption =
+                        data_[0].foncier.proprietaire[i].declaration_option;
+
+                      let updatedProprietaire = Calcule(
+                        updatedContrat,
+                        partProprietaire,
+                        idProprietaire,
+                        hasDeclarationOption
+                      );
+
+                    await Proprietaire.findByIdAndUpdate(
+                        idProprietaire,
+                        updatedProprietaire
+                      )
+                        .then((prop) => {
+                          // res.json(data);
+                          console.log('Proprietaire updated');
+                        })
+                        .catch((error) => {
+                          res.status(400).send({ message: error.message });
+                        });
+                    }
+                  })
+                  .catch((error) => {
+                    res.status(422).send({
+                      message: error.message,
+                    });
+                  });
+
+                await Foncier.findById({
+                  _id: contratAV.foncier,
+                  deleted: false,
+                })
                   .populate({
                     path: "proprietaire",
                     match: { deleted: false, statut: "À ajouter" },
                   })
                   .then((foncier) => {
-                    console.log(foncier);
                     foncier.proprietaire.forEach(async (proprietaire) => {
                       await Proprietaire.findByIdAndUpdate(
                         { _id: proprietaire._id },
@@ -767,13 +828,13 @@ module.exports = {
                 etat: {},
               };
 
-              await Contrat.findByIdAndUpdate(req.params.Id, {
-                validation2_DAJC: true,
-                etat_contrat: etatContrat,
-              }).then(async (updatedContrat) => {
-                // Sending mail to DAJC, CDGSP and CSLA
-                ContratHelper.sendMailToAll(req.params.Id);
-              });
+              // await Contrat.findByIdAndUpdate(req.params.Id, {
+              //   validation2_DAJC: true,
+              //   etat_contrat: etatContrat,
+              // }).then(async (updatedContrat) => {
+              //   // Sending mail to DAJC, CDGSP and CSLA
+              //   ContratHelper.sendMailToAll(req.params.Id);
+              // });
             }
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
           })

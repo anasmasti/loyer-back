@@ -62,7 +62,7 @@ module.exports = {
     archivecomptabilisation
       .find({ annee: req.params.annee })
       .then((data) => {
-        return res.json(data)
+        // return res.json(data)
         if (data.length > 0) {
           ArchCmptbList = data;
           // return res.json(data);
