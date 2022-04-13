@@ -5,6 +5,7 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>4</mois>
+<<<<<<< HEAD
   <totalMntBrutLoyer>46000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>3600.00</totalMntRetenueSource>
   <totalMntNetLoyer>42400.00</totalMntNetLoyer>
@@ -39,6 +40,25 @@
       <mntBrutLoyer>6000.00</mntBrutLoyer>
       <mntRetenueSource>600.00</mntRetenueSource>
       <mntNetLoyer>5400.00</mntNetLoyer>
+=======
+  <totalMntBrutLoyer>72000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>5400.00</totalMntRetenueSource>
+  <totalMntNetLoyer>66600.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>BB125874</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>YASSINE TYEST</nomPrenomBailleur>
+      <adresseBailleur>1000000</adresseBailleur>
+      <adresseBien>123456</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>72000.00</mntBrutLoyer>
+      <mntRetenueSource>5400.00</mntRetenueSource>
+      <mntNetLoyer>66600.00</mntNetLoyer>
+>>>>>>> a57fd57de46e4efd08f37776818e14366116a5c7
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
