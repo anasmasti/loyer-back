@@ -20,12 +20,14 @@ module.exports = {
       contrats_suspendu = [],
       contrat_avener = [],
       nextDateComptabilisation = null,
-      data = null;
+      data = null,
+      isMotifMontantLoyer = false,
+      newMotifMontantLoyer = 0;
 
     // console.log(req.body.data);
     try {
       data = JSON.parse(req.body.data);
-      // return console.log(data);
+      console.log(data);
     } catch (error) {
       res.status(422).send({ message: error.message });
     }
@@ -164,6 +166,7 @@ module.exports = {
           date_resiliation: data.etat_contrat.etat.date_resiliation,
           etat_lieu_sortie: data.etat_contrat.etat.etat_lieu_sortie,
           preavis: data.etat_contrat.etat.preavis,
+          frais_reamenagement: data.etat_contrat.etat.frais_reamenagement,
           images_etat_res_lieu_sortie: images_etat_res_lieu_sortie,
           lettre_res_piece_jointe: lettre_res_piece_jointe,
         },
@@ -192,8 +195,42 @@ module.exports = {
       // }
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = data.etat_contrat;
-    } else if (data.etat_contrat.libelle === "Initié") {
+    } else if (data.etat_contrat.libelle === "Initié" && !data.is_avenant) {
       etatContrat = data.etat_contrat;
+    }
+
+    if (data.is_avenant && data.etat_contrat.libelle === "Initié") {
+      console.log("testttttt");
+      etatContrat = {
+        libelle: data.etat_contrat.libelle,
+        etat: {
+          n_avenant: data.etat_contrat.etat.n_avenant,
+          motif: data.etat_contrat.etat.motif,
+          date_effet_av: data.etat_contrat.etat.date_effet_av,
+          deleted_proprietaires: data.etat_contrat.etat.deleted_proprietaires,
+        },
+      };
+
+      console.log(data.etat_contrat.etat.motif);
+      data.etat_contrat.etat.motif.forEach((motif) => {
+        if (motif.type_motif == "Révision du prix du loyer") {
+          isMotifMontantLoyer = true;
+          newMotifMontantLoyer = motif.montant_nouveau_loyer;
+        }
+
+        if (motif.type_motif == "Décès" || motif.type_motif == "Cession") {
+          if (data.etat_contrat.etat.deleted_proprietaires.length > 0) {
+            data.etat_contrat.etat.deleted_proprietaires.forEach(
+              async (proprietaire) => {
+                await Proprietaire.findByIdAndUpdate(
+                  { _id: proprietaire },
+                  { statut: "À supprimer" }
+                );
+              }
+            );
+          }
+        }
+      });
     }
 
     // store existed Suspendu contrat
@@ -261,7 +298,9 @@ module.exports = {
         date_reprise_caution: data.date_reprise_caution,
         date_fin_avance: data.date_fin_avance,
         date_premier_paiement: data.date_premier_paiement,
-        montant_loyer: data.montant_loyer,
+        montant_loyer: isMotifMontantLoyer
+          ? newMotifMontantLoyer
+          : data.montant_loyer,
         taxe_edilite_loyer: data.taxe_edilite_loyer,
         taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
         periodicite_paiement: data.periodicite_paiement,
@@ -651,10 +690,8 @@ module.exports = {
               if (
                 (dateDeffetAVMonth == currentMonth &&
                   dateDeffetAVYear == currentYear) ||
-
                 (dateDeffetAVMonth > currentMonth &&
                   dateDeffetAVYear < currentYear) ||
-
                 (dateDeffetAVMonth < currentMonth &&
                   !(dateDeffetAVYear > currentYear))
               ) {
@@ -680,7 +717,22 @@ module.exports = {
                   );
                 }
 
-                // Change is_avenant to false 
+                await Foncier.findById({ _id: contratAV.foncier, deleted: false })
+                  .populate({
+                    path: "proprietaire",
+                    match: { deleted: false, statut: "À ajouter" },
+                  })
+                  .then((foncier) => {
+                    console.log(foncier);
+                    foncier.proprietaire.forEach(async (proprietaire) => {
+                      await Proprietaire.findByIdAndUpdate(
+                        { _id: proprietaire._id },
+                        { statut: "Actif" }
+                      );
+                    });
+                  });
+
+                // Change is_avenant to false
               } else {
                 // Customise the old contrat etat
                 etatOldContrat = oldContrat.etat_contrat;
@@ -719,7 +771,6 @@ module.exports = {
                 validation2_DAJC: true,
                 etat_contrat: etatContrat,
               }).then(async (updatedContrat) => {
-                console.log("iiiiiiiiiiiiiin");
                 // Sending mail to DAJC, CDGSP and CSLA
                 ContratHelper.sendMailToAll(req.params.Id);
               });
