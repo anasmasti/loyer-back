@@ -1,44 +1,248 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>3</mois>
-  <totalMntBrutLoyer>50000</totalMntBrutLoyer>
-  <totalMntRetenueSource>4000</totalMntRetenueSource>
-  <totalMntNetLoyer>46000</totalMntNetLoyer>
+  <totalMntBrutLoyer>397000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>35850.00</totalMntRetenueSource>
+  <totalMntNetLoyer>361150.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur>BB196497</numCNIBailleur>
-      <numCEBailleur>3546872</numCEBailleur>
-      <nomPrenomBailleur>Ahmed Taoufiq</nomPrenomBailleur>
-      <adresseBailleur>Casablanca</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>31451</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>STE LOCATION </nomPrenomBailleur>
+      <adresseBailleur>EFDNKJEZHNDZI56486461</adresseBailleur>
+      <adresseBien>CASAAA 255525KLHDKLJZDZAJBII 2233654645</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>30000</mntBrutLoyer>
-      <mntRetenueSource>2400</mntRetenueSource>
-      <mntNetLoyer>27600</mntNetLoyer>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>5000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>2</ifuBailleur>
-      <numCNIBailleur>BJ193607</numCNIBailleur>
-      <numCEBailleur>1000</numCEBailleur>
-      <nomPrenomBailleur>Yassine AM</nomPrenomBailleur>
-      <adresseBailleur>Test Adresse</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>56987</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>STE MAISON </nomPrenomBailleur>
+      <adresseBailleur>CASA 44641616</adresseBailleur>
+      <adresseBien>CASAAA 255525KLHDKLJZDZAJBII 2233654645</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000</mntBrutLoyer>
-      <mntRetenueSource>1600</mntRetenueSource>
-      <mntNetLoyer>18400</mntNetLoyer>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>5000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>F545467</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KAMAL JAMAL</nomPrenomBailleur>
+      <adresseBailleur>LDZJOAID54646</adresseBailleur>
+      <adresseBien>CASAAA 255525KLHDKLJZDZAJBII 2233654645</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>15365</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>STE12</nomPrenomBailleur>
+      <adresseBailleur>KHUUIK353656</adresseBailleur>
+      <adresseBien>KJHZDEHA5356854</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>30000.00</mntBrutLoyer>
+      <mntRetenueSource>2250.00</mntRetenueSource>
+      <mntNetLoyer>27750.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>654566</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>STT22</nomPrenomBailleur>
+      <adresseBailleur>FLK354651</adresseBailleur>
+      <adresseBien>KJHZDEHA5356854</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>30000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>30000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF6</ifuBailleur>
+      <numCNIBailleur>3516546</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>GTT STE</nomPrenomBailleur>
+      <adresseBailleur>CASA 548454</adresseBailleur>
+      <adresseBien>KJHZDEHA5356854</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>30000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>30000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF7</ifuBailleur>
+      <numCNIBailleur>O3546845</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KHALID VAVA </nomPrenomBailleur>
+      <adresseBailleur>LKJIHIUGU214456</adresseBailleur>
+      <adresseBien>DEZF43F23164</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>18000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>18000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF8</ifuBailleur>
+      <numCNIBailleur>L3659652</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>FATIMA FAFA</nomPrenomBailleur>
+      <adresseBailleur>KJHEUIH44746879</adresseBailleur>
+      <adresseBien>DEZF43F23164</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>12000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>11400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF9</ifuBailleur>
+      <numCNIBailleur>K6546841</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>IMANE FAFA</nomPrenomBailleur>
+      <adresseBailleur>KJHZJHO65485468</adresseBailleur>
+      <adresseBien>CASA 324658748646</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>48000.00</mntBrutLoyer>
+      <mntRetenueSource>5400.00</mntRetenueSource>
+      <mntNetLoyer>42600.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF10</ifuBailleur>
+      <numCNIBailleur>K2546546</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KHADIJA PAPA</nomPrenomBailleur>
+      <adresseBailleur>RABAT LJOOKJPM654865465</adresseBailleur>
+      <adresseBien>RABAT 354864IJUIUJ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>12000.00</mntBrutLoyer>
+      <mntRetenueSource>900.00</mntRetenueSource>
+      <mntNetLoyer>11100.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF11</ifuBailleur>
+      <numCNIBailleur>LP354654</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SAAD NABIL</nomPrenomBailleur>
+      <adresseBailleur>RABAT 676864</adresseBailleur>
+      <adresseBien>RABAT 354864IJUIUJ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>12000.00</mntBrutLoyer>
+      <mntRetenueSource>900.00</mntRetenueSource>
+      <mntNetLoyer>11100.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF12</ifuBailleur>
+      <numCNIBailleur>B3541456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>JAJA GAGA</nomPrenomBailleur>
+      <adresseBailleur>JHUHIH325856</adresseBailleur>
+      <adresseBien>RABAT 52485LPOKOIJ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>28000.00</mntBrutLoyer>
+      <mntRetenueSource>2800.00</mntRetenueSource>
+      <mntNetLoyer>25200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF13</ifuBailleur>
+      <numCNIBailleur>326546</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>STE CASA 56</nomPrenomBailleur>
+      <adresseBailleur>CASA PMLKL5646</adresseBailleur>
+      <adresseBien>RABAT 52485LPOKOIJ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>12000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>12000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF14</ifuBailleur>
+      <numCNIBailleur>G364861</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MANAL LALA</nomPrenomBailleur>
+      <adresseBailleur>KHIUJLL545451</adresseBailleur>
+      <adresseBien>CASA 47574654</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>150000.00</mntBrutLoyer>
+      <mntRetenueSource>22500.00</mntRetenueSource>
+      <mntNetLoyer>127500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
