@@ -486,7 +486,7 @@ module.exports = {
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
     ) {
-     await Contrat.findById({_id: data._id, deleted: false})
+     await Contrat.findById({_id: existedContrat._id, deleted: false})
       .populate({
         path: "foncier",
         populate: {
@@ -508,7 +508,6 @@ module.exports = {
           mailObject = "Suspension du contrat"
           mailData ={
             message:
-            Résilié
               `Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${contratData.foncier.lieu[0].lieu.date_suspension}.`,
           };
         }
