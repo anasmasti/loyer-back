@@ -486,7 +486,7 @@ module.exports = {
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
     ) {
-      await Contrat.findById({_id: data._id, deleted: false})
+     await Contrat.findById({_id: data._id, deleted: false})
       .populate({
         path: "foncier",
         populate: {
@@ -494,7 +494,7 @@ module.exports = {
           populate: { path: "lieu" },
           match: { deleted: false },
         },
-      }).then((contratData) => {
+      }).then(async (contratData) => {
         let mailData;
         let mailObject; 
         if (data.etat_contrat.libelle === "Résilié") {
