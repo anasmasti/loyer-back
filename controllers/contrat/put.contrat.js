@@ -200,7 +200,6 @@ module.exports = {
     }
 
     if (data.is_avenant && data.etat_contrat.libelle === "Initié") {
-      console.log("testttttt");
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
@@ -211,7 +210,6 @@ module.exports = {
         },
       };
 
-      console.log(data.etat_contrat.etat.motif);
       data.etat_contrat.etat.motif.forEach((motif) => {
         if (motif.type_motif == "Révision du prix du loyer") {
           isMotifMontantLoyer = true;
@@ -337,41 +335,43 @@ module.exports = {
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    // await Contrat.find({ _id: req.params.Id, deleted: false })
-    //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
-    //   .then(async (data_) => {
-    //     for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-    //       let partProprietaire =
-    //         data_[0].foncier.proprietaire[i].part_proprietaire;
-    //       let idProprietaire = data_[0].foncier.proprietaire[i]._id;
-    //       let updatedContrat = data;
-    //       let hasDeclarationOption =
-    //         data_[0].foncier.proprietaire[i].declaration_option;
+    await Contrat.find({ _id: req.params.Id, deleted: false })
+      .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      .then(async (data_) => {
+        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+          let partProprietaire =
+            data_[0].foncier.proprietaire[i].part_proprietaire;
+          let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+          let updatedContrat = data;
+          let hasDeclarationOption =
+            data_[0].foncier.proprietaire[i].declaration_option;
 
-    //       let updatedProprietaire = Calcule(
-    //         updatedContrat,
-    //         partProprietaire,
-    //         idProprietaire,
-    //         hasDeclarationOption
-    //       );
+          let updatedProprietaire = Calcule(
+            updatedContrat,
+            partProprietaire,
+            idProprietaire,
+            hasDeclarationOption
+          );
 
-    //       await Proprietaire.findByIdAndUpdate(
-    //         idProprietaire,
-    //         updatedProprietaire
-    //       )
-    //         .then((data) => {
-    //           // res.json(data);
-    //         })
-    //         .catch((error) => {
-    //           res.status(400).send({ message: error.message });
-    //         });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     res.status(422).send({
-    //       message: error.message,
-    //     });
-    //   });
+          await Proprietaire.findByIdAndUpdate(
+            idProprietaire,
+            updatedProprietaire
+          )
+            .then((data) => {
+              // res.json(data);
+              console.log('Proprietaire updated');
+            })
+            .catch((error) => {
+              res.status(400).send({ message: error.message });
+            });
+        }
+      })
+      .catch((error) => {
+        res.status(422).send({
+          message: error.message,
+        });
+      });
+
     if (data.etat_contrat.libelle === "Résilié") {
       // Make the lieu that attached to this foncier (transféré)
       // let lieu = {
@@ -486,82 +486,87 @@ module.exports = {
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
     ) {
-     await Contrat.findById({_id: existedContrat._id, deleted: false})
-      .populate({
-        path: "foncier",
-        populate: {
-          path: "lieu",
-          populate: { path: "lieu" },
-          match: { deleted: false },
-        },
-      }).then(async (contratData) => {
-        let mailData;
-        let mailObject; 
-        if (data.etat_contrat.libelle === "Résilié") {
-          mailObject = "Résiliation de contrat"
-          mailData ={
-            message:
-            `La résiliation du contrat n° ${contratData.numero_contrat} du local (${contratData.foncier.lieu[0].lieu.intitule_lieu}, ${contratData.foncier.lieu[0].lieu.code_lieu}) est effectuée, et ce à partir du ${contratData.etat_contrat.etat.date_resiliation}`
-          };
-        }
-        if (data.etat_contrat.libelle === "Suspendu") {
-          mailObject = "Suspension du contrat"
-          mailData ={
-            message:
-              `Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${contratData.foncier.lieu[0].lieu.date_suspension}.`,
-          };
-        }
-  
-        let emailsList = [];
-  
-        await User.aggregate([
-          {
-            $match: {
-              deleted: false,
-              userRoles: {
-                $elemMatch: {
-                  deleted: false,
-                  $or: [
-                    {
-                      roleCode: "DAJC",
-                    },
-                    {
-                      roleCode: "CDGSP",
-                    },
-                    {
-                      roleCode: "CSLA",
-                    },
-                    {
-                      roleCode: "DC",
-                    },
-                  ],
+      await Contrat.findById({ _id: existedContrat._id, deleted: false })
+        .populate({
+          path: "foncier",
+          populate: {
+            path: "lieu",
+            populate: { path: "lieu" },
+            match: { deleted: false },
+          },
+        })
+        .then(async (contratData) => {
+          // let contratName ;
+          // if(existedContrat.is_avenant){
+          //   contratName = 'Avenant'
+          // }
+          // if(!existedContrat.is_avenant){
+          //   contratName = 'Le contrat de bail'
+          // }
+          let mailData;
+          let mailObject;
+          if (data.etat_contrat.libelle === "Résilié") {
+            mailObject = "Résiliation de contrat";
+            mailData = {
+              message: `La résiliation du contrat n° ${contratData.numero_contrat} du local (${contratData.foncier.lieu[0].lieu.intitule_lieu}, ${contratData.foncier.lieu[0].lieu.code_lieu}) est effectuée${data.etat_contrat.etat.date_resiliation ? ', et ce à partir du ' + data.etat_contrat.etat.date_resiliation : ' '}`,
+            };
+          }
+          if (data.etat_contrat.libelle === "Suspendu") {
+            mailObject = "Suspension du contrat";
+            mailData = {
+              message: `Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
+            };
+          }
+
+          let emailsList = [];
+
+          await User.aggregate([
+            {
+              $match: {
+                deleted: false,
+                userRoles: {
+                  $elemMatch: {
+                    deleted: false,
+                    $or: [
+                      {
+                        roleCode: "DAJC",
+                      },
+                      {
+                        roleCode: "CDGSP",
+                      },
+                      {
+                        roleCode: "CSLA",
+                      },
+                      {
+                        roleCode: "DC",
+                      },
+                    ],
+                  },
                 },
               },
             },
-          },
-        ])
-          .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-              emailsList.push(data[i].email);
-            }
-          })
-          .catch((error) => {
-            // console.log(error);
-            res.status(400).send({ message: error.message });
-          });
-        if (emailsList.length > 0) {
-          mail.sendMail(
-            `${emailsList.join()}`,
-            mailObject,
-            "validation1",
-            mailData
-          );
-        }
-      }).catch((error) => {
-        res.status(400).send({ message: error.message });
-        
-      })
-      
+          ])
+            .then((data) => {
+              for (let i = 0; i < data.length; i++) {
+                emailsList.push(data[i].email);
+              }
+            })
+            .catch((error) => {
+              // console.log(error);
+              res.status(400).send({ message: error.message });
+            });
+          if (emailsList.length > 0) {
+            mail.sendMail(
+              `${emailsList.join()}`,
+              mailObject,
+              "validation1",
+              mailData
+            );
+          }
+        })
+        .catch((error) => {
+          res.status(400).send({ message: error.message });
+        });
     }
 
     // Save Updated data
@@ -684,7 +689,6 @@ module.exports = {
   },
 
   modifierValidationDAJC: async (req, res) => {
-    console.log('Teeeeeeeeeeeeeeeeeeest');
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
       .populate({ path: "old_contrat.contrat" })
       .then(async (data) => {
@@ -722,7 +726,6 @@ module.exports = {
               let dateDeffetAVYear = dateDeffetAV.getFullYear();
               // dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
-              console.log('ouuuuuuut');
               if (
                 (dateDeffetAVMonth == currentMonth &&
                   dateDeffetAVYear == currentYear) ||
@@ -731,7 +734,6 @@ module.exports = {
                 (dateDeffetAVMonth < currentMonth &&
                   !(dateDeffetAVYear > currentYear))
               ) {
-                console.log('iiiiiin');
                 // Customise the old contrat etat
                 etatOldContrat = {
                   libelle: "Modifié",
@@ -766,7 +768,7 @@ module.exports = {
                       i < data_[0].foncier.proprietaire.length;
                       i++
                     ) {
-                    let partProprietaire =
+                      let partProprietaire =
                         data_[0].foncier.proprietaire[i].part_proprietaire;
                       let idProprietaire = data_[0].foncier.proprietaire[i]._id;
                       let updatedContrat = data_[0];
@@ -780,13 +782,13 @@ module.exports = {
                         hasDeclarationOption
                       );
 
-                    await Proprietaire.findByIdAndUpdate(
+                      await Proprietaire.findByIdAndUpdate(
                         idProprietaire,
                         updatedProprietaire
                       )
                         .then((prop) => {
                           // res.json(data);
-                          console.log('Proprietaire updated');
+                          console.log("Proprietaire updated");
                         })
                         .catch((error) => {
                           res.status(400).send({ message: error.message });
@@ -851,13 +853,13 @@ module.exports = {
                 etat: {},
               };
 
-              // await Contrat.findByIdAndUpdate(req.params.Id, {
-              //   validation2_DAJC: true,
-              //   etat_contrat: etatContrat,
-              // }).then(async (updatedContrat) => {
-              //   // Sending mail to DAJC, CDGSP and CSLA
-              //   ContratHelper.sendMailToAll(req.params.Id);
-              // });
+              await Contrat.findByIdAndUpdate(req.params.Id, {
+                validation2_DAJC: true,
+                etat_contrat: etatContrat,
+              }).then(async (updatedContrat) => {
+                // Sending mail to DAJC, CDGSP and CSLA
+                ContratHelper.sendMailToAll(req.params.Id);
+              });
             }
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
           })
