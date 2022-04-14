@@ -508,7 +508,7 @@ module.exports = {
           if (data.etat_contrat.libelle === "Résilié") {
             mailObject = "Résiliation de contrat";
             mailData = {
-              message: `La résiliation du contrat n° ${contratData.numero_contrat} du local (${contratData.foncier.lieu[0].lieu.intitule_lieu}, ${contratData.foncier.lieu[0].lieu.code_lieu}) est effectuée${data.etat_contrat.etat.date_resiliation ? ', et ce à partir du ' + data.etat_contrat.etat.date_resiliation : ' '}`,
+              message: `La résiliation du contrat n° ${contratData.numero_contrat} (${contratData.foncier.type_lieu}) est effectuée${data.etat_contrat.etat.date_resiliation ? ', et ce à partir du ' + data.etat_contrat.etat.date_resiliation : ' '}`,
             };
           }
           if (data.etat_contrat.libelle === "Suspendu") {
