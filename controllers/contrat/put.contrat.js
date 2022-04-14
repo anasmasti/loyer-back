@@ -621,14 +621,18 @@ module.exports = {
               console.log(error);
               res.status(400).send({ message: error.message });
             });
+          
+            let contratName ;
+            if(contrat.is_avenant) {
+              contratName = 'Avenant'
+            }
+            if(!contrat.is_avenant) {
+              contratName = 'Le contrat'
+            }
 
           let DAJCmailData = {
             message:
-              "Le contrat n°" +
-              contrat.numero_contrat +
-              " ( " +
-              contrat.foncier.type_lieu +
-              " ) est crée et en attente de validation.",
+            `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) est crée et en attente de validation.`,
           };
 
           if (DAJCemailsList.length > 0) {

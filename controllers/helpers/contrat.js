@@ -156,13 +156,17 @@ module.exports = {
               DAJCemailsList.push(data_[i].email);
             }
 
+            let contratName;
+            if (contrat.is_avenant) {
+              contratName = 'Avenant'
+            }
+            if (!contrat.is_avenant) {
+              contratName = 'Le contrat'
+            }
+
             let DAJCmailData = {
               message:
-                "Le contrat n°" +
-                contrat.numero_contrat +
-                " ( " +
-                contrat.foncier.type_lieu +
-                " ) a été validé.",
+                `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) a été validé.`,
             };
 
             if (DAJCemailsList.length > 0) {
