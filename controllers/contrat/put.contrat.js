@@ -200,7 +200,6 @@ module.exports = {
     }
 
     if (data.is_avenant && data.etat_contrat.libelle === "Initié") {
-      console.log("testttttt");
       etatContrat = {
         libelle: data.etat_contrat.libelle,
         etat: {
@@ -211,7 +210,6 @@ module.exports = {
         },
       };
 
-      console.log(data.etat_contrat.etat.motif);
       data.etat_contrat.etat.motif.forEach((motif) => {
         if (motif.type_motif == "Révision du prix du loyer") {
           isMotifMontantLoyer = true;
@@ -488,7 +486,7 @@ module.exports = {
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
     ) {
-      await Contrat.findById({ _id: data._id, deleted: false })
+      await Contrat.findById({ _id: existedContrat._id, deleted: false })
         .populate({
           path: "foncier",
           populate: {
@@ -498,18 +496,25 @@ module.exports = {
           },
         })
         .then(async (contratData) => {
+          // let contratName ;
+          // if(existedContrat.is_avenant){
+          //   contratName = 'Avenant'
+          // }
+          // if(!existedContrat.is_avenant){
+          //   contratName = 'Le contrat de bail'
+          // }
           let mailData;
           let mailObject;
           if (data.etat_contrat.libelle === "Résilié") {
             mailObject = "Résiliation de contrat";
             mailData = {
-              message: `La résiliation du contrat n° ${contratData.numero_contrat} du local (${contratData.foncier.lieu[0].lieu.intitule_lieu}, ${contratData.foncier.lieu[0].lieu.code_lieu}) est effectuée, et ce à partir du ${data.etat_contrat.etat.date_resiliation}`,
+              message: `La résiliation du contrat n° ${contratData.numero_contrat} du local (${contratData.foncier.lieu[0].lieu.intitule_lieu}, ${contratData.foncier.lieu[0].lieu.code_lieu}) est effectuée${data.etat_contrat.etat.date_resiliation ? ', et ce à partir du ' + data.etat_contrat.etat.date_resiliation : ' '}`,
             };
           }
           if (data.etat_contrat.libelle === "Suspendu") {
             mailObject = "Suspension du contrat";
             mailData = {
-              message: Résilié`Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
+              message: `Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
             };
           }
 
@@ -721,7 +726,6 @@ module.exports = {
               let dateDeffetAVYear = dateDeffetAV.getFullYear();
               // dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
-              console.log("ouuuuuuut");
               if (
                 (dateDeffetAVMonth == currentMonth &&
                   dateDeffetAVYear == currentYear) ||
@@ -730,7 +734,6 @@ module.exports = {
                 (dateDeffetAVMonth < currentMonth &&
                   !(dateDeffetAVYear > currentYear))
               ) {
-                console.log("iiiiiin");
                 // Customise the old contrat etat
                 etatOldContrat = {
                   libelle: "Modifié",
