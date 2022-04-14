@@ -514,7 +514,7 @@ module.exports = {
           if (data.etat_contrat.libelle === "Suspendu") {
             mailObject = "Suspension du contrat";
             mailData = {
-              message: `Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
+              message: `Le contrat de bail n° ${contratData.numero_contrat} (${contratData.foncier.type_lieu}) a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
             };
           }
 
