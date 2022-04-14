@@ -684,7 +684,6 @@ module.exports = {
   },
 
   modifierValidationDAJC: async (req, res) => {
-    console.log("Teeeeeeeeeeeeeeeeeeest");
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
       .populate({ path: "old_contrat.contrat" })
       .then(async (data) => {
@@ -851,13 +850,13 @@ module.exports = {
                 etat: {},
               };
 
-              // await Contrat.findByIdAndUpdate(req.params.Id, {
-              //   validation2_DAJC: true,
-              //   etat_contrat: etatContrat,
-              // }).then(async (updatedContrat) => {
-              //   // Sending mail to DAJC, CDGSP and CSLA
-              //   ContratHelper.sendMailToAll(req.params.Id);
-              // });
+              await Contrat.findByIdAndUpdate(req.params.Id, {
+                validation2_DAJC: true,
+                etat_contrat: etatContrat,
+              }).then(async (updatedContrat) => {
+                // Sending mail to DAJC, CDGSP and CSLA
+                ContratHelper.sendMailToAll(req.params.Id);
+              });
             }
             // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
           })
