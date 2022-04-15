@@ -5,6 +5,12 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>4</mois>
+<<<<<<< HEAD
+  <totalMntBrutLoyer>72000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>5400.00</totalMntRetenueSource>
+  <totalMntNetLoyer>66600.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+=======
   <totalMntBrutLoyer>215000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>22700.00</totalMntRetenueSource>
   <totalMntNetLoyer>192300.00</totalMntNetLoyer>
@@ -43,6 +49,7 @@
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
+>>>>>>> 792e8e95f4592904c35df44a6ff24987f50b0191
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF5</ifuBailleur>
       <numCNIBailleur>H6356525</numCNIBailleur>
@@ -90,6 +97,8 @@
       <mntBrutLoyer>72000.00</mntBrutLoyer>
       <mntRetenueSource>5400.00</mntRetenueSource>
       <mntNetLoyer>66600.00</mntNetLoyer>
+<<<<<<< HEAD
+=======
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -124,6 +133,7 @@
       <mntBrutLoyer>30000.00</mntBrutLoyer>
       <mntRetenueSource>4500.00</mntRetenueSource>
       <mntNetLoyer>25500.00</mntNetLoyer>
+>>>>>>> 792e8e95f4592904c35df44a6ff24987f50b0191
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

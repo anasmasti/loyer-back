@@ -28,26 +28,10 @@ module.exports = {
 
     //stock file in array
     if (req.files) {
-      // console.log(req.files);
-      // for (let item in req.files.piece_joint_contrat) {
-      //   piece_joint_contrat.push({
-      //     image: req.files.piece_joint_contrat[item].path,
-      //   });
-      // }
       piece_joint_contrat = await FilesHelper.storeFiles(
         req,
         "piece_joint_contrat"
       );
-
-      // console.log("piece_joint_contrat", piece_joint_contrat);
-      // for (let i = 0; i < 8; i++) {
-      //   console.log(req.files[`piece_joint_contrat${i + 1}`]);
-      //   if (req.files[`piece_joint_contrat${i + 1}`]) {
-      //     piece_joint_contrat.push({
-      //       image: req.files[`piece_joint_contrat${i + 1}`].path,
-      //     });`
-      //   }
-      // }
     }
 
     //filter id_lieu in the requested foncier
@@ -60,6 +44,7 @@ module.exports = {
         idLieu = requestedFoncier.lieu[i].lieu;
       }
     }
+
     if (idLieu != null) {
       //find lieu that is requested from foncier
       requestedLieu = await Lieu.findById({ _id: idLieu }).populate({
@@ -71,13 +56,6 @@ module.exports = {
         message: "Aucune entité organisationnelle attachée à ce local !",
       });
     }
-    // //set numero de contrat
-    // let numeroContrat;
-    // requestedLieu.type_lieu == "Logement de fonction"
-    //   ? (numeroContrat =
-    //       requestedLieu.code_rattache_DR + "/" + requestedLieu.intitule_lieu)
-    //   : (numeroContrat =
-    //       requestedLieu.code_lieu + "/" + requestedLieu.intitule_lieu);
 
     //set numero de contrat
     let numeroContrat;
