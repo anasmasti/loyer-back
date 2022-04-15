@@ -385,8 +385,8 @@ module.exports = {
           foncier.lieu.forEach((lieu) => {
             if (!lieu.deleted) {
               let updatedLieu = {
-                deleted: true,
-                etat_lieu: lieu.etat_lieu,
+                deleted: false,
+                etat_lieu: "Transférée",
                 lieu: lieu.lieu,
               };
               lieux.push(updatedLieu);
