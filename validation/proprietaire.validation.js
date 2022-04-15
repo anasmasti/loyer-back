@@ -115,7 +115,6 @@ const ProprietaireValidation = Joi.object({
   statut: Joi.string(),
   montant_loyer: Joi.number()
     .empty(0)
-    .integer()
     .min(0)
     .max(999999999999999999999999999999),
   is_mandataire: Joi.boolean(),

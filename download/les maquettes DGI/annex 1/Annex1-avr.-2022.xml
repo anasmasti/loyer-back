@@ -5,42 +5,6 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>4</mois>
-<<<<<<< HEAD
-  <totalMntBrutLoyer>46000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>3600.00</totalMntRetenueSource>
-  <totalMntNetLoyer>42400.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
-      <numCNIBailleur>F354654</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>SARA DADA</nomPrenomBailleur>
-      <adresseBailleur>RABAT 34565126</adresseBailleur>
-      <adresseBien>casa 2 mars </adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>40000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>37000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF6</ifuBailleur>
-      <numCNIBailleur>F6546856</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KARIMA NANA</nomPrenomBailleur>
-      <adresseBailleur>OPEDFUZEKJODP655692</adresseBailleur>
-      <adresseBien>DEZF43F23164</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-=======
   <totalMntBrutLoyer>72000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>5400.00</totalMntRetenueSource>
   <totalMntNetLoyer>66600.00</totalMntNetLoyer>
@@ -58,7 +22,6 @@
       <mntBrutLoyer>72000.00</mntBrutLoyer>
       <mntRetenueSource>5400.00</mntRetenueSource>
       <mntNetLoyer>66600.00</mntNetLoyer>
->>>>>>> a57fd57de46e4efd08f37776818e14366116a5c7
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
