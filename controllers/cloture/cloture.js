@@ -40,25 +40,6 @@ module.exports = {
             },
           },
         ],
-        // populate: [
-        //   {
-        //     path: "proprietaire",
-        //     populate: {
-        //       path: "proprietaire_list",
-        //       match: {
-        //         deleted: false,
-        //         statut: { $in: ["Actif", "À supprimer"] },
-        //       },
-        //     },
-        //   },
-        //   {
-        //     path: "lieu.lieu",
-        //     populate: {
-        //       path: "attached_DR",
-        //       select: "intitule_lieu code_lieu",
-        //     },
-        //   },
-        // ],
       });
 
       // return res.json(contrat);
@@ -145,7 +126,6 @@ module.exports = {
           await comptabilisationArchive
             .save()
             .then((comptabilisationData) => {
-              // res.json(true);
               res.json({
                 virementData,
                 comptabilisationData,
