@@ -115,7 +115,8 @@ module.exports = {
 
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
-      let numeroContrat = data.numero_contrat.replace("AV", "");
+      // let numeroContrat = data.numero_contrat.replace("AV", "");
+      let numeroContrat = data.numero_contrat;
       ContratHelper.createContratAV(
         req,
         res,
@@ -359,7 +360,7 @@ module.exports = {
           )
             .then((data) => {
               // res.json(data);
-              console.log('Proprietaire updated');
+              console.log("Proprietaire updated");
             })
             .catch((error) => {
               res.status(400).send({ message: error.message });
@@ -378,36 +379,42 @@ module.exports = {
       //   deleted = true,
 
       // }
-      Foncier.findOne({ _id: existedContrat.foncier._id }).then((foncier) => {
-        let lieux = [];
-        foncier.lieu.forEach((lieu) => {
-          if (!lieu.deleted) {
-            let updatedLieu = {
-              deleted: true,
-              etat_lieu: lieu.etat_lieu,
-              lieu: lieu.lieu,
-            };
-            lieux.push(updatedLieu);
-          } else {
-            lieux.push(lieu);
-          }
-        });
-      });
+      await Foncier.findOne({ _id: existedContrat.foncier._id }).then(
+        async (foncier) => {
+          let lieux = [];
+          foncier.lieu.forEach((lieu) => {
+            if (!lieu.deleted) {
+              let updatedLieu = {
+                deleted: true,
+                etat_lieu: lieu.etat_lieu,
+                lieu: lieu.lieu,
+              };
+              lieux.push(updatedLieu);
+            } else {
+              lieux.push(lieu);
+            }
+          });
+          await Foncier.findByIdAndUpdate(
+            { _id: existedContrat.foncier._id },
+            { lieu: lieux }
+          );
+        }
+      );
 
       // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
-      let newDureeLocation;
-      let dateDebutLoyer = new Date(data.date_debut_loyer);
-      let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation);
-      let TauxImpot;
-      let RetenueSource;
-      let taxPeriodicite;
-      let newMontantLoyerProp;
+      // let newDureeLocation;
+      // let dateDebutLoyer = new Date(data.date_debut_loyer);
+      // let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation);
+      // let TauxImpot;
+      // let RetenueSource;
+      // let taxPeriodicite;
+      // let newMontantLoyerProp;
 
-      // Calcul duree location
-      newDureeLocation =
-        (dateResiliation.getFullYear() - dateDebutLoyer.getFullYear()) * 12;
-      newDureeLocation -= dateDebutLoyer.getMonth();
-      newDureeLocation += dateResiliation.getMonth();
+      // // Calcul duree location
+      // newDureeLocation =
+      //   (dateResiliation.getFullYear() - dateDebutLoyer.getFullYear()) * 12;
+      // newDureeLocation -= dateDebutLoyer.getMonth();
+      // newDureeLocation += dateResiliation.getMonth();
 
       // await Contrat.find({ _id: req.params.Id, deleted: false })
       //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
@@ -508,13 +515,20 @@ module.exports = {
           if (data.etat_contrat.libelle === "Résilié") {
             mailObject = "Résiliation de contrat";
             mailData = {
-              message: `La résiliation du contrat n° ${contratData.numero_contrat} du local (${contratData.foncier.lieu[0].lieu.intitule_lieu}, ${contratData.foncier.lieu[0].lieu.code_lieu}) est effectuée${data.etat_contrat.etat.date_resiliation ? ', et ce à partir du ' + data.etat_contrat.etat.date_resiliation : ' '}`,
+              message: `La résiliation du contrat n° ${
+                contratData.numero_contrat
+              } (${contratData.foncier.type_lieu}) est effectuée${
+                data.etat_contrat.etat.date_resiliation
+                  ? ", et ce à partir du " +
+                    data.etat_contrat.etat.date_resiliation
+                  : " "
+              }`,
             };
           }
           if (data.etat_contrat.libelle === "Suspendu") {
             mailObject = "Suspension du contrat";
             mailData = {
-              message: `Le contrat de bail n° ${contratData.numero_contrat} du local ${contratData.foncier.lieu[0].lieu.intitule_lieu} ${contratData.foncier.lieu[0].lieu.code_lieu} a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
+              message: `Le contrat de bail n° ${contratData.numero_contrat} (${contratData.foncier.type_lieu}) a été suspendu à partir du ${data.etat_contrat.etat.date_suspension}.`,
             };
           }
 
@@ -621,18 +635,17 @@ module.exports = {
               console.log(error);
               res.status(400).send({ message: error.message });
             });
-          
-            let contratName ;
-            if(contrat.is_avenant) {
-              contratName = 'Avenant'
-            }
-            if(!contrat.is_avenant) {
-              contratName = 'Le contrat'
-            }
+
+          let contratName;
+          if (contrat.is_avenant) {
+            contratName = "Avenant";
+          }
+          if (!contrat.is_avenant) {
+            contratName = "Le contrat";
+          }
 
           let DAJCmailData = {
-            message:
-            `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) est crée et en attente de validation.`,
+            message: `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) est crée et en attente de validation.`,
           };
 
           if (DAJCemailsList.length > 0) {

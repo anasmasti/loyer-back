@@ -1,6 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const User = require("../../models/roles/roles.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const ProprietaireHelper = require("./proprietaire")
 const mail = require("../../helpers/mail.send");
 
 module.exports = {
@@ -51,10 +52,6 @@ module.exports = {
       foncier: ContratData.foncier,
       is_avenant: true,
       nombre_part: ContratData.nombre_part,
-      // etat_contrat: {
-      //   libelle: "En cours de validation",
-      //   etat: ContratData.etat_contrat.etat,
-      // },
       etat_contrat: {
         libelle: "Initié",
         etat: {
@@ -75,21 +72,10 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-    ContratData.etat_contrat.etat.deleted_proprietaires.forEach(
-      async (proprietaire) => {
-        await Proprietaire.findByIdAndUpdate(
-          { _id: proprietaire },
-          { statut: "À supprimer" }
-        );
-      }
-    );
+    ProprietaireHelper.proprietaireASupprimer(ContratData);
 
     await nouveauContrat
       .save()
-      // .then(async(data) => {
-      //     // await Foncier.findByIdAndUpdate({ _id: req.params.IdFoncier }, { contrat: data._id });
-      //     // res.json(data)
-      // })
       .catch((error) => {
         res.status(400).send({ message: error.message });
       });
