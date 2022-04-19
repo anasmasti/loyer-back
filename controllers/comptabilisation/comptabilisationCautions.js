@@ -134,13 +134,13 @@ module.exports = {
             );
           }
 
-          res.download(
-            "download/comptabilisation caution/FichierComptableCaution " +
-              dateMonthName +
-              " " +
-              dateGenerationVirement.getFullYear() +
-              ".txt"
-          );
+          // res.download(
+          //   "download/comptabilisation caution/FichierComptableCaution " +
+          //     dateMonthName +
+          //     " " +
+          //     dateGenerationVirement.getFullYear() +
+          //     ".txt"
+          // );
         // }
         // else{
         //     res.status(204).send({ message: 'Aucune donnée à afficher dans ce mois' });
