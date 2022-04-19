@@ -73,6 +73,7 @@ module.exports = {
           zoneInitialiseSpace.padEnd(1, " ") +
           "\n";
 
+        console.log(headerOrdreVirement);
         fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +
@@ -82,7 +83,10 @@ module.exports = {
           headerOrdreVirement,
           { flag: "a" },
           (error) => {
-            if (error) res.json({ message: error.message });
+            console.log('errrrroooooooor');
+            if (error){
+              res.json({ message: error.message });
+            } 
           }
         );
 

@@ -19,7 +19,7 @@ module.exports = {
     //check intitulé lieu if already exist
     const intituleLieuExist = await Lieu.findOne({
       deleted: false,
-      intitule_lieu: req.body.intitule_lieu,
+      intitule_lieu: req.body.intitule_lieu.toUpperCase(),
     });
 
     if (
@@ -54,7 +54,7 @@ module.exports = {
 
     const lieu = new Lieu({
       code_lieu: req.body.code_lieu,
-      intitule_lieu: req.body.intitule_lieu,
+      intitule_lieu: req.body.intitule_lieu.toUpperCase(),
       code_localite: req.body.code_localite,
       telephone: req.body.telephone,
       fax: req.body.fax,

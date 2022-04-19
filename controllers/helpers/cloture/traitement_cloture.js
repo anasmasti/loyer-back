@@ -45,7 +45,7 @@ module.exports = {
                 Contrat.foncier.proprietaire[j].montant_loyer;
 
               montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_par_periodicite;
+                Contrat.foncier.proprietaire[j].retenue_source;
 
               montant_a_verse = montant_loyer_net_mandataire;
               comptabilisationLoyerCrediter.push(
@@ -84,7 +84,7 @@ module.exports = {
                   montant_tax =
                     +montant_tax_mandataire +
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_par_periodicite;
+                      .retenue_source;
 
                   montant_a_verse = +montant_loyer_net;
 
@@ -213,7 +213,7 @@ module.exports = {
 
               montant_tax_mandataire =
                 Contrat.foncier.proprietaire[j].tax_avance_proprietaire;
-              // + Contrat.foncier.proprietaire[j].tax_par_periodicite;
+              // + Contrat.foncier.proprietaire[j].retenue_source;
 
               montant_loyer_net_mandataire =
                 montant_loyer_brut_mandataire - montant_tax_mandataire;
@@ -256,7 +256,7 @@ module.exports = {
                   montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
                       .tax_avance_proprietaire;
-                  // + Contrat.foncier.proprietaire[j].proprietaire_list[k].tax_par_periodicite;
+                  // + Contrat.foncier.proprietaire[j].proprietaire_list[k].retenue_source;
 
                   montant_loyer_net = montant_loyer_brut - montant_tax;
 
@@ -337,7 +337,6 @@ module.exports = {
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {
-      console.log("1");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -350,7 +349,7 @@ module.exports = {
                 Contrat.foncier.proprietaire[j].montant_loyer;
 
               montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_par_periodicite;
+                Contrat.foncier.proprietaire[j].retenue_source;
 
               montant_loyer_net_mandataire =
                 Contrat.foncier.proprietaire[j].caution_par_proprietaire +
@@ -401,7 +400,7 @@ module.exports = {
 
                   montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_par_periodicite;
+                      .retenue_source;
 
                   montant_a_verse += montant_loyer_net;
                   montant_loyer_brut_mandataire += montant_loyer_brut;
@@ -508,7 +507,7 @@ module.exports = {
                 Contrat.foncier.proprietaire[j].montant_loyer;
 
               montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_par_periodicite;
+                Contrat.foncier.proprietaire[j].retenue_source;
 
               montant_a_verse = montant_loyer_net_mandataire;
 
@@ -551,7 +550,7 @@ module.exports = {
 
                   montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_par_periodicite;
+                      .retenue_source;
 
                   montant_a_verse += montant_loyer_net;
                   montant_loyer_brut_mandataire += montant_loyer_brut;
@@ -657,7 +656,7 @@ module.exports = {
                 Contrat.foncier.proprietaire[j].montant_loyer;
 
               montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_par_periodicite;
+                Contrat.foncier.proprietaire[j].retenue_source;
 
               montant_a_verse = montant_loyer_net_mandataire;
 
@@ -700,7 +699,7 @@ module.exports = {
 
                   montant_tax =
                     Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_par_periodicite;
+                      .retenue_source;
 
                   montant_a_verse += montant_loyer_net;
                   montant_loyer_brut_mandataire += montant_loyer_brut;

@@ -32,36 +32,42 @@ function CreateAnnex1objectFromContrat(CurrentMonthContrats, annee, mois) {
       j < CurrentMonthContrats[index].foncier.proprietaire.length;
       j++
     ) {
-      ifuBailleur += 1;
-      DetailRetenueRevFoncier.push({
-        ifuBailleur: `IF${ifuBailleur}`,
-        numCNIBailleur: CurrentMonthContrats[index].foncier.proprietaire[j].cin,
-        numCEBailleur:
-          CurrentMonthContrats[index].foncier.proprietaire[j].carte_sejour,
-        nomPrenomBailleur:
-          CurrentMonthContrats[index].foncier.proprietaire[j].nom_prenom,
-        adresseBailleur:
-          CurrentMonthContrats[index].foncier.proprietaire[j].adresse,
-        adresseBien: CurrentMonthContrats[index].foncier.adresse,
-        typeBienBailleur: {
-          code: "LUC",
-        },
-        mntBrutLoyer:
-          CurrentMonthContrats[index].foncier.proprietaire[
-            j
-          ].montant_loyer.toFixed(2),
-        mntRetenueSource:
-          CurrentMonthContrats[index].foncier.proprietaire[
-            j
-          ].retenue_source.toFixed(2),
-        mntNetLoyer:
-          CurrentMonthContrats[index].foncier.proprietaire[
-            j
-          ].montant_apres_impot.toFixed(2),
-        tauxRetenueRevFoncier: {
-          code: "TSR.10.2018",
-        },
-      });
+      if (
+        CurrentMonthContrats[index].foncier.proprietaire[j]
+          .declaration_option == "non"
+      ) {
+        ifuBailleur += 1;
+        DetailRetenueRevFoncier.push({
+          ifuBailleur: `IF${ifuBailleur}`,
+          numCNIBailleur:
+            CurrentMonthContrats[index].foncier.proprietaire[j].cin,
+          numCEBailleur:
+            CurrentMonthContrats[index].foncier.proprietaire[j].carte_sejour,
+          nomPrenomBailleur:
+            CurrentMonthContrats[index].foncier.proprietaire[j].nom_prenom,
+          adresseBailleur:
+            CurrentMonthContrats[index].foncier.proprietaire[j].adresse,
+          adresseBien: CurrentMonthContrats[index].foncier.adresse,
+          typeBienBailleur: {
+            code: "LUC",
+          },
+          mntBrutLoyer:
+            CurrentMonthContrats[index].foncier.proprietaire[
+              j
+            ].montant_loyer.toFixed(2),
+          mntRetenueSource:
+            CurrentMonthContrats[index].foncier.proprietaire[
+              j
+            ].retenue_source.toFixed(2),
+          mntNetLoyer:
+            CurrentMonthContrats[index].foncier.proprietaire[
+              j
+            ].montant_apres_impot.toFixed(2),
+          tauxRetenueRevFoncier: {
+            code: "TSR.10.2018",
+          },
+        });
+      }
     }
   }
 
@@ -106,48 +112,55 @@ function CreateAnnex1ObjectFromArchvCompt(
     i < archivecomptabilisation.comptabilisation_loyer_crediter.length;
     i++
   ) {
-    //Get Total Montant Brut/RS/Aprés l'impot
-    TotalMntBrutLoyer +=
-      archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_brut;
-    TotalMntRetenueSource +=
-      archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_tax ||
-      0;
-    TotalMntLoyer +=
-      archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net;
-    //List DetailRetenueRevFoncier
-    DetailRetenueRevFoncier.push({
-      ifuBailleur: `IF${i + 1}`,
-      numCNIBailleur:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].cin,
-      numCEBailleur:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].carte_sejour,
-      nomPrenomBailleur:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].nom_prenom,
-      adresseBailleur:
+    if (
+      archivecomptabilisation.comptabilisation_loyer_crediter[i].declaration_option ==
+      "non"
+    ) {
+      //Get Total Montant Brut/RS/Aprés l'impot
+      TotalMntBrutLoyer +=
+        archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_brut;
+      TotalMntRetenueSource +=
         archivecomptabilisation.comptabilisation_loyer_crediter[i]
-          .adresse_proprietaire,
-      adresseBien:
-        archivecomptabilisation.comptabilisation_loyer_crediter[i].adresse_lieu,
-      typeBienBailleur: {
-        code: "LUC",
-      },
-      mntBrutLoyer:
-        archivecomptabilisation.comptabilisation_loyer_crediter[
-          i
-        ].montant_brut.toFixed(2), //!!!!!!!
-      // mntRetenueSource: data[0].retenue_source_par_mois,
-      mntRetenueSource:
-        archivecomptabilisation.comptabilisation_loyer_crediter[
-          i
-        ].montant_tax.toFixed(2),
-      mntNetLoyer:
-        archivecomptabilisation.comptabilisation_loyer_crediter[
-          i
-        ].montant_net.toFixed(2),
-      tauxRetenueRevFoncier: {
-        code: "TSR.10.2018",
-      },
-    });
+          .montant_tax || 0;
+      TotalMntLoyer +=
+        archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net;
+      //List DetailRetenueRevFoncier
+      DetailRetenueRevFoncier.push({
+        ifuBailleur: `IF${i + 1}`,
+        numCNIBailleur:
+          archivecomptabilisation.comptabilisation_loyer_crediter[i].cin,
+        numCEBailleur:
+          archivecomptabilisation.comptabilisation_loyer_crediter[i]
+            .carte_sejour,
+        nomPrenomBailleur:
+          archivecomptabilisation.comptabilisation_loyer_crediter[i].nom_prenom,
+        adresseBailleur:
+          archivecomptabilisation.comptabilisation_loyer_crediter[i]
+            .adresse_proprietaire,
+        adresseBien:
+          archivecomptabilisation.comptabilisation_loyer_crediter[i]
+            .adresse_lieu,
+        typeBienBailleur: {
+          code: "LUC",
+        },
+        mntBrutLoyer:
+          archivecomptabilisation.comptabilisation_loyer_crediter[
+            i
+          ].montant_brut.toFixed(2), //!!!!!!!
+        // mntRetenueSource: data[0].retenue_source_par_mois,
+        mntRetenueSource:
+          archivecomptabilisation.comptabilisation_loyer_crediter[
+            i
+          ].montant_tax.toFixed(2),
+        mntNetLoyer:
+          archivecomptabilisation.comptabilisation_loyer_crediter[
+            i
+          ].montant_net.toFixed(2),
+        tauxRetenueRevFoncier: {
+          code: "TSR.10.2018",
+        },
+      });
+    }
   }
   // Annex 1
   return {
@@ -194,7 +207,16 @@ module.exports = {
         } else {
           Contrat.find({ deleted: false })
             .populate("foncier")
-            .populate({ path: "foncier", populate: { path: "proprietaire" } })
+            .populate({
+              path: "foncier",
+              populate: {
+                path: "proprietaire",
+                match: {
+                  deleted: false,
+                  statut: { $in: ["Actif", "À supprimer"] },
+                },
+              },
+            })
             .limit(2)
             .then((data) => {
               // if (data.length > 0) {

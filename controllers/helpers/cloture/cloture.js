@@ -1,3 +1,7 @@
+const Contrat = require("../../../models/contrat/contrat.model");
+const Calcule = require("../calculProprietaire");
+const ContratHelper = require("../contrat");
+
 module.exports = {
   createComptLoyerCredObject: (
     foncier,
@@ -13,6 +17,7 @@ module.exports = {
     numero_contrat,
     periodicite
   ) => {
+    console.log(lieu);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
       nom_prenom: proprietaire.nom_prenom
@@ -20,7 +25,9 @@ module.exports = {
         : proprietaire.raison_social,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
-      cin: proprietaire.cin,
+      cin: proprietaire.cin
+        ? proprietaire.cin
+        : proprietaire.n_registre_commerce,
       passport: proprietaire.passport,
       carte_sejour: proprietaire.carte_sejour,
       type: "LOY",
@@ -28,7 +35,7 @@ module.exports = {
       adresse_lieu: foncier.adresse,
       origine: "PAISOFT",
       devises: "MAD",
-      intitule_lieu: lieu.lieu.intitule_lieu,
+      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       type_lieu: lieu.lieu.type_lieu,
       code_lieu: lieu.lieu.code_lieu,
       etablissement: "01",
@@ -37,8 +44,8 @@ module.exports = {
         lieu.lieu.type_lieu == "Direction régionale"
           ? lieu.lieu.code_lieu
           : lieu.lieu.type_lieu == "Siège"
-          ? "--"
-          : lieu.lieu.attached_DR.code_lieu,
+          ? null
+          : lieu.lieu.attached_DR.code_lieu || null,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       numero_contrat: numero_contrat,
@@ -68,15 +75,15 @@ module.exports = {
     montantDebiter
   ) => {
     let comptabilisationLoyerDebite = {
-      intitule_lieu: lieu.lieu.intitule_lieu,
+      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       montant_caution: montant_caution,
       numero_contrat: numero_contrat,
       direction_regional:
         lieu.lieu.type_lieu == "Direction régionale"
           ? lieu.lieu.code_lieu
           : lieu.lieu.type_lieu == "Siège"
-          ? "--"
-          : lieu.lieu.attached_DR.code_lieu,
+          ? null
+          : lieu.lieu.attached_DR.code_lieu || null,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       montant: montantDebiter,
@@ -110,7 +117,7 @@ module.exports = {
       annee: annee,
       nom_agence_bancaire: proprietaire.nom_agence_bancaire,
       banque: proprietaire.banque,
-      intitule_lieu: lieu.lieu.intitule_lieu,
+      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       type_lieu: lieu.lieu.type_lieu,
       numero_contrat: numero_contrat,
       periodicite: periodicite,
@@ -120,4 +127,155 @@ module.exports = {
     };
     return orderVirement;
   },
+
+  checkContratsAv: async (contratId) => {
+    await Contrat.findOne({ statut: "Test", deleted: false })
+      .populate({ path: "old_contrat.contrat" })
+      .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      .then(async (data) => {
+        let contratAV = data;
+        let oldContrats = contratAV.old_contrat;
+        let oldContrat;
+        let dateFinOldContrat;
+        let etatOldContrat;
+        let etatNewContrat;
+
+        let nextCloture;
+        await archiveComptabilisation
+          .find()
+          .sort({ date_generation_de_comptabilisation: "desc" })
+          .select({ date_generation_de_comptabilisation: 1 })
+          .then(async (Comptabilisationdata) => {
+            // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+            nextCloture = new Date(
+              Comptabilisationdata[0].date_generation_de_comptabilisation
+            );
+            
+            let currentMonth = nextCloture.getMonth() + 1;
+            let currentYear = nextCloture.getFullYear();
+            let dateDeffetAV = new Date(
+              contratAV.etat_contrat.etat.date_effet_av
+            );
+            let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
+            let dateDeffetAVYear = dateDeffetAV.getFullYear();
+            if (
+              (dateDeffetAVMonth == currentMonth &&
+                dateDeffetAVYear == currentYear) ||
+              (dateDeffetAVMonth > currentMonth &&
+                dateDeffetAVYear < currentYear) ||
+              (dateDeffetAVMonth < currentMonth &&
+                !(dateDeffetAVYear > currentYear))
+            ) {
+              if (oldContrats.length > 0) {
+                // Get the old contrat
+                oldContrat = oldContrats.find((contrat) => {
+                  return contrat.contrat.etat_contrat.libelle == "Actif";
+                }).contrat;
+
+                // Customise the old contrat etat
+                etatOldContrat = {
+                  libelle: "Modifié",
+                  etat: oldContrat.etat_contrat.etat,
+                };
+
+                // Customise the new contrat etat
+                etatNewContrat = {
+                  libelle: "Actif",
+                  etat: contratAV.etat_contrat.etat,
+                };
+
+                // Delete proprietaires
+                if (
+                  contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
+                ) {
+                  contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
+                    (proprietaire) => {
+                      ContratHelper.deleteProprietaire(req, res, proprietaire);
+                    }
+                  );
+                }
+
+                // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
+                for (
+                  let i = 0;
+                  i < contratAV.foncier.proprietaire.length;
+                  i++
+                ) {
+                  let partProprietaire =
+                    contratAV.foncier.proprietaire[i].part_proprietaire;
+                  let idProprietaire = contratAV.foncier.proprietaire[i]._id;
+                  let updatedContrat = contratAV;
+                  let hasDeclarationOption =
+                    contratAV.foncier.proprietaire[i].declaration_option;
+
+                  let updatedProprietaire = Calcule(
+                    updatedContrat,
+                    partProprietaire,
+                    idProprietaire,
+                    hasDeclarationOption
+                  );
+
+                  await Proprietaire.findByIdAndUpdate(
+                    idProprietaire,
+                    updatedProprietaire
+                  )
+                    .then((prop) => {
+                      // res.json(data);
+                      console.log("Proprietaire updated");
+                    })
+                    .catch((error) => {
+                      res.status(400).send({ message: error.message });
+                    });
+                }
+
+                await Foncier.findById({
+                  _id: contratAV.foncier,
+                  deleted: false,
+                })
+                  .populate({
+                    path: "proprietaire",
+                    match: { deleted: false, statut: "À ajouter" },
+                  })
+                  .then((foncier) => {
+                    foncier.proprietaire.forEach(async (proprietaire) => {
+                      await Proprietaire.findByIdAndUpdate(
+                        { _id: proprietaire._id },
+                        { statut: "Actif" }
+                      );
+                    });
+                  });
+
+                // Change is_avenant to false
+              
+                // Update the old contrat
+                await Contrat.findByIdAndUpdate(oldContrat._id, {
+                  // date_fin_contrat: dateFinOldContrat,
+                  etat_contrat: etatOldContrat,
+                });
+
+                // Update the AV contrat
+                await Contrat.findByIdAndUpdate(req.params.Id, {
+                  date_comptabilisation: oldContrat.date_comptabilisation,
+                  etat_contrat: etatNewContrat,
+                })
+                  .then(async () => {
+                    // Sending mail to DAJC, CDGSP and CSLA
+                    ContratHelper.sendMailToAll(req.params.Id);
+                  })
+                  .catch((error) => {
+                    console.log(error.message);
+                  });
+              }
+            }
+            // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+          })
+          .catch((error) => {
+            res.status(402).send({ message: error.message });
+          });
+      });
+  },
+
+  // checkContratsSus: async () => {
+  //   await Contrat.find({delete})
+  // }
 };

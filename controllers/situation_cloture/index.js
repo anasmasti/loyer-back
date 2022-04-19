@@ -19,11 +19,24 @@ module.exports = {
       //get current contrat of this month
       let contrat = await Contrat.find({
         deleted: false,
-        "etat_contrat.libelle": { $in: ["Actif"] },
+        "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
       }).populate({
         path: "foncier",
         populate: [
-          { path: "proprietaire", populate: { path: "proprietaire_list" } },
+          {
+            path: "proprietaire",
+            populate: {
+              path: "proprietaire_list",
+              match: {
+                deleted: false,
+                statut: { $in: ["Actif", "À supprimer"] },
+              },
+            },
+            match: {
+              deleted: false,
+              statut: { $in: ["Actif", "À supprimer"] },
+            },
+          },
           {
             path: "lieu.lieu",
             populate: {
@@ -77,116 +90,122 @@ module.exports = {
             });
           } //end if
 
-          if (contrat[i].etat_contrat.libelle == "Résilié") {
-            result = await traitementContratResilie.clotureContratResilie(
-              req,
-              res,
-              contrat[i],
-              dateGenerationDeComptabilisation,
-              Contrat,
-              false
-            );
-            result.ordre_virement.forEach((ordVrm) => {
-              ordreVirement.push(ordVrm);
-            });
-            result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-              comptabilisationLoyerCrediter.push(cmptCrdt);
-            });
-            result.cmptLoyerDebt.forEach((cmptDept) => {
-              comptabilisationLoyerDebiter.push(cmptDept);
-            });
+          if (
+            contrat[i].etat_contrat.libelle == "Résilié" &&
+            contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
+          ) {
+            let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
+            let dateEffResilieMonth = dateEffResilie.getMonth() + 1
+            let dateEffResilieYear = dateEffResilie.getFullYear()
+            if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
+              result = await traitementContratResilie.clotureContratResilie(
+                req,
+                res,
+                contrat[i],
+                dateGenerationDeComptabilisation,
+                Contrat,
+                false
+              );
+              result.ordre_virement.forEach((ordVrm) => {
+                ordreVirement.push(ordVrm);
+              });
+              result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+                comptabilisationLoyerCrediter.push(cmptCrdt);
+              });
+              result.cmptLoyerDebt.forEach((cmptDept) => {
+                comptabilisationLoyerDebiter.push(cmptDept);
+              });
+            }
           }
         } //end for
+
+        const existedEtatVirement = await etatVirementSch.findOne({
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        const existedEtatTaxes = await etatTaxesSch.findOne({
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        if (existedEtatVirement && existedEtatTaxes) {
+          etatVirementSch
+            .findByIdAndUpdate(
+              { _id: existedEtatVirement._id },
+              {
+                ordre_virement: ordreVirement,
+                date_generation_de_virement: dateGenerationDeComptabilisation,
+                mois: existedEtatTaxes.mois,
+                annee: existedEtatVirement.annee,
+              }
+            )
+            .then(() => {
+              etatMonsuelVirement(req, res);
+            });
+
+          etatTaxesSch
+            .findByIdAndUpdate(
+              { _id: existedEtatTaxes._id },
+              {
+                comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+                comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+                date_generation_de_comptabilisation:
+                  dateGenerationDeComptabilisation,
+                mois: existedEtatTaxes.mois,
+                annee: existedEtatTaxes.annee,
+              }
+            )
+            .then(() => {
+              etatMonsuelTaxes(req, res);
+            });
+        } else {
+          //post ordre de virement dans ordre de virement archive
+          const etatVirement = new etatVirementSch({
+            ordre_virement: ordreVirement,
+            date_generation_de_virement: dateGenerationDeComptabilisation,
+            mois: req.body.mois,
+            annee: req.body.annee,
+          });
+          //post comptabilisation des loyer dans comptabilisation des loyer archive
+          const etatTaxes = new etatTaxesSch({
+            comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+            comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+            date_generation_de_comptabilisation:
+              dateGenerationDeComptabilisation,
+            mois: req.body.mois,
+            annee: req.body.annee,
+          });
+          etatVirement
+            .save()
+            .then(async (virementData) => {
+              await etatTaxes
+                .save()
+                .then((comptabilisationData) => {
+                  etatMonsuelVirement(req, res);
+                  setTimeout(() => {
+                    etatMonsuelTaxes(req, res);
+                  }, 1000);
+                  // res.json({
+                  //   virementData,
+                  //   comptabilisationData,
+                  // });
+                })
+                .catch((error) => {
+                  res.status(402).send({ message: error.message });
+                });
+            })
+            .catch((error) => {
+              res.status(401).send({ message: error.message });
+            });
+        }
+
+        res.json({
+          comptabilisationLoyerCrediter,
+          comptabilisationLoyerDebiter,
+          ordreVirement,
+        });
       } else {
         return res.status(402).send({ message: "Aucun contrat inseré" });
       }
-
-      const existedEtatVirement = await etatVirementSch.findOne({
-        mois: req.body.mois,
-        annee: req.body.annee,
-      });
-      const existedEtatTaxes = await etatTaxesSch.findOne({
-        mois: req.body.mois,
-        annee: req.body.annee,
-      });
-      if (existedEtatVirement && existedEtatTaxes) {
-        etatVirementSch
-          .findByIdAndUpdate(
-            { _id: existedEtatVirement._id },
-            {
-              ordre_virement: ordreVirement,
-              date_generation_de_virement: dateGenerationDeComptabilisation,
-              mois: existedEtatTaxes.mois,
-              annee: existedEtatVirement.annee,
-            }
-          )
-          .then(() => {
-            etatMonsuelVirement(req, res);
-          });
-
-        etatTaxesSch
-          .findByIdAndUpdate(
-            { _id: existedEtatTaxes._id },
-            {
-              comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-              comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-              date_generation_de_comptabilisation:
-                dateGenerationDeComptabilisation,
-              mois: existedEtatTaxes.mois,
-              annee: existedEtatTaxes.annee,
-            }
-          )
-          .then(() => {
-            etatMonsuelTaxes(req, res);
-          });
-      } else {
-        //post ordre de virement dans ordre de virement archive
-        const etatVirement = new etatVirementSch({
-          ordre_virement: ordreVirement,
-          date_generation_de_virement: dateGenerationDeComptabilisation,
-          mois: req.body.mois,
-          annee: req.body.annee,
-        });
-        //post comptabilisation des loyer dans comptabilisation des loyer archive
-        const etatTaxes = new etatTaxesSch({
-          comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-          comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-          date_generation_de_comptabilisation: dateGenerationDeComptabilisation,
-          mois: req.body.mois,
-          annee: req.body.annee,
-        });
-        etatVirement
-          .save()
-          .then(async (virementData) => {
-            await etatTaxes
-              .save()
-              .then((comptabilisationData) => {
-                etatMonsuelVirement(req, res);
-                setTimeout(() => {
-                  etatMonsuelTaxes(req, res);
-                }, 1000);
-                // res.json({
-                //   virementData,
-                //   comptabilisationData,
-                // });
-              })
-              .catch((error) => {
-                res.status(402).send({ message: error.message });
-              });
-          })
-          .catch((error) => {
-            res.status(401).send({ message: error.message });
-          });
-      }
-
-      // comptabilisationLoyerCrediter,
-      // comptabilisationLoyerDebiter,
-      // ordreVirement,
-      res.json({
-        comptabilisationLoyerCrediter,
-        comptabilisationLoyerDebiter,
-        ordreVirement,
-      });
       // res.json(true);
     } catch (error) {
       res.status(402).json({ message: error.message });

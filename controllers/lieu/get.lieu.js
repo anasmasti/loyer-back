@@ -74,7 +74,10 @@ module.exports = {
     await Contrat.findOne({ foncier: _id, deleted: false })
       .populate({
         path: "foncier",
-        populate: { path: "proprietaire", match: { deleted: false } },
+        populate: {
+          path: "proprietaire",
+          match: { deleted: false, statut: { $in: ["Actif", "À ajouter"] } },
+        },
       })
       .then((data) => {
         res.json([data]);
@@ -91,19 +94,18 @@ module.exports = {
       .populate({ path: "attached_SUP", select: "intitule_lieu code_lieu" })
       .then(async (data) => {
         data.forEach(async (lieu) => {
-          const usedLieu = await Foncier.find({
+          const usedFoncier = await Foncier.find({
             deleted: false,
             "lieu.deleted": false,
             "lieu.lieu": lieu._id,
+            "lieu.etat_lieu": { $eq: "Occupé" },
           });
-          if (usedLieu.length == 0) {
+          if (usedFoncier.length == 0) {
             lieuByType.push(lieu);
           }
         });
         setTimeout(() => {
-          // if (lieuByType.length > 0) {
           res.json(lieuByType);
-          // }
         }, 1000);
       });
   },

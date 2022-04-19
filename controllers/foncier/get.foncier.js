@@ -2,6 +2,7 @@ const Foncier = require("../../models/foncier/foncier.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Contrat = require("../../models/contrat/contrat.model");
+const mongoose = require("mongoose")
 
 module.exports = {
   //get all foncier and populated with proprietaire deleted: false
@@ -95,6 +96,7 @@ module.exports = {
                 caution_par_proprietaire:
                   "$$proprietairemap.caution_par_proprietaire",
                 proprietaire_list: "$$proprietairemap.proprietaire_list",
+                statut: "$$proprietairemap.statut",
               },
             },
           },
@@ -141,13 +143,26 @@ module.exports = {
               in: {
                 deleted: "$$lieumap.deleted",
                 etat_lieu: "$$lieumap.etat_lieu",
+                foncierID: "$$lieumap.lieu",
                 lieu: {
                   // $arrayElemAt: [
                   //   "$populatedLieu",
                   //   { $indexOfArray: ["$populatedLieu._id", "$$lieumap.lieu"] },
                   // ],
                   $map: {
-                    input: "$populatedLieu",
+                    input: {
+                      $filter: {
+                        input: "$populatedLieu",
+                        as: "populatedLieufillter",
+                        cond: {
+                          $eq: [
+                            "$$populatedLieufillter._id",
+                            "$$lieumap.lieu",
+                          ],
+                        },
+                      },
+                    },
+                    // "$populatedLieu",
                     as: "populatedLieuMap",
                     in: {
                       _id: "$$populatedLieuMap._id",
@@ -190,7 +205,7 @@ module.exports = {
         },
       },
     ])
-    // Foncier.find({ deleted: false })
+      // Foncier.find({ deleted: false })
       .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);
@@ -204,7 +219,7 @@ module.exports = {
     Foncier.findById({ _id: req.params.IdFoncier })
       .populate(
         "proprietaire",
-        "cin nom_prenom n_registre_commerce raison_social -_id"
+        "cin nom_prenom n_registre_commerce raison_social -_id is_mandataire"
       )
       .populate({
         path: "lieu",

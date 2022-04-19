@@ -11,6 +11,9 @@ const EtatContratSchema = new Schema(
     reprise_caution: {
       type: String,
     },
+    frais_reamenagement: {
+      type: String,
+    },
     etat_caution_consomme: {
       type: String,
     },
@@ -39,9 +42,6 @@ const EtatContratSchema = new Schema(
       type: String,
     },
     n_avenant: {
-      type: String,
-    },
-    is_avenant: {
       type: String,
     },
     // contrat_av: {

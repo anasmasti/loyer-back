@@ -1,5 +1,8 @@
 const Contrat = require("../../models/contrat/contrat.model");
+const User = require("../../models/roles/roles.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const ProprietaireHelper = require("./proprietaire")
+const mail = require("../../helpers/mail.send");
 
 module.exports = {
   createContratAV: async (
@@ -45,12 +48,10 @@ module.exports = {
       n_engagement_depense: ContratData.n_engagement_depense,
       echeance_revision_loyer: ContratData.echeance_revision_loyer,
       // date_comptabilisation: ContratData.date_comptabilisation,
-      date_comptabilisation: null, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      date_comptabilisation: ContratData.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
-      // etat_contrat: {
-      //   libelle: "En cours de validation",
-      //   etat: ContratData.etat_contrat.etat,
-      // },
+      is_avenant: true,
+      nombre_part: ContratData.nombre_part,
       etat_contrat: {
         libelle: "Initié",
         etat: {
@@ -71,16 +72,10 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-    ContratData.etat_contrat.etat.deleted_proprietaires.forEach(async proprietaire => {
-      await Proprietaire.findByIdAndUpdate({_id: proprietaire._id}, {statut: 'Inactif'})
-    });
+    ProprietaireHelper.proprietaireASupprimer(ContratData);
 
     await nouveauContrat
       .save()
-      // .then(async(data) => {
-      //     // await Foncier.findByIdAndUpdate({ _id: req.params.IdFoncier }, { contrat: data._id });
-      //     // res.json(data)
-      // })
       .catch((error) => {
         res.status(400).send({ message: error.message });
       });
@@ -106,5 +101,73 @@ module.exports = {
       }
     }
     return storedFiles;
-  },  
+  },
+
+  sendMailToAll: async (contratId) => {
+    await Contrat.findOne({ _id: contratId, deleted: false })
+      .populate({
+        path: "foncier",
+        populate: {
+          path: "proprietaire",
+          populate: { path: "proprietaire_list" },
+        },
+      })
+      .then(async (contrat) => {
+        await User.aggregate([
+          {
+            $match: {
+              deleted: false,
+              userRoles: {
+                $elemMatch: {
+                  deleted: false,
+                  $or: [
+                    {
+                      roleCode: "DAJC",
+                    },
+                    {
+                      roleCode: "CDGSP",
+                    },
+                    {
+                      roleCode: "CSLA",
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ])
+          .then(async (data_) => {
+            let DAJCemailsList = [];
+            for (let i = 0; i < data_.length; i++) {
+              DAJCemailsList.push(data_[i].email);
+            }
+
+            let contratName;
+            if (contrat.is_avenant) {
+              contratName = 'Avenant'
+            }
+            if (!contrat.is_avenant) {
+              contratName = 'Le contrat'
+            }
+
+            let DAJCmailData = {
+              message:
+                `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) a été validé.`,
+            };
+
+            if (DAJCemailsList.length > 0) {
+              mail.sendMail(
+                `${DAJCemailsList.join()}`,
+                "Contrat validé",
+                "validation1",
+                DAJCmailData
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            res.status(400).send({ message: error.message });
+          });
+      });
+  },
 };

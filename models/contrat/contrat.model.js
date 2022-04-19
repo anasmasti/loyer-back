@@ -74,9 +74,9 @@ const ContratSchema = new Schema(
     echeance_revision_loyer: {
       type: String,
     },
-    type_lieu: {
-      type: String,
-    },
+    // type_lieu: {
+    //   type: String,
+    // },
     foncier: {
       type: Schema.Types.ObjectId,
       ref: "Foncier",
@@ -138,6 +138,10 @@ const ContratSchema = new Schema(
     },
     date_comptabilisation: {
       type: Date,
+    },
+    is_avenant: {
+      type: Boolean,
+      default: false,
     },
     old_contrat: [
       {
