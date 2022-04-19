@@ -59,7 +59,7 @@ module.exports = {
           // dateGenerationVirementToString +
           dateGenerationFichier +
           "FBP. Micro-Crédit  " +
-          zoneInitialiseSpace.padEnd(13, " ") +
+          zoneInitialiseSpace.padEnd(18, " ") +
           "Fra.LY" +
           (("0" + req.params.mois).slice(-2) + req.params.annee.toString().slice(-2)) +
           zoneInitialiseSpace.padEnd(9, " ") +
