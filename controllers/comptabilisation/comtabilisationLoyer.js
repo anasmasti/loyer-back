@@ -126,7 +126,7 @@ module.exports = {
               ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
               "-" +
               dateGenerationVirement.getFullYear() +
-              "||-\n";
+              "||-\r\n";
             fs.writeFileSync(
               "download/comptabilisation loyer/FichierComptableLoyer " +
                 dateMonthName +
@@ -214,7 +214,7 @@ module.exports = {
               ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
               "-" +
               dateGenerationVirement.getFullYear() +
-              "|-|-\n";
+              "|-|-\r\n";
             fs.writeFileSync(
               "download/comptabilisation loyer/FichierComptableLoyer " +
                 dateMonthName +
@@ -291,7 +291,7 @@ module.exports = {
               // (dateGenerationVirement.getMonth() + 1) +
               // "-" +
               // dateGenerationVirement.getFullYear() +
-              // "||-\n"
+              // "||-\r\n"
 
               "FBPMC" +
               "|" +
@@ -320,7 +320,7 @@ module.exports = {
               ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
               "-" +
               dateGenerationVirement.getFullYear() +
-              "|-|-\n";
+              "|-|-\r\n";
 
             fs.writeFileSync(
               "download/comptabilisation loyer/FichierComptableLoyer " +

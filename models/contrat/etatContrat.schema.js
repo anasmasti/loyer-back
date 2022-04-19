@@ -5,6 +5,16 @@ const fileSchema = require("../shared/file.schema");
 //contrat Schema
 const EtatContratSchema = new Schema(
   {
+    
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    
+    // Résiliation 
+    date_resiliation: {
+      type: Date,
+    },
     intitule_lieu: {
       type: String,
     },
@@ -23,15 +33,14 @@ const EtatContratSchema = new Schema(
     duree_a_recupere: {
       type: Number,
     },
-    date_resiliation: {
-      type: Date,
-    },
     etat_lieu_sortie: {
       type: String,
     },
     preavis: {
       type: Date,
     },
+
+    // Suspension 
     date_suspension: {
       type: Date,
     },
@@ -41,12 +50,15 @@ const EtatContratSchema = new Schema(
     motif_suspension: {
       type: String,
     },
+    date_fin_suspension: {
+      type: Date,
+      default: new Date("2999-01-01"),
+    },
+
+    // Avenant 
     n_avenant: {
       type: String,
     },
-    // contrat_av: {
-    //     type: String,
-    // },
     motif: [
       {
         type_motif: {
@@ -68,18 +80,15 @@ const EtatContratSchema = new Schema(
     signaletique_successeur: {
       type: String,
     },
+    piece_jointe_avenant: {
+      type: [fileSchema],
+    },
+
     images_etat_res_lieu_sortie: {
       type: [fileSchema],
     },
     lettre_res_piece_jointe: {
       type: [fileSchema],
-    },
-    piece_jointe_avenant: {
-      type: [fileSchema],
-    },
-    deleted: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true }

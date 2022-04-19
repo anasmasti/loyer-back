@@ -56,8 +56,6 @@ module.exports = {
       email: user.email,
       password: user.password,
     };
-    
-    console.log(updatedUser);
 
     userRoles
       .findByIdAndUpdate({ _id: req.params.Id }, updatedUser)

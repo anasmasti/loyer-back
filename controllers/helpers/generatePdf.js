@@ -38,7 +38,7 @@ async function generatePdf(data, reportingType) {
   htmlPdf.create(htmlToSend, options).toFile('download/generated reporting/' + reportingType + '/reporting ' + reportingType + ' ' + dateToString + '.pdf',
     async function (err, res) {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         await Reporting.find({ mois: today.getMonth() + 1, annee: today.getFullYear() })
           .then(async (data) => {
@@ -92,7 +92,7 @@ async function generatePdf(data, reportingType) {
           })
           .catch((error) => {
             // res.status(402).send({ message: error.message })
-            console.log(error);
+            console.error(error);
           })
       }
     });

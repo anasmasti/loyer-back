@@ -27,7 +27,6 @@ module.exports = {
           (comptabilisationloyer) => {
             if (comptabilisationloyer.cin == cinProprietaire) {
               if (comptabilisationloyer.montant_avance_proprietaire == 0) {
-                // console.log("-------------", comptabilisationloyer.tax_loyer);
                 mntBrutTotal += comptabilisationloyer.montant_loyer;
                 mntRetenueSourceTotal += comptabilisationloyer.retenue_source;
                 mntNetLoyerTotal +=

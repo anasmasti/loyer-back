@@ -27,7 +27,6 @@ module.exports = {
     // console.log(req.body.data);
     try {
       data = JSON.parse(req.body.data);
-      console.log(data);
     } catch (error) {
       res.status(422).send({ message: error.message });
     }
@@ -136,6 +135,7 @@ module.exports = {
           date_suspension: data.etat_contrat.etat.date_suspension,
           duree_suspension: data.etat_contrat.etat.duree_suspension,
           motif_suspension: data.etat_contrat.etat.motif_suspension,
+          date_fin_suspension: data.etat_contrat.etat.date_fin_suspension,
         },
       };
 
@@ -252,7 +252,7 @@ module.exports = {
     if (data.etat_contrat.libelle == "Avenant") {
       if (data.validation1_DMG == true && data.validation2_DAJC == true) {
         let numContratData = data.numero_contrat;
-        let numeroContrat = numContratData.replace("AV", "");
+        let numeroContrat = numContratData;
         updateContrat = {
           numero_contrat: numeroContrat,
           date_debut_loyer: data.date_debut_loyer,
@@ -375,10 +375,6 @@ module.exports = {
 
     if (data.etat_contrat.libelle === "Résilié") {
       // Make the lieu that attached to this foncier (transféré)
-      // let lieu = {
-      //   deleted = true,
-
-      // }
       await Foncier.findOne({ _id: existedContrat.foncier._id }).then(
         async (foncier) => {
           let lieux = [];
@@ -632,7 +628,7 @@ module.exports = {
               // console.log(emailsList.join());
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
               res.status(400).send({ message: error.message });
             });
 
@@ -862,7 +858,7 @@ module.exports = {
                   ContratHelper.sendMailToAll(req.params.Id);
                 })
                 .catch((error) => {
-                  console.log(error.message);
+                  console.error(error.message);
                 });
             } else {
               let etatContrat = {
@@ -1007,6 +1003,65 @@ module.exports = {
       validation1_DMG: false,
       validation2_DAJC: false,
       etat_contrat: etatContrat,
-    });
+    })
+      .populate({
+        path: "foncier",
+        populate: {
+          path: "proprietaire",
+          populate: { path: "proprietaire_list" },
+        },
+      })
+      .then(async (contrat) => {
+        // Sending mail to CDGSP
+        let mailData;
+        if (data.is_avenant) {
+          mailData = {
+            message: `Avenant N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
+          };
+        } else {
+          mailData = {
+            message: `Le contrat N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
+          };
+        }
+
+        let emailsList = [];
+
+        await User.aggregate([
+          {
+            $match: {
+              deleted: false,
+              userRoles: {
+                $elemMatch: {
+                  deleted: false,
+                  $or: [
+                    {
+                      roleCode: "CDGSP",
+                    },
+                    {
+                      roleCode: "CSLA",
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ])
+          .then((data) => {
+            for (let i = 0; i < data.length; i++) {
+              emailsList.push(data[i].email);
+            }
+          })
+          .catch((error) => {
+            res.status(400).send({ message: error.message });
+          });
+        if (emailsList.length > 0) {
+          mail.sendMail(
+            `${emailsList.join()}`,
+            "Contrat à valider",
+            "validation1",
+            mailData
+          );
+        }
+      });
   },
 };

@@ -200,7 +200,6 @@ module.exports = {
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {
-      console.log("2");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -492,7 +491,6 @@ module.exports = {
       req.body.mois == premierDateDePaiement.getMonth() + 1 &&
       req.body.annee == premierDateDePaiement.getFullYear()
     ) {
-      console.log("3");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -641,7 +639,6 @@ module.exports = {
       // req.body.annee <= dateFinDeContrat.getFullYear()
       dateFinDeContrat == null
     ) {
-      console.log("4");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {

@@ -17,7 +17,7 @@ module.exports = {
     numero_contrat,
     periodicite
   ) => {
-    console.log(lieu);
+    // console.log(lieu);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
       nom_prenom: proprietaire.nom_prenom
@@ -128,7 +128,7 @@ module.exports = {
     return orderVirement;
   },
 
-  checkContratsAv: async (contratId) => {
+  checkContratsAv: async () => {
     await Contrat.findOne({ statut: "Test", deleted: false })
       .populate({ path: "old_contrat.contrat" })
       .populate({ path: "foncier", populate: { path: "proprietaire" } })
@@ -150,7 +150,7 @@ module.exports = {
             nextCloture = new Date(
               Comptabilisationdata[0].date_generation_de_comptabilisation
             );
-            
+
             let currentMonth = nextCloture.getMonth() + 1;
             let currentYear = nextCloture.getFullYear();
             let dateDeffetAV = new Date(
@@ -246,7 +246,7 @@ module.exports = {
                   });
 
                 // Change is_avenant to false
-              
+
                 // Update the old contrat
                 await Contrat.findByIdAndUpdate(oldContrat._id, {
                   // date_fin_contrat: dateFinOldContrat,
@@ -263,7 +263,7 @@ module.exports = {
                     ContratHelper.sendMailToAll(req.params.Id);
                   })
                   .catch((error) => {
-                    console.log(error.message);
+                    console.error(error.message);
                   });
               }
             }
@@ -275,7 +275,33 @@ module.exports = {
       });
   },
 
-  // checkContratsSus: async () => {
-  //   await Contrat.find({delete})
-  // }
+  checkDtFinContratsSus: async () => {
+    await Contrat.find({ deleted: false, "etat_contrat.libelle": "Suspendu" })
+      .then(async (contrats) => {
+        contrats.forEach(async (contrat) => {
+          let susDate = new Date(contrat.date_fin_suspension);
+          let susMonth = susDate.getMonth() + 1;
+          let susYear = susDate.getFullYear();
+          let currentDate = new Date();
+          let currentMonth = currentDate.getMonth() + 1;
+          let currentYear = currentDate.getFullYear();
+
+          if (
+            (susMonth == currentMonth && susYear == currentYear) ||
+            (susMonth > currentMonth && susYear < currentYear) ||
+            (susMonth < currentMonth && !(susYear > currentYear))
+          ) {
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat._id },
+              { "etat_contrat.libelle": "Actif" }
+            );
+          }
+        });
+      })
+      .catch((error) => {
+        res
+          .status(402)
+          .send({ message: `Get contrats suspendu : ${error.message}` });
+      });
+  },
 };

@@ -4,6 +4,7 @@ const etatVirementSch = require("../../models/situation_cloture/etatVirement.sch
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
+const clotureHelper = require("../helpers/cloture/cloture");
 const generatePdf = require("../helpers/cloture/generateSituationPdf");
 const etatMonsuelTaxes = require("./etat_taxes");
 const etatMonsuelVirement = require("./etat_virement");
@@ -11,6 +12,8 @@ const etatMonsuelVirement = require("./etat_virement");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
+      // await clotureHelper.checkContratsAv()
+      // await clotureHelper.checkDtFinContratsSus()
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
@@ -45,7 +48,6 @@ module.exports = {
           },
         ],
       });
-      // console.log(req.body.annee,req.body.mois);
 
       // return res.json(contrat);
 
@@ -90,33 +92,33 @@ module.exports = {
             });
           } //end if
 
-          if (
-            contrat[i].etat_contrat.libelle == "Résilié" &&
-            contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
-          ) {
-            let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
-            let dateEffResilieMonth = dateEffResilie.getMonth() + 1
-            let dateEffResilieYear = dateEffResilie.getFullYear()
-            if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
-              result = await traitementContratResilie.clotureContratResilie(
-                req,
-                res,
-                contrat[i],
-                dateGenerationDeComptabilisation,
-                Contrat,
-                false
-              );
-              result.ordre_virement.forEach((ordVrm) => {
-                ordreVirement.push(ordVrm);
-              });
-              result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-                comptabilisationLoyerCrediter.push(cmptCrdt);
-              });
-              result.cmptLoyerDebt.forEach((cmptDept) => {
-                comptabilisationLoyerDebiter.push(cmptDept);
-              });
-            }
-          }
+          // if (
+          //   contrat[i].etat_contrat.libelle == "Résilié" &&
+          //   contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
+          // ) {
+          //   let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
+          //   let dateEffResilieMonth = dateEffResilie.getMonth() + 1
+          //   let dateEffResilieYear = dateEffResilie.getFullYear()
+          //   if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
+          //     result = await traitementContratResilie.clotureContratResilie(
+          //       req,
+          //       res,
+          //       contrat[i],
+          //       dateGenerationDeComptabilisation,
+          //       Contrat,
+          //       false
+          //     );
+          //     result.ordre_virement.forEach((ordVrm) => {
+          //       ordreVirement.push(ordVrm);
+          //     });
+          //     result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+          //       comptabilisationLoyerCrediter.push(cmptCrdt);
+          //     });
+          //     result.cmptLoyerDebt.forEach((cmptDept) => {
+          //       comptabilisationLoyerDebiter.push(cmptDept);
+          //     });
+          //   }
+          // }
         } //end for
 
         const existedEtatVirement = await etatVirementSch.findOne({

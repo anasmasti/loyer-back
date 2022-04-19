@@ -71,9 +71,8 @@ module.exports = {
           "000" +
           "00" +
           zoneInitialiseSpace.padEnd(1, " ") +
-          "\n";
+          "\r\n";
 
-        console.log(headerOrdreVirement);
         fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +
@@ -83,7 +82,6 @@ module.exports = {
           headerOrdreVirement,
           { flag: "a" },
           (error) => {
-            console.log('errrrroooooooor');
             if (error){
               res.json({ message: error.message });
             } 
@@ -140,7 +138,7 @@ module.exports = {
           );
           let nomAgenceBancaire = data.ordre_virement[i].nom_agence_bancaire;
 
-          // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\n'
+          // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\r\n'
           let ecritureOrdreVirement =
             "0602" +
             zoneInitialiseSpace.padStart(14, " ") +
@@ -170,7 +168,7 @@ module.exports = {
               ? zoneInitialiseSpace.padEnd(2, " ")
               : cleRib.padEnd(2, " ")) +
             zoneInitialiseSpace +
-            "\n";
+            "\r\n";
 
           fs.writeFileSync(
             "download/ordre virement/Ordre Virement " +

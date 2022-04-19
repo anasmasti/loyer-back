@@ -5,7 +5,6 @@ function calculMontant(
   idProprietaire,
   hasDeclarationOption
 ) {
-  console.log('Im innnnnnnnnnnnnnnnnnnnn');
   let periodicites = [
     {
       number: 1,

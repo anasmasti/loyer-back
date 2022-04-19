@@ -71,7 +71,7 @@ module.exports = {
               dateWithSlash +
               "|01|31500003|-|NS|NS|NS|-|-|-|-|-|-|-|-|" +
               fullMontant +
-              "|D|-\n";
+              "|D|-\r\n";
 
             fs.writeFileSync(
               "download/comptabilisation caution/FichierComptableCaution " +
@@ -118,7 +118,7 @@ module.exports = {
               dateWithSlash +
               "|01|10200000|-|NS|NS|NS|-|-|-|-|-|-|-|-|" +
               fullMontant +
-              "|C|-\n";
+              "|C|-\r\n";
 
             fs.writeFileSync(
               "download/comptabilisation caution/FichierComptableCaution " +

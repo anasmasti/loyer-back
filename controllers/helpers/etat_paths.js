@@ -69,7 +69,7 @@ async function storePaths(mois, annee, extentionSent, dateToString, etatType) {
     })
     .catch((error) => {
       // res.status(402).send({ message: error.message })
-      console.log(error);
+      console.error(error);
     });
 }
 

@@ -70,7 +70,7 @@
       />
     </div>
     <h2 class="title">
-      Etat des virements par mandataire. <br>{{mois}}/{{annee}}
+      Etat des virements par mandataire. <br />{{mois}}/{{annee}}
     </h2>
     <!-- <h4 class="center">
       Numero du contrat :<span style="color: white;"> {{ numero_contrat }} </span>
@@ -157,6 +157,12 @@
           <!-- <td style="word-break: break-word">{{ numero_compte_bancaire }}</td> -->
         </tr>
         {{/ordre_virement}} {{/each}}
+        <tr>
+          <td colspan="7"></td>
+          <td>{{ montant_brut_global }}</td>
+          <td>{{ montant_taxe_global }}</td>
+          <td>{{ montant_net_global }}</td>
+        </tr>
       </tbody>
     </table>
   </body>
