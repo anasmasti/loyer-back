@@ -183,6 +183,8 @@ module.exports = {
             }
           );
         }
+
+
         totalMontantsNet = totalMontantsNet.toFixed(2);
         let footerOrdreVirement =
           "0802" +

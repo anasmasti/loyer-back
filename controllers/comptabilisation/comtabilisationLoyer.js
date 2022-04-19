@@ -11,7 +11,6 @@ module.exports = {
     archiveComptabilisation
       .findOne({ mois: req.params.mois, annee: req.params.annee })
       .then((data) => {
-        console.log("Teeeeeeeeeeeeeeeeest");
         if (data) {
           //traitement du date
           // return res.json(data)

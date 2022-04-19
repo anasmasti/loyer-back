@@ -10,37 +10,62 @@ const etatMonsuelTaxes = async (req, res) => {
   let dateToString = moment(today).format("YYYY-MM");
 
   await etatTaxes
-    .find({
+    .findOne({
       mois: req.body.mois,
       annee: req.body.annee,
     })
-    .then((data) => {
-      if (data.length > 0) {
-        // Generate PDF
-        generatePdf(data, "état_des_taxes", req.body.mois, req.body.annee);
-
+    .then((contrat) => {
+      if (contrat) {
+        let montantNetGlobal = 0;
+        let montantCautionGlobal = 0;
+        let montantTaxeGlobal = 0;
+        let montantTaxeAvanceGlobal = 0;
+        let montantBrutGlobal = 0;
+        let montantBrutAvanceGlobal = 0;
         // Generate Excel
         const dataExcel = [];
-        data.forEach((contrat) => {
-          contrat.comptabilisation_loyer_crediter.forEach((cmpt) => {
-            let cmptMapped = [
-              cmpt.numero_contrat,
-              cmpt.type_lieu,
-              cmpt.cin,
-              cmpt.nom_prenom,
-              cmpt.declaration_option,
-              cmpt.periodicite,
-              cmpt.montant_avance_proprietaire != 0 ? "--" : cmpt.montant_brut,
-              cmpt.montant_avance_proprietaire,
-              cmpt.taux_impot,
-              cmpt.tax_avance_proprietaire != 0 ? "--" : cmpt.montant_tax,
-              cmpt.tax_avance_proprietaire,
-              cmpt.caution_proprietaire,
-              cmpt.montant_net,
-            ];
-            dataExcel.push(cmptMapped);
-          });
+        contrat.comptabilisation_loyer_crediter.forEach((cmpt) => {
+          montantNetGlobal += cmpt.montant_net;
+          montantCautionGlobal += cmpt.caution_proprietaire;
+          montantTaxeGlobal +=
+            cmpt.tax_avance_proprietaire != 0 ? 0 : cmpt.montant_tax;
+          montantTaxeAvanceGlobal += cmpt.tax_avance_proprietaire;
+          montantBrutGlobal +=
+            cmpt.montant_avance_proprietaire != 0 ? 0 : cmpt.montant_brut;
+          montantBrutAvanceGlobal += cmpt.montant_avance_proprietaire;
+          let cmptMapped = [
+            cmpt.numero_contrat,
+            cmpt.type_lieu,
+            cmpt.cin,
+            cmpt.nom_prenom,
+            cmpt.declaration_option,
+            cmpt.periodicite,
+            cmpt.taux_impot,
+            cmpt.montant_avance_proprietaire != 0 ? "--" : cmpt.montant_brut,
+            cmpt.montant_avance_proprietaire,
+            cmpt.tax_avance_proprietaire != 0 ? "--" : cmpt.montant_tax,
+            cmpt.tax_avance_proprietaire,
+            cmpt.caution_proprietaire,
+            cmpt.montant_net,
+          ];
+          dataExcel.push(cmptMapped);
         });
+
+        dataExcel.push([
+          " ",
+          " ",
+          " ",
+          " ",
+          " ",
+          " ",
+          " ",
+          montantBrutGlobal,
+          montantBrutAvanceGlobal,
+          montantTaxeGlobal,
+          montantTaxeAvanceGlobal,
+          montantCautionGlobal,
+          montantNetGlobal,
+        ]);
         const workSheetColumnName = [
           "N° de contrat ",
           "Type d'entité",
@@ -48,9 +73,9 @@ const etatMonsuelTaxes = async (req, res) => {
           "Nom et prénom / R.S ",
           "D.S",
           "Périodicité",
+          "Taux de taxe",
           "MT brut de loyer",
           "MT brut d'avance",
-          "Taux de taxe",
           "Taxe/loyer",
           "Taxe/avance",
           "Caution",
@@ -67,6 +92,26 @@ const etatMonsuelTaxes = async (req, res) => {
           workSheetName,
           filePath,
           "état_des_taxes"
+        );
+
+        // Generate PDF
+        generatePdf(
+          {
+            comptabilisation_loyer_crediter:
+              contrat.comptabilisation_loyer_crediter,
+            montant_brut_global: montantBrutGlobal,
+            montant_brut_avance_global: montantBrutAvanceGlobal,
+            montant_taxe_global: montantTaxeGlobal,
+            montant_taxe_avance_global: montantTaxeAvanceGlobal,
+            montant_net_global: montantNetGlobal,
+            montant_caution_global: montantCautionGlobal,
+            mois: contrat.mois,
+            annee: contrat.annee,
+            date_generation_de_virement: contrat.date_generation_de_virement,
+          },
+          "état_des_taxes",
+          req.body.mois,
+          req.body.annee
         );
       } else res.status(402).json({ message: "Empty data" });
     })

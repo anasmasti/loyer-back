@@ -49,8 +49,10 @@ async function generatePdf(data, etatType, mois, annee) {
             annee: annee,
           })
           .then(async (data) => {
+            // return console.log(data);
             try {
               if (data.length == 0) {
+                // console.log("teeeeest");
                 reportingPaths.push({
                   [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${date}.${extention}`,
                 });
