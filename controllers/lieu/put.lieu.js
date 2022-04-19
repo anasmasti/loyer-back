@@ -128,7 +128,7 @@ module.exports = {
 
               await Lieu.findOne({ _id: req.params.Id }).then(
                 async (lieuData) => {
-                  if (lieuData.intitule_lieu != req.body.intitule_lieu) {
+                  if (lieuData.intitule_lieu != req.body.intitule_lieu.toUpperCase()) {
                     await Lieu.find({
                       type_lieu: "Logement de fonction",
                       attached_DR: lieuData._id,
@@ -138,7 +138,7 @@ module.exports = {
                           await Lieu.findByIdAndUpdate(
                             { _id: lieuLF._id },
                             {
-                              intitule_lieu: `LF/${req.body.intitule_lieu}`,
+                              intitule_lieu: `LF/${req.body.intitule_lieu.toUpperCase()}`,
                             }
                           );
                         });
@@ -165,7 +165,7 @@ module.exports = {
                 { _id: req.params.Id },
                 {
                   code_lieu: req.body.code_lieu,
-                  intitule_lieu: req.body.intitule_lieu,
+                  intitule_lieu: req.body.intitule_lieu.toUpperCase(),
                   code_localite: req.body.code_localite,
                   telephone: req.body.telephone,
                   fax: req.body.fax,
