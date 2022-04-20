@@ -185,7 +185,7 @@ module.exports = {
       await foncier
         .save()
         .then((data) => {
-          res.json(data);
+          res.json(data._id);
         })
         .catch((error) => {
           res.status(402).send({ message: error.message });

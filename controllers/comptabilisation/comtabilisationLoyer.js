@@ -204,7 +204,7 @@ module.exports = {
               " 00:00:00|LOY|PAISOFT|MAD|" +
               "COMPTABILISATION/" +
               dateWithSlash +
-              "|01|32700008|-|-|-|-|-|-|-|-|-|-|-|" +
+              "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
               fullMontantNet +
               "|C|" +
               numeroContrat +
@@ -286,7 +286,7 @@ module.exports = {
               " 00:00:00|LOY|PAISOFT|MAD|" +
               "COMPTABILISATION/" +
               dateWithSlash +
-              "|01|32700008|-|-|-|-|-|-|-|-|-|-|-|" +
+              "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
               fullMontantTax +
               "|C|" +
               numeroContrat +
