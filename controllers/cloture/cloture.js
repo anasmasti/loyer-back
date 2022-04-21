@@ -8,8 +8,8 @@ const clotureHelper = require("../helpers/cloture/cloture");
 module.exports = {
   clotureDuMois: async (req, res, next) => {
     try {
-      await clotureHelper.checkContratsAv();
-      await clotureHelper.checkDtFinContratsSus();
+       await clotureHelper.checkContratsAv(req, res);
+       await clotureHelper.checkDtFinContratsSus(req, res);
 
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
@@ -45,6 +45,7 @@ module.exports = {
           },
         ],
       });
+      console.log('requested data ', contrat)
 
       // return res.json(contrat);
 
@@ -130,6 +131,7 @@ module.exports = {
           await comptabilisationArchive
             .save()
             .then((comptabilisationData) => {
+              console.log('inisde comptabilisationData save')
               res.json({
                 virementData,
                 comptabilisationData,
