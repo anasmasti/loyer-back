@@ -25,8 +25,8 @@ module.exports = {
       newMotifMontantLoyer = 0;
 
     try {
-      // data = JSON.parse(req.body.data);
-      data = req.body.data;
+      data = JSON.parse(req.body.data);
+      // data = req.body.data;
     } catch (error) {
       res.status(422).send({ message: error.message });
     }
