@@ -1,7 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const User = require("../../models/roles/roles.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
-const ProprietaireHelper = require("./proprietaire")
+const ProprietaireHelper = require("./proprietaire");
 const mail = require("../../helpers/mail.send");
 
 module.exports = {
@@ -74,11 +74,9 @@ module.exports = {
 
     ProprietaireHelper.proprietaireASupprimer(ContratData);
 
-    await nouveauContrat
-      .save()
-      .catch((error) => {
-        res.status(400).send({ message: error.message });
-      });
+    await nouveauContrat.save().catch((error) => {
+      res.status(400).send({ message: error.message });
+    });
   },
 
   deleteProprietaire: async (req, res, proprietareId) => {
@@ -144,15 +142,14 @@ module.exports = {
 
             let contratName;
             if (contrat.is_avenant) {
-              contratName = 'Avenant'
+              contratName = "Avenant";
             }
             if (!contrat.is_avenant) {
-              contratName = 'Le contrat'
+              contratName = "Le contrat";
             }
 
             let DAJCmailData = {
-              message:
-                `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) a été validé.`,
+              message: `${contratName} n°${contrat.numero_contrat} ( ${contrat.foncier.type_lieu} ) a été validé.`,
             };
 
             if (DAJCemailsList.length > 0) {
@@ -169,5 +166,28 @@ module.exports = {
             res.status(400).send({ message: error.message });
           });
       });
+  },
+
+  chackContratDate: (targetDate, targetDateFin) => {
+    let _targetDateFin = new Date(targetDateFin);
+    let targetDateFinMonth = _targetDateFin.getMonth() + 1;
+    let targetDateFinYear = _targetDateFin.getFullYear();
+
+    let _targetDate = new Date(targetDate);
+    let targetDateMonth = _targetDate.getMonth() + 1;
+    let targetDateYear = _targetDate.getFullYear();
+
+    if (
+      (targetDateMonth == targetDateFinMonth &&
+        targetDateYear == targetDateFinYear) ||
+      (targetDateMonth > targetDateFinMonth &&
+        targetDateYear < targetDateFinYear) ||
+      (targetDateMonth < targetDateFinMonth &&
+        targetDateYear <= targetDateFinYear)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   },
 };
