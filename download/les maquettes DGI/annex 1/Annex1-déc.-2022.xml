@@ -4,24 +4,24 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>5</mois>
-  <totalMntBrutLoyer>90000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>13500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>76500.00</totalMntNetLoyer>
+  <mois>12</mois>
+  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>18500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BJ12348</numCNIBailleur>
-      <numCEBailleur>2249785</numCEBailleur>
-      <nomPrenomBailleur>Ahmed laaraichi</nomPrenomBailleur>
-      <adresseBailleur>Tanger alkhawa dyali</adresseBailleur>
-      <adresseBien>aaaaa</adresseBien>
+      <numCNIBailleur>BB14852</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Ahmed tadlaoui</nomPrenomBailleur>
+      <adresseBailleur>4444</adresseBailleur>
+      <adresseBien>Test test</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>90000.00</mntBrutLoyer>
-      <mntRetenueSource>13500.00</mntRetenueSource>
-      <mntNetLoyer>76500.00</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>18500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

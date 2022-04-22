@@ -140,20 +140,49 @@ module.exports = {
       };
 
       //set the next date de comptabilisation if contrat suspendu
-      let dureeSuspension = data.etat_contrat.etat.duree_suspension;
-      let dateComptabilisation = new Date(data.date_comptabilisation);
-      // console.log(
-      //   "date comptabilisation etat suspendu ==>",
-      //   dateComptabilisation
-      // );
-      if (data.date_comptabilisation != null) {
-        nextDateComptabilisation = dateComptabilisation.setMonth(
-          dateComptabilisation.getMonth() + dureeSuspension
-        );
-        // console.log(nextDateComptabilisation);
+      // Date fin avance 
+      let dateFinSuspension = new Date(
+        data.etat_contrat.etat.date_fin_suspension
+      );
+      let dateFinSuspensionMonth = dateFinSuspension.getMonth() + 1;
+      let dateFinSuspensionYear = dateFinSuspension.getFullYear();
+
+      // Date premier paiment 
+      let datePremierPayment = new Date(
+        data.date_premier_paiement
+      );
+      let datePremierPaymentMonth = datePremierPayment.getMonth() + 1;
+      let datePremierPaymentYear = datePremierPayment.getFullYear();
+
+      // Date de comptabilisation 
+      let dateComptabilisation = new Date(existedContrat.date_comptabilisation);
+      let dateComptabilisationMonth = dateComptabilisation.getMonth() + 1;
+      let dateComptabilisationYear = dateComptabilisation.getFullYear();
+
+      if (existedContrat.date_comptabilisation != null) {
+        if (
+          (dateComptabilisationMonth == dateFinSuspensionMonth &&
+            dateComptabilisationYear == dateFinSuspensionYear) ||
+          (dateComptabilisationMonth > dateFinSuspensionMonth &&
+            dateComptabilisationYear < dateFinSuspensionYear) ||
+          (dateComptabilisationMonth < dateFinSuspensionMonth &&
+            dateComptabilisationYear <= dateFinSuspensionYear)
+        ) {
+          nextDateComptabilisation = dateFinSuspension;
+        } else {
+          nextDateComptabilisation = dateComptabilisation;
+        }
       } else {
-        nextDateComptabilisation = null;
-        // console.log(nextDateComptabilisation);
+        if (
+          (datePremierPaymentMonth == dateFinSuspensionMonth &&
+            datePremierPaymentYear == dateFinSuspensionYear) ||
+          (datePremierPaymentMonth > dateFinSuspensionMonth &&
+            datePremierPaymentYear < dateFinSuspensionYear) ||
+          (datePremierPaymentMonth < dateFinSuspensionMonth &&
+            datePremierPaymentYear <= dateFinSuspensionYear)
+        ) {
+          nextDateComptabilisation = dateFinSuspension;
+        }
       }
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
@@ -195,7 +224,12 @@ module.exports = {
       //     }
       // }
     } else if (data.etat_contrat.libelle === "Actif") {
-      etatContrat = data.etat_contrat;
+      etatContrat = {
+        libelle: data.etat_contrat.libelle,
+        etat: {},
+      };
+      nextDateComptabilisation = existedContrat.date_comptabilisation;
+      // data.etat_contrat;
     } else if (data.etat_contrat.libelle === "Initié" && !data.is_avenant) {
       etatContrat = data.etat_contrat;
     }
@@ -837,7 +871,7 @@ module.exports = {
                 etatOldContrat = oldContrat.etat_contrat;
                 // Customise the new contrat etat
                 etatNewContrat = {
-                  libelle: "Actif",
+                  libelle: "Test",
                   etat: contratAV.etat_contrat.etat,
                 };
               }

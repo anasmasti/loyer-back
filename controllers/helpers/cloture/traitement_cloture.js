@@ -634,11 +634,13 @@ module.exports = {
 
     if (
       req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
-      req.body.annee == dateDeComptabilisation.getFullYear() &&
+      req.body.annee == dateDeComptabilisation.getFullYear() 
+      // &&
       // && req.body.mois <= dateFinDeContrat.getMonth() + 1 &&
       // req.body.annee <= dateFinDeContrat.getFullYear()
-      dateFinDeContrat == null
+      // dateFinDeContrat == null
     ) {
+      console.log('inisde dateDeComptabilisation = body.date')
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {

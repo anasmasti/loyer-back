@@ -12,7 +12,7 @@ const etatMonsuelVirement = require("./etat_virement");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      // await clotureHelper.checkContratsAv()
+      await clotureHelper.checkContratsAv()
       // await clotureHelper.checkDtFinContratsSus()
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
