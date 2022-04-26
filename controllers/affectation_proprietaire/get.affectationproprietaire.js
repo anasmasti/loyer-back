@@ -30,6 +30,16 @@ module.exports = {
       });
   },
 
+  getAPperProprietaireID: async (req, res) => {
+    await AffectationProprietaire.find({proprietaire: req.params.Id, deleted: false})
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((error) => {
+        res.status(500).send({ message: `Aucun Propriétaire trouvé` || error });
+      });
+  },
+
   getProprietairesHasntMondataire: async (req, res) => {
     Contrat.findById({ _id: req.params.IdContrat })
       .populate({ path: "proprietaires", populate: { path: "proprietaire" } })

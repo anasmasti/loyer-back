@@ -11,8 +11,11 @@ router
   .route("/affectation-proprietaire/tous/:matricule")
   .get(getAffecttionProprietaire.getAllAffectationsProprietaire);
 router
-  .route("/proprietaire/:Id/:matricule")
+  .route("/affectation-proprietaire/:Id/:matricule")
   .get(getAffecttionProprietaire.getAffectationProprietairePerID);
+router
+  .route("/affectation-par-proprietaire/:Id/:matricule")
+  .get(getAffecttionProprietaire.getAPperProprietaireID);
 router
   .route("/affectation-proprietaire/ajouter/:IdContrat/:matricule")
   .post(
@@ -33,8 +36,6 @@ router
   );
 router
   .route("/proprietaires-hasnt-mondataire/:IdContrat/:matricule")
-  .get(
-    getAffecttionProprietaire.getProprietairesHasntMondataire
-  );
+  .get(getAffecttionProprietaire.getProprietairesHasntMondataire);
 
 module.exports = router;
