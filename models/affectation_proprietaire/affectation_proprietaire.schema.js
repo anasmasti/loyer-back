@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const affectationproprietaireSchema = new Schema(
   {
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
     proprietaire: {
       type: Schema.Types.ObjectId,
       ref: "Proprietaire",
