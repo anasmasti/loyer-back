@@ -14,7 +14,7 @@ router
   .route("/affectation-proprietaire/:Id/:matricule")
   .get(getAffecttionProprietaire.getAffectationProprietairePerID);
 router
-  .route("/affectation-par-proprietaire/:Id/:matricule")
+  .route("/affectation-proprietaire/affectations/:Id/:matricule")
   .get(getAffecttionProprietaire.getAPperProprietaireID);
 router
   .route("/affectation-proprietaire/ajouter/:IdContrat/:matricule")
