@@ -150,10 +150,10 @@ router
 router
   .route("/contrat/validation2/:Id/:matricule")
   .put(verifyRole.checkRoles("DAJC"), putcontrat.modifierValidationDAJC);
-  // putcontrat.modifierValidationDAJC);
+// putcontrat.modifierValidationDAJC);
 router
   .route("/contrat/soumettre/:Id/:matricule")
-  .put(verifyRole.checkRoles("CSLA","CDGSP"), putcontrat.soumettre);
+  .put(verifyRole.checkRoles("CSLA", "CDGSP"), putcontrat.soumettre);
 router
   .route("/contrat/annuler-contrat/:Id/:matricule")
   .put(
