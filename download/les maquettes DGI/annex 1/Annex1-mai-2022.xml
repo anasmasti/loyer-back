@@ -5,40 +5,23 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
-  <totalMntBrutLoyer>27000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>4050.00</totalMntRetenueSource>
-  <totalMntNetLoyer>22950.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>90000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>13500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>76500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>J5248541</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>MADIHA LLL</nomPrenomBailleur>
-      <adresseBailleur>KJDJZLZ</adresseBailleur>
-      <adresseBien>CASA 2 MARS 600</adresseBien>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>BJ12348</numCNIBailleur>
+      <numCEBailleur>2249785</numCEBailleur>
+      <nomPrenomBailleur>Ahmed laaraichi</nomPrenomBailleur>
+      <adresseBailleur>Tanger alkhawa dyali</adresseBailleur>
+      <adresseBien>aaaaa</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>15000.00</mntBrutLoyer>
-      <mntRetenueSource>2250.00</mntRetenueSource>
-      <mntNetLoyer>12750.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
-      <numCNIBailleur>f548561</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>karima ggfff</nomPrenomBailleur>
-      <adresseBailleur>lkjozaijd,za</adresseBailleur>
-      <adresseBien>maarif 5000</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>12000.00</mntBrutLoyer>
-      <mntRetenueSource>1800.00</mntRetenueSource>
-      <mntNetLoyer>10200.00</mntNetLoyer>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>13500.00</mntRetenueSource>
+      <mntNetLoyer>76500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

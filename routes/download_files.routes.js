@@ -15,9 +15,9 @@ router.route("/annex2/:mois/:annee").get(getAnnex2.createAnnex2);
 router
   .route("/fichier-comptable-loyer/:mois/:annee")
   .get(getFichierComptableLoyer.genererComptabilisationLoyer);
-router
-  .route("/fichier-comptable-caution/:mois/:annee")
-  .get(getFichierComptableCaution.genererComptabilisationCautions);
+// router
+//   .route("/fichier-comptable-caution/:mois/:annee")
+//   .get(getFichierComptableCaution.genererComptabilisationCautions);
 router
   .route("/fichier-ordre-virement/:mois/:annee")
   .get(getFichierOrdreVirement.genererOrdreVirement)

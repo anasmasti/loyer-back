@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const EtatContratSchema = require("./etatContrat.schema");
+const AffectationProprietaire = require("../affectation_proprietaire/affectation_proprietaire.schema");
 const fileSchema = require("../shared/file.schema");
 
 //contrat Schema
@@ -155,6 +156,14 @@ const ContratSchema = new Schema(
     nombre_part: {
       type: Number,
     },
+
+    // Proprietaires 
+    proprietaires: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "AffectationProprietaire",
+      },
+    ],
   },
   { timestamps: true }
 );

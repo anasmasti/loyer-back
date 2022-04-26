@@ -8,6 +8,7 @@ const handlebars = require('handlebars')
 
 // Routes
 const proprietaireRoute = require("./routes/proprietaire.routes");
+const affectationproprietaireRoute = require("./routes/affectation_proprietaire.routes");
 const userRoute = require("./routes/user.routes");
 const lieuxRoute = require("./routes/lieux.routes");
 const homeRoute = require("./routes/home.routes");
@@ -83,6 +84,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 })(
   homeRoute,
   proprietaireRoute,
+  affectationproprietaireRoute,
   lieuxRoute,
   contratRoute,
   userRoute,

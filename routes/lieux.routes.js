@@ -40,15 +40,14 @@ router
 router
   .route("/lieu/delete/:Id/:matricule")
   .patch(verifyRole.checkRoles("CDGSP", "CSLA"), deleteLieu.deletedLieu);
-router
-  .route("/lieu/contratByLieu/:Id/:matricule")
-  .get(
-    // verifyRole.checkRoles("CDGSP", "CSLA"), 
-    getLieu.getContratByLieu);
+// router
+//   .route("/lieu/contratByLieu/:Id/:matricule")
+//   .get(
+//     // verifyRole.checkRoles("CDGSP", "CSLA"), 
+//     getLieu.getContratByLieu);
 router
   .route("/lieu/lieu-by-type/:matricule")
   .post(
-    // verifyRole.checkRoles("CDGSP", "CSLA"), 
     getLieu.getLieuByType);
 
 module.exports = router;

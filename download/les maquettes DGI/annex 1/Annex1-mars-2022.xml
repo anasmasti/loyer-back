@@ -5,44 +5,10 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>3</mois>
-  <totalMntBrutLoyer>397000.00</totalMntBrutLoyer>
+  <totalMntBrutLoyer>297000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>35850.00</totalMntRetenueSource>
-  <totalMntNetLoyer>361150.00</totalMntNetLoyer>
+  <totalMntNetLoyer>261150.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>31451</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>STE LOCATION </nomPrenomBailleur>
-      <adresseBailleur>EFDNKJEZHNDZI56486461</adresseBailleur>
-      <adresseBien>CASAAA 255525KLHDKLJZDZAJBII 2233654645</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>5000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>5000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>56987</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>STE MAISON </nomPrenomBailleur>
-      <adresseBailleur>CASA 44641616</adresseBailleur>
-      <adresseBien>CASAAA 255525KLHDKLJZDZAJBII 2233654645</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>5000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>5000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>F545467</numCNIBailleur>
@@ -73,57 +39,6 @@
       <mntBrutLoyer>30000.00</mntBrutLoyer>
       <mntRetenueSource>2250.00</mntRetenueSource>
       <mntNetLoyer>27750.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF5</ifuBailleur>
-      <numCNIBailleur>654566</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>STT22</nomPrenomBailleur>
-      <adresseBailleur>FLK354651</adresseBailleur>
-      <adresseBien>KJHZDEHA5356854</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>30000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>30000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF6</ifuBailleur>
-      <numCNIBailleur>3516546</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>GTT STE</nomPrenomBailleur>
-      <adresseBailleur>CASA 548454</adresseBailleur>
-      <adresseBien>KJHZDEHA5356854</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>30000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>30000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF7</ifuBailleur>
-      <numCNIBailleur>O3546845</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KHALID VAVA </nomPrenomBailleur>
-      <adresseBailleur>LKJIHIUGU214456</adresseBailleur>
-      <adresseBien>DEZF43F23164</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>18000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>18000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -209,23 +124,6 @@
       <mntBrutLoyer>28000.00</mntBrutLoyer>
       <mntRetenueSource>2800.00</mntRetenueSource>
       <mntNetLoyer>25200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF13</ifuBailleur>
-      <numCNIBailleur>326546</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>STE CASA 56</nomPrenomBailleur>
-      <adresseBailleur>CASA PMLKL5646</adresseBailleur>
-      <adresseBien>RABAT 52485LPOKOIJ</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>12000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>12000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

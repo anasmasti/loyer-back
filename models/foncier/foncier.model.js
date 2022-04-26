@@ -11,12 +11,12 @@ const foncierSchema = new Schema(
     ville: {
       type: String,
     },
-    proprietaire: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Proprietaire",
-      },
-    ],
+    // proprietaire: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Proprietaire",
+    //   },
+    // ],
     lieu: [
       {
         lieu: {

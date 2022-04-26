@@ -21,16 +21,18 @@ module.exports = {
       contrat_avener = [],
       nextDateComptabilisation = null,
       data = null,
-      isMotifMontantLoyer = false,
+      isMotifMontantLoyerChanged = false,
       newMotifMontantLoyer = 0;
 
-    // console.log(req.body.data);
     try {
       data = JSON.parse(req.body.data);
-      console.log(data);
+      // data = req.body.data;
     } catch (error) {
       res.status(422).send({ message: error.message });
     }
+
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Contrat ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
     //store files
     if (req.files) {
       // piece_jointe_contrat
@@ -63,56 +65,6 @@ module.exports = {
       path: "foncier",
     });
 
-    // // store the exited files
-    // if (existedContrat) {
-    //   if (
-    //     existedContrat.piece_joint_contrat &&
-    //     piece_joint_contrat.length == 0
-    //   ) {
-    //     for (item in existedContrat.piece_joint_contrat) {
-    //       piece_joint_contrat.push({
-    //         image: existedContrat.piece_joint_contrat[item].image,
-    //       });
-    //     }
-    //   }
-    //   if (
-    //     existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie &&
-    //     images_etat_res_lieu_sortie.length == 0
-    //   ) {
-    //     for (item in existedContrat.etat_contrat.etat
-    //       .images_etat_res_lieu_sortie) {
-    //       images_etat_res_lieu_sortie.push({
-    //         image:
-    //           existedContrat.etat_contrat.etat.images_etat_res_lieu_sortie[item]
-    //             .image,
-    //       });
-    //     }
-    //   }
-    //   if (
-    //     existedContrat.etat_contrat.etat.lettre_res_piece_jointe &&
-    //     lettre_res_piece_jointe.length == 0
-    //   ) {
-    //     for (item in existedContrat.etat_contrat.etat.lettre_res_piece_jointe) {
-    //       lettre_res_piece_jointe.push({
-    //         image:
-    //           existedContrat.etat_contrat.etat.lettre_res_piece_jointe[item]
-    //             .image,
-    //       });
-    //     }
-    //   }
-    //   if (
-    //     existedContrat.etat_contrat.etat.piece_jointe_avenant &&
-    //     piece_jointe_avenant.length == 0
-    //   ) {
-    //     for (item in existedContrat.etat_contrat.etat.piece_jointe_avenant) {
-    //       piece_jointe_avenant.push({
-    //         image:
-    //           existedContrat.etat_contrat.etat.piece_jointe_avenant[item].image,
-    //       });
-    //     }
-    //   }
-    // }
-
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
       // let numeroContrat = data.numero_contrat.replace("AV", "");
@@ -128,32 +80,50 @@ module.exports = {
         libelle: "Actif",
         etat: {},
       };
-    } else if (data.etat_contrat.libelle === "Suspendu") {
+    } else if (
+      data.etat_contrat.libelle === "Suspendu" ||
+      data.etat_contrat.libelle === "toactivate"
+    ) {
       etatContrat = {
-        libelle: data.etat_contrat.libelle,
+        libelle: "Suspendu",
         etat: {
           intitule_lieu: data.etat_contrat.etat.intitule_lieu,
           date_suspension: data.etat_contrat.etat.date_suspension,
           duree_suspension: data.etat_contrat.etat.duree_suspension,
           motif_suspension: data.etat_contrat.etat.motif_suspension,
+          date_fin_suspension: data.etat_contrat.etat.date_fin_suspension,
         },
       };
 
-      //set the next date de comptabilisation if contrat suspendu
-      let dureeSuspension = data.etat_contrat.etat.duree_suspension;
-      let dateComptabilisation = new Date(data.date_comptabilisation);
-      // console.log(
-      //   "date comptabilisation etat suspendu ==>",
-      //   dateComptabilisation
-      // );
-      if (data.date_comptabilisation != null) {
-        nextDateComptabilisation = dateComptabilisation.setMonth(
-          dateComptabilisation.getMonth() + dureeSuspension
-        );
-        // console.log(nextDateComptabilisation);
-      } else {
-        nextDateComptabilisation = null;
-        // console.log(nextDateComptabilisation);
+      if (
+        data.etat_contrat.etat.duree_suspension != null &&
+        data.etat_contrat.etat.duree_suspension > 0
+      ) {
+        if (existedContrat.date_comptabilisation != null) {
+          const isLessThen = ContratHelper.chackContratDate(
+            existedContrat.date_comptabilisation,
+            data.etat_contrat.etat.date_fin_suspension
+          );
+          if (isLessThen) {
+            nextDateComptabilisation = new Date(
+              data.etat_contrat.etat.date_fin_suspension
+            );
+          } else {
+            nextDateComptabilisation = new Date(
+              existedContrat.date_comptabilisation
+            );
+          }
+        } else {
+          if (
+            ContratHelper.chackContratDate(
+              data.date_premier_paiement,
+              data.etat_contrat.etat.date_fin_suspension
+            )
+          )
+            nextDateComptabilisation = new Date(
+              data.etat_contrat.etat.date_fin_suspension
+            );
+        }
       }
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
@@ -195,7 +165,12 @@ module.exports = {
       //     }
       // }
     } else if (data.etat_contrat.libelle === "Actif") {
-      etatContrat = data.etat_contrat;
+      etatContrat = {
+        libelle: data.etat_contrat.libelle,
+        etat: {},
+      };
+      nextDateComptabilisation = existedContrat.date_comptabilisation;
+      // data.etat_contrat;
     } else if (data.etat_contrat.libelle === "Initié" && !data.is_avenant) {
       etatContrat = data.etat_contrat;
     }
@@ -213,7 +188,7 @@ module.exports = {
 
       data.etat_contrat.etat.motif.forEach((motif) => {
         if (motif.type_motif == "Révision du prix du loyer") {
-          isMotifMontantLoyer = true;
+          isMotifMontantLoyerChanged = true;
           newMotifMontantLoyer = motif.montant_nouveau_loyer;
         }
 
@@ -232,153 +207,90 @@ module.exports = {
       });
     }
 
-    // store existed Suspendu contrat
-    for (item in existedContrat.contrats_suspendu) {
-      contrats_suspendu.push(existedContrat.contrats_suspendu[item]);
-    }
-    if (existedContrat.etat_contrat.libelle == "Suspendu") {
-      contrats_suspendu.push(existedContrat);
-    }
+    updateContrat = {
+      date_debut_loyer: data.date_debut_loyer,
+      date_fin_contrat: data.date_fin_contrat,
+      date_reprise_caution: data.date_reprise_caution,
+      date_fin_avance: data.date_fin_avance,
+      date_premier_paiement: data.date_premier_paiement,
+      montant_loyer: isMotifMontantLoyerChanged
+        ? newMotifMontantLoyer
+        : data.montant_loyer,
+      taxe_edilite_loyer: data.taxe_edilite_loyer,
+      taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
+      periodicite_paiement: data.periodicite_paiement,
+      duree_location: data.duree_location,
+      declaration_option: data.declaration_option,
+      taux_impot: data.taux_impot,
+      duree: data.duree,
+      retenue_source_par_mois: data.retenue_source_par_mois,
+      total_montant_brut_loyer: data.total_montant_brut_loyer,
+      total_montant_net_loyer: data.total_montant_net_loyer,
+      retenue_source: data.retenue_source,
+      montant_apres_impot: data.montant_apres_impot,
+      montant_caution: data.montant_caution,
+      duree_caution: data.duree_caution,
+      statut_caution:
+        data.etat_contrat.libelle == "Résilié"
+          ? data.etat_contrat.etat.reprise_caution
+          : data.statut_caution,
+      montant_avance: data.montant_avance,
+      duree_avance: data.duree_avance,
+      n_engagement_depense: data.n_engagement_depense,
+      echeance_revision_loyer: data.echeance_revision_loyer,
+      // lieu: data.lieu,
+      etat_contrat: etatContrat,
+      piece_joint_contrat: piece_joint_contrat,
+      date_comptabilisation: nextDateComptabilisation,
+      nombre_part: data.nombre_part,
+    };
 
-    //store existed Avenant contrat
-    for (item in existedContrat.contrat_avener) {
-      contrat_avener.push(existedContrat.contrat_avener[item]);
-    }
-    if (existedContrat.etat_contrat.libelle == "Avenant") {
-      contrat_avener.push(existedContrat);
-    }
-
-    //add attribute 'AV' in contrat if etat = Avenant
-    if (data.etat_contrat.libelle == "Avenant") {
-      if (data.validation1_DMG == true && data.validation2_DAJC == true) {
-        let numContratData = data.numero_contrat;
-        let numeroContrat = numContratData.replace("AV", "");
-        updateContrat = {
-          numero_contrat: numeroContrat,
-          date_debut_loyer: data.date_debut_loyer,
-          date_fin_contrat: data.date_fin_contrat,
-          date_reprise_caution: data.date_reprise_caution,
-          date_fin_avance: data.date_fin_avance,
-          date_premier_paiement: data.date_premier_paiement,
-          montant_loyer: data.montant_loyer,
-          taxe_edilite_loyer: data.taxe_edilite_loyer,
-          taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
-          periodicite_paiement: data.periodicite_paiement,
-          duree_location: data.duree_location,
-          duree: data.duree,
-          retenue_source_par_mois: data.retenue_source_par_mois,
-          total_montant_brut_loyer: data.total_montant_brut_loyer,
-          total_montant_net_loyer: data.total_montant_net_loyer,
-          declaration_option: data.declaration_option,
-          taux_impot: data.taux_impot,
-          retenue_source: data.retenue_source,
-          montant_apres_impot: data.montant_apres_impot,
-          montant_caution: data.montant_caution,
-          duree_caution: data.duree_caution,
-          statut_caution: data.statut_caution,
-          montant_avance: data.montant_avance,
-          duree_avance: data.duree_avance,
-          n_engagement_depense: data.n_engagement_depense,
-          echeance_revision_loyer: data.echeance_revision_loyer,
-          // type_lieu: data.type_lieu,
-          lieu: data.lieu,
-          etat_contrat: etatContrat,
-          piece_joint_contrat: piece_joint_contrat,
-          contrats_suspendu: contrats_suspendu,
-          contrat_avener: contrat_avener,
-          nombre_part: data.nombre_part,
-        };
-        // return ContratHelper.createContratAV(req, res, data, `${numeroContrat}/AV`, piece_joint_contrat)
-      }
-    } else {
-      updateContrat = {
-        date_debut_loyer: data.date_debut_loyer,
-        date_fin_contrat: data.date_fin_contrat,
-        date_reprise_caution: data.date_reprise_caution,
-        date_fin_avance: data.date_fin_avance,
-        date_premier_paiement: data.date_premier_paiement,
-        montant_loyer: isMotifMontantLoyer
-          ? newMotifMontantLoyer
-          : data.montant_loyer,
-        taxe_edilite_loyer: data.taxe_edilite_loyer,
-        taxe_edilite_non_loyer: data.taxe_edilite_non_loyer,
-        periodicite_paiement: data.periodicite_paiement,
-        duree_location: data.duree_location,
-        declaration_option: data.declaration_option,
-        taux_impot: data.taux_impot,
-        duree: data.duree,
-        retenue_source_par_mois: data.retenue_source_par_mois,
-        total_montant_brut_loyer: data.total_montant_brut_loyer,
-        total_montant_net_loyer: data.total_montant_net_loyer,
-        retenue_source: data.retenue_source,
-        montant_apres_impot: data.montant_apres_impot,
-        montant_caution: data.montant_caution,
-        duree_caution: data.duree_caution,
-        statut_caution:
-          data.etat_contrat.libelle == "Résilié"
-            ? data.etat_contrat.etat.reprise_caution
-            : data.statut_caution,
-        montant_avance: data.montant_avance,
-        duree_avance: data.duree_avance,
-        n_engagement_depense: data.n_engagement_depense,
-        echeance_revision_loyer: data.echeance_revision_loyer,
-        // type_lieu: data.type_lieu,
-        lieu: data.lieu,
-        etat_contrat: etatContrat,
-        piece_joint_contrat: piece_joint_contrat,
-        contrats_suspendu: contrats_suspendu,
-        contrat_avener: contrat_avener,
-        date_comptabilisation: nextDateComptabilisation,
-        nombre_part: data.nombre_part,
-      };
-    }
-
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    await Contrat.find({ _id: req.params.Id, deleted: false })
-      .populate({ path: "foncier", populate: { path: "proprietaire" } })
-      .then(async (data_) => {
-        for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-          let partProprietaire =
-            data_[0].foncier.proprietaire[i].part_proprietaire;
-          let idProprietaire = data_[0].foncier.proprietaire[i]._id;
-          let updatedContrat = data;
-          let hasDeclarationOption =
-            data_[0].foncier.proprietaire[i].declaration_option;
+    if (existedContrat.montant_loyer != data.montant_loyer) {
+      await Contrat.find({ _id: req.params.Id, deleted: false })
+        .populate({ path: "foncier", populate: { path: "proprietaire" } })
+        .then(async (data_) => {
+          for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
+            let partProprietaire =
+              data_[0].foncier.proprietaire[i].part_proprietaire;
+            let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+            let updatedContrat = data;
+            let hasDeclarationOption =
+              data_[0].foncier.proprietaire[i].declaration_option;
 
-          let updatedProprietaire = Calcule(
-            updatedContrat,
-            partProprietaire,
-            idProprietaire,
-            hasDeclarationOption
-          );
+            let updatedProprietaire = Calcule(
+              updatedContrat,
+              partProprietaire,
+              idProprietaire,
+              hasDeclarationOption
+            );
 
-          await Proprietaire.findByIdAndUpdate(
-            idProprietaire,
-            updatedProprietaire
-          )
-            .then((data) => {
-              // res.json(data);
-              console.log("Proprietaire updated");
-            })
-            .catch((error) => {
-              res.status(400).send({ message: error.message });
-            });
-        }
-      })
-      .catch((error) => {
-        res.status(422).send({
-          message: error.message,
+            await Proprietaire.findByIdAndUpdate(
+              idProprietaire,
+              updatedProprietaire
+            )
+              .then((data) => {
+                // res.json(data);
+                console.log("Proprietaire updated");
+              })
+              .catch((error) => {
+                res.status(400).send({ message: error.message });
+              });
+          }
+        })
+        .catch((error) => {
+          res.status(422).send({
+            message: error.message,
+          });
         });
-      });
+    }
 
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Foncier ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    // Make the lieu that attached to this foncier (transféré) if contrat résilié
     if (data.etat_contrat.libelle === "Résilié") {
-      // Make the lieu that attached to this foncier (transféré)
-      // let lieu = {
-      //   deleted = true,
-
-      // }
       await Foncier.findOne({ _id: existedContrat.foncier._id }).then(
         async (foncier) => {
           let lieux = [];
@@ -400,95 +312,11 @@ module.exports = {
           );
         }
       );
-
-      // Recalculate ( Proprietaire ) taxes if contrat ( Résilié )
-      // let newDureeLocation;
-      // let dateDebutLoyer = new Date(data.date_debut_loyer);
-      // let dateResiliation = new Date(data.etat_contrat.etat.date_resiliation);
-      // let TauxImpot;
-      // let RetenueSource;
-      // let taxPeriodicite;
-      // let newMontantLoyerProp;
-
-      // // Calcul duree location
-      // newDureeLocation =
-      //   (dateResiliation.getFullYear() - dateDebutLoyer.getFullYear()) * 12;
-      // newDureeLocation -= dateDebutLoyer.getMonth();
-      // newDureeLocation += dateResiliation.getMonth();
-
-      // await Contrat.find({ _id: req.params.Id, deleted: false })
-      //   .populate({ path: "foncier", populate: { path: "proprietaire" } })
-      //   .then(async (data_) => {
-      //     data_[0].foncier.proprietaire.forEach(async (proprietaire) => {
-      //       // Calcul Montant de loyer proprietaire
-      //       newMontantLoyerProp =
-      //         (proprietaire.pourcentage * data.montant_loyer) / 100;
-
-      //       // Calcul taux d'impôt
-      //       let Result = newMontantLoyerProp * newDureeLocation;
-      //       // console.log("Result", Result);
-      //       if (Result <= 30000) {
-      //         TauxImpot = 0;
-      //       } else {
-      //         if (Result > 30000 && Result <= 120000) {
-      //           TauxImpot = 0.1;
-      //         } else {
-      //           if (Result > 120000) {
-      //             TauxImpot = 0.15;
-      //           }
-      //         }
-      //       }
-
-      //       // Calcul retenue à la source
-      //       RetenueSource = newMontantLoyerProp * TauxImpot * newDureeLocation;
-
-      //       // Calcul taxPeriodicite
-      //       if (data.periodicite_paiement == "mensuelle") {
-      //         taxPeriodicite = RetenueSource / newDureeLocation;
-      //       } else {
-      //         if (data.periodicite_paiement == "trimestrielle") {
-      //           taxPeriodicite = RetenueSource / (newDureeLocation * 3);
-      //         } else taxPeriodicite = 0;
-      //       }
-
-      //       // Calcul Montant apres impot
-      //       montantApresImpot =
-      //         newMontantLoyerProp - RetenueSource / newDureeLocation;
-
-      //       // Update the proprietaire
-      //       await Proprietaire.findByIdAndUpdate(proprietaire._id, {
-      //         taux_impot: TauxImpot,
-      //         retenue_source: RetenueSource,
-      //         montant_apres_impot: montantApresImpot,
-      //         montant_loyer: newMontantLoyerProp,
-      //         tax_par_periodicite: taxPeriodicite,
-      //       }).catch((error) => {
-      //         res.status(422).send({
-      //           message: error.message,
-      //         });
-      //       });
-
-      //       await Proprietaire.find({ _id: proprietaire._id })
-      //         .then((data__) => {
-      //           console.log(data__);
-      //         })
-      //         .catch((error) => {
-      //           res.status(422).send({
-      //             message: error.message,
-      //           });
-      //         });
-      //     });
-      //   })
-      //   .catch((error) => {
-      //     res.status(422).send({
-      //       message: error.message,
-      //     });
-      //   });
     }
 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Mails :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Mails ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    // Sending mail to All the DC (Département Comptable) roles
+    // Sending mail to All the DC (Département Comptable) roles if contrat résilié and suspendu
     if (
       data.etat_contrat.libelle === "Résilié" ||
       data.etat_contrat.libelle === "Suspendu"
@@ -583,6 +411,8 @@ module.exports = {
         });
     }
 
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Save Data ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
     // Save Updated data
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
       .then((data) => {
@@ -609,8 +439,6 @@ module.exports = {
           },
         })
         .then(async (contrat) => {
-          // return res.json(contrat);
-          // console.log(contrat);
           // Sending mail to DAJC (V2)
           await User.aggregate([
             {
@@ -629,10 +457,9 @@ module.exports = {
               for (let i = 0; i < data_.length; i++) {
                 DAJCemailsList.push(data_[i].email);
               }
-              // console.log(emailsList.join());
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
               res.status(400).send({ message: error.message });
             });
 
@@ -649,7 +476,6 @@ module.exports = {
           };
 
           if (DAJCemailsList.length > 0) {
-            // console.log(`${DAJCemailsList.join()}`);
             mail.sendMail(
               `${DAJCemailsList.join()}`,
               "Contrat à valider",
@@ -657,50 +483,6 @@ module.exports = {
               DAJCmailData
             );
           }
-
-          // Sending mail to CDGSP (V1)
-          //   await User.aggregate([
-          //     {
-          //       $match: {
-          //         deleted: false,
-          //         userRoles: {
-          //           $elemMatch: {
-          //             roleCode: "CDGSP",
-          //             deleted: false,
-          //           },
-          //         },
-          //       },
-          //     },
-          //   ])
-          //     .then((data_) => {
-          //       for (let i = 0; i < data_.length; i++) {
-          //         CDGSPemailsList.push(data_[i].email);
-          //       }
-          //       // console.log(emailsList.join());
-          //     })
-          //     .catch((error) => {
-          //       console.log(error);
-          //       res.status(400).send({ message: error.message });
-          //     });
-
-          //   let CDGSPmailData = {
-          //     message:
-          //           "Le contrat n°" +
-          //           contrat.numero_contrat +
-          //           " du " +
-          //           contrat.foncier.type_lieu +
-          //           " est soumis à la validation."
-          //   };
-
-          //   if (CDGSPemailsList.length > 0) {
-          //     mail.sendMail(
-          //       `${CDGSPemailsList.join()}`,
-          //       "Contrat validation",
-          //       "validation1",
-          //       CDGSPmailData
-          //     );
-          //   }
-          // });
         });
     });
   },
@@ -728,9 +510,8 @@ module.exports = {
               oldContrat = oldContrats.find((contrat) => {
                 return contrat.contrat.etat_contrat.libelle == "Actif";
               }).contrat;
-              // Get old contrat's final date by subtracting 1 day from date d'effet av
-              // dateDeffetAV.setDate(0);
 
+              // Get old contrat's final date by subtracting 1 day from date d'effet av
               nextCloture = new Date(
                 Comptabilisationdata[0].date_generation_de_comptabilisation
               );
@@ -741,7 +522,6 @@ module.exports = {
               );
               let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
               let dateDeffetAVYear = dateDeffetAV.getFullYear();
-              // dateFinOldContrat = dateDeffetAV.toISOString().slice(0, 10);
 
               if (
                 (dateDeffetAVMonth == currentMonth &&
@@ -841,7 +621,7 @@ module.exports = {
                 etatOldContrat = oldContrat.etat_contrat;
                 // Customise the new contrat etat
                 etatNewContrat = {
-                  libelle: "Actif",
+                  libelle: "Test",
                   etat: contratAV.etat_contrat.etat,
                 };
               }
@@ -862,7 +642,7 @@ module.exports = {
                   ContratHelper.sendMailToAll(req.params.Id);
                 })
                 .catch((error) => {
-                  console.log(error.message);
+                  console.error(error.message);
                 });
             } else {
               let etatContrat = {
@@ -968,7 +748,6 @@ module.exports = {
               }
             })
             .catch((error) => {
-              // console.log(error);
               res.status(400).send({ message: error.message });
             });
           if (emailsList.length > 0) {
@@ -980,17 +759,17 @@ module.exports = {
             );
           }
           res.json({ message: "Contrat soumis à la validation." });
-          console.log({
-            partGlobal: partGlobal,
-            partProp: partProprietaireGlobal,
-            hasnt_mandataire: hasnt_mandataire,
-          });
+          // console.log({
+          //   partGlobal: partGlobal,
+          //   partProp: partProprietaireGlobal,
+          //   hasnt_mandataire: hasnt_mandataire,
+          // });
         } else {
-          console.log({
-            partGlobal: partGlobal,
-            partProp: partProprietaireGlobal,
-            hasnt_mandataire: hasnt_mandataire,
-          });
+          // console.log({
+          //   partGlobal: partGlobal,
+          //   partProp: partProprietaireGlobal,
+          //   hasnt_mandataire: hasnt_mandataire,
+          // });
           res
             .status(400)
             .send({ message: "Prière de verifier les données saisies." });
@@ -1007,6 +786,65 @@ module.exports = {
       validation1_DMG: false,
       validation2_DAJC: false,
       etat_contrat: etatContrat,
-    });
+    })
+      .populate({
+        path: "foncier",
+        populate: {
+          path: "proprietaire",
+          populate: { path: "proprietaire_list" },
+        },
+      })
+      .then(async (contrat) => {
+        // Sending mail to CDGSP
+        let mailData;
+        if (data.is_avenant) {
+          mailData = {
+            message: `Avenant N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
+          };
+        } else {
+          mailData = {
+            message: `Le contrat N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
+          };
+        }
+
+        let emailsList = [];
+
+        await User.aggregate([
+          {
+            $match: {
+              deleted: false,
+              userRoles: {
+                $elemMatch: {
+                  deleted: false,
+                  $or: [
+                    {
+                      roleCode: "CDGSP",
+                    },
+                    {
+                      roleCode: "CSLA",
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ])
+          .then((data) => {
+            for (let i = 0; i < data.length; i++) {
+              emailsList.push(data[i].email);
+            }
+          })
+          .catch((error) => {
+            res.status(400).send({ message: error.message });
+          });
+        if (emailsList.length > 0) {
+          mail.sendMail(
+            `${emailsList.join()}`,
+            "Contrat à valider",
+            "validation1",
+            mailData
+          );
+        }
+      });
   },
 };

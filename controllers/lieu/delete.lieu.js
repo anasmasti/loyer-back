@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 
 module.exports = {
   deletedLieu: async (req, res) => {
-    console.log(req.params.Id);
     let id = mongoose.Types.ObjectId(req.params.Id);
 
     await Lieu.find({

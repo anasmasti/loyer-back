@@ -6,6 +6,7 @@ module.exports = {
       data = null;
     try {
       data = await JSON.parse(req.body.data);
+      // data = req.body.data;
       // return console.log(data);
     } catch (error) {
       return res.status(422).send({ message: error.message });
@@ -185,7 +186,7 @@ module.exports = {
       await foncier
         .save()
         .then((data) => {
-          res.json(data);
+          res.json(data._id);
         })
         .catch((error) => {
           res.status(402).send({ message: error.message });

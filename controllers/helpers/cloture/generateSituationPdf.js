@@ -5,10 +5,9 @@ const moment = require("moment");
 const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
 // const storePaths = require("../etat_paths");
 
-async function generatePdf(data1, etatType, mois, annee) {
+async function generatePdf(data, etatType, mois, annee) {
   // return res.json(date)
   date = `${mois}_${annee}`;
-  let data = data1[0];
   let htmlFileSrouce,
     options,
     reportingPaths = [];
@@ -42,7 +41,7 @@ async function generatePdf(data1, etatType, mois, annee) {
     // `/download/generated situation/etat_virement/etat_virement_${dateToString}.pdf`,
     async function (err, res) {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         await etatPaths
           .find({
@@ -109,7 +108,7 @@ async function generatePdf(data1, etatType, mois, annee) {
             }
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       }
     }

@@ -60,6 +60,9 @@
       span {
         color: #f9a11e;
       }
+      #mnt_glbl {
+        text-align: end;
+      }
     </style>
   </head>
   <body>
@@ -70,7 +73,7 @@
       />
     </div>
     <h2 class="title">
-      Etat des virements par mandataire. <br>{{mois}}/{{annee}}
+      Etat des virements par mandataire. <br />{{mois}}/{{annee}}
     </h2>
     <!-- <h4 class="center">
       Numero du contrat :<span style="color: white;"> {{ numero_contrat }} </span>
@@ -135,7 +138,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each .}} {{#ordre_virement}}
+        {{#each ordre_virement}}
         <tr>
           <td>{{ nom_prenom }}</td>
           <td>{{ numero_contrat }}</td>
@@ -144,19 +147,22 @@
             {{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} --
             {{/if}}
           </td>
-          <!-- <td>{{ nom_agence_bancaire }}</td> -->
           <td>{{ banque }}</td>
           <td>{{ type_lieu }}</td>
           <td>{{ periodicite }}</td>
           <td>{{#if montant_brut}} {{montant_brut}}{{else}} -- {{/if}}</td>
           <td>{{#if montant_taxe}} {{montant_taxe}}{{else}} -- {{/if}}</td>
           <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
-          <!-- <td>{{ montant_brut }} MAD</td> -->
-          <!-- <td>{{ montant_taxe }} MAD</td> -->
-          <!-- <td>{{ montant_net }} MAD</td> -->
-          <!-- <td style="word-break: break-word">{{ numero_compte_bancaire }}</td> -->
         </tr>
-        {{/ordre_virement}} {{/each}}
+        {{/each}}
+        <tr>
+          <td colspan="7" id="mnt_glbl">
+            <strong> Montants global : </strong>
+          </td>
+          <td><strong>{{ montant_brut_global }}</strong></td>
+          <td><strong>{{ montant_taxe_global }}</strong></td>
+          <td><strong>{{ montant_net_global }}</strong></td>
+        </tr>
       </tbody>
     </table>
   </body>

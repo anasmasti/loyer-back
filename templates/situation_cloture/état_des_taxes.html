@@ -67,6 +67,9 @@
       span {
         color: #f9a11e;
       }
+      #mnt_glbl {
+        text-align: end;
+      }
     </style>
   </head>
   <body>
@@ -151,9 +154,9 @@
           <th>Nom et prénom / R.S</th>
           <th>D.S</th>
           <th>Périodicité</th>
+          <th>Taux de taxe</th>
           <th>MT brut</th>
           <th>Montant brut d'avance</th>
-          <th>Taux de taxe</th>
           <th>Taxe sur loyer</th>
           <th>Taxe sur Avance</th>
           <th>Caution</th>
@@ -161,7 +164,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each .}} {{#comptabilisation_loyer_crediter}}
+        {{#each comptabilisation_loyer_crediter}}
         <tr>
           <td class="num_contrat_col">{{ numero_contrat }}</td>
           <td>{{ type_lieu }}</td>
@@ -169,14 +172,12 @@
           <td>{{ nom_prenom }}</td>
           <td>{{ declaration_option }}</td>
           <td>{{ periodicite }}</td>
+          <td>{{#if taux_impot}} {{taux_impot}} %{{else}} -- {{/if}}</td>
           <td>
             {{#if montant_avance_proprietaire}} -- {{else}}{{#if montant_loyer}}
             {{montant_loyer}}{{else}} -- {{/if}}{{/if}}
           </td>
-          <!-- <td>{{ montant_loyer }}</td> -->
           <td>{{ montant_avance_proprietaire }}</td>
-          <!-- <td>{{ taux_impot }}</td> -->
-          <td>{{#if taux_impot}} {{taux_impot}} %{{else}} -- {{/if}}</td>
           <td>
             {{#if tax_avance_proprietaire}} -- {{else}}{{#if retenue_source}}
             {{retenue_source}}{{else}} -- {{/if}}{{/if}}
@@ -190,12 +191,19 @@
             {{/if}}
           </td>
           <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
-          <!-- <td>{{ retenue_source }} MAD</td>
-          <td>{{ tax_avance_proprietaire }} MAD</td>
-          <td>{{ caution_proprietaire }} MAD</td>
-          <td>{{ montant_net }} MAD</td> -->
         </tr>
-        {{/comptabilisation_loyer_crediter}} {{/each}}
+        {{/each}}
+        <tr>
+          <td colspan="7" id="mnt_glbl">
+            <strong> Montants global : </strong>
+          </td>
+          <td><strong>{{ montant_brut_global }}</strong></td>
+          <td><strong>{{ montant_brut_avance_global }}</strong></td>
+          <td><strong>{{ montant_taxe_global }}</strong></td>
+          <td><strong>{{ montant_taxe_avance_global }}</strong></td>
+          <td><strong>{{ montant_caution_global }}</strong></td>
+          <td><strong>{{ montant_net_global }}</strong></td>
+        </tr>
       </tbody>
     </table>
   </body>

@@ -200,124 +200,111 @@ module.exports = {
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {
-      console.log("2");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
-          for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
-            if (Contrat.foncier.proprietaire[j].is_mandataire == true) {
-              montant_loyer_brut_loyer = 0;
-              montant_loyer_brut_mandataire =
-                // Contrat.foncier.proprietaire[j].
-                Contrat.foncier.proprietaire[j].montant_avance_proprietaire +
-                Contrat.foncier.proprietaire[j].caution_par_proprietaire;
+          Contrat.proprietaires.forEach((mandataire) => {
+            // if (mandataire.is_mandataire == true) {
+            montant_loyer_brut_loyer = 0;
+            montant_loyer_brut_mandataire =
+              // mandataire.
+              mandataire.montant_avance_proprietaire +
+              mandataire.caution_par_proprietaire;
 
-              montant_tax_mandataire =
-                Contrat.foncier.proprietaire[j].tax_avance_proprietaire;
-              // + Contrat.foncier.proprietaire[j].retenue_source;
+            montant_tax_mandataire = mandataire.tax_avance_proprietaire;
+            // + mandataire.retenue_source;
 
-              montant_loyer_net_mandataire =
-                montant_loyer_brut_mandataire - montant_tax_mandataire;
+            montant_loyer_net_mandataire =
+              montant_loyer_brut_mandataire - montant_tax_mandataire;
 
-              montant_a_verse = montant_loyer_net_mandataire;
+            montant_a_verse = montant_loyer_net_mandataire;
 
-              comptabilisationLoyerCrediter.push(
-                clotureHelper.createComptLoyerCredObject(
-                  Contrat.foncier,
-                  Contrat.foncier.proprietaire[j],
-                  Contrat.foncier.lieu[g],
-                  dateGenerationDeComptabilisation,
-                  montant_loyer_net_mandataire,
-                  montant_tax_mandataire,
-                  montant_loyer_brut_mandataire,
-                  montant_loyer_brut_loyer,
-                  dateDebutLoyer,
-                  Contrat.foncier.proprietaire[j].caution_par_proprietaire,
-                  Contrat.numero_contrat,
-                  Contrat.periodicite_paiement
-                )
-              );
-              if (
-                Contrat.foncier.proprietaire[j].proprietaire_list.length != 0
-              ) {
-                for (
-                  let k = 0;
-                  k < Contrat.foncier.proprietaire[j].proprietaire_list.length;
-                  k++
-                ) {
-                  montant_loyer_brut =
-                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .montant_avance_proprietaire +
-                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .caution_par_proprietaire;
+            comptabilisationLoyerCrediter.push(
+              clotureHelper.createComptLoyerCredObject(
+                Contrat.foncier,
+                mandataire,
+                Contrat.foncier.lieu[g],
+                dateGenerationDeComptabilisation,
+                montant_loyer_net_mandataire,
+                montant_tax_mandataire,
+                montant_loyer_brut_mandataire,
+                montant_loyer_brut_loyer,
+                dateDebutLoyer,
+                mandataire.caution_par_proprietaire,
+                Contrat.numero_contrat,
+                Contrat.periodicite_paiement
+              )
+            );
+            if (mandataire.proprietaire_list.length != 0) {
+              mandataire.proprietaire_list.forEach((proprietaire) => {
+                montant_loyer_brut =
+                  proprietaire.montant_avance_proprietaire +
+                  proprietaire.caution_par_proprietaire;
 
-                  // Montant brut sur loyer
-                  montant_loyer_brut_taxes = 0;
+                // Montant brut sur loyer
+                montant_loyer_brut_taxes = 0;
 
-                  montant_tax =
-                    Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                      .tax_avance_proprietaire;
-                  // + Contrat.foncier.proprietaire[j].proprietaire_list[k].retenue_source;
+                montant_tax = proprietaire.tax_avance_proprietaire;
+                // + proprietaire.retenue_source;
 
-                  montant_loyer_net = montant_loyer_brut - montant_tax;
+                montant_loyer_net = montant_loyer_brut - montant_tax;
 
-                  montant_a_verse += montant_loyer_net;
-                  montant_tax_mandataire += montant_tax;
-                  montant_loyer_brut_mandataire += montant_loyer_brut;
+                montant_a_verse += montant_loyer_net;
+                montant_tax_mandataire += montant_tax;
+                montant_loyer_brut_mandataire += montant_loyer_brut;
 
-                  comptabilisationLoyerCrediter.push(
-                    clotureHelper.createComptLoyerCredObject(
-                      Contrat.foncier,
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k],
-                      Contrat.foncier.lieu[g],
-                      dateGenerationDeComptabilisation,
-                      montant_loyer_net,
-                      montant_tax,
-                      montant_loyer_brut,
-                      montant_loyer_brut_taxes,
-                      dateDebutLoyer,
-                      Contrat.foncier.proprietaire[j].proprietaire_list[k]
-                        .caution_par_proprietaire,
-                      Contrat.numero_contrat,
-                      Contrat.periodicite_paiement
-                    )
-                  );
-                  montant_loyer_net = 0;
-                  montant_loyer_brut = 0;
-                  montant_tax = 0;
-                  montant_loyer_brut_loyer = 0;
-                  montant_loyer_brut_taxes = 0;
-                }
-              }
-
-              montantDebiter =
-                Contrat.montant_loyer +
-                Contrat.montant_avance +
-                Contrat.montant_caution;
-
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
-
-              ordreVirement.push(
-                clotureHelper.createOrderVirementObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.foncier.proprietaire[j],
-                  Contrat.numero_contrat,
-                  Contrat.periodicite_paiement,
-                  req.body.mois,
-                  req.body.annee,
-                  montant_a_verse,
-                  montant_loyer_brut_mandataire,
-                  montant_tax_mandataire
-                )
-              );
+                comptabilisationLoyerCrediter.push(
+                  clotureHelper.createComptLoyerCredObject(
+                    Contrat.foncier,
+                    proprietaire,
+                    Contrat.foncier.lieu[g],
+                    dateGenerationDeComptabilisation,
+                    montant_loyer_net,
+                    montant_tax,
+                    montant_loyer_brut,
+                    montant_loyer_brut_taxes,
+                    dateDebutLoyer,
+                    proprietaire.caution_par_proprietaire,
+                    Contrat.numero_contrat,
+                    Contrat.periodicite_paiement
+                  )
+                );
+                montant_loyer_net = 0;
+                montant_loyer_brut = 0;
+                montant_tax = 0;
+                montant_loyer_brut_loyer = 0;
+                montant_loyer_brut_taxes = 0;
+              });
             }
-          }
+
+            montantDebiter =
+              Contrat.montant_loyer +
+              Contrat.montant_avance +
+              Contrat.montant_caution;
+
+            comptabilisationLoyerDebiter.push(
+              clotureHelper.createComptLoyerDebiteObject(
+                Contrat.foncier.lieu[g],
+                Contrat.montant_caution,
+                Contrat.numero_Contrat,
+                montantDebiter
+              )
+            );
+
+            ordreVirement.push(
+              clotureHelper.createOrderVirementObject(
+                Contrat.foncier.lieu[g],
+                mandataire,
+                Contrat.numero_contrat,
+                Contrat.periodicite_paiement,
+                req.body.mois,
+                req.body.annee,
+                montant_a_verse,
+                montant_loyer_brut_mandataire,
+                montant_tax_mandataire
+              )
+            );
+            // }
+          });
         }
       }
       if (Cloture) {
@@ -492,7 +479,6 @@ module.exports = {
       req.body.mois == premierDateDePaiement.getMonth() + 1 &&
       req.body.annee == premierDateDePaiement.getFullYear()
     ) {
-      console.log("3");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {
@@ -636,12 +622,13 @@ module.exports = {
 
     if (
       req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
-      req.body.annee == dateDeComptabilisation.getFullYear() &&
+      req.body.annee == dateDeComptabilisation.getFullYear()
+      // &&
       // && req.body.mois <= dateFinDeContrat.getMonth() + 1 &&
       // req.body.annee <= dateFinDeContrat.getFullYear()
-      dateFinDeContrat == null
+      // dateFinDeContrat == null
     ) {
-      console.log("4");
+      console.log("inisde dateDeComptabilisation = body.date");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.foncier.proprietaire.length; j++) {

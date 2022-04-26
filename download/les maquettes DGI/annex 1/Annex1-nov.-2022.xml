@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
+  <annee>2022</annee>
+  <mois>11</mois>
+  <totalMntBrutLoyer>91500.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>13500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>78000.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>BJ123479</numCNIBailleur>
+      <numCEBailleur>4554</numCEBailleur>
+      <nomPrenomBailleur>KHALID MOUMNI</nomPrenomBailleur>
+      <adresseBailleur>654</adresseBailleur>
+      <adresseBien>aaaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>13500.00</mntRetenueSource>
+      <mntNetLoyer>76500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>ada54545</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Abdo momi</nomPrenomBailleur>
+      <adresseBailleur>aaa</adresseBailleur>
+      <adresseBien>aaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>1500.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>1500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

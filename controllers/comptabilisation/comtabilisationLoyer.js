@@ -11,7 +11,7 @@ module.exports = {
     archiveComptabilisation
       .findOne({ mois: req.params.mois, annee: req.params.annee })
       .then((data) => {
-        if (data.length > 0) {
+        if (data) {
           //traitement du date
           // return res.json(data)
           // let dateGenerationVirement = data.date_generation_de_comptabilisation;
@@ -126,7 +126,7 @@ module.exports = {
               ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
               "-" +
               dateGenerationVirement.getFullYear() +
-              "||-\n";
+              "||-\r\n";
             fs.writeFileSync(
               "download/comptabilisation loyer/FichierComptableLoyer " +
                 dateMonthName +
@@ -204,7 +204,7 @@ module.exports = {
               " 00:00:00|LOY|PAISOFT|MAD|" +
               "COMPTABILISATION/" +
               dateWithSlash +
-              "|01|32700008|-|-|-|-|-|-|-|-|-|-|-|" +
+              "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
               fullMontantNet +
               "|C|" +
               numeroContrat +
@@ -214,7 +214,7 @@ module.exports = {
               ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
               "-" +
               dateGenerationVirement.getFullYear() +
-              "|-|-\n";
+              "|-|-\r\n";
             fs.writeFileSync(
               "download/comptabilisation loyer/FichierComptableLoyer " +
                 dateMonthName +
@@ -269,30 +269,6 @@ module.exports = {
             }
 
             let ecritureCrediterDuTaxLoyer =
-              // "FRAIS DE LOYER DU " +
-              // dateWithSlash +
-              // "|" +
-              // dateWithDash +
-              // " 00:00:00|" +
-              // dateMonthName.toUpperCase() +
-              // "-" +
-              // dateGenerationVirement.getFullYear() +
-              // "|" +
-              // dateWithDash +
-              // " 00:00:00|LOY|PAISOFT|MAD|" +
-              // dateWithSlash +
-              // "/" +
-              // lieuIntitule +
-              // "|01|32100007|-|-|-|" +
-              // fullMontantTax +
-              // "|C|Frais Loyer-" +
-              // proprietaireIdentifiant +
-              // "|GFL -" +
-              // (dateGenerationVirement.getMonth() + 1) +
-              // "-" +
-              // dateGenerationVirement.getFullYear() +
-              // "||-\n"
-
               "FBPMC" +
               "|" +
               "A" +
@@ -310,7 +286,7 @@ module.exports = {
               " 00:00:00|LOY|PAISOFT|MAD|" +
               "COMPTABILISATION/" +
               dateWithSlash +
-              "|01|32700008|-|-|-|-|-|-|-|-|-|-|-|" +
+              "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
               fullMontantTax +
               "|C|" +
               numeroContrat +
@@ -320,7 +296,7 @@ module.exports = {
               ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
               "-" +
               dateGenerationVirement.getFullYear() +
-              "|-|-\n";
+              "|-|-\r\n";
 
             fs.writeFileSync(
               "download/comptabilisation loyer/FichierComptableLoyer " +

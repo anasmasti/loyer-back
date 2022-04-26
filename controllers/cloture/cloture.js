@@ -3,10 +3,14 @@ const ordreVirementArchive = require("../../models/archive/archiveVirement.schem
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
+const clotureHelper = require("../helpers/cloture/cloture");
 
 module.exports = {
   clotureDuMois: async (req, res, next) => {
     try {
+       await clotureHelper.checkContratsAv(req, res);
+       await clotureHelper.checkDtFinContratsSus(req, res);
+
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
@@ -41,6 +45,7 @@ module.exports = {
           },
         ],
       });
+      console.log('requested data ', contrat)
 
       // return res.json(contrat);
 
@@ -126,6 +131,7 @@ module.exports = {
           await comptabilisationArchive
             .save()
             .then((comptabilisationData) => {
+              console.log('inisde comptabilisationData save')
               res.json({
                 virementData,
                 comptabilisationData,

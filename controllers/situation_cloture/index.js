@@ -4,13 +4,17 @@ const etatVirementSch = require("../../models/situation_cloture/etatVirement.sch
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
+const clotureHelper = require("../helpers/cloture/cloture");
 const generatePdf = require("../helpers/cloture/generateSituationPdf");
 const etatMonsuelTaxes = require("./etat_taxes");
 const etatMonsuelVirement = require("./etat_virement");
+const mongoose = require("mongoose");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
+      // await clotureHelper.checkContratsAv();
+      // await clotureHelper.checkDtFinContratsSus()
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
@@ -20,32 +24,28 @@ module.exports = {
       let contrat = await Contrat.find({
         deleted: false,
         "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
-      }).populate({
-        path: "foncier",
-        populate: [
-          {
-            path: "proprietaire",
-            populate: {
-              path: "proprietaire_list",
-              match: {
-                deleted: false,
-                statut: { $in: ["Actif", "À supprimer"] },
-              },
-            },
-            match: {
-              deleted: false,
-              statut: { $in: ["Actif", "À supprimer"] },
-            },
-          },
-          {
+      })
+        .populate({
+          path: "foncier",
+          populate: {
             path: "lieu.lieu",
             populate: {
               path: "attached_DR",
             },
           },
-        ],
-      });
-      // console.log(req.body.annee,req.body.mois);
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true },
+        });
 
       // return res.json(contrat);
 
@@ -90,33 +90,33 @@ module.exports = {
             });
           } //end if
 
-          if (
-            contrat[i].etat_contrat.libelle == "Résilié" &&
-            contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
-          ) {
-            let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
-            let dateEffResilieMonth = dateEffResilie.getMonth() + 1
-            let dateEffResilieYear = dateEffResilie.getFullYear()
-            if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
-              result = await traitementContratResilie.clotureContratResilie(
-                req,
-                res,
-                contrat[i],
-                dateGenerationDeComptabilisation,
-                Contrat,
-                false
-              );
-              result.ordre_virement.forEach((ordVrm) => {
-                ordreVirement.push(ordVrm);
-              });
-              result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-                comptabilisationLoyerCrediter.push(cmptCrdt);
-              });
-              result.cmptLoyerDebt.forEach((cmptDept) => {
-                comptabilisationLoyerDebiter.push(cmptDept);
-              });
-            }
-          }
+          // if (
+          //   contrat[i].etat_contrat.libelle == "Résilié" &&
+          //   contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
+          // ) {
+          //   let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
+          //   let dateEffResilieMonth = dateEffResilie.getMonth() + 1
+          //   let dateEffResilieYear = dateEffResilie.getFullYear()
+          //   if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
+          //     result = await traitementContratResilie.clotureContratResilie(
+          //       req,
+          //       res,
+          //       contrat[i],
+          //       dateGenerationDeComptabilisation,
+          //       Contrat,
+          //       false
+          //     );
+          //     result.ordre_virement.forEach((ordVrm) => {
+          //       ordreVirement.push(ordVrm);
+          //     });
+          //     result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+          //       comptabilisationLoyerCrediter.push(cmptCrdt);
+          //     });
+          //     result.cmptLoyerDebt.forEach((cmptDept) => {
+          //       comptabilisationLoyerDebiter.push(cmptDept);
+          //     });
+          //   }
+          // }
         } //end for
 
         const existedEtatVirement = await etatVirementSch.findOne({
