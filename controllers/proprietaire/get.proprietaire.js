@@ -11,17 +11,22 @@ module.exports = {
       .populate({ path: "proprietaire_list" })
       .sort({ updatedAt: "desc" })
       .then(async (requestedProprietaires) => {
-        const promesse = new Promise((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
           let proprietaires = [];
           requestedProprietaires.forEach(async (proprietaire, index) => {
-            let has_contrat = false;
             await AffectationProprietaire.find({
               proprietaire: proprietaire._id,
               deleted: false,
             })
               .then((data) => {
-                if (data.length > 0) has_contrat = true;
-                proprietaires.push({ proprietaire, has_contrat });
+                let proprietaireClone = {
+                  has_contrat: false,
+                  ...proprietaire["_doc"],
+                };
+                if (data.length > 0) {
+                  proprietaireClone.has_contrat = true;
+                }
+                proprietaires.push(proprietaireClone);
                 if (requestedProprietaires.length == index + 1) {
                   resolve(proprietaires);
                 }
@@ -32,7 +37,7 @@ module.exports = {
           });
         });
 
-        promesse
+        promise
           .then((data) => {
             res.send(data);
           })
