@@ -31,7 +31,10 @@ module.exports = {
   },
 
   getAPperProprietaireID: async (req, res) => {
-    await Proprietaire.findOne({ _id: req.params.Id, deleted: false })
+    await Proprietaire.findOne(
+      { _id: req.params.Id, deleted: false },
+      "nom_prenom raison_social"
+    )
       .then(async (proprietaire) => {
         await AffectationProprietaire.find({
           proprietaire: req.params.Id,
@@ -39,6 +42,11 @@ module.exports = {
         })
           .populate({
             path: "contrat",
+            select: "numero_contrat foncier",
+            populate: {
+              path: "foncier",
+              select: "type_lieu",
+            },
           })
           .sort({ updatedAt: "desc" })
           .then((affectations) => {
