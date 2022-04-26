@@ -8,11 +8,12 @@ const clotureHelper = require("../helpers/cloture/cloture");
 const generatePdf = require("../helpers/cloture/generateSituationPdf");
 const etatMonsuelTaxes = require("./etat_taxes");
 const etatMonsuelVirement = require("./etat_virement");
+const mongoose = require("mongoose");
 
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      await clotureHelper.checkContratsAv()
+      // await clotureHelper.checkContratsAv();
       // await clotureHelper.checkDtFinContratsSus()
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
@@ -23,31 +24,28 @@ module.exports = {
       let contrat = await Contrat.find({
         deleted: false,
         "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
-      }).populate({
-        path: "foncier",
-        populate: [
-          {
-            path: "proprietaire",
-            populate: {
-              path: "proprietaire_list",
-              match: {
-                deleted: false,
-                statut: { $in: ["Actif", "À supprimer"] },
-              },
-            },
-            match: {
-              deleted: false,
-              statut: { $in: ["Actif", "À supprimer"] },
-            },
-          },
-          {
+      })
+        .populate({
+          path: "foncier",
+          populate: {
             path: "lieu.lieu",
             populate: {
               path: "attached_DR",
             },
           },
-        ],
-      });
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true },
+        });
 
       // return res.json(contrat);
 
