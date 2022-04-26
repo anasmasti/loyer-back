@@ -174,28 +174,28 @@ module.exports = {
             mois: req.body.mois,
             annee: req.body.annee,
           });
-          etatVirement
-            .save()
-            .then(async (virementData) => {
-              await etatTaxes
-                .save()
-                .then((comptabilisationData) => {
-                  etatMonsuelVirement(req, res);
-                  setTimeout(() => {
-                    etatMonsuelTaxes(req, res);
-                  }, 1000);
-                  // res.json({
-                  //   virementData,
-                  //   comptabilisationData,
-                  // });
-                })
-                .catch((error) => {
-                  res.status(402).send({ message: error.message });
-                });
-            })
-            .catch((error) => {
-              res.status(401).send({ message: error.message });
-            });
+          // etatVirement
+          //   .save()
+          //   .then(async (virementData) => {
+          //     await etatTaxes
+          //       .save()
+          //       .then((comptabilisationData) => {
+          //         etatMonsuelVirement(req, res);
+          //         setTimeout(() => {
+          //           etatMonsuelTaxes(req, res);
+          //         }, 1000);
+          //         // res.json({
+          //         //   virementData,
+          //         //   comptabilisationData,
+          //         // });
+          //       })
+          //       .catch((error) => {
+          //         res.status(402).send({ message: error.message });
+          //       });
+          //   })
+          //   .catch((error) => {
+          //     res.status(401).send({ message: error.message });
+          //   });
         }
 
         res.json({

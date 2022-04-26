@@ -1,4 +1,4 @@
-const AffectationProprietaire = require("../../models/proprietaire/proprietaire.model");
+const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 
 module.exports = {
   deleteAffectationProprietaire: async (req, res) => {
@@ -9,11 +9,9 @@ module.exports = {
         res.send({ message: "Affectation proprietaire supprimé avec succés" });
       })
       .catch((error) => {
-        res
-          .status(400)
-          .send({
-            message: `Erreur de suppression du propriétaire` || error.message,
-          });
+        res.status(400).send({
+          message: `Erreur de suppression de l'affectation` || error.message,
+        });
       });
   },
 };

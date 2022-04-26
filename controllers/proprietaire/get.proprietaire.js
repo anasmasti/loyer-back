@@ -2,6 +2,7 @@ const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Contrat = require("../../models/contrat/contrat.model");
+const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 
 module.exports = {
   //Chercher touts les propriétaires
@@ -9,8 +10,42 @@ module.exports = {
     await Proprietaire.find({ deleted: false })
       .populate({ path: "proprietaire_list" })
       .sort({ updatedAt: "desc" })
-      .then((data) => {
-        res.send(data);
+      .then(async (requestedProprietaires) => {
+        const promise = new Promise((resolve, reject) => {
+          let proprietaires = [];
+          requestedProprietaires.forEach(async (proprietaire, index) => {
+            await AffectationProprietaire.find({
+              proprietaire: proprietaire._id,
+              deleted: false,
+            })
+              .then((data) => {
+                let proprietaireClone = {
+                  has_contrat: false,
+                  ...proprietaire["_doc"],
+                };
+                if (data.length > 0) {
+                  proprietaireClone.has_contrat = true;
+                }
+                proprietaires.push(proprietaireClone);
+                if (requestedProprietaires.length == index + 1) {
+                  resolve(proprietaires);
+                }
+              })
+              .catch((error) => {
+                reject(error.message);
+              });
+          });
+        });
+
+        promise
+          .then((data) => {
+            res.send(data);
+          })
+          .catch((error) => {
+            res.status(200).send({
+              message: `Aucun affectation proprietaire trouvé` || error.message,
+            });
+          });
       })
       .catch((error) => {
         res.status(200).send({ message: `Aucun Propriétaire trouvé` || error });
