@@ -50,19 +50,23 @@ module.exports = {
           })
           .sort({ updatedAt: "desc" })
           .then((affectations) => {
-            let data = { ...proprietaire["_doc"], affectations };
-
-            res.send(data);
+            if (affectations.length > 0) {
+              res.send({ ...proprietaire["_doc"], affectations });
+            } else {
+              res.send(affectations);
+            }
           })
           .catch((error) => {
-            res.status(500).send({
-              message: `Aucune affectation trouvée` || error.message,
+            console.log(`${error.message}`);
+            res.status(412).send({
+              message: `Aucune affectation trouvée`,
             });
           });
       })
       .catch((error) => {
+        console.log(`${error.message}`);
         res.status(500).send({
-          message: `Aucun proprietaire trouvé` || error.message,
+          message: `Aucun proprietaire trouvé`,
         });
       });
   },
