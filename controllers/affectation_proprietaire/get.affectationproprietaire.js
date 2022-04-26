@@ -31,12 +31,31 @@ module.exports = {
   },
 
   getAPperProprietaireID: async (req, res) => {
-    await AffectationProprietaire.find({proprietaire: req.params.Id, deleted: false})
-      .then((data) => {
-        res.send(data);
+    await Proprietaire.findOne({ _id: req.params.Id, deleted: false })
+      .then(async (proprietaire) => {
+        await AffectationProprietaire.find({
+          proprietaire: req.params.Id,
+          deleted: false,
+        })
+          .populate({
+            path: "contrat",
+          })
+          .sort({ updatedAt: "desc" })
+          .then((affectations) => {
+            let data = { ...proprietaire["_doc"], affectations };
+
+            res.send(data);
+          })
+          .catch((error) => {
+            res.status(500).send({
+              message: `Aucune affectation trouvée` || error.message,
+            });
+          });
       })
       .catch((error) => {
-        res.status(500).send({ message: `Aucun Propriétaire trouvé` || error });
+        res.status(500).send({
+          message: `Aucun proprietaire trouvé` || error.message,
+        });
       });
   },
 
