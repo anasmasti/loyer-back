@@ -24,18 +24,18 @@ module.exports = {
     // console.log(lieu);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
-      nom_prenom: proprietaire.nom_prenom
-        ? proprietaire.nom_prenom
-        : proprietaire.raison_social,
+      nom_prenom: proprietaire.proprietaire.nom_prenom
+        ? proprietaire.proprietaire.nom_prenom
+        : proprietaire.proprietaire.raison_social,
       date_gl: dateGenerationDeComptabilisation,
       date_operation: dateGenerationDeComptabilisation,
-      cin: proprietaire.cin
-        ? proprietaire.cin
-        : proprietaire.n_registre_commerce,
-      passport: proprietaire.passport,
-      carte_sejour: proprietaire.carte_sejour,
+      cin: proprietaire.proprietaire.cin
+        ? proprietaire.proprietaire.cin
+        : proprietaire.proprietaire.n_registre_commerce,
+      passport: proprietaire.proprietaire.passport,
+      carte_sejour: proprietaire.proprietaire.carte_sejour,
       type: "LOY",
-      adresse_proprietaire: proprietaire.adresse,
+      adresse_proprietaire: proprietaire.proprietaire.adresse,
       adresse_lieu: foncier.adresse,
       origine: "PAISOFT",
       devises: "MAD",
@@ -108,19 +108,19 @@ module.exports = {
   ) => {
     let orderVirement = {
       type_enregistrement: "0602",
-      cin: proprietaire.cin
-        ? proprietaire.cin
-        : proprietaire.n_registre_commerce,
-      passport: proprietaire.passport,
-      carte_sejour: proprietaire.carte_sejour,
-      nom_prenom: proprietaire.nom_prenom
-        ? proprietaire.nom_prenom
-        : proprietaire.raison_social,
+      cin: proprietaire.proprietaire.cin
+        ? proprietaire.proprietaire.cin
+        : proprietaire.proprietaire.n_registre_commerce,
+      passport: proprietaire.proprietaire.passport,
+      carte_sejour: proprietaire.proprietaire.carte_sejour,
+      nom_prenom: proprietaire.proprietaire.nom_prenom
+        ? proprietaire.proprietaire.nom_prenom
+        : proprietaire.proprietaire.raison_social,
       numero_compte_bancaire: proprietaire.n_compte_bancaire,
       mois: mois,
       annee: annee,
-      nom_agence_bancaire: proprietaire.nom_agence_bancaire,
-      banque: proprietaire.banque,
+      nom_agence_bancaire: proprietaire.proprietaire.nom_agence_bancaire,
+      banque: proprietaire.proprietaire.banque,
       intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
       type_lieu: lieu.lieu.type_lieu,
       numero_contrat: numero_contrat,
@@ -175,10 +175,12 @@ module.exports = {
                   // Get the old contrat
                   try {
                     oldContrat = oldContrats.find((contrat) => {
-                    return contrat.contrat.etat_contrat.libelle == "Actif";
-                  }).contrat;
+                      return contrat.contrat.etat_contrat.libelle == "Actif";
+                    }).contrat;
                   } catch (error) {
-                    res.status(412).send({message: "Aucun contrat actif trouvé"})
+                    res
+                      .status(412)
+                      .send({ message: "Aucun contrat actif trouvé" });
                   }
 
                   // Customise the old contrat etat
@@ -221,8 +223,8 @@ module.exports = {
                     );
                     let updatedContrat = contratAV;
                     let hasDeclarationOption =
-                    contratAV.foncier.proprietaire[i].declaration_option;
-                    
+                      contratAV.foncier.proprietaire[i].declaration_option;
+
                     let updatedProprietaire = Calcule(
                       updatedContrat,
                       partProprietaire,
@@ -233,16 +235,18 @@ module.exports = {
                     await Proprietaire.findByIdAndUpdate(
                       idProprietaire,
                       updatedProprietaire
-                      )
+                    )
                       .then((prop) => {
                         console.log("Proprietaire updated");
                       })
                       .catch((error) => {
                         res.status(400).send({ message: error.message });
                       });
-                    }
-                    
-                  let foncierId = mongoose.Types.ObjectId(contratAV.foncier._id);
+                  }
+
+                  let foncierId = mongoose.Types.ObjectId(
+                    contratAV.foncier._id
+                  );
                   await Foncier.findById({
                     _id: foncierId,
                     deleted: false,
@@ -316,7 +320,9 @@ module.exports = {
       .catch((error) => {
         res
           .status(402)
-          .send({ message: `Aucun contrat suspendu trouvé : ${error.message}` });
+          .send({
+            message: `Aucun contrat suspendu trouvé : ${error.message}`,
+          });
       });
   },
 };

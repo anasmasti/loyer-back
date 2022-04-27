@@ -29,6 +29,7 @@ module.exports = {
   },
   getDetailContrat: async (req, res) => {
     await Contrat.findById(req.params.Id)
+      .populate("proprietaires")
       .populate("foncier")
       .populate({
         path: "old_contrat",
