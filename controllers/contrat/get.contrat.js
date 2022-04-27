@@ -4,7 +4,7 @@ module.exports = {
   getAllContrats: async (req, res) => {
     await Contrat.find({ deleted: false })
       .populate({
-        path: "foncier",
+        path: "proprietaires",
         populate: {
           path: "proprietaire",
           populate: { path: "proprietaire_list", match: { deleted: false } },
@@ -32,7 +32,11 @@ module.exports = {
       .populate("foncier")
       .populate({
         path: "old_contrat",
-        populate: { path: "contrat", match: { deleted: false }, select: "montant_loyer numero_contrat" },
+        populate: {
+          path: "contrat",
+          match: { deleted: false },
+          select: "montant_loyer numero_contrat",
+        },
       })
       .then((data) => {
         res.json(data);
