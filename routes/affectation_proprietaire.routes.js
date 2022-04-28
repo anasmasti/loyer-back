@@ -35,7 +35,7 @@ router
     deleteAffecttionProprietaire.deleteAffectationProprietaire
   );
 router
-  .route("/proprietaires-hasnt-mondataire/:IdContrat/:matricule")
+  .route("/affectation-proprietaire/libre-proprietaires/:IdContrat/:matricule")
   .get(getAffecttionProprietaire.getProprietairesHasntMondataire);
 
 module.exports = router;
