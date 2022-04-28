@@ -3,6 +3,7 @@ const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Contrat = require("../../models/contrat/contrat.model");
 const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
+const mongoose = require("mongoose");
 
 module.exports = {
   //Chercher touts les propriétaires
@@ -96,7 +97,35 @@ module.exports = {
         res.send(data);
       })
       .catch((error) => {
+        console.log(error.message);
         res.status(500).send({ message: `Aucun Propriétaire trouvé` || error });
+      });
+  },
+
+  getUnusedProprietaires: async (req, res) => {
+    await Contrat.findById({
+      _id: mongoose.Types.ObjectId(req.params.IdContrat),
+    })
+      .then(async (contrat) => {
+        // let contratProprietaires = contrat.proprietaires;
+        // await Proprietaire.find({ deleted: false })
+        //   .then((proprietaires) => {
+        //     let proprietaireResult = proprietaires.filter((proprietaire) => {
+        //       return contratProprietaires.includes(proprietaire._id);
+        //     });
+        //     res.json(proprietaireResult);
+        //   })
+        //   .catch((error) => {
+        //     console.log(error.message);
+        //     res
+        //     .status(500)
+        //     .send({ message: `Aucun Propriétaire trouvé` || error });
+        //   });
+        res.json(contrat);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        res.status(500).send({ message: `Aucun contrat trouvé` });
       });
   },
 
