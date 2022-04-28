@@ -53,6 +53,12 @@ module.exports = {
             match: {
               deleted: false,
             },
+            populate: {
+              path: "proprietaire",
+              match: {
+                deleted: false,
+              },
+            },
           })
           .sort({ updatedAt: "desc" })
           .then((affectations) => {
