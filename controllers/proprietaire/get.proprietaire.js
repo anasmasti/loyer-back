@@ -113,6 +113,8 @@ module.exports = {
       .then(async (contrat) => {
         const promise = new Promise((resolve, reject) => {
           let contratProprietaires = [];
+          if (contrat.proprietaires.length == 0) resolve(contratProprietaires);
+
           contrat.proprietaires.forEach((affectationProprietaire, index) => {
             contratProprietaires.push(
               String(affectationProprietaire.proprietaire)
