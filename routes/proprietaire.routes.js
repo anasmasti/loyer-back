@@ -31,7 +31,7 @@ router
   .route("/proprietaire/count/all")
   .get(getProprietaire.getCountProprietaire);
 router
-  .route("/proprietaire/inutilisee/:IdContrat")
+  .route("/proprietaire/proprietaires-inutilisees/:IdContrat/:matricule")
   .get(getProprietaire.getUnusedProprietaires);
 router
   .route("/proprietaire/lieu/foncier-by-proprietaire/:Id/:matricule")

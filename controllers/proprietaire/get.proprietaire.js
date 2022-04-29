@@ -103,25 +103,41 @@ module.exports = {
   },
 
   getUnusedProprietaires: async (req, res) => {
-    await Contrat.findById({
-      _id: mongoose.Types.ObjectId(req.params.IdContrat),
-    })
+    await Contrat.findById(
+      {
+        _id: req.params.IdContrat,
+      },
+      { delted: false }
+    )
+      .populate({ path: "proprietaires", match: { deleted: false } })
       .then(async (contrat) => {
-        // let contratProprietaires = contrat.proprietaires;
-        // await Proprietaire.find({ deleted: false })
-        //   .then((proprietaires) => {
-        //     let proprietaireResult = proprietaires.filter((proprietaire) => {
-        //       return contratProprietaires.includes(proprietaire._id);
-        //     });
-        //     res.json(proprietaireResult);
-        //   })
-        //   .catch((error) => {
-        //     console.log(error.message);
-        //     res
-        //     .status(500)
-        //     .send({ message: `Aucun Propriétaire trouvé` || error });
-        //   });
-        res.json(contrat);
+        const promise = new Promise((resolve, reject) => {
+          let contratProprietaires = [];
+          contrat.proprietaires.forEach((affectationProprietaire, index) => {
+            contratProprietaires.push(
+              String(affectationProprietaire.proprietaire)
+            );
+            if (contrat.proprietaires.length == index + 1) {
+              resolve(contratProprietaires);
+            }
+          });
+        });
+
+        promise.then((data) => {
+          Proprietaire.find({ deleted: false })
+            .then((proprietaires) => {
+              let proprietairesResult = proprietaires.filter((proprietaire) => {
+                return !data.includes(String(proprietaire._id));
+              });
+              res.json(proprietairesResult);
+            })
+            .catch((error) => {
+              console.log(error.message);
+              res
+                .status(500)
+                .send({ message: `Aucun Propriétaire trouvé` || error });
+            });
+        });
       })
       .catch((error) => {
         console.log(error.message);
