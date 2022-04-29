@@ -3,7 +3,6 @@ const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Contrat = require("../../models/contrat/contrat.model");
 const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
-const mongoose = require("mongoose");
 
 module.exports = {
   //Chercher touts les propriétaires
@@ -117,7 +116,7 @@ module.exports = {
 
           contrat.proprietaires.forEach((affectationProprietaire, index) => {
             contratProprietaires.push(
-              String(affectationProprietaire.proprietaire)
+              affectationProprietaire.proprietaire.toString()
             );
             if (contrat.proprietaires.length == index + 1) {
               resolve(contratProprietaires);
@@ -129,7 +128,7 @@ module.exports = {
           Proprietaire.find({ deleted: false })
             .then((proprietaires) => {
               let proprietairesResult = proprietaires.filter((proprietaire) => {
-                return !data.includes(String(proprietaire._id));
+                return !data.includes(proprietaire._id.toString());
               });
               res.json(proprietairesResult);
             })
