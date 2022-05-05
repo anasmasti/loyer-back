@@ -552,35 +552,6 @@ module.exports = {
                 };
 
                 contratAV.etat_contrat.etat.motif.forEach(async (motif) => {
-                  // Recalculate ( Proprietaire ) montant & taxes if it's ( Révision du prix du loyer )
-                  if (motif.type_motif == "Révision du prix du loyer") {
-                    contratAV.proprietaires.forEach(async (proprietaire) => {
-                      let partProprietaire = proprietaire.part_proprietaire;
-                      let idProprietaire = proprietaire._id;
-                      let updatedContrat = contratAV;
-                      let hasDeclarationOption =
-                        proprietaire.declaration_option;
-
-                      let updatedProprietaire = Calcule(
-                        updatedContrat,
-                        partProprietaire,
-                        idProprietaire,
-                        hasDeclarationOption
-                      );
-
-                      await Proprietaire.findByIdAndUpdate(
-                        idProprietaire,
-                        updatedProprietaire
-                      )
-                        .then((prop) => {
-                          // res.json(data);
-                          console.log("Proprietaire updated");
-                        })
-                        .catch((error) => {
-                          res.status(400).send({ message: error.message });
-                        });
-                    });
-                  }
                   // Delete proprietaires
                   if (motif.type_motif == "Deces") {
                     if (
@@ -589,7 +560,7 @@ module.exports = {
                     ) {
                       contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
                         (proprietaire) => {
-                          ContratHelper.deleteProprietaire(
+                          ContratHelper.proprietaireDeces(
                             req,
                             res,
                             proprietaire
