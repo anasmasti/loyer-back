@@ -21,7 +21,6 @@ module.exports = {
     numero_contrat,
     periodicite
   ) => {
-    // console.log(lieu);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
       nom_prenom: proprietaire.proprietaire.nom_prenom

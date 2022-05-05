@@ -11,6 +11,7 @@ module.exports = {
     res,
     ContratData,
     numeroContrat,
+    existedContrat,
     piece_jointe_avenant
   ) => {
     // Update ( montant loyer )
@@ -25,6 +26,7 @@ module.exports = {
       numero_contrat: numeroContrat,
       date_debut_loyer: ContratData.date_debut_loyer,
       date_fin_contrat: ContratData.date_fin_contrat,
+      proprietaires: [],
       date_reprise_caution: ContratData.date_reprise_caution,
       date_premier_paiement: ContratData.date_premier_paiement,
       montant_loyer: mntLoyer,
@@ -72,11 +74,33 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-    ProprietaireHelper.proprietaireASupprimer(ContratData);
+   // ProprietaireHelper.proprietaireASupprimer(ContratData);
 
-    await nouveauContrat.save().catch((error) => {
-      res.status(400).send({ message: error.message });
-    });
+    await nouveauContrat
+      .save()
+      .then((newContrat) => {
+        existedContrat.proprietaires.forEach((proprietaire) => {
+          let check = false;
+          ContratData.etat_contrat.etat.deleted_proprietaires.forEach(
+            (deletedProprietaire) => {
+              if (deletedProprietaire == proprietaire._id) check = true;
+            }
+          );
+          if (!check) {
+            ProprietaireHelper.duplicateProprietaire(
+              req,
+              res,
+              proprietaire,
+              ContratData,
+              newContrat,
+              mntLoyer
+            );
+          }
+        });
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
+      });
   },
 
   deleteProprietaire: async (req, res, proprietareId) => {
