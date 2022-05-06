@@ -111,6 +111,14 @@ module.exports = {
     });
   },
 
+  proprietaireDeces: async (req, res, proprietareId) => {
+    await AffectationProprietaire.findByIdAndUpdate(proprietareId, {
+      statut: "Décès",
+    }).catch((error) => {
+      res.status(400).send({ message: error.message });
+    });
+  },
+
   storeFiles: async (req, fileName) => {
     let storedFiles = [];
     for (let i = 0; i < 8; i++) {

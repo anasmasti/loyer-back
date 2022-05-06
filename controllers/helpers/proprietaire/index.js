@@ -32,9 +32,7 @@ module.exports = {
       proprietaire._id,
       proprietaire.declaration_option
     );
-
-    console.log(calculeProprietaire);
-
+    
     const affectationProprietaire = new AffectationProprietaire({
       deleted: false,
       proprietaire: proprietaire.proprietaire,

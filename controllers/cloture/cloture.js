@@ -17,34 +17,34 @@ module.exports = {
         ordreVirement = [];
 
       //get current contrat of this month
+      //get current contrat of this month
       let contrat = await Contrat.find({
         deleted: false,
-        "etat_contrat.libelle": { $in: ["Actif"] },
-      }).populate({
-        path: "foncier",
-        populate: [
-          {
-            path: "proprietaire",
-            populate: {
-              path: "proprietaire_list",
-              match: {
-                deleted: false,
-                statut: { $in: ["Actif", "À supprimer"] },
-              },
-            },
-            match: {
-              deleted: false,
-              statut: { $in: ["Actif", "À supprimer"] },
-            },
-          },
-          {
+        "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
+      })
+        .populate({
+          path: "foncier",
+          populate: {
             path: "lieu.lieu",
             populate: {
               path: "attached_DR",
             },
           },
-        ],
-      });
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+              populate: { path: "proprietaire" },
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true },
+        })
+        .sort({ updatedAt: "desc" });
       console.log('requested data ', contrat)
 
       // return res.json(contrat);
