@@ -22,7 +22,7 @@ module.exports = {
 
   getAffectationProprietairePerID: async (req, res) => {
     await AffectationProprietaire.findById(req.params.Id)
-      .then((data) => {
+      .pop.then((data) => {
         res.send(data);
       })
       .catch((error) => {
@@ -46,6 +46,18 @@ module.exports = {
             populate: {
               path: "foncier",
               select: "type_lieu",
+            },
+          })
+          .populate({
+            path: "proprietaire_list",
+            match: {
+              deleted: false,
+            },
+            populate: {
+              path: "proprietaire",
+              match: {
+                deleted: false,
+              },
             },
           })
           .sort({ updatedAt: "desc" })

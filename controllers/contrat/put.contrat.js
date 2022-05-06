@@ -67,13 +67,13 @@ module.exports = {
 
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
-      // let numeroContrat = data.numero_contrat.replace("AV", "");
-      let numeroContrat = data.numero_contrat;
+      let numeroContrat = ContratHelper.generateNumeroContrat(numeroContrat);
+
       ContratHelper.createContratAV(
         req,
         res,
         data,
-        `${numeroContrat}/AV`,
+        numeroContrat,
         piece_jointe_avenant
       );
       etatContrat = {
@@ -670,28 +670,24 @@ module.exports = {
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
       .populate({
         path: "foncier",
+      })
+      .populate({
+        path: "proprietaires",
         populate: {
-          path: "proprietaire",
-          populate: {
-            path: "proprietaire_list",
-            match: { statut: { $in: ["Actif", "À ajouter"] } },
-          },
-          match: { statut: { $in: ["Actif", "À ajouter"] } },
+          path: "proprietaire_list",
+          match: { deleted: false },
         },
+        match: { deleted: false },
       })
       .then(async (data) => {
-        // return res.json(data);
-        console.log(data);
         let partGlobal = data.nombre_part;
         let partProprietaireGlobal = 0;
         // If some one is / has not a mandataire this variable will be true
         let hasnt_mandataire = false;
-        data.foncier.proprietaire.forEach((proprietaire) => {
-          if (!proprietaire.deleted && proprietaire != "À supprimer") {
-            partProprietaireGlobal += proprietaire.part_proprietaire;
-            if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
-              hasnt_mandataire = true;
-            }
+        data.proprietaires.forEach((proprietaire) => {
+          partProprietaireGlobal += proprietaire.part_proprietaire;
+          if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
+            hasnt_mandataire = true;
           }
         });
 

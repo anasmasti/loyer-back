@@ -13,8 +13,8 @@ const mongoose = require("mongoose");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      // await clotureHelper.checkContratsAv();
-      // await clotureHelper.checkDtFinContratsSus()
+      await clotureHelper.checkContratsAv();
+      await clotureHelper.checkDtFinContratsSus()
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
@@ -39,6 +39,7 @@ module.exports = {
           populate: [
             {
               path: "proprietaire_list",
+              populate: { path: "proprietaire" },
             },
             {
               path: "proprietaire",
@@ -119,84 +120,84 @@ module.exports = {
           // }
         } //end for
 
-        // const existedEtatVirement = await etatVirementSch.findOne({
-        //   mois: req.body.mois,
-        //   annee: req.body.annee,
-        // });
-        // const existedEtatTaxes = await etatTaxesSch.findOne({
-        //   mois: req.body.mois,
-        //   annee: req.body.annee,
-        // });
-        // if (existedEtatVirement && existedEtatTaxes) {
-        //   etatVirementSch
-        //     .findByIdAndUpdate(
-        //       { _id: existedEtatVirement._id },
-        //       {
-        //         ordre_virement: ordreVirement,
-        //         date_generation_de_virement: dateGenerationDeComptabilisation,
-        //         mois: existedEtatTaxes.mois,
-        //         annee: existedEtatVirement.annee,
-        //       }
-        //     )
-        //     .then(() => {
-        //       etatMonsuelVirement(req, res);
-        //     });
+        const existedEtatVirement = await etatVirementSch.findOne({
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        const existedEtatTaxes = await etatTaxesSch.findOne({
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        if (existedEtatVirement && existedEtatTaxes) {
+          etatVirementSch
+            .findByIdAndUpdate(
+              { _id: existedEtatVirement._id },
+              {
+                ordre_virement: ordreVirement,
+                date_generation_de_virement: dateGenerationDeComptabilisation,
+                mois: existedEtatTaxes.mois,
+                annee: existedEtatVirement.annee,
+              }
+            )
+            .then(() => {
+              etatMonsuelVirement(req, res);
+            });
 
-        //   etatTaxesSch
-        //     .findByIdAndUpdate(
-        //       { _id: existedEtatTaxes._id },
-        //       {
-        //         comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-        //         comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-        //         date_generation_de_comptabilisation:
-        //           dateGenerationDeComptabilisation,
-        //         mois: existedEtatTaxes.mois,
-        //         annee: existedEtatTaxes.annee,
-        //       }
-        //     )
-        //     .then(() => {
-        //       etatMonsuelTaxes(req, res);
-        //     });
-        // } else {
-        //   //post ordre de virement dans ordre de virement archive
-        //   const etatVirement = new etatVirementSch({
-        //     ordre_virement: ordreVirement,
-        //     date_generation_de_virement: dateGenerationDeComptabilisation,
-        //     mois: req.body.mois,
-        //     annee: req.body.annee,
-        //   });
-        //   //post comptabilisation des loyer dans comptabilisation des loyer archive
-        //   const etatTaxes = new etatTaxesSch({
-        //     comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-        //     comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-        //     date_generation_de_comptabilisation:
-        //       dateGenerationDeComptabilisation,
-        //     mois: req.body.mois,
-        //     annee: req.body.annee,
-        //   });
-        //   etatVirement
-        //     .save()
-        //     .then(async (virementData) => {
-        //       await etatTaxes
-        //         .save()
-        //         .then((comptabilisationData) => {
-        //           etatMonsuelVirement(req, res);
-        //           setTimeout(() => {
-        //             etatMonsuelTaxes(req, res);
-        //           }, 1000);
-        //           // res.json({
-        //           //   virementData,
-        //           //   comptabilisationData,
-        //           // });
-        //         })
-        //         .catch((error) => {
-        //           res.status(402).send({ message: error.message });
-        //         });
-        //     })
-        //     .catch((error) => {
-        //       res.status(401).send({ message: error.message });
-        //     });
-        // }
+          etatTaxesSch
+            .findByIdAndUpdate(
+              { _id: existedEtatTaxes._id },
+              {
+                comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+                comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+                date_generation_de_comptabilisation:
+                  dateGenerationDeComptabilisation,
+                mois: existedEtatTaxes.mois,
+                annee: existedEtatTaxes.annee,
+              }
+            )
+            .then(() => {
+              etatMonsuelTaxes(req, res);
+            });
+        } else {
+          //post ordre de virement dans ordre de virement archive
+          const etatVirement = new etatVirementSch({
+            ordre_virement: ordreVirement,
+            date_generation_de_virement: dateGenerationDeComptabilisation,
+            mois: req.body.mois,
+            annee: req.body.annee,
+          });
+          //post comptabilisation des loyer dans comptabilisation des loyer archive
+          const etatTaxes = new etatTaxesSch({
+            comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+            comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+            date_generation_de_comptabilisation:
+              dateGenerationDeComptabilisation,
+            mois: req.body.mois,
+            annee: req.body.annee,
+          });
+          etatVirement
+            .save()
+            .then(async (virementData) => {
+              await etatTaxes
+                .save()
+                .then((comptabilisationData) => {
+                  etatMonsuelVirement(req, res);
+                  setTimeout(() => {
+                    etatMonsuelTaxes(req, res);
+                  }, 1000);
+                  // res.json({
+                  //   virementData,
+                  //   comptabilisationData,
+                  // });
+                })
+                .catch((error) => {
+                  res.status(402).send({ message: error.message });
+                });
+            })
+            .catch((error) => {
+              res.status(401).send({ message: error.message });
+            });
+        }
 
         res.json({
           comptabilisationLoyerCrediter,
@@ -204,7 +205,7 @@ module.exports = {
           ordreVirement,
         });
       } else {
-        return res.status(402).send({ message: "Aucun contrat inseré" });
+        return res.status(402).send({ message: "Aucun contrat inséré" });
       }
       // res.json(true);
     } catch (error) {

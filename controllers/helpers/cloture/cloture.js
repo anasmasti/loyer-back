@@ -135,7 +135,8 @@ module.exports = {
   checkContratsAv: async (req, res) => {
     await Contrat.findOne({ "etat_contrat.libelle": "Test", deleted: false })
       .populate({ path: "old_contrat.contrat" })
-      .populate({ path: "foncier", populate: { path: "proprietaire" } })
+      .populate({ path: "foncier", match: { deleted: false } })
+      .populate({ path: "proprietaire", match: { deleted: false } })
       .then(async (data) => {
         if (data) {
           let contratAV = data;
@@ -213,23 +214,23 @@ module.exports = {
                   // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
                   for (
                     let i = 0;
-                    i < contratAV.foncier.proprietaire.length;
+                    i < contratAV.proprietaires.length;
                     i++
                   ) {
                     let partProprietaire =
-                      contratAV.foncier.proprietaire[i].part_proprietaire;
+                      contratAV.proprietaires[i].part_proprietaire;
                     let idProprietaire = mongoose.Types.ObjectId(
-                      contratAV.foncier.proprietaire[i]._id
+                      contratAV.proprietaires[i]._id
                     );
                     let updatedContrat = contratAV;
                     let hasDeclarationOption =
-                      contratAV.foncier.proprietaire[i].declaration_option;
+                      contratAV.proprietaires[i].declaration_option;
 
                     let updatedProprietaire = Calcule(
                       updatedContrat,
                       partProprietaire,
                       idProprietaire,
-                      hasDeclarationOption
+                      hasDeclarationOption  
                     );
 
                     await Proprietaire.findByIdAndUpdate(
@@ -318,11 +319,9 @@ module.exports = {
         });
       })
       .catch((error) => {
-        res
-          .status(402)
-          .send({
-            message: `Aucun contrat suspendu trouvé : ${error.message}`,
-          });
+        res.status(402).send({
+          message: `Aucun contrat suspendu trouvé : ${error.message}`,
+        });
       });
   },
 };

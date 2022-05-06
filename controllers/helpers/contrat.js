@@ -3,6 +3,7 @@ const User = require("../../models/roles/roles.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const ProprietaireHelper = require("./proprietaire");
 const mail = require("../../helpers/mail.send");
+const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 
 module.exports = {
   createContratAV: async (
@@ -47,7 +48,6 @@ module.exports = {
       duree_avance: ContratData.duree_avance,
       n_engagement_depense: ContratData.n_engagement_depense,
       echeance_revision_loyer: ContratData.echeance_revision_loyer,
-      // date_comptabilisation: ContratData.date_comptabilisation,
       date_comptabilisation: ContratData.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
       is_avenant: true,
@@ -80,12 +80,11 @@ module.exports = {
   },
 
   deleteProprietaire: async (req, res, proprietareId) => {
-    await Proprietaire.findByIdAndUpdate(proprietareId, {
+    await AffectationProprietaire.findByIdAndUpdate(proprietareId, {
       deleted: true,
     }).catch((error) => {
       res.status(400).send({ message: error.message });
     });
-    // console.log("Done", proprietareId);
   },
 
   storeFiles: async (req, fileName) => {
@@ -189,5 +188,23 @@ module.exports = {
     } else {
       return false;
     }
+  },
+
+  generateNumeroContrat: (numeroContrat) => {
+    let splitedNumeroContrat = numeroContrat.split("/");
+    console.log("splitedNumeroContrat", splitedNumeroContrat);
+    console.log("splitedNumeroContrat[-1]", splitedNumeroContrat.length - 1);
+    if (splitedNumeroContrat[splitedNumeroContrat.length - 1].includes("AV")) {
+      let countedAV = splitedNumeroContrat[
+        splitedNumeroContrat.length - 1
+      ].replace("AV", "");
+      console.log("countedAV", countedAV);
+      splitedNumeroContrat[splitedNumeroContrat.length - 1] = `AV${
+        +countedAV + 1
+      }`;
+    } else {
+      splitedNumeroContrat[splitedNumeroContrat.length] = "AV1";
+    }
+    return splitedNumeroContrat.join("/").toString();
   },
 };
