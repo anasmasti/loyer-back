@@ -5,23 +5,92 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
-  <totalMntBrutLoyer>90000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>13500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>76500.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>39000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>2200.00</totalMntRetenueSource>
+  <totalMntNetLoyer>36800.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BJ12348</numCNIBailleur>
-      <numCEBailleur>2249785</numCEBailleur>
-      <nomPrenomBailleur>Ahmed laaraichi</nomPrenomBailleur>
-      <adresseBailleur>Tanger alkhawa dyali</adresseBailleur>
-      <adresseBien>aaaaa</adresseBien>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>KS10293</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Karim benzima</nomPrenomBailleur>
+      <adresseBailleur>TEST ADRESSE
+</adresseBailleur>
+      <adresseBien>7ha sinisis maarif</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>90000.00</mntBrutLoyer>
-      <mntRetenueSource>13500.00</mntRetenueSource>
-      <mntNetLoyer>76500.00</mntNetLoyer>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>BB102938</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Rodrigo silva jr</nomPrenomBailleur>
+      <adresseBailleur>test sdresse</adresseBailleur>
+      <adresseBien>7ha sinisis maarif</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>2000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>2000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>BJ119649</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Test Test</nomPrenomBailleur>
+      <adresseBailleur>test adresse</adresseBailleur>
+      <adresseBien>7ha sinisis maarif</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>4000.00</mntBrutLoyer>
+      <mntRetenueSource>400.00</mntRetenueSource>
+      <mntNetLoyer>3600.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>BJ49785</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Anas tawfiqi</nomPrenomBailleur>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>aaaaaaaaaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>15000.00</mntBrutLoyer>
+      <mntRetenueSource>750.00</mntRetenueSource>
+      <mntNetLoyer>14250.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF6</ifuBailleur>
+      <numCNIBailleur>BB779645</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Karami abdelilah</nomPrenomBailleur>
+      <adresseBailleur>Test adresse</adresseBailleur>
+      <adresseBien>aaaaaaaaaaa</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>15000.00</mntBrutLoyer>
+      <mntRetenueSource>750.00</mntRetenueSource>
+      <mntNetLoyer>14250.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

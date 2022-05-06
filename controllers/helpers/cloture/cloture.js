@@ -19,9 +19,10 @@ module.exports = {
     dateDebutLoyer,
     montant_caution,
     numero_contrat,
-    periodicite
+    periodicite,
+    updatedAt
   ) => {
-    // console.log(lieu);
+    console.log(numero_contrat, proprietaire);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
       nom_prenom: proprietaire.proprietaire.nom_prenom
@@ -68,6 +69,7 @@ module.exports = {
       retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,
+      updatedAt: updatedAt
     };
     return comptabilisationLoyerCrediter;
   },
@@ -104,7 +106,8 @@ module.exports = {
     annee,
     montant_a_verse,
     montant_loyer_brut,
-    montant_tax
+    montant_tax,
+    updatedAt
   ) => {
     let orderVirement = {
       type_enregistrement: "0602",
@@ -116,7 +119,7 @@ module.exports = {
       nom_prenom: proprietaire.proprietaire.nom_prenom
         ? proprietaire.proprietaire.nom_prenom
         : proprietaire.proprietaire.raison_social,
-      numero_compte_bancaire: proprietaire.n_compte_bancaire,
+      numero_compte_bancaire: proprietaire.proprietaire.n_compte_bancaire,
       mois: mois,
       annee: annee,
       nom_agence_bancaire: proprietaire.proprietaire.nom_agence_bancaire,
@@ -128,6 +131,7 @@ module.exports = {
       montant_net: montant_a_verse,
       montant_brut: montant_loyer_brut,
       montant_taxe: montant_tax,
+      updatedAt : updatedAt ? updatedAt : ""
     };
     return orderVirement;
   },

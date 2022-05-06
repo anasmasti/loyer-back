@@ -134,7 +134,7 @@
           <th>MT brut global</th>
           <th>Taxe</th>
           <th>MT Net</th>
-          <!-- <th>N° de compte</th> -->
+          <th>N° de compte</th>
         </tr>
       </thead>
       <tbody>
@@ -152,6 +152,7 @@
           <td>{{ periodicite }}</td>
           <td>{{#if montant_brut}} {{montant_brut}}{{else}} -- {{/if}}</td>
           <td>{{#if montant_taxe}} {{montant_taxe}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
           <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
         </tr>
         {{/each}}
