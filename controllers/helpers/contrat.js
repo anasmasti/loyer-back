@@ -16,11 +16,17 @@ module.exports = {
   ) => {
     // Update ( montant loyer )
     mntLoyer = ContratData.montant_loyer;
-    ContratData.etat_contrat.etat.motif.forEach((motif) => {
+    for (
+      let index = 0;
+      index < ContratData.etat_contrat.etat.motif.length;
+      index++
+    ) {
+      const motif = ContratData.etat_contrat.etat.motif[index];
+
       if (motif.type_motif == "Révision du prix du loyer") {
         mntLoyer = motif.montant_nouveau_loyer;
       }
-    });
+    }
 
     const nouveauContrat = new Contrat({
       numero_contrat: numeroContrat,
@@ -74,18 +80,24 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-   // ProprietaireHelper.proprietaireASupprimer(ContratData);
+    // ProprietaireHelper.proprietaireASupprimer(ContratData);
 
     await nouveauContrat
       .save()
       .then((newContrat) => {
-        existedContrat.proprietaires.forEach((proprietaire) => {
+        for (let j = 0; j < existedContrat.proprietaires.length; j++) {
+          const proprietaire = existedContrat.proprietaires[j];
+
           let check = false;
-          ContratData.etat_contrat.etat.deleted_proprietaires.forEach(
-            (deletedProprietaire) => {
-              if (deletedProprietaire == proprietaire._id) check = true;
-            }
-          );
+          for (
+            let k = 0;
+            k < ContratData.etat_contrat.etat.deleted_proprietaires.length;
+            k++
+          ) {
+            const deletedProprietaire =
+              ContratData.etat_contrat.etat.deleted_proprietaires[k];
+            if (deletedProprietaire == proprietaire._id) check = true;
+          }
           if (!check) {
             ProprietaireHelper.duplicateProprietaire(
               req,
@@ -96,7 +108,11 @@ module.exports = {
               mntLoyer
             );
           }
-        });
+        }
+        Contrat.findByIdAndUpdate(
+          { _id: ContratData._id },
+          { has_avenant: true }
+        );
       })
       .catch((error) => {
         res.status(400).send({ message: error.message });
@@ -209,8 +225,8 @@ module.exports = {
     let targetDateYear = _targetDate.getFullYear();
 
     if (
-      (targetDateMonth == targetDateFinMonth &&
-        targetDateYear == targetDateFinYear) ||
+      // (targetDateMonth == targetDateFinMonth &&
+      //   targetDateYear == targetDateFinYear) ||
       (targetDateMonth > targetDateFinMonth &&
         targetDateYear < targetDateFinYear) ||
       (targetDateMonth < targetDateFinMonth &&

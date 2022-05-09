@@ -69,6 +69,7 @@ module.exports = {
       }
 
       if (contrat.length > 0) {
+        console.log('In traitement');
         //comptabilisation pour le paiement des loyers
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
@@ -108,7 +109,6 @@ module.exports = {
                 Contrat,
                 false
                 );
-                console.log("Im innnnnnn", result);
               result.ordre_virement.forEach((ordVrm) => {
                 ordreVirement.push(ordVrm);
               });

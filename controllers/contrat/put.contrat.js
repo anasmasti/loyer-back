@@ -105,11 +105,11 @@ module.exports = {
         data.etat_contrat.etat.duree_suspension > 0
       ) {
         if (existedContrat.date_comptabilisation != null) {
-          const isLessThen = ContratHelper.chackContratDate(
+          const isLessThan = ContratHelper.chackContratDate(
             existedContrat.date_comptabilisation,
             data.etat_contrat.etat.date_fin_suspension
           );
-          if (isLessThen) {
+          if (isLessThan) {
             nextDateComptabilisation = new Date(
               data.etat_contrat.etat.date_fin_suspension
             );
