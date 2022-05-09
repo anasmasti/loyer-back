@@ -111,9 +111,6 @@ const ContratSchema = new Schema(
     contrats_suspendu: {
       type: Array,
     },
-    contrat_avener: {
-      type: Array,
-    },
     duree: {
       type: Number,
     },
@@ -155,6 +152,10 @@ const ContratSchema = new Schema(
     ],
     nombre_part: {
       type: Number,
+    },
+    has_avenant: {
+      type: Boolean,
+      default: false
     },
 
     // Proprietaires 

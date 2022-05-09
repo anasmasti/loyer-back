@@ -1,10 +1,6 @@
 const Contrat = require("../../../models/contrat/contrat.model");
-const Calcule = require("../calculProprietaire");
 const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
-const Proprietaire = require("../../../models/proprietaire/proprietaire.model");
-const Foncier = require("../../../models/foncier/foncier.model");
-const mongoose = require("mongoose");
 
 module.exports = {
   createComptLoyerCredObject: (
@@ -22,7 +18,7 @@ module.exports = {
     periodicite,
     updatedAt
   ) => {
-    console.log(numero_contrat, proprietaire);
+    // console.log(numero_contrat, proprietaire);
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
       nom_prenom: proprietaire.proprietaire.nom_prenom
@@ -69,7 +65,7 @@ module.exports = {
       retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,
-      updatedAt: updatedAt
+      updatedAt: updatedAt,
     };
     return comptabilisationLoyerCrediter;
   },
@@ -109,6 +105,7 @@ module.exports = {
     montant_tax,
     updatedAt
   ) => {
+    console.log(numero_contrat, proprietaire);
     let orderVirement = {
       type_enregistrement: "0602",
       cin: proprietaire.proprietaire.cin
@@ -131,7 +128,7 @@ module.exports = {
       montant_net: montant_a_verse,
       montant_brut: montant_loyer_brut,
       montant_taxe: montant_tax,
-      updatedAt : updatedAt ? updatedAt : ""
+      updatedAt: updatedAt ? updatedAt : "",
     };
     return orderVirement;
   },
@@ -200,74 +197,37 @@ module.exports = {
                     etat: contratAV.etat_contrat.etat,
                   };
 
-                  // Delete proprietaires
-                  if (
-                    contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
-                  ) {
-                    contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
-                      (proprietaire) => {
-                        ContratHelper.deleteProprietaire(
-                          req,
-                          res,
-                          proprietaire
-                        );
-                      }
-                    );
-                  }
-
-                  // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
                   for (
-                    let i = 0;
-                    i < contratAV.proprietaires.length;
-                    i++
+                    let index = 0;
+                    index < contratAV.etat_contrat.etat.motif.length;
+                    index++
                   ) {
-                    let partProprietaire =
-                      contratAV.proprietaires[i].part_proprietaire;
-                    let idProprietaire = mongoose.Types.ObjectId(
-                      contratAV.proprietaires[i]._id
-                    );
-                    let updatedContrat = contratAV;
-                    let hasDeclarationOption =
-                      contratAV.proprietaires[i].declaration_option;
+                    const motif = contratAV.etat_contrat.etat.motif[index];
+                    // Delete proprietaires
+                    if (motif.type_motif == "Deces") {
+                      if (
+                        contratAV.etat_contrat.etat.deleted_proprietaires
+                          .length > 0
+                      ) {
+                        for (
+                          let index = 0;
+                          index <
+                          contratAV.etat_contrat.etat.deleted_proprietaires
+                            .length;
+                          index++
+                        ) {
+                          const proprietaire = contratAV.etat_contrat.etat.deleted_proprietaires[index];
 
-                    let updatedProprietaire = Calcule(
-                      updatedContrat,
-                      partProprietaire,
-                      idProprietaire,
-                      hasDeclarationOption  
-                    );
-
-                    await Proprietaire.findByIdAndUpdate(
-                      idProprietaire,
-                      updatedProprietaire
-                    )
-                      .then((prop) => {
-                        console.log("Proprietaire updated");
-                      })
-                      .catch((error) => {
-                        res.status(400).send({ message: error.message });
-                      });
+                          ContratHelper.proprietaireDeces(
+                            req,
+                            res,
+                            proprietaire
+                          );
+                        }
+                      }
+                    }
                   }
 
-                  let foncierId = mongoose.Types.ObjectId(
-                    contratAV.foncier._id
-                  );
-                  await Foncier.findById({
-                    _id: foncierId,
-                    deleted: false,
-                  })
-                    .populate({
-                      path: "proprietaire",
-                      match: { deleted: false, statut: "À ajouter" },
-                    })
-                    .then((foncier) => {
-                      foncier.proprietaire.forEach(async (proprietaire) => {
-                        await Proprietaire.findByIdAndUpdate(
-                          { _id: proprietaire._id },
-                          { statut: "Actif" }
-                        );
-                      });
-                    });
                   // Change is_avenant to false
 
                   // Update the old contrat
@@ -302,25 +262,39 @@ module.exports = {
   checkDtFinContratsSus: async (req, res) => {
     await Contrat.find({ deleted: false, "etat_contrat.libelle": "Suspendu" })
       .then(async (contrats) => {
-        contrats.forEach(async (contrat) => {
-          let susDate = new Date(contrat.etat_contrat.etat.date_fin_suspension);
-          let susMonth = susDate.getMonth() + 1;
-          let susYear = susDate.getFullYear();
-          let currentDate = new Date();
-          let currentMonth = currentDate.getMonth() + 1;
-          let currentYear = currentDate.getFullYear();
-
-          if (
-            (susMonth == currentMonth && susYear == currentYear) ||
-            (susMonth > currentMonth && susYear < currentYear) ||
-            (susMonth < currentMonth && !(susYear > currentYear))
-          ) {
-            await Contrat.findByIdAndUpdate(
-              { _id: contrat._id },
-              { "etat_contrat.libelle": "Actif" }
-            );
-          }
-        });
+        await archiveComptabilisation
+          .find()
+          .sort({ date_generation_de_comptabilisation: "desc" })
+          .select({ date_generation_de_comptabilisation: 1 })
+          .then(async (Comptabilisationdata) => {
+            for (let index = 0; index < contrats.length; index++) {
+              const contrat = contrats[index];
+              let susDate = new Date(
+                contrat.etat_contrat.etat.date_fin_suspension
+              );
+              let susMonth = susDate.getMonth() + 1;
+              let susYear = susDate.getFullYear();
+              let nextCloture;
+              nextCloture = new Date(
+                Comptabilisationdata[0].date_generation_de_comptabilisation
+              );
+              let currentMonth = nextCloture.getMonth() + 1;
+              let currentYear = nextCloture.getFullYear();
+              if (
+                (susMonth == currentMonth && susYear == currentYear) ||
+                (susMonth > currentMonth && susYear < currentYear) ||
+                (susMonth < currentMonth && !(susYear > currentYear))
+              ) {
+                await Contrat.findByIdAndUpdate(
+                  { _id: contrat._id },
+                  { "etat_contrat.libelle": "Actif" }
+                );
+              }
+            }
+          })
+          .catch((error) => {
+            res.status(402).send({ message: error.message });
+          });
       })
       .catch((error) => {
         res.status(402).send({
