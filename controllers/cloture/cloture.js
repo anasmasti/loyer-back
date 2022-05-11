@@ -74,7 +74,7 @@ module.exports = {
             contrat[i],
             dateGenerationDeComptabilisation,
             Contrat,
-            false
+            true
           );
           result.ordre_virement.forEach((ordVrm) => {
             ordreVirement.push(ordVrm);
@@ -104,7 +104,7 @@ module.exports = {
               contrat[i],
               dateGenerationDeComptabilisation,
               Contrat,
-              false
+              true
             );
             result.ordre_virement.forEach((ordVrm) => {
               ordreVirement.push(ordVrm);
