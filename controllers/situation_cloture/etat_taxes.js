@@ -31,7 +31,7 @@ const etatMonsuelTaxes = async (req, res) => {
             cmpt.tax_avance_proprietaire != 0 ? 0 : cmpt.montant_tax;
           montantTaxeAvanceGlobal += cmpt.tax_avance_proprietaire;
           montantBrutGlobal +=
-            cmpt.montant_avance_proprietaire != 0 ? 0 : cmpt.montant_brut;
+            cmpt.montant_avance_proprietaire != 0 ? 0 : cmpt.montant_brut_loyer;
           montantBrutAvanceGlobal += cmpt.montant_avance_proprietaire;
           let cmptMapped = [
             cmpt.numero_contrat,
@@ -41,7 +41,9 @@ const etatMonsuelTaxes = async (req, res) => {
             cmpt.declaration_option,
             cmpt.periodicite,
             cmpt.taux_impot,
-            cmpt.montant_avance_proprietaire != 0 ? "--" : cmpt.montant_brut,
+            cmpt.montant_avance_proprietaire != 0
+              ? "--"
+              : cmpt.montant_brut_loyer,
             cmpt.montant_avance_proprietaire,
             cmpt.tax_avance_proprietaire != 0 ? "--" : cmpt.montant_tax,
             cmpt.tax_avance_proprietaire,

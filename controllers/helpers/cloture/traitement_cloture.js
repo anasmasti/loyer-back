@@ -469,6 +469,7 @@ module.exports = {
             dateDebutLoyer.getMonth() + periodicite
           );
         }
+        console.log("nextDateComptabilisation", nextDateComptabilisation);
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },
           {
