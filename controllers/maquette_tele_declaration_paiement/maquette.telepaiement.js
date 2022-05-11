@@ -27,22 +27,18 @@ module.exports = {
         ArchCmptb.comptabilisation_loyer_crediter.forEach(
           (comptabilisationloyer) => {
             if (comptabilisationloyer.cin == cinProprietaire) {
-              if (comptabilisationloyer.montant_avance_proprietaire == 0) {
-                mntBrutTotal += comptabilisationloyer.montant_loyer;
-                mntRetenueSourceTotal += comptabilisationloyer.retenue_source;
-                mntNetLoyerTotal +=
-                  comptabilisationloyer.montant_loyer -
-                  comptabilisationloyer.retenue_source;
-              }
-              if (comptabilisationloyer.montant_avance_proprietaire > 0) {
-                mntBrutTotal +=
-                  comptabilisationloyer.montant_avance_proprietaire;
-                mntRetenueSourceTotal +=
-                  comptabilisationloyer.tax_avance_proprietaire;
-                mntNetLoyerTotal +=
-                  comptabilisationloyer.montant_avance_proprietaire -
-                  comptabilisationloyer.tax_avance_proprietaire;
-              }
+              // if (comptabilisationloyer.montant_avance_proprietaire == 0) {
+              //   mntBrutTotal += comptabilisationloyer.montant_loyer;
+              //   mntRetenueSourceTotal += comptabilisationloyer.retenue_source;
+              //   mntNetLoyerTotal +=
+              //     comptabilisationloyer.montant_loyer -
+              //     comptabilisationloyer.retenue_source;
+              // }
+              // if (comptabilisationloyer.montant_avance_proprietaire > 0) {
+              mntBrutTotal += comptabilisationloyer.montant_brut;
+              mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
+              mntNetLoyerTotal += comptabilisationloyer.montant_net;
+              // }
             }
           }
         );
