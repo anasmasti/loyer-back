@@ -16,7 +16,9 @@ module.exports = {
     montant_caution,
     numero_contrat,
     periodicite,
-    updatedAt
+    updatedAt,
+    caution_versee,
+    avance_versee
   ) => {
     // console.log(numero_contrat, proprietaire);
     let comptabilisationLoyerCrediter = {
@@ -66,6 +68,8 @@ module.exports = {
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,
       updatedAt: updatedAt,
+      caution_versee: caution_versee,
+      avance_versee: avance_versee,
     };
     return comptabilisationLoyerCrediter;
   },
@@ -216,7 +220,10 @@ module.exports = {
                             .length;
                           index++
                         ) {
-                          const proprietaire = contratAV.etat_contrat.etat.deleted_proprietaires[index];
+                          const proprietaire =
+                            contratAV.etat_contrat.etat.deleted_proprietaires[
+                              index
+                            ];
 
                           ContratHelper.proprietaireDeces(
                             req,

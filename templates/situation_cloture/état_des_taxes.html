@@ -174,20 +174,29 @@
           <td>{{ periodicite }}</td>
           <td>{{#if taux_impot}} {{taux_impot}} %{{else}} -- {{/if}}</td>
           <td>
-            {{#if montant_avance_proprietaire}} -- {{else}}{{#if montant_loyer}}
+            {{#if montant_avance_proprietaire}} {{#ifCondTrue avance_versee }}
+            {{#if montant_loyer}} {{montant_loyer}}{{else}} -- {{/if}} {{else}}
+            -- {{/ifCondTrue}} {{else}}{{#if montant_loyer}}
             {{montant_loyer}}{{else}} -- {{/if}}{{/if}}
           </td>
-          <td>{{ montant_avance_proprietaire }}</td>
           <td>
-            {{#if tax_avance_proprietaire}} -- {{else}}{{#if retenue_source}}
-            {{retenue_source}}{{else}} -- {{/if}}{{/if}}
+            {{#ifCondFalse avance_versee }} {{ montant_avance_proprietaire }}
+            {{else}} -- {{/ifCondFalse}}
           </td>
           <td>
-            {{#if tax_avance_proprietaire}} {{tax_avance_proprietaire}}{{else}}
-            -- {{/if}}
+            {{#if tax_avance_proprietaire}} {{#ifCondTrue avance_versee }} {{#if
+            retenue_source}} {{retenue_source}}{{else}} -- {{/if}} {{else}} --
+            {{/ifCondTrue}} {{else}}{{#if retenue_source}}{{retenue_source}}
+            {{else}} -- {{/if}}{{/if}}
           </td>
           <td>
-            {{#if caution_proprietaire}} {{caution_proprietaire}}{{else}} --
+            {{#if tax_avance_proprietaire}} {{#ifCondFalse avance_versee }}
+            {{tax_avance_proprietaire}} {{else}} -- {{/ifCondFalse}} {{else}} --
+            {{/if}}
+          </td>
+          <td>
+            {{#if caution_proprietaire }} {{#ifCondFalse caution_versee }}
+            {{caution_proprietaire}} {{else}} -- {{/ifCondFalse}} {{else}} --
             {{/if}}
           </td>
           <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
