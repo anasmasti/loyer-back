@@ -43,7 +43,7 @@ module.exports = {
           match: { is_mandataire: true },
         })
         .sort({ updatedAt: "desc" });
-      console.log("requested data ", contrat);
+     // console.log("requested data ", contrat);
 
       // return res.json(contrat);
 
