@@ -138,7 +138,10 @@ module.exports = {
   },
 
   checkContratsAv: async (req, res) => {
-    await Contrat.findOne({ "etat_contrat.libelle": "Test", deleted: false })
+    await Contrat.findOne({
+      "etat_contrat.libelle": "Planifié",
+      deleted: false,
+    })
       .populate({ path: "old_contrat.contrat" })
       .populate({ path: "foncier", match: { deleted: false } })
       .populate({ path: "proprietaire", match: { deleted: false } })

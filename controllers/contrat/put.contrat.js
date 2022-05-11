@@ -83,7 +83,7 @@ module.exports = {
       );
       etatContrat = {
         libelle: "Actif",
-        etat: {},
+        etat: existedContrat.etat_contrat.etat,
       };
     } else if (
       data.etat_contrat.libelle === "Suspendu" ||
@@ -124,7 +124,7 @@ module.exports = {
               data.date_premier_paiement,
               data.etat_contrat.etat.date_fin_suspension
             )
-          ){
+          ) {
             nextDateComptabilisation = new Date(
               data.etat_contrat.etat.date_fin_suspension
             );
@@ -578,7 +578,7 @@ module.exports = {
                 etatOldContrat = oldContrat.etat_contrat;
                 // Customise the new contrat etat
                 etatNewContrat = {
-                  libelle: "Test",
+                  libelle: "Planifié",
                   etat: contratAV.etat_contrat.etat,
                 };
               }
