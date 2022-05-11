@@ -11,40 +11,6 @@
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>R35456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KAMAL SAMIR</nomPrenomBailleur>
-      <adresseBailleur>KPKPKLKJ24654654</adresseBailleur>
-      <adresseBien>LKJDLJZAL44774</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>500.00</mntRetenueSource>
-      <mntNetLoyer>9500.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>J3546543</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>lamyae nada </nomPrenomBailleur>
-      <adresseBailleur>CASA POOP 365464</adresseBailleur>
-      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>12000.00</mntBrutLoyer>
-      <mntRetenueSource>1200.00</mntRetenueSource>
-      <mntNetLoyer>10800.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
       <numCNIBailleur>H2356889</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>kamal lolo</nomPrenomBailleur>
@@ -56,6 +22,57 @@
       <mntBrutLoyer>8000.00</mntBrutLoyer>
       <mntRetenueSource>800.00</mntRetenueSource>
       <mntNetLoyer>7200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>D5458486</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>samia nabil </nomPrenomBailleur>
+      <adresseBailleur>KIHIUHOJOIJO</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>5400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>H3835832</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>LATIFA LALA</nomPrenomBailleur>
+      <adresseBailleur>ZADKLEZDKPM25865</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>5400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>R35456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KAMAL SAMIR</nomPrenomBailleur>
+      <adresseBailleur>KPKPKLKJ24654654</adresseBailleur>
+      <adresseBien>LKJDLJZAL44774</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>10000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>9500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
