@@ -26,13 +26,23 @@ const etatMonsuelTaxes = async (req, res) => {
         const dataExcel = [];
         contrat.comptabilisation_loyer_crediter.forEach((cmpt) => {
           montantNetGlobal += cmpt.montant_net;
-          montantCautionGlobal += cmpt.caution_proprietaire;
+          montantCautionGlobal += !cmpt.caution_versee
+            ? cmpt.caution_proprietaire
+            : 0;
           montantTaxeGlobal +=
-            cmpt.tax_avance_proprietaire != 0 ? 0 : cmpt.montant_tax;
-          montantTaxeAvanceGlobal += cmpt.tax_avance_proprietaire;
+            cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee
+              ? 0
+              : cmpt.montant_tax;
+          montantTaxeAvanceGlobal += !cmpt.avance_versee
+            ? cmpt.tax_avance_proprietaire
+            : 0;
           montantBrutGlobal +=
-            cmpt.montant_avance_proprietaire != 0 ? 0 : cmpt.montant_brut_loyer;
-          montantBrutAvanceGlobal += cmpt.montant_avance_proprietaire;
+            cmpt.montant_avance_proprietaire != 0 && !cmpt.avance_versee
+              ? 0
+              : cmpt.montant_brut_loyer;
+          montantBrutAvanceGlobal += !cmpt.avance_versee
+            ? cmpt.montant_avance_proprietaire
+            : 0;
           let cmptMapped = [
             cmpt.numero_contrat,
             cmpt.type_lieu,
@@ -41,13 +51,15 @@ const etatMonsuelTaxes = async (req, res) => {
             cmpt.declaration_option,
             cmpt.periodicite,
             cmpt.taux_impot,
-            cmpt.montant_avance_proprietaire != 0
+            cmpt.montant_avance_proprietaire != 0 && !cmpt.avance_versee
               ? "--"
               : cmpt.montant_brut_loyer,
             cmpt.montant_avance_proprietaire,
-            cmpt.tax_avance_proprietaire != 0 ? "--" : cmpt.montant_tax,
+            cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee
+              ? "--"
+              : cmpt.montant_tax,
             cmpt.tax_avance_proprietaire,
-            cmpt.caution_proprietaire,
+            !cmpt.caution_versee ? cmpt.caution_proprietaire : "--",
             cmpt.montant_net,
           ];
           dataExcel.push(cmptMapped);

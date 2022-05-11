@@ -19,21 +19,28 @@ module.exports = {
     ) {
       //traitement du montant
       let montantLoyer = 0;
+      let isMntZero = false;
       let sens;
       let code;
       switch (Sens) {
         case "D":
           montantLoyer = comptabilisation_loyer_crediter.montant_brut;
+          isMntZero =
+            comptabilisation_loyer_crediter.montant_brut == 0 ? true : false;
           sens = "D";
           code = "64200001";
           break;
         case "C Tax":
           montantLoyer = comptabilisation_loyer_crediter.montant_tax;
+          isMntZero =
+            comptabilisation_loyer_crediter.montant_tax == 0 ? true : false;
           sens = "C";
           code = "32100007";
           break;
         case "C Net":
           montantLoyer = comptabilisation_loyer_crediter.montant_net;
+          isMntZero =
+            comptabilisation_loyer_crediter.montant_net == 0 ? true : false;
           sens = "C";
           code = "32700008";
           break;
@@ -113,18 +120,20 @@ module.exports = {
         dateGenerationVirement.getFullYear() +
         "||-\r\n";
 
-      fs.writeFileSync(
-        "download/comptabilisation loyer/FichierComptableLoyer " +
-          dateMonthName +
-          " " +
-          dateGenerationVirement.getFullYear() +
-          ".txt",
-        ecritureLoyer,
-        { flag: "a" },
-        (error) => {
-          if (error) res.json({ message: error.message });
-        }
-      );
+      if (!isMntZero) {
+        fs.writeFileSync(
+          "download/comptabilisation loyer/FichierComptableLoyer " +
+            dateMonthName +
+            " " +
+            dateGenerationVirement.getFullYear() +
+            ".txt",
+          ecritureLoyer,
+          { flag: "a" },
+          (error) => {
+            if (error) res.json({ message: error.message });
+          }
+        );
+      }
     }
 
     archiveComptabilisation
