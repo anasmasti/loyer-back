@@ -34,8 +34,8 @@ module.exports = {
   },
   getDetailContrat: async (req, res) => {
     await Contrat.findById(req.params.Id)
-      .populate("proprietaires")
-      .populate("foncier")
+      .populate({ path: "proprietaires", match: { deleted: false } })
+      .populate({ path: "foncier", match: { deleted: false } })
       .populate({
         path: "old_contrat",
         populate: {

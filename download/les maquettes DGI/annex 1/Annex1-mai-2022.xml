@@ -5,41 +5,57 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
-  <totalMntBrutLoyer>28000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>1800.00</totalMntRetenueSource>
-  <totalMntNetLoyer>26200.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>45000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>3300.00</totalMntRetenueSource>
+  <totalMntNetLoyer>41700.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>BB102938</numCNIBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>qqqqqqq</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Rodrigo silva jr</nomPrenomBailleur>
-      <adresseBailleur>test sdresse</adresseBailleur>
+      <nomPrenomBailleur>qqqqqqq</nomPrenomBailleur>
+      <adresseBailleur>qqqqq</adresseBailleur>
+      <adresseBien>TEtststss</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>40000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>37000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>BB10231</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Khalid tawiqi</nomPrenomBailleur>
+      <adresseBailleur>TEST ADRESSE</adresseBailleur>
       <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>24000.00</mntBrutLoyer>
-      <mntRetenueSource>1800.00</mntRetenueSource>
-      <mntNetLoyer>22200.00</mntNetLoyer>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>KS10293</numCNIBailleur>
+      <numCNIBailleur>BJ10293</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Karim benzima</nomPrenomBailleur>
-      <adresseBailleur>TEST ADRESSE
-</adresseBailleur>
+      <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
+      <adresseBailleur>test adresse</adresseBailleur>
       <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>4000.00</mntBrutLoyer>
+      <mntBrutLoyer>2000.00</mntBrutLoyer>
       <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>4000.00</mntNetLoyer>
+      <mntNetLoyer>2000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

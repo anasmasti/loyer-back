@@ -57,7 +57,9 @@ module.exports = {
                 0,
                 Contrat.numero_contrat,
                 Contrat.periodicite_paiement,
-                Contrat.updatedAt
+                Contrat.updatedAt,
+                Contrat.caution_versee,
+                Contrat.avance_versee
               )
             );
             if (Contrat.proprietaires[j].proprietaire_list.length !== 0) {
@@ -96,7 +98,9 @@ module.exports = {
                     0,
                     Contrat.numero_contrat,
                     Contrat.periodicite_paiement,
-                    Contrat.updatedAt
+                    Contrat.updatedAt,
+                    Contrat.caution_versee,
+                    Contrat.avance_versee
                   )
                 );
                 montant_loyer_net = 0;
@@ -233,7 +237,9 @@ module.exports = {
                   Contrat.proprietaires[j].caution_par_proprietaire,
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  Contrat.updatedAt
+                  Contrat.updatedAt,
+                  Contrat.caution_versee,
+                  Contrat.avance_versee
                 )
               );
               if (Contrat.proprietaires[j].proprietaire_list.length != 0) {
@@ -278,7 +284,9 @@ module.exports = {
                         .caution_par_proprietaire,
                       Contrat.numero_contrat,
                       Contrat.periodicite_paiement,
-                      Contrat.updatedAt
+                      Contrat.updatedAt,
+                      Contrat.caution_versee,
+                      Contrat.avance_versee
                     )
                   );
                   montant_loyer_net = 0;
@@ -371,7 +379,9 @@ module.exports = {
                   Contrat.proprietaires[j].caution_par_proprietaire,
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  Contrat.updatedAt
+                  Contrat.updatedAt,
+                  Contrat.caution_versee,
+                  Contrat.avance_versee
                 )
               );
 
@@ -418,7 +428,9 @@ module.exports = {
                         .caution_par_proprietaire,
                       Contrat.numero_contrat,
                       Contrat.periodicite_paiement,
-                      Contrat.updatedAt
+                      Contrat.updatedAt,
+                      Contrat.caution_versee,
+                      Contrat.avance_versee
                     )
                   );
                   montant_loyer_net = 0;
@@ -469,6 +481,7 @@ module.exports = {
             dateDebutLoyer.getMonth() + periodicite
           );
         }
+        console.log("nextDateComptabilisation", nextDateComptabilisation);
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },
           {
@@ -521,7 +534,9 @@ module.exports = {
                   0,
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  Contrat.updatedAt
+                  Contrat.updatedAt,
+                  Contrat.caution_versee,
+                  Contrat.avance_versee
                 )
               );
 
@@ -563,7 +578,9 @@ module.exports = {
                       0,
                       Contrat.numero_contrat,
                       Contrat.periodicite_paiement,
-                      Contrat.updatedAt
+                      Contrat.updatedAt,
+                      Contrat.caution_versee,
+                      Contrat.avance_versee
                     )
                   );
                   montant_loyer_net = 0;
@@ -663,7 +680,9 @@ module.exports = {
                   0,
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  Contrat.updatedAt
+                  Contrat.updatedAt,
+                  Contrat.caution_versee,
+                  Contrat.avance_versee
                 )
               );
 
@@ -705,7 +724,9 @@ module.exports = {
                       0,
                       Contrat.numero_contrat,
                       Contrat.periodicite_paiement,
-                      Contrat.updatedAt
+                      Contrat.updatedAt,
+                      Contrat.caution_versee,
+                      Contrat.avance_versee
                     )
                   );
                   montant_loyer_net = 0;
