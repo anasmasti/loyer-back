@@ -8,6 +8,125 @@ module.exports = {
       return number.padStart(9, 0);
     }
 
+    function generateLignComptable(
+      comptabilisation_loyer_crediter,
+      Sens,
+      dateWithSlash,
+      dateWithDash,
+      time,
+      dateGenerationVirement,
+      dateMonthName
+    ) {
+      //traitement du montant
+      let montantLoyer = 0;
+      let sens;
+      let code;
+      switch (Sens) {
+        case "D":
+          montantLoyer = comptabilisation_loyer_crediter.montant_brut;
+          sens = "D";
+          code = "64200001";
+          break;
+        case "C Tax":
+          montantLoyer = comptabilisation_loyer_crediter.montant_tax;
+          sens = "C";
+          code = "32100007";
+          break;
+        case "C Net":
+          montantLoyer = comptabilisation_loyer_crediter.montant_net;
+          sens = "C";
+          code = "32700008";
+          break;
+      }
+      let addTwoNumbersAfterComma = montantLoyer.toFixed(2);
+      let replacePointWithComma = addTwoNumbersAfterComma.replace(".", ",");
+      let fullMontant = pad(replacePointWithComma, 9);
+      let numeroContrat = comptabilisation_loyer_crediter.numero_contrat;
+
+      //les infos du lieu
+      let codeDr, codePv, lieuIntitule;
+      codeDr = comptabilisation_loyer_crediter.direction_regional;
+      lieuIntitule = comptabilisation_loyer_crediter.intitule_lieu;
+      if (comptabilisation_loyer_crediter.point_de_vente == "") {
+        codePv = "-|-";
+      } else {
+        codePv = comptabilisation_loyer_crediter.point_de_vente;
+      }
+
+      //set proprietaire cin/passport/carte sejour
+      let proprietaireIdentifiant;
+      if (
+        comptabilisation_loyer_crediter.cin == "" &&
+        comptabilisation_loyer_crediter.passport == ""
+      ) {
+        proprietaireIdentifiant = comptabilisation_loyer_crediter.carte_sejour;
+      } else if (
+        comptabilisation_loyer_crediter.passport == "" &&
+        comptabilisation_loyer_crediter.carte_sejour == ""
+      ) {
+        proprietaireIdentifiant = comptabilisation_loyer_crediter.cin;
+      } else if (
+        comptabilisation_loyer_crediter.cin == "" &&
+        comptabilisation_loyer_crediter.carte_sejour == ""
+      ) {
+        proprietaireIdentifiant = comptabilisation_loyer_crediter.passport;
+      } else {
+        proprietaireIdentifiant = comptabilisation_loyer_crediter.cin;
+      }
+
+      //ecriture debiter
+      let ecritureLoyer =
+        "FBPMC" +
+        "|" +
+        "A" +
+        "|" +
+        "FRAIS DE LOYER DU " +
+        dateWithSlash +
+        "|" +
+        dateWithDash +
+        ` ${time}|` +
+        dateMonthName.toUpperCase() +
+        "-" +
+        dateGenerationVirement.getFullYear() +
+        "|" +
+        dateWithDash +
+        " 00:00:00|LOY|PAISOFT|MAD|" +
+        "COMPTABILISATION/" +
+        dateWithSlash +
+        "|01|" +
+        code +
+        "|-|" +
+        codeDr +
+        "|" +
+        codePv +
+        "|-|-|-|-|-|-|-|-|" +
+        fullMontant +
+        "|" +
+        sens +
+        "|" +
+        numeroContrat +
+        "-" +
+        proprietaireIdentifiant +
+        "|GFL " +
+        ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
+        "-" +
+        dateGenerationVirement.getFullYear() +
+        "||-\r\n";
+
+      fs.writeFileSync(
+        "download/comptabilisation loyer/FichierComptableLoyer " +
+          dateMonthName +
+          " " +
+          dateGenerationVirement.getFullYear() +
+          ".txt",
+        ecritureLoyer,
+        { flag: "a" },
+        (error) => {
+          if (error) res.json({ message: error.message });
+        }
+      );
+    }
+
     archiveComptabilisation
       .findOne({ mois: req.params.mois, annee: req.params.annee })
       .then((data) => {
@@ -48,269 +167,331 @@ module.exports = {
               if (error) throw error;
             }
           );
+
           //ecriture comptable du loyer Sens D
-          for (let i = 0; i < data.comptabilisation_loyer_debiter.length; i++) {
-            //traitement du montant
-            let montantLoyer = data.comptabilisation_loyer_debiter[i].montant;
-            let addTwoNumbersAfterComma = montantLoyer.toFixed(2);
-            let replacePointWithComma = addTwoNumbersAfterComma.replace(
-              ".",
-              ","
-            );
-            let fullMontant = pad(replacePointWithComma, 9);
-            let numeroContrat =
-              data.comptabilisation_loyer_crediter[i].numero_contrat;
-
-            //les infos du lieu
-            let codeDr, codePv, lieuIntitule;
-            codeDr = data.comptabilisation_loyer_debiter[i].direction_regional;
-            lieuIntitule = data.comptabilisation_loyer_debiter[i].intitule_lieu;
-            if (data.comptabilisation_loyer_debiter[i].point_de_vente == "") {
-              codePv = "-|-";
-            } else {
-              codePv = data.comptabilisation_loyer_debiter[i].point_de_vente;
-            }
-
-            //set proprietaire cin/passport/carte sejour
-            let proprietaireIdentifiant;
-            if (
-              data.comptabilisation_loyer_crediter[i].cin == "" &&
-              data.comptabilisation_loyer_crediter[i].passport == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].carte_sejour;
-            } else if (
-              data.comptabilisation_loyer_crediter[i].passport == "" &&
-              data.comptabilisation_loyer_crediter[i].carte_sejour == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].cin;
-            } else if (
-              data.comptabilisation_loyer_crediter[i].cin == "" &&
-              data.comptabilisation_loyer_crediter[i].carte_sejour == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].passport;
-            }
-
-            //ecriture debiter
-            let ecritureDebiterLoyer =
-              "FBPMC" +
-              "|" +
-              "A" +
-              "|" +
-              "FRAIS DE LOYER DU " +
-              dateWithSlash +
-              "|" +
-              dateWithDash +
-              ` ${time}|` +
-              dateMonthName.toUpperCase() +
-              "-" +
-              dateGenerationVirement.getFullYear() +
-              "|" +
-              dateWithDash +
-              " 00:00:00|LOY|PAISOFT|MAD|" +
-              "COMPTABILISATION/" +
-              dateWithSlash +
-              "|01|64200001|-|" +
-              codeDr +
-              "|" +
-              codePv +
-              "|-|-|-|-|-|-|-|-|" +
-              fullMontant +
-              "|D|" +
-              numeroContrat +
-              "-" +
-              proprietaireIdentifiant +
-              "|GFL " +
-              ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
-              "-" +
-              dateGenerationVirement.getFullYear() +
-              "||-\r\n";
-            fs.writeFileSync(
-              "download/comptabilisation loyer/FichierComptableLoyer " +
-                dateMonthName +
-                " " +
-                dateGenerationVirement.getFullYear() +
-                ".txt",
-              ecritureDebiterLoyer,
-              { flag: "a" },
-              (error) => {
-                if (error) res.json({ message: error.message });
-              }
-            );
-          }
-
-          //ecriture comptable Sens C 'Montant Net'
           for (
             let i = 0;
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            //traitement du montant net
-            let montantNet =
-              data.comptabilisation_loyer_crediter[i].montant_net;
-            let addTwoNumbersAfterComma = montantNet.toFixed(2);
-            let replacePointWithComma = addTwoNumbersAfterComma.replace(
-              ".",
-              ","
-            );
-            let fullMontantNet = pad(replacePointWithComma, 9);
-            let numeroContrat =
-              data.comptabilisation_loyer_crediter[i].numero_contrat;
-
-            //infos lieu
-            lieuIntitule =
-              data.comptabilisation_loyer_crediter[i].intitule_lieu;
-
-            //set proprietaire cin/passport/carte sejour
-            let proprietaireIdentifiant;
-            if (
-              data.comptabilisation_loyer_crediter[i].cin == "" &&
-              data.comptabilisation_loyer_crediter[i].passport == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].carte_sejour;
-            } else if (
-              data.comptabilisation_loyer_crediter[i].passport == "" &&
-              data.comptabilisation_loyer_crediter[i].carte_sejour == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].cin;
-            } else if (
-              data.comptabilisation_loyer_crediter[i].cin == "" &&
-              data.comptabilisation_loyer_crediter[i].carte_sejour == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].passport;
-            }
-
-            //ecriture crediter du montant net
-            let ecritureCrediterDuMontantNetLoyer =
-              "FBPMC" +
-              "|" +
-              "A" +
-              "|" +
-              "FRAIS DE LOYER DU " +
-              dateWithSlash +
-              "|" +
-              dateWithDash +
-              " 00:00:00|" +
-              dateMonthName.toUpperCase() +
-              "-" +
-              dateGenerationVirement.getFullYear() +
-              "|" +
-              dateWithDash +
-              " 00:00:00|LOY|PAISOFT|MAD|" +
-              "COMPTABILISATION/" +
-              dateWithSlash +
-              "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
-              fullMontantNet +
-              "|C|" +
-              numeroContrat +
-              "-" +
-              proprietaireIdentifiant +
-              "|GFL " +
-              ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
-              "-" +
-              dateGenerationVirement.getFullYear() +
-              "|-|-\r\n";
-            fs.writeFileSync(
-              "download/comptabilisation loyer/FichierComptableLoyer " +
-                dateMonthName +
-                " " +
-                dateGenerationVirement.getFullYear() +
-                ".txt",
-              ecritureCrediterDuMontantNetLoyer,
-              { flag: "a" },
-              (error) => {
-                if (error) res.json({ message: error.message });
-              }
+            generateLignComptable(
+              data.comptabilisation_loyer_crediter[i],
+              "D",
+              dateWithSlash,
+              dateWithDash,
+              time,
+              dateGenerationVirement,
+              dateMonthName
             );
           }
 
-          // ecriture comptable Sens C 'Tax'
+          //ecriture comptable du loyer Sens D
           for (
             let i = 0;
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            //traitement du montant de tax
-            let montantTax =
-              data.comptabilisation_loyer_crediter[i].montant_tax;
-            let addTwoNumbersAfterComma = montantTax.toFixed(2);
-            let replacePointWithComma = addTwoNumbersAfterComma.replace(
-              ".",
-              ","
-            );
-            let fullMontantTax = pad(replacePointWithComma, 9);
-            let numeroContrat =
-              data.comptabilisation_loyer_crediter[i].numero_contrat;
-            // set proprietaire cin/passport/carte sejour
-            let proprietaireIdentifiant;
-            if (
-              data.comptabilisation_loyer_crediter[i].cin == "" &&
-              data.comptabilisation_loyer_crediter[i].passport == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].carte_sejour;
-            } else if (
-              data.comptabilisation_loyer_crediter[i].passport == "" &&
-              data.comptabilisation_loyer_crediter[i].carte_sejour == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].cin;
-            } else if (
-              data.comptabilisation_loyer_crediter[i].cin == "" &&
-              data.comptabilisation_loyer_crediter[i].carte_sejour == ""
-            ) {
-              proprietaireIdentifiant =
-                data.comptabilisation_loyer_crediter[i].passport;
-            }
-
-            let ecritureCrediterDuTaxLoyer =
-              "FBPMC" +
-              "|" +
-              "A" +
-              "|" +
-              "FRAIS DE LOYER DU " +
-              dateWithSlash +
-              "|" +
-              dateWithDash +
-              " 00:00:00|" +
-              dateMonthName.toUpperCase() +
-              "-" +
-              dateGenerationVirement.getFullYear() +
-              "|" +
-              dateWithDash +
-              " 00:00:00|LOY|PAISOFT|MAD|" +
-              "COMPTABILISATION/" +
-              dateWithSlash +
-              "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
-              fullMontantTax +
-              "|C|" +
-              numeroContrat +
-              "-" +
-              proprietaireIdentifiant +
-              "|GFL " +
-              ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
-              "-" +
-              dateGenerationVirement.getFullYear() +
-              "|-|-\r\n";
-
-            fs.writeFileSync(
-              "download/comptabilisation loyer/FichierComptableLoyer " +
-                dateMonthName +
-                " " +
-                dateGenerationVirement.getFullYear() +
-                ".txt",
-              ecritureCrediterDuTaxLoyer,
-              { flag: "a" },
-              (error) => {
-                if (error) res.json({ message: error.message });
-              }
+            generateLignComptable(
+              data.comptabilisation_loyer_crediter[i],
+              "C Net",
+              dateWithSlash,
+              dateWithDash,
+              time,
+              dateGenerationVirement,
+              dateMonthName
             );
           }
+
+          //ecriture comptable du loyer Sens D
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            generateLignComptable(
+              data.comptabilisation_loyer_crediter[i],
+              "C Tax",
+              dateWithSlash,
+              dateWithDash,
+              time,
+              dateGenerationVirement,
+              dateMonthName
+            );
+          }
+
+          // //ecriture comptable du loyer Sens D
+          // for (let i = 0; i < data.comptabilisation_loyer_debiter.length; i++) {
+          //   //traitement du montant
+          //   let montantLoyer = data.comptabilisation_loyer_debiter[i].montant;
+          //   let addTwoNumbersAfterComma = montantLoyer.toFixed(2);
+          //   let replacePointWithComma = addTwoNumbersAfterComma.replace(
+          //     ".",
+          //     ","
+          //   );
+          //   let fullMontant = pad(replacePointWithComma, 9);
+          //   let numeroContrat =
+          //     data.comptabilisation_loyer_crediter[i].numero_contrat;
+
+          //   //les infos du lieu
+          //   let codeDr, codePv, lieuIntitule;
+          //   codeDr = data.comptabilisation_loyer_debiter[i].direction_regional;
+          //   lieuIntitule = data.comptabilisation_loyer_debiter[i].intitule_lieu;
+          //   if (data.comptabilisation_loyer_debiter[i].point_de_vente == "") {
+          //     codePv = "-|-";
+          //   } else {
+          //     codePv = data.comptabilisation_loyer_debiter[i].point_de_vente;
+          //   }
+
+          //   //set proprietaire cin/passport/carte sejour
+          //   let proprietaireIdentifiant;
+          //   if (
+          //     data.comptabilisation_loyer_crediter[i].cin == "" &&
+          //     data.comptabilisation_loyer_crediter[i].passport == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].carte_sejour;
+          //   } else if (
+          //     data.comptabilisation_loyer_crediter[i].passport == "" &&
+          //     data.comptabilisation_loyer_crediter[i].carte_sejour == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].cin;
+          //   } else if (
+          //     data.comptabilisation_loyer_crediter[i].cin == "" &&
+          //     data.comptabilisation_loyer_crediter[i].carte_sejour == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].passport;
+          //   }
+
+          //   //ecriture debiter
+          //   let ecritureDebiterLoyer =
+          //     "FBPMC" +
+          //     "|" +
+          //     "A" +
+          //     "|" +
+          //     "FRAIS DE LOYER DU " +
+          //     dateWithSlash +
+          //     "|" +
+          //     dateWithDash +
+          //     ` ${time}|` +
+          //     dateMonthName.toUpperCase() +
+          //     "-" +
+          //     dateGenerationVirement.getFullYear() +
+          //     "|" +
+          //     dateWithDash +
+          //     " 00:00:00|LOY|PAISOFT|MAD|" +
+          //     "COMPTABILISATION/" +
+          //     dateWithSlash +
+          //     "|01|64200001|-|" +
+          //     codeDr +
+          //     "|" +
+          //     codePv +
+          //     "|-|-|-|-|-|-|-|-|" +
+          //     fullMontant +
+          //     "|D|" +
+          //     numeroContrat +
+          //     "-" +
+          //     proprietaireIdentifiant +
+          //     "|GFL " +
+          //     ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
+          //     "-" +
+          //     dateGenerationVirement.getFullYear() +
+          //     "||-\r\n";
+          //   fs.writeFileSync(
+          //     "download/comptabilisation loyer/FichierComptableLoyer " +
+          //       dateMonthName +
+          //       " " +
+          //       dateGenerationVirement.getFullYear() +
+          //       ".txt",
+          //     ecritureDebiterLoyer,
+          //     { flag: "a" },
+          //     (error) => {
+          //       if (error) res.json({ message: error.message });
+          //     }
+          //   );
+          // }
+
+          // //ecriture comptable Sens C 'Montant Net'
+          // for (
+          //   let i = 0;
+          //   i < data.comptabilisation_loyer_crediter.length;
+          //   i++
+          // ) {
+          //   //traitement du montant net
+          //   let montantNet =
+          //     data.comptabilisation_loyer_crediter[i].montant_net;
+          //   let addTwoNumbersAfterComma = montantNet.toFixed(2);
+          //   let replacePointWithComma = addTwoNumbersAfterComma.replace(
+          //     ".",
+          //     ","
+          //   );
+          //   let fullMontantNet = pad(replacePointWithComma, 9);
+          //   let numeroContrat =
+          //     data.comptabilisation_loyer_crediter[i].numero_contrat;
+
+          //   //les infos du lieu
+          //   let codeDr, codePv, lieuIntitule;
+          //   codeDr = data.comptabilisation_loyer_debiter[i].direction_regional;
+          //   lieuIntitule = data.comptabilisation_loyer_debiter[i].intitule_lieu;
+          //   if (data.comptabilisation_loyer_debiter[i].point_de_vente == "") {
+          //     codePv = "-|-";
+          //   } else {
+          //     codePv = data.comptabilisation_loyer_debiter[i].point_de_vente;
+          //   }
+
+          //   //set proprietaire cin/passport/carte sejour
+          //   let proprietaireIdentifiant;
+          //   if (
+          //     data.comptabilisation_loyer_crediter[i].cin == "" &&
+          //     data.comptabilisation_loyer_crediter[i].passport == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].carte_sejour;
+          //   } else if (
+          //     data.comptabilisation_loyer_crediter[i].passport == "" &&
+          //     data.comptabilisation_loyer_crediter[i].carte_sejour == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].cin;
+          //   } else if (
+          //     data.comptabilisation_loyer_crediter[i].cin == "" &&
+          //     data.comptabilisation_loyer_crediter[i].carte_sejour == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].passport;
+          //   }
+
+          //   //ecriture crediter du montant net
+          //   let ecritureCrediterDuMontantNetLoyer =
+          //     "FBPMC" +
+          //     "|" +
+          //     "A" +
+          //     "|" +
+          //     "FRAIS DE LOYER DU " +
+          //     dateWithSlash +
+          //     "|" +
+          //     dateWithDash +
+          //     " 00:00:00|" +
+          //     dateMonthName.toUpperCase() +
+          //     "-" +
+          //     dateGenerationVirement.getFullYear() +
+          //     "|" +
+          //     dateWithDash +
+          //     " 00:00:00|LOY|PAISOFT|MAD|" +
+          //     "COMPTABILISATION/" +
+          //     dateWithSlash +
+          //     "|01|32700007|-|" +
+          //     codeDr +
+          //     "|" +
+          //     codePv +
+          //     "|-|-|-|-|-|-|-|-|" +
+          //     fullMontantNet +
+          //     "|C|" +
+          //     numeroContrat +
+          //     "-" +
+          //     proprietaireIdentifiant +
+          //     "|GFL " +
+          //     ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
+          //     "-" +
+          //     dateGenerationVirement.getFullYear() +
+          //     "|-|-\r\n";
+          //   fs.writeFileSync(
+          //     "download/comptabilisation loyer/FichierComptableLoyer " +
+          //       dateMonthName +
+          //       " " +
+          //       dateGenerationVirement.getFullYear() +
+          //       ".txt",
+          //     ecritureCrediterDuMontantNetLoyer,
+          //     { flag: "a" },
+          //     (error) => {
+          //       if (error) res.json({ message: error.message });
+          //     }
+          //   );
+          // }
+
+          // // ecriture comptable Sens C 'Tax'
+          // for (
+          //   let i = 0;
+          //   i < data.comptabilisation_loyer_crediter.length;
+          //   i++
+          // ) {
+          //   //traitement du montant de tax
+          //   let montantTax =
+          //     data.comptabilisation_loyer_crediter[i].montant_tax;
+          //   let addTwoNumbersAfterComma = montantTax.toFixed(2);
+          //   let replacePointWithComma = addTwoNumbersAfterComma.replace(
+          //     ".",
+          //     ","
+          //   );
+          //   let fullMontantTax = pad(replacePointWithComma, 9);
+          //   let numeroContrat =
+          //     data.comptabilisation_loyer_crediter[i].numero_contrat;
+          //   // set proprietaire cin/passport/carte sejour
+          //   let proprietaireIdentifiant;
+          //   if (
+          //     data.comptabilisation_loyer_crediter[i].cin == "" &&
+          //     data.comptabilisation_loyer_crediter[i].passport == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].carte_sejour;
+          //   } else if (
+          //     data.comptabilisation_loyer_crediter[i].passport == "" &&
+          //     data.comptabilisation_loyer_crediter[i].carte_sejour == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].cin;
+          //   } else if (
+          //     data.comptabilisation_loyer_crediter[i].cin == "" &&
+          //     data.comptabilisation_loyer_crediter[i].carte_sejour == ""
+          //   ) {
+          //     proprietaireIdentifiant =
+          //       data.comptabilisation_loyer_crediter[i].passport;
+          //   }
+
+          //   let ecritureCrediterDuTaxLoyer =
+          //     "FBPMC" +
+          //     "|" +
+          //     "A" +
+          //     "|" +
+          //     "FRAIS DE LOYER DU " +
+          //     dateWithSlash +
+          //     "|" +
+          //     dateWithDash +
+          //     " 00:00:00|" +
+          //     dateMonthName.toUpperCase() +
+          //     "-" +
+          //     dateGenerationVirement.getFullYear() +
+          //     "|" +
+          //     dateWithDash +
+          //     " 00:00:00|LOY|PAISOFT|MAD|" +
+          //     "COMPTABILISATION/" +
+          //     dateWithSlash +
+          //     "|01|32700007|-|-|-|-|-|-|-|-|-|-|-|" +
+          //     fullMontantTax +
+          //     "|C|" +
+          //     numeroContrat +
+          //     "-" +
+          //     proprietaireIdentifiant +
+          //     "|GFL " +
+          //     ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
+          //     "-" +
+          //     dateGenerationVirement.getFullYear() +
+          //     "|-|-\r\n";
+
+          //   fs.writeFileSync(
+          //     "download/comptabilisation loyer/FichierComptableLoyer " +
+          //       dateMonthName +
+          //       " " +
+          //       dateGenerationVirement.getFullYear() +
+          //       ".txt",
+          //     ecritureCrediterDuTaxLoyer,
+          //     { flag: "a" },
+          //     (error) => {
+          //       if (error) res.json({ message: error.message });
+          //     }
+          //   );
+          // }
 
           res.download(
             "download/comptabilisation loyer/FichierComptableLoyer " +
