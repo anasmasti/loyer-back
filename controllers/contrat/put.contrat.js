@@ -124,10 +124,11 @@ module.exports = {
               data.date_premier_paiement,
               data.etat_contrat.etat.date_fin_suspension
             )
-          )
+          ){
             nextDateComptabilisation = new Date(
               data.etat_contrat.etat.date_fin_suspension
             );
+          }
         }
       }
     } else if (data.etat_contrat.libelle === "Résilié") {

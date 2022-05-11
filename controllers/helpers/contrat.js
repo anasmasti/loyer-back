@@ -80,8 +80,6 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-    // ProprietaireHelper.proprietaireASupprimer(ContratData);
-
     await nouveauContrat
       .save()
       .then((newContrat) => {
@@ -109,10 +107,14 @@ module.exports = {
             );
           }
         }
+
         Contrat.findByIdAndUpdate(
-          { _id: ContratData._id },
+          { _id: existedContrat._id },
           { has_avenant: true }
-        );
+        ).catch((error) => {
+          res.status(400).send({ message: error.message });
+          console.log(error.message);
+        });
       })
       .catch((error) => {
         res.status(400).send({ message: error.message });

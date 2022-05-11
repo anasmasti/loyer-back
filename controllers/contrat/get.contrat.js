@@ -5,11 +5,16 @@ module.exports = {
     await Contrat.find({ deleted: false })
       .populate({
         path: "proprietaires",
-        populate: {
-          path: "proprietaire",
-          populate: { path: "proprietaire_list", match: { deleted: false } },
-          match: { deleted: false },
-        },
+        populate: [
+          { path: "proprietaire", match: { deleted: false } },
+          {
+            path: "has_mandataire",
+            populate: { path: "proprietaire", match: { deleted: false } },
+            match: { deleted: false },
+          },
+          { path: "proprietaire_list", match: { deleted: false } },
+        ],
+        match: { deleted: false },
       })
       .populate({
         path: "foncier",
