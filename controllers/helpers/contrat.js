@@ -11,20 +11,28 @@ module.exports = {
     res,
     ContratData,
     numeroContrat,
+    existedContrat,
     piece_jointe_avenant
   ) => {
     // Update ( montant loyer )
     mntLoyer = ContratData.montant_loyer;
-    ContratData.etat_contrat.etat.motif.forEach((motif) => {
+    for (
+      let index = 0;
+      index < ContratData.etat_contrat.etat.motif.length;
+      index++
+    ) {
+      const motif = ContratData.etat_contrat.etat.motif[index];
+
       if (motif.type_motif == "Révision du prix du loyer") {
         mntLoyer = motif.montant_nouveau_loyer;
       }
-    });
+    }
 
     const nouveauContrat = new Contrat({
       numero_contrat: numeroContrat,
       date_debut_loyer: ContratData.date_debut_loyer,
       date_fin_contrat: ContratData.date_fin_contrat,
+      proprietaires: [],
       date_reprise_caution: ContratData.date_reprise_caution,
       date_premier_paiement: ContratData.date_premier_paiement,
       montant_loyer: mntLoyer,
@@ -72,16 +80,58 @@ module.exports = {
       piece_joint_contrat: piece_jointe_avenant,
     });
 
-    ProprietaireHelper.proprietaireASupprimer(ContratData);
+    await nouveauContrat
+      .save()
+      .then((newContrat) => {
+        for (let j = 0; j < existedContrat.proprietaires.length; j++) {
+          const proprietaire = existedContrat.proprietaires[j];
 
-    await nouveauContrat.save().catch((error) => {
-      res.status(400).send({ message: error.message });
-    });
+          let check = false;
+          for (
+            let k = 0;
+            k < ContratData.etat_contrat.etat.deleted_proprietaires.length;
+            k++
+          ) {
+            const deletedProprietaire =
+              ContratData.etat_contrat.etat.deleted_proprietaires[k];
+            if (deletedProprietaire == proprietaire._id) check = true;
+          }
+          if (!check) {
+            ProprietaireHelper.duplicateProprietaire(
+              req,
+              res,
+              proprietaire,
+              ContratData,
+              newContrat,
+              mntLoyer
+            );
+          }
+        }
+
+        Contrat.findByIdAndUpdate(
+          { _id: existedContrat._id },
+          { has_avenant: true }
+        ).catch((error) => {
+          res.status(400).send({ message: error.message });
+          console.log(error.message);
+        });
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
+      });
   },
 
   deleteProprietaire: async (req, res, proprietareId) => {
     await AffectationProprietaire.findByIdAndUpdate(proprietareId, {
       deleted: true,
+    }).catch((error) => {
+      res.status(400).send({ message: error.message });
+    });
+  },
+
+  proprietaireDeces: async (req, res, proprietareId) => {
+    await AffectationProprietaire.findByIdAndUpdate(proprietareId, {
+      statut: "Décès",
     }).catch((error) => {
       res.status(400).send({ message: error.message });
     });
@@ -177,8 +227,8 @@ module.exports = {
     let targetDateYear = _targetDate.getFullYear();
 
     if (
-      (targetDateMonth == targetDateFinMonth &&
-        targetDateYear == targetDateFinYear) ||
+      // (targetDateMonth == targetDateFinMonth &&
+      //   targetDateYear == targetDateFinYear) ||
       (targetDateMonth > targetDateFinMonth &&
         targetDateYear < targetDateFinYear) ||
       (targetDateMonth < targetDateFinMonth &&
