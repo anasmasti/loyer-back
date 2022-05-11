@@ -36,6 +36,8 @@ module.exports = {
       date_reprise_caution: ContratData.date_reprise_caution,
       date_premier_paiement: ContratData.date_premier_paiement,
       montant_loyer: mntLoyer,
+      caution_versee: existedContrat.caution_versee,
+      avance_versee: existedContrat.avance_versee,
       taxe_edilite_loyer: ContratData.taxe_edilite_loyer,
       taxe_edilite_non_loyer: ContratData.taxe_edilite_non_loyer,
       periodicite_paiement: ContratData.periodicite_paiement,
