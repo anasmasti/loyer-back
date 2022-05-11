@@ -4,115 +4,96 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>34000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>2200.00</totalMntRetenueSource>
-  <totalMntNetLoyer>31800.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>95000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>5500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>89500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>110384</numCNIBailleur>
+      <numCNIBailleur>H2356889</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>real madrid fc</nomPrenomBailleur>
-      <adresseBailleur>test adresse</adresseBailleur>
-      <adresseBien>7ha sinisis maarif</adresseBien>
+      <nomPrenomBailleur>kamal lolo</nomPrenomBailleur>
+      <adresseBailleur>zedzopipikp 354684</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>10000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>0.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>10000.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>16000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1600.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>14400.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>KS10293</numCNIBailleur>
+      <numCNIBailleur>D5458486</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Karim benzima</nomPrenomBailleur>
-      <adresseBailleur>TEST ADRESSE
-</adresseBailleur>
-      <adresseBien>7ha sinisis maarif</adresseBien>
+      <nomPrenomBailleur>samia nabil </nomPrenomBailleur>
+      <adresseBailleur>KIHIUHOJOIJO</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>3000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>300.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>2700.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>12000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1200.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>10800.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>BB102938</numCNIBailleur>
+      <numCNIBailleur>H3835832</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Rodrigo silva jr</nomPrenomBailleur>
-      <adresseBailleur>test sdresse</adresseBailleur>
-      <adresseBien>7ha sinisis maarif</adresseBien>
+      <nomPrenomBailleur>LATIFA LALA</nomPrenomBailleur>
+      <adresseBailleur>ZADKLEZDKPM25865</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>2000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>0.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>2000.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>12000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1200.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>10800.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF4</ifuBailleur>
-      <numCNIBailleur>BJ119649</numCNIBailleur>
+      <numCNIBailleur>R35456</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Test Test</nomPrenomBailleur>
-      <adresseBailleur>test adresse</adresseBailleur>
-      <adresseBien>7ha sinisis maarif</adresseBien>
+      <nomPrenomBailleur>KAMAL SAMIR</nomPrenomBailleur>
+      <adresseBailleur>KPKPKLKJ24654654</adresseBailleur>
+      <adresseBien>LKJDLJZAL44774</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>4000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>400.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>3600.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>15000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1500.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>13500.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF5</ifuBailleur>
-      <numCNIBailleur>BJ49785</numCNIBailleur>
+      <numCNIBailleur>35465</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Anas tawfiqi</nomPrenomBailleur>
-      <adresseBailleur>Test adresse</adresseBailleur>
-      <adresseBien>aaaaaaaaaaa</adresseBien>
+      <nomPrenomBailleur>STE NORD 1</nomPrenomBailleur>
+      <adresseBailleur>MPKLP¨K¨K231654</adresseBailleur>
+      <adresseBien>FREGFRG31564</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>7500.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>750.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>6750.00</mntNetLoyerAnnuel>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF6</ifuBailleur>
-      <numCNIBailleur>BB779645</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>Karami abdelilah</nomPrenomBailleur>
-      <adresseBailleur>Test adresse</adresseBailleur>
-      <adresseBien>aaaaaaaaaaa</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>7500.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>750.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>6750.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>40000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>0.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>40000.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
