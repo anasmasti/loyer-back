@@ -5,57 +5,23 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
-  <totalMntBrutLoyer>45000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>3300.00</totalMntRetenueSource>
-  <totalMntNetLoyer>41700.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>18500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>qqqqqqq</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>qqqqqqq</nomPrenomBailleur>
-      <adresseBailleur>qqqqq</adresseBailleur>
-      <adresseBien>TEtststss</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>40000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>37000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>BB10231</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>Khalid tawiqi</nomPrenomBailleur>
-      <adresseBailleur>TEST ADRESSE</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>3000.00</mntBrutLoyer>
-      <mntRetenueSource>300.00</mntRetenueSource>
-      <mntNetLoyer>2700.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>BJ10293</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
       <adresseBailleur>test adresse</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <adresseBien>QQQQQ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>2000.00</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>2000.00</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>18500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

@@ -173,7 +173,7 @@ module.exports = {
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
-        etat: {},
+        etat: existedContrat.etat_contrat.etat,
       };
       nextDateComptabilisation = existedContrat.date_comptabilisation;
       // data.etat_contrat;
@@ -247,7 +247,9 @@ module.exports = {
       // lieu: data.lieu,
       etat_contrat: etatContrat,
       piece_joint_contrat: piece_joint_contrat,
-      date_comptabilisation: nextDateComptabilisation,
+      date_comptabilisation: nextDateComptabilisation
+        ? nextDateComptabilisation
+        : existedContrat.date_comptabilisation,
       nombre_part: data.nombre_part,
     };
 
@@ -418,7 +420,6 @@ module.exports = {
     }
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Save Data ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
     // Save Updated data
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
       .then((data) => {
