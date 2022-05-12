@@ -28,7 +28,18 @@ async function generatePdf(data, etatType, mois, annee) {
       };
     }
   }
-
+  handlebars.registerHelper("ifCondFalse", function (v1, options) {
+    if (v1 === false) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  handlebars.registerHelper("ifCondTrue", function (v1, options) {
+    if (v1 === true) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
   let template = handlebars.compile(htmlFileSrouce);
   let htmlToSend = template(data, {
     allowProtoMethodsByDefault: true,

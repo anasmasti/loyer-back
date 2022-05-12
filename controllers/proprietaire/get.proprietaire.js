@@ -96,7 +96,53 @@ module.exports = {
         res.send(data);
       })
       .catch((error) => {
+        console.log(error.message);
         res.status(500).send({ message: `Aucun Propriétaire trouvé` || error });
+      });
+  },
+
+  getUnusedProprietaires: async (req, res) => {
+    await Contrat.findById(
+      {
+        _id: req.params.IdContrat,
+      },
+      { delted: false }
+    )
+      .populate({ path: "proprietaires", match: { deleted: false } })
+      .then(async (contrat) => {
+        const promise = new Promise((resolve, reject) => {
+          let contratProprietaires = [];
+          if (contrat.proprietaires.length == 0) resolve(contratProprietaires);
+
+          contrat.proprietaires.forEach((affectationProprietaire, index) => {
+            contratProprietaires.push(
+              affectationProprietaire.proprietaire.toString()
+            );
+            if (contrat.proprietaires.length == index + 1) {
+              resolve(contratProprietaires);
+            }
+          });
+        });
+
+        promise.then((data) => {
+          Proprietaire.find({ deleted: false })
+            .then((proprietaires) => {
+              let proprietairesResult = proprietaires.filter((proprietaire) => {
+                return !data.includes(proprietaire._id.toString());
+              });
+              res.json(proprietairesResult);
+            })
+            .catch((error) => {
+              console.log(error.message);
+              res
+                .status(500)
+                .send({ message: `Aucun Propriétaire trouvé` || error });
+            });
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        res.status(500).send({ message: `Aucun contrat trouvé` });
       });
   },
 

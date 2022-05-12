@@ -2,6 +2,7 @@ const xml2js = require("xml2js");
 const fs = require("fs");
 const archivecomptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const archivevirements = require("../../models/archive/archiveVirement.schema");
+const helper = require("../helpers/maquette_tele_declaration_paiement");
 
 module.exports = {
   createAnnex2: async (req, res) => {
@@ -26,22 +27,18 @@ module.exports = {
         ArchCmptb.comptabilisation_loyer_crediter.forEach(
           (comptabilisationloyer) => {
             if (comptabilisationloyer.cin == cinProprietaire) {
-              if (comptabilisationloyer.montant_avance_proprietaire == 0) {
-                mntBrutTotal += comptabilisationloyer.montant_loyer;
-                mntRetenueSourceTotal += comptabilisationloyer.retenue_source;
-                mntNetLoyerTotal +=
-                  comptabilisationloyer.montant_loyer -
-                  comptabilisationloyer.retenue_source;
-              }
-              if (comptabilisationloyer.montant_avance_proprietaire > 0) {
-                mntBrutTotal +=
-                  comptabilisationloyer.montant_avance_proprietaire;
-                mntRetenueSourceTotal +=
-                  comptabilisationloyer.tax_avance_proprietaire;
-                mntNetLoyerTotal +=
-                  comptabilisationloyer.montant_avance_proprietaire -
-                  comptabilisationloyer.tax_avance_proprietaire;
-              }
+              // if (comptabilisationloyer.montant_avance_proprietaire == 0) {
+              //   mntBrutTotal += comptabilisationloyer.montant_loyer;
+              //   mntRetenueSourceTotal += comptabilisationloyer.retenue_source;
+              //   mntNetLoyerTotal +=
+              //     comptabilisationloyer.montant_loyer -
+              //     comptabilisationloyer.retenue_source;
+              // }
+              // if (comptabilisationloyer.montant_avance_proprietaire > 0) {
+              mntBrutTotal += comptabilisationloyer.montant_brut;
+              mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
+              mntNetLoyerTotal += comptabilisationloyer.montant_net;
+              // }
             }
           }
         );
@@ -60,11 +57,10 @@ module.exports = {
     // Get the (archivecomptabilisation) data and put it in ArchCmptb variable
     archivecomptabilisation
       .find({ annee: req.params.annee })
-      .then((data) => {
+      .then(async (data) => {
         // return res.json(data)
         if (data.length > 0) {
           ArchCmptbList = data;
-          // return res.json(data);
           // Filter object by object
           for (let i = 0; i < ArchCmptbList.length; i++) {
             for (
@@ -72,25 +68,16 @@ module.exports = {
               j < ArchCmptbList[i].comptabilisation_loyer_crediter.length;
               j++
             ) {
-              //Get Total Montant Brut/RAS/Aprés l'impot
-              // TotalMntBrutLoyer +=
-              //   ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-              //     .montant_brut;
-              // TotalMntRetenueSource +=
-              //   ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-              //     .montant_tax || 0;
-              // TotalMntLoyer +=
-              //   ArchCmptbList[i].comptabilisation_loyer_crediter[j].montant_net;
-
               if (
                 !proprietaireList.includes(
                   ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
                 )
               ) {
-                let proprietaireMnts = calculProprietaireMnts(
+                let proprietaireMnts = await calculProprietaireMnts(
                   ArchCmptbList,
                   ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
                 );
+
                 //List DetailRetenueRevFoncier
                 index += 1;
                 DetailRetenueRevFoncier.push({
@@ -146,21 +133,19 @@ module.exports = {
           };
 
           // Download the xml file
-          var builder = new xml2js.Builder();
-          var xml = builder.buildObject(Annex2);
+          helper.downloadXml(
+            req,
+            res,
+            Annex2,
+            `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`
+          );
 
-          fs.writeFile(
-            `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`,
-            xml,
-            (error) => {
-              if (error) {
-                res.json({ message: error.message });
-              } else {
-                res.download(
-                  `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`
-                );
-              }
-            }
+          // Download the excel file
+          helper.generateExcel(
+            req,
+            res,
+            Annex2,
+            `./download/les maquettes DGI/les fichiers excel/annex 2/maquette_teledeclaration_${req.params.annee}.xlsx`
           );
         } else {
           res

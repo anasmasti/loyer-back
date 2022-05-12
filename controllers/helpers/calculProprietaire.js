@@ -54,33 +54,6 @@ function calculMontant(
   //  CALCULER LE MONTANT DE LOYER A PARTIR DE POURCENTAGE DONNE PAR L'UTILISATEUR
   // montantLoyer = (pourcentageProprietaire * montantLoyerContrat) / 100;
 
-  // // // ------First Condition--------
-  // if (month == 1 && etatContratTypes != "Résilié") {
-  //   duree = 12;
-  //   if (updatedContrat.declaration_option === "non") {
-  //     if (montantLoyer * 12 <= 30000) {
-  //       result = 0;
-  //       montantApresImpot = montantLoyer - result;
-  //       tauxImpot = 0;
-  //     }
-  //     if (montantLoyer * 12 > 30000 && montantLoyer * 12 <= 120000) {
-  //       result = montantLoyer * (10 / 100);
-  //       montantApresImpot = montantLoyer - result;
-  //       tauxImpot = 10;
-  //     }
-  //     if (montantLoyer * 12 > 120000) {
-  //       result = montantLoyer * (15 / 100);
-  //       montantApresImpot = montantLoyer - result;
-  //       tauxImpot = 15;
-  //     }
-  //   }
-  //   if (updatedContrat.declaration_option === "oui") {
-  //     result = 0;
-  //     montantApresImpot = montantLoyer - result;
-  //     tauxImpot = 0;
-  //   }
-  // }
-
   //  CALCULER LE MONTANT DE LOYER A PARTIR DE PART DONNE PAR L'UTILISATEUR
   montantLoyer = (partProprietaire * montantLoyerContrat) / nbrPartContrat;
   // // ------First Condition--------

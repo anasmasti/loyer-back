@@ -5,11 +5,16 @@ module.exports = {
     await Contrat.find({ deleted: false })
       .populate({
         path: "proprietaires",
-        populate: {
-          path: "proprietaire",
-          populate: { path: "proprietaire_list", match: { deleted: false } },
-          match: { deleted: false },
-        },
+        populate: [
+          { path: "proprietaire", match: { deleted: false } },
+          {
+            path: "has_mandataire",
+            populate: { path: "proprietaire", match: { deleted: false } },
+            match: { deleted: false },
+          },
+          { path: "proprietaire_list", match: { deleted: false } },
+        ],
+        match: { deleted: false },
       })
       .populate({
         path: "foncier",
@@ -29,8 +34,8 @@ module.exports = {
   },
   getDetailContrat: async (req, res) => {
     await Contrat.findById(req.params.Id)
-      .populate("proprietaires")
-      .populate("foncier")
+      .populate({ path: "proprietaires", match: { deleted: false } })
+      .populate({ path: "foncier", match: { deleted: false } })
       .populate({
         path: "old_contrat",
         populate: {

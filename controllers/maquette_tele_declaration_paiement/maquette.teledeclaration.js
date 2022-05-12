@@ -113,8 +113,8 @@ function CreateAnnex1ObjectFromArchvCompt(
     i++
   ) {
     if (
-      archivecomptabilisation.comptabilisation_loyer_crediter[i].declaration_option ==
-      "non"
+      archivecomptabilisation.comptabilisation_loyer_crediter[i]
+        .declaration_option == "non"
     ) {
       //Get Total Montant Brut/RS/Aprés l'impot
       TotalMntBrutLoyer +=
@@ -194,98 +194,99 @@ module.exports = {
     let check = false;
 
     archivecomptabilisation
-      .find({ mois: req.params.mois, annee: req.params.annee })
-      .then((data) => {
-        // return res.json(data)
-        if (data.length > 0) {
-          Annex1 = CreateAnnex1ObjectFromArchvCompt(
-            data[0],
+      .findOne({ mois: req.params.mois, annee: req.params.annee })
+      .sort({ updatedAt: "desc" })
+      .then(async (data) => {
+        // return res.json(data);
+        if (data) {
+          console.log("Innnnn");
+          Annex1 = await CreateAnnex1ObjectFromArchvCompt(
+            data,
             req.params.annee,
             req.params.mois
           );
-          // res.json(Annex1);
-        } else {
-          Contrat.find({ deleted: false })
-            .populate("foncier")
-            .populate({
-              path: "foncier",
-              populate: {
-                path: "proprietaire",
-                match: {
-                  deleted: false,
-                  statut: { $in: ["Actif", "À supprimer"] },
-                },
-              },
-            })
-            .limit(2)
-            .then((data) => {
-              // if (data.length > 0) {
-              for (let i = 0; i < data.length; i++) {
-                // Get the Compare Date between
-                // date_comptabilisation / date_premier_paiement / date_debut_loyer
-                if (data[i].date_comptabilisation != null) {
-                  CompareDate = new Date(data[i].date_comptabilisation);
-                } else {
-                  if (data[i].date_premier_paiement != null) {
-                    CompareDate = new Date(data[i].date_premier_paiement);
-                  } else {
-                    CompareDate = new Date(data[i].date_debut_loyer);
-                  }
-                }
-                CompareDate.setMonth(CompareDate.getMonth() - 1);
 
-                if (
-                  CompareDate.getMonth() + 1 == req.params.mois &&
-                  CompareDate.getFullYear() == req.params.annee
-                ) {
-                  CurrentMonthContrats.push(data[i]); //!!!!!!!!!!!!!!!!!!!!!!!
-                }
-              }
-              if (CurrentMonthContrats.length > 0) {
-                Annex1 = CreateAnnex1objectFromContrat(
-                  CurrentMonthContrats,
-                  req.params.annee,
-                  req.params.mois
+          // Get the alphabetical month
+          let date = new Date(
+            req.params.annee + " / " + req.params.mois + " / 1"
+          );
+
+          const AlphabeticalMonth = date.toLocaleString("default", {
+            month: "short",
+          });
+
+          // Download the xml file
+          var builder = new xml2js.Builder();
+          var xml = builder.buildObject(Annex1);
+
+          fs.writeFile(
+            `download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${req.params.annee}.xml`,
+            xml,
+            (error) => {
+              if (error) {
+                res.status(403).json({ message: error.message });
+              } else {
+                res.download(
+                  `download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${req.params.annee}.xml`
                 );
-                // res.json(Annex1);
-              } else res.status(422).json({ message: " Date invalide " });
-              // } else {
-              //   res
-              //     .status(204)
-              //     .send({ message: "Aucune donnée à afficher dans ce mois" });
-              // }
-            })
-            .catch((error) => {
-              res.status(403).json({ message: error.message });
-            });
-        }
-
-        // Get the alphabetical month
-        let date = new Date(
-          req.params.annee + " / " + req.params.mois + " / 1"
-        );
-
-        const AlphabeticalMonth = date.toLocaleString("default", {
-          month: "short",
-        });
-
-        // Download the xml file
-        var builder = new xml2js.Builder();
-        var xml = builder.buildObject(Annex1);
-
-        fs.writeFile(
-          `download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${req.params.annee}.xml`,
-          xml,
-          (error) => {
-            if (error) {
-              res.status(403).json({ message: error.message });
-            } else {
-              res.download(
-                `download/les maquettes DGI/annex 1/Annex1-${AlphabeticalMonth}-${req.params.annee}.xml`
-              );
+              }
             }
-          }
-        );
+          );
+        }
+        // else {
+        // Contrat.find({ deleted: false })
+        //   .populate("foncier")
+        //   .populate({
+        //     path: "foncier",
+        //     populate: {
+        //       path: "proprietaire",
+        //       match: {
+        //         deleted: false,
+        //         statut: { $in: ["Actif", "À supprimer"] },
+        //       },
+        //     },
+        //   })
+        //   .limit(2)
+        //   .then((data) => {
+        //     // if (data.length > 0) {
+        //     for (let i = 0; i < data.length; i++) {
+        //       // Get the Compare Date between
+        //       // date_comptabilisation / date_premier_paiement / date_debut_loyer
+        //       if (data[i].date_comptabilisation != null) {
+        //         CompareDate = new Date(data[i].date_comptabilisation);
+        //       } else {
+        //         if (data[i].date_premier_paiement != null) {
+        //           CompareDate = new Date(data[i].date_premier_paiement);
+        //         } else {
+        //           CompareDate = new Date(data[i].date_debut_loyer);
+        //         }
+        //       }
+        //       CompareDate.setMonth(CompareDate.getMonth() - 1);
+        //       if (
+        //         CompareDate.getMonth() + 1 == req.params.mois &&
+        //         CompareDate.getFullYear() == req.params.annee
+        //       ) {
+        //         CurrentMonthContrats.push(data[i]); //!!!!!!!!!!!!!!!!!!!!!!!
+        //       }
+        //     }
+        //     if (CurrentMonthContrats.length > 0) {
+        //       Annex1 = CreateAnnex1objectFromContrat(
+        //         CurrentMonthContrats,
+        //         req.params.annee,
+        //         req.params.mois
+        //       );
+        //       // res.json(Annex1);
+        //     } else res.status(422).json({ message: " Date invalide " });
+        //     // } else {
+        //     //   res
+        //     //     .status(204)
+        //     //     .send({ message: "Aucune donnée à afficher dans ce mois" });
+        //     // }
+        //   })
+        //   .catch((error) => {
+        //     res.status(403).json({ message: error.message });
+        //   });
+        // }
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });

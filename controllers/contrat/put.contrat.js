@@ -61,24 +61,29 @@ module.exports = {
     }
 
     //search for requested contrat
-    let existedContrat = await Contrat.findById(req.params.Id).populate({
-      path: "foncier",
-    });
+    let existedContrat = await Contrat.findById(req.params.Id)
+      .populate({
+        path: "foncier",
+      })
+      .populate({ path: "proprietaires", match: { deleted: false } });
 
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
-      // let numeroContrat = data.numero_contrat.replace("AV", "");
-      let numeroContrat = data.numero_contrat;
+      let numeroContrat = ContratHelper.generateNumeroContrat(
+        data.numero_contrat
+      );
+
       ContratHelper.createContratAV(
         req,
         res,
         data,
-        `${numeroContrat}/AV`,
+        numeroContrat,
+        existedContrat,
         piece_jointe_avenant
       );
       etatContrat = {
         libelle: "Actif",
-        etat: {},
+        etat: existedContrat.etat_contrat.etat,
       };
     } else if (
       data.etat_contrat.libelle === "Suspendu" ||
@@ -100,11 +105,11 @@ module.exports = {
         data.etat_contrat.etat.duree_suspension > 0
       ) {
         if (existedContrat.date_comptabilisation != null) {
-          const isLessThen = ContratHelper.chackContratDate(
+          const isLessThan = ContratHelper.chackContratDate(
             existedContrat.date_comptabilisation,
             data.etat_contrat.etat.date_fin_suspension
           );
-          if (isLessThen) {
+          if (isLessThan) {
             nextDateComptabilisation = new Date(
               data.etat_contrat.etat.date_fin_suspension
             );
@@ -119,10 +124,11 @@ module.exports = {
               data.date_premier_paiement,
               data.etat_contrat.etat.date_fin_suspension
             )
-          )
+          ) {
             nextDateComptabilisation = new Date(
               data.etat_contrat.etat.date_fin_suspension
             );
+          }
         }
       }
     } else if (data.etat_contrat.libelle === "Résilié") {
@@ -167,7 +173,7 @@ module.exports = {
     } else if (data.etat_contrat.libelle === "Actif") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
-        etat: {},
+        etat: existedContrat.etat_contrat.etat,
       };
       nextDateComptabilisation = existedContrat.date_comptabilisation;
       // data.etat_contrat;
@@ -241,7 +247,9 @@ module.exports = {
       // lieu: data.lieu,
       etat_contrat: etatContrat,
       piece_joint_contrat: piece_joint_contrat,
-      date_comptabilisation: nextDateComptabilisation,
+      date_comptabilisation: nextDateComptabilisation
+        ? nextDateComptabilisation
+        : existedContrat.date_comptabilisation,
       nombre_part: data.nombre_part,
     };
 
@@ -412,7 +420,6 @@ module.exports = {
     }
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Save Data ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
     // Save Updated data
     await Contrat.findByIdAndUpdate(req.params.Id, updateContrat, { new: true })
       .then((data) => {
@@ -490,8 +497,12 @@ module.exports = {
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
       .populate({ path: "old_contrat.contrat" })
-      .then(async (data) => {
-        let contratAV = data;
+      .populate({
+        path: "proprietaires",
+        match: { deleted: false },
+        populate: { path: "proprietaire" },
+      })
+      .then(async (contratAV) => {
         let oldContrats = contratAV.old_contrat;
         let oldContrat;
         let dateFinOldContrat;
@@ -542,78 +553,25 @@ module.exports = {
                   etat: contratAV.etat_contrat.etat,
                 };
 
-                // Delete proprietaires
-                if (
-                  contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
-                ) {
-                  contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
-                    (proprietaire) => {
-                      ContratHelper.deleteProprietaire(req, res, proprietaire);
-                    }
-                  );
-                }
-
-                // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-                await Contrat.find({ _id: contratAV._id, deleted: false })
-                  .populate({
-                    path: "foncier",
-                    populate: { path: "proprietaire" },
-                  })
-                  .then(async (data_) => {
-                    for (
-                      let i = 0;
-                      i < data_[0].foncier.proprietaire.length;
-                      i++
+                contratAV.etat_contrat.etat.motif.forEach(async (motif) => {
+                  // Delete proprietaires
+                  if (motif.type_motif == "Deces") {
+                    if (
+                      contratAV.etat_contrat.etat.deleted_proprietaires.length >
+                      0
                     ) {
-                      let partProprietaire =
-                        data_[0].foncier.proprietaire[i].part_proprietaire;
-                      let idProprietaire = data_[0].foncier.proprietaire[i]._id;
-                      let updatedContrat = data_[0];
-                      let hasDeclarationOption =
-                        data_[0].foncier.proprietaire[i].declaration_option;
-
-                      let updatedProprietaire = Calcule(
-                        updatedContrat,
-                        partProprietaire,
-                        idProprietaire,
-                        hasDeclarationOption
+                      contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
+                        (proprietaire) => {
+                          ContratHelper.proprietaireDeces(
+                            req,
+                            res,
+                            proprietaire
+                          );
+                        }
                       );
-
-                      await Proprietaire.findByIdAndUpdate(
-                        idProprietaire,
-                        updatedProprietaire
-                      )
-                        .then((prop) => {
-                          // res.json(data);
-                          console.log("Proprietaire updated");
-                        })
-                        .catch((error) => {
-                          res.status(400).send({ message: error.message });
-                        });
                     }
-                  })
-                  .catch((error) => {
-                    res.status(422).send({
-                      message: error.message,
-                    });
-                  });
-
-                await Foncier.findById({
-                  _id: contratAV.foncier,
-                  deleted: false,
-                })
-                  .populate({
-                    path: "proprietaire",
-                    match: { deleted: false, statut: "À ajouter" },
-                  })
-                  .then((foncier) => {
-                    foncier.proprietaire.forEach(async (proprietaire) => {
-                      await Proprietaire.findByIdAndUpdate(
-                        { _id: proprietaire._id },
-                        { statut: "Actif" }
-                      );
-                    });
-                  });
+                  }
+                });
 
                 // Change is_avenant to false
               } else {
@@ -621,7 +579,7 @@ module.exports = {
                 etatOldContrat = oldContrat.etat_contrat;
                 // Customise the new contrat etat
                 etatNewContrat = {
-                  libelle: "Test",
+                  libelle: "Planifié",
                   etat: contratAV.etat_contrat.etat,
                 };
               }
@@ -670,28 +628,24 @@ module.exports = {
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
       .populate({
         path: "foncier",
+      })
+      .populate({
+        path: "proprietaires",
         populate: {
-          path: "proprietaire",
-          populate: {
-            path: "proprietaire_list",
-            match: { statut: { $in: ["Actif", "À ajouter"] } },
-          },
-          match: { statut: { $in: ["Actif", "À ajouter"] } },
+          path: "proprietaire_list",
+          match: { deleted: false },
         },
+        match: { deleted: false },
       })
       .then(async (data) => {
-        // return res.json(data);
-        console.log(data);
         let partGlobal = data.nombre_part;
         let partProprietaireGlobal = 0;
         // If some one is / has not a mandataire this variable will be true
         let hasnt_mandataire = false;
-        data.foncier.proprietaire.forEach((proprietaire) => {
-          if (!proprietaire.deleted && proprietaire != "À supprimer") {
-            partProprietaireGlobal += proprietaire.part_proprietaire;
-            if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
-              hasnt_mandataire = true;
-            }
+        data.proprietaires.forEach((proprietaire) => {
+          partProprietaireGlobal += proprietaire.part_proprietaire;
+          if (!proprietaire.has_mandataire && !proprietaire.is_mandataire) {
+            hasnt_mandataire = true;
           }
         });
 

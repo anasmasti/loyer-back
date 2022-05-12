@@ -20,7 +20,8 @@ const affectationproprietaireSchema = new Schema(
       default: false,
     },
     has_mandataire: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "AffectationProprietaire",
       default: null,
     },
     montant_loyer: {

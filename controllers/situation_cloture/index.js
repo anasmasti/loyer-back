@@ -13,8 +13,8 @@ const mongoose = require("mongoose");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      // await clotureHelper.checkContratsAv();
-      // await clotureHelper.checkDtFinContratsSus()
+      await clotureHelper.checkContratsAv();
+      await clotureHelper.checkDtFinContratsSus();
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
@@ -39,13 +39,15 @@ module.exports = {
           populate: [
             {
               path: "proprietaire_list",
+              populate: { path: "proprietaire" },
             },
             {
               path: "proprietaire",
             },
           ],
           match: { is_mandataire: true },
-        });
+        })
+        .sort({ updatedAt: "desc" });
 
       // return res.json(contrat);
 
@@ -67,6 +69,7 @@ module.exports = {
       }
 
       if (contrat.length > 0) {
+        console.log('In traitement');
         //comptabilisation pour le paiement des loyers
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
@@ -90,113 +93,116 @@ module.exports = {
             });
           } //end if
 
-          // if (
-          //   contrat[i].etat_contrat.libelle == "Résilié" &&
-          //   contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
-          // ) {
-          //   let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
-          //   let dateEffResilieMonth = dateEffResilie.getMonth() + 1
-          //   let dateEffResilieYear = dateEffResilie.getFullYear()
-          //   if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
-          //     result = await traitementContratResilie.clotureContratResilie(
-          //       req,
-          //       res,
-          //       contrat[i],
-          //       dateGenerationDeComptabilisation,
-          //       Contrat,
-          //       false
-          //     );
-          //     result.ordre_virement.forEach((ordVrm) => {
-          //       ordreVirement.push(ordVrm);
-          //     });
-          //     result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-          //       comptabilisationLoyerCrediter.push(cmptCrdt);
-          //     });
-          //     result.cmptLoyerDebt.forEach((cmptDept) => {
-          //       comptabilisationLoyerDebiter.push(cmptDept);
-          //     });
-          //   }
-          // }
+          if (
+            contrat[i].etat_contrat.libelle == "Résilié" &&
+            contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
+          ) {
+            let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
+            let dateEffResilieMonth = dateEffResilie.getMonth() + 1
+            let dateEffResilieYear = dateEffResilie.getFullYear()
+            if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
+              result = await traitementContratResilie.clotureContratResilie(
+                req,
+                res,
+                contrat[i],
+                dateGenerationDeComptabilisation,
+                Contrat,
+                false
+                );
+              result.ordre_virement.forEach((ordVrm) => {
+                ordreVirement.push(ordVrm);
+              });
+              result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+                comptabilisationLoyerCrediter.push(cmptCrdt);
+              });
+              result.cmptLoyerDebt.forEach((cmptDept) => {
+                comptabilisationLoyerDebiter.push(cmptDept);
+              });
+            }
+          }
         } //end for
 
-        // const existedEtatVirement = await etatVirementSch.findOne({
-        //   mois: req.body.mois,
-        //   annee: req.body.annee,
-        // });
-        // const existedEtatTaxes = await etatTaxesSch.findOne({
-        //   mois: req.body.mois,
-        //   annee: req.body.annee,
-        // });
-        // if (existedEtatVirement && existedEtatTaxes) {
-        //   etatVirementSch
-        //     .findByIdAndUpdate(
-        //       { _id: existedEtatVirement._id },
-        //       {
-        //         ordre_virement: ordreVirement,
-        //         date_generation_de_virement: dateGenerationDeComptabilisation,
-        //         mois: existedEtatTaxes.mois,
-        //         annee: existedEtatVirement.annee,
-        //       }
-        //     )
-        //     .then(() => {
-        //       etatMonsuelVirement(req, res);
-        //     });
 
-        //   etatTaxesSch
-        //     .findByIdAndUpdate(
-        //       { _id: existedEtatTaxes._id },
-        //       {
-        //         comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-        //         comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-        //         date_generation_de_comptabilisation:
-        //           dateGenerationDeComptabilisation,
-        //         mois: existedEtatTaxes.mois,
-        //         annee: existedEtatTaxes.annee,
-        //       }
-        //     )
-        //     .then(() => {
-        //       etatMonsuelTaxes(req, res);
-        //     });
-        // } else {
-        //   //post ordre de virement dans ordre de virement archive
-        //   const etatVirement = new etatVirementSch({
-        //     ordre_virement: ordreVirement,
-        //     date_generation_de_virement: dateGenerationDeComptabilisation,
-        //     mois: req.body.mois,
-        //     annee: req.body.annee,
-        //   });
-        //   //post comptabilisation des loyer dans comptabilisation des loyer archive
-        //   const etatTaxes = new etatTaxesSch({
-        //     comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
-        //     comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
-        //     date_generation_de_comptabilisation:
-        //       dateGenerationDeComptabilisation,
-        //     mois: req.body.mois,
-        //     annee: req.body.annee,
-        //   });
-        //   etatVirement
-        //     .save()
-        //     .then(async (virementData) => {
-        //       await etatTaxes
-        //         .save()
-        //         .then((comptabilisationData) => {
-        //           etatMonsuelVirement(req, res);
-        //           setTimeout(() => {
-        //             etatMonsuelTaxes(req, res);
-        //           }, 1000);
-        //           // res.json({
-        //           //   virementData,
-        //           //   comptabilisationData,
-        //           // });
-        //         })
-        //         .catch((error) => {
-        //           res.status(402).send({ message: error.message });
-        //         });
-        //     })
-        //     .catch((error) => {
-        //       res.status(401).send({ message: error.message });
-        //     });
-        // }
+        // Store archives
+        const existedEtatVirement = await etatVirementSch.findOne({
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        const existedEtatTaxes = await etatTaxesSch.findOne({
+          mois: req.body.mois,
+          annee: req.body.annee,
+        });
+        if (existedEtatVirement && existedEtatTaxes) {
+          etatVirementSch
+            .findByIdAndUpdate(
+              { _id: existedEtatVirement._id },
+              {
+                ordre_virement: ordreVirement,
+                date_generation_de_virement: dateGenerationDeComptabilisation,
+                mois: existedEtatTaxes.mois,
+                annee: existedEtatVirement.annee,
+              }
+            )
+            .then(() => {
+              etatMonsuelVirement(req, res);
+            });
+
+          etatTaxesSch
+            .findByIdAndUpdate(
+              { _id: existedEtatTaxes._id },
+              {
+                comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+                comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+                date_generation_de_comptabilisation:
+                  dateGenerationDeComptabilisation,
+                mois: existedEtatTaxes.mois,
+                annee: existedEtatTaxes.annee,
+              }
+            )
+            .then(() => {
+              etatMonsuelTaxes(req, res);
+            });
+        } else {
+          //post ordre de virement dans ordre de virement archive
+          const etatVirement = new etatVirementSch({
+            ordre_virement: ordreVirement,
+            date_generation_de_virement: dateGenerationDeComptabilisation,
+            mois: req.body.mois,
+            annee: req.body.annee,
+          });
+          //post comptabilisation des loyer dans comptabilisation des loyer archive
+          const etatTaxes = new etatTaxesSch({
+            comptabilisation_loyer_crediter: comptabilisationLoyerCrediter,
+            comptabilisation_loyer_debiter: comptabilisationLoyerDebiter,
+            date_generation_de_comptabilisation:
+              dateGenerationDeComptabilisation,
+            mois: req.body.mois,
+            annee: req.body.annee,
+          });
+          etatVirement
+            .save()
+            .then(async (virementData) => {
+              await etatTaxes
+                .save()
+                .then((comptabilisationData) => {
+                  etatMonsuelVirement(req, res);
+                  setTimeout(() => {
+                    etatMonsuelTaxes(req, res);
+                  }, 1000);
+                  // res.json({
+                  //   virementData,
+                  //   comptabilisationData,
+                  // });
+                })
+                .catch((error) => {
+                  res.status(402).send({ message: error.message });
+                });
+            })
+            .catch((error) => {
+              res.status(401).send({ message: error.message });
+            });
+        }
+        // End Store archives
 
         res.json({
           comptabilisationLoyerCrediter,
@@ -204,7 +210,7 @@ module.exports = {
           ordreVirement,
         });
       } else {
-        return res.status(402).send({ message: "Aucun contrat inseré" });
+        return res.status(402).send({ message: "Aucun contrat inséré" });
       }
       // res.json(true);
     } catch (error) {

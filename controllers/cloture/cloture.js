@@ -8,44 +8,42 @@ const clotureHelper = require("../helpers/cloture/cloture");
 module.exports = {
   clotureDuMois: async (req, res, next) => {
     try {
-       await clotureHelper.checkContratsAv(req, res);
-       await clotureHelper.checkDtFinContratsSus(req, res);
+      await clotureHelper.checkContratsAv(req, res);
+      await clotureHelper.checkDtFinContratsSus(req, res);
 
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
         ordreVirement = [];
 
-      //get current contrat of this month
       let contrat = await Contrat.find({
         deleted: false,
-        "etat_contrat.libelle": { $in: ["Actif"] },
-      }).populate({
-        path: "foncier",
-        populate: [
-          {
-            path: "proprietaire",
-            populate: {
-              path: "proprietaire_list",
-              match: {
-                deleted: false,
-                statut: { $in: ["Actif", "À supprimer"] },
-              },
-            },
-            match: {
-              deleted: false,
-              statut: { $in: ["Actif", "À supprimer"] },
-            },
-          },
-          {
+        "etat_contrat.libelle": { $in: ["Actif", "Résilié"] },
+      })
+        .populate({
+          path: "foncier",
+          populate: {
             path: "lieu.lieu",
             populate: {
               path: "attached_DR",
             },
           },
-        ],
-      });
-      console.log('requested data ', contrat)
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+              populate: { path: "proprietaire" },
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true },
+        })
+        .sort({ updatedAt: "desc" });
+     // console.log("requested data ", contrat);
 
       // return res.json(contrat);
 
@@ -89,24 +87,35 @@ module.exports = {
           });
         } //end if
 
-        if (contrat[i].etat_contrat.libelle == "Résilié") {
-          result = await traitementContratResilie.clotureContratResilie(
-            req,
-            res,
-            contrat[i],
-            dateGenerationDeComptabilisation,
-            Contrat,
-            true
-          );
-          result.ordre_virement.forEach((ordVrm) => {
-            ordreVirement.push(ordVrm);
-          });
-          result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-            comptabilisationLoyerCrediter.push(cmptCrdt);
-          });
-          result.cmptLoyerDebt.forEach((cmptDept) => {
-            comptabilisationLoyerDebiter.push(cmptDept);
-          });
+        if (
+          contrat[i].etat_contrat.libelle == "Résilié" &&
+          contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
+        ) {
+          let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis);
+          let dateEffResilieMonth = dateEffResilie.getMonth() + 1;
+          let dateEffResilieYear = dateEffResilie.getFullYear();
+          if (
+            dateEffResilieMonth == req.body.mois &&
+            dateEffResilieYear == req.body.annee
+          ) {
+            result = await traitementContratResilie.clotureContratResilie(
+              req,
+              res,
+              contrat[i],
+              dateGenerationDeComptabilisation,
+              Contrat,
+              true
+            );
+            result.ordre_virement.forEach((ordVrm) => {
+              ordreVirement.push(ordVrm);
+            });
+            result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+              comptabilisationLoyerCrediter.push(cmptCrdt);
+            });
+            result.cmptLoyerDebt.forEach((cmptDept) => {
+              comptabilisationLoyerDebiter.push(cmptDept);
+            });
+          }
         }
       } //end for
 
@@ -131,7 +140,7 @@ module.exports = {
           await comptabilisationArchive
             .save()
             .then((comptabilisationData) => {
-              console.log('inisde comptabilisationData save')
+              console.log("inisde comptabilisationData save");
               res.json({
                 virementData,
                 comptabilisationData,

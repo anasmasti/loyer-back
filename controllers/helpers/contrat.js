@@ -3,6 +3,7 @@ const User = require("../../models/roles/roles.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const ProprietaireHelper = require("./proprietaire");
 const mail = require("../../helpers/mail.send");
+const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 
 module.exports = {
   createContratAV: async (
@@ -10,23 +11,33 @@ module.exports = {
     res,
     ContratData,
     numeroContrat,
+    existedContrat,
     piece_jointe_avenant
   ) => {
     // Update ( montant loyer )
     mntLoyer = ContratData.montant_loyer;
-    ContratData.etat_contrat.etat.motif.forEach((motif) => {
+    for (
+      let index = 0;
+      index < ContratData.etat_contrat.etat.motif.length;
+      index++
+    ) {
+      const motif = ContratData.etat_contrat.etat.motif[index];
+
       if (motif.type_motif == "Révision du prix du loyer") {
         mntLoyer = motif.montant_nouveau_loyer;
       }
-    });
+    }
 
     const nouveauContrat = new Contrat({
       numero_contrat: numeroContrat,
       date_debut_loyer: ContratData.date_debut_loyer,
       date_fin_contrat: ContratData.date_fin_contrat,
+      proprietaires: [],
       date_reprise_caution: ContratData.date_reprise_caution,
       date_premier_paiement: ContratData.date_premier_paiement,
       montant_loyer: mntLoyer,
+      caution_versee: existedContrat.caution_versee,
+      avance_versee: existedContrat.avance_versee,
       taxe_edilite_loyer: ContratData.taxe_edilite_loyer,
       taxe_edilite_non_loyer: ContratData.taxe_edilite_non_loyer,
       periodicite_paiement: ContratData.periodicite_paiement,
@@ -47,8 +58,7 @@ module.exports = {
       duree_avance: ContratData.duree_avance,
       n_engagement_depense: ContratData.n_engagement_depense,
       echeance_revision_loyer: ContratData.echeance_revision_loyer,
-      // date_comptabilisation: ContratData.date_comptabilisation,
-      date_comptabilisation: ContratData.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      date_comptabilisation: existedContrat.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
       is_avenant: true,
       nombre_part: ContratData.nombre_part,
@@ -71,21 +81,62 @@ module.exports = {
       ],
       piece_joint_contrat: piece_jointe_avenant,
     });
+    // console.log("nouveauContrat", nouveauContrat);
+    await nouveauContrat
+      .save()
+      .then((newContrat) => {
+        for (let j = 0; j < existedContrat.proprietaires.length; j++) {
+          const proprietaire = existedContrat.proprietaires[j];
 
-    ProprietaireHelper.proprietaireASupprimer(ContratData);
+          let check = false;
+          for (
+            let k = 0;
+            k < ContratData.etat_contrat.etat.deleted_proprietaires.length;
+            k++
+          ) {
+            const deletedProprietaire =
+              ContratData.etat_contrat.etat.deleted_proprietaires[k];
+            if (deletedProprietaire == proprietaire._id) check = true;
+          }
+          if (!check) {
+            ProprietaireHelper.duplicateProprietaire(
+              req,
+              res,
+              proprietaire,
+              ContratData,
+              newContrat,
+              mntLoyer
+            );
+          }
+        }
 
-    await nouveauContrat.save().catch((error) => {
-      res.status(400).send({ message: error.message });
-    });
+        Contrat.findByIdAndUpdate(
+          { _id: existedContrat._id },
+          { has_avenant: true }
+        ).catch((error) => {
+          res.status(400).send({ message: error.message });
+          console.log(error.message);
+        });
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
+      });
   },
 
   deleteProprietaire: async (req, res, proprietareId) => {
-    await Proprietaire.findByIdAndUpdate(proprietareId, {
+    await AffectationProprietaire.findByIdAndUpdate(proprietareId, {
       deleted: true,
     }).catch((error) => {
       res.status(400).send({ message: error.message });
     });
-    // console.log("Done", proprietareId);
+  },
+
+  proprietaireDeces: async (req, res, proprietareId) => {
+    await AffectationProprietaire.findByIdAndUpdate(proprietareId, {
+      statut: "Décès",
+    }).catch((error) => {
+      res.status(400).send({ message: error.message });
+    });
   },
 
   storeFiles: async (req, fileName) => {
@@ -178,8 +229,8 @@ module.exports = {
     let targetDateYear = _targetDate.getFullYear();
 
     if (
-      (targetDateMonth == targetDateFinMonth &&
-        targetDateYear == targetDateFinYear) ||
+      // (targetDateMonth == targetDateFinMonth &&
+      //   targetDateYear == targetDateFinYear) ||
       (targetDateMonth > targetDateFinMonth &&
         targetDateYear < targetDateFinYear) ||
       (targetDateMonth < targetDateFinMonth &&
@@ -189,5 +240,23 @@ module.exports = {
     } else {
       return false;
     }
+  },
+
+  generateNumeroContrat: (numeroContrat) => {
+    let splitedNumeroContrat = numeroContrat.split("/");
+    console.log("splitedNumeroContrat", splitedNumeroContrat);
+    console.log("splitedNumeroContrat[-1]", splitedNumeroContrat.length - 1);
+    if (splitedNumeroContrat[splitedNumeroContrat.length - 1].includes("AV")) {
+      let countedAV = splitedNumeroContrat[
+        splitedNumeroContrat.length - 1
+      ].replace("AV", "");
+      console.log("countedAV", countedAV);
+      splitedNumeroContrat[splitedNumeroContrat.length - 1] = `AV${
+        +countedAV + 1
+      }`;
+    } else {
+      splitedNumeroContrat[splitedNumeroContrat.length] = "AV1";
+    }
+    return splitedNumeroContrat.join("/").toString();
   },
 };

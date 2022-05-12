@@ -11,7 +11,7 @@ module.exports = {
       .findOne({ mois: req.params.mois, annee: req.params.annee })
       .then((data) => {
         // let data = data_[0]
-        // return res.json(data)
+        // return res.json(data);
         //traitement du date
         let result = [];
         let totalMontantsNet = 0;
@@ -61,7 +61,8 @@ module.exports = {
           "FBP. Micro-Crédit  " +
           zoneInitialiseSpace.padEnd(18, " ") +
           "Fra.LY" +
-          (("0" + req.params.mois).slice(-2) + req.params.annee.toString().slice(-2)) +
+          (("0" + req.params.mois).slice(-2) +
+            req.params.annee.toString().slice(-2)) +
           zoneInitialiseSpace.padEnd(9, " ") +
           "0000000000000000" +
           ")" +
@@ -82,9 +83,9 @@ module.exports = {
           headerOrdreVirement,
           { flag: "a" },
           (error) => {
-            if (error){
+            if (error) {
               res.json({ message: error.message });
-            } 
+            }
           }
         );
 
@@ -183,7 +184,6 @@ module.exports = {
             }
           );
         }
-
 
         totalMontantsNet = totalMontantsNet.toFixed(2);
         let footerOrdreVirement =
