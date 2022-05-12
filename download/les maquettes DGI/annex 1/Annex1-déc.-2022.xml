@@ -6,22 +6,22 @@
   <annee>2022</annee>
   <mois>12</mois>
   <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>18500.00</totalMntNetLoyer>
+  <totalMntRetenueSource>3000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>17000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BB14852</numCNIBailleur>
+      <numCNIBailleur>BB10231</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Ahmed tadlaoui</nomPrenomBailleur>
-      <adresseBailleur>4444</adresseBailleur>
-      <adresseBien>Test test</adresseBien>
+      <nomPrenomBailleur>Khalid tawiqi</nomPrenomBailleur>
+      <adresseBailleur>TEST ADRESSE</adresseBailleur>
+      <adresseBien>QQQQQ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>18500.00</mntNetLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

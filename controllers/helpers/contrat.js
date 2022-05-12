@@ -58,7 +58,7 @@ module.exports = {
       duree_avance: ContratData.duree_avance,
       n_engagement_depense: ContratData.n_engagement_depense,
       echeance_revision_loyer: ContratData.echeance_revision_loyer,
-      date_comptabilisation: ContratData.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      date_comptabilisation: existedContrat.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
       is_avenant: true,
       nombre_part: ContratData.nombre_part,
@@ -81,7 +81,7 @@ module.exports = {
       ],
       piece_joint_contrat: piece_jointe_avenant,
     });
-
+    // console.log("nouveauContrat", nouveauContrat);
     await nouveauContrat
       .save()
       .then((newContrat) => {
