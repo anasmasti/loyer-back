@@ -303,7 +303,7 @@ module.exports = {
         async (foncier) => {
           let lieux = [];
           foncier.lieu.forEach((lieu) => {
-            if (!lieu.deleted) {
+            if (!lieu.deleted && lieu.etat_lieu == "En cours de transfert") {
               let updatedLieu = {
                 deleted: false,
                 etat_lieu: "Transférée",
