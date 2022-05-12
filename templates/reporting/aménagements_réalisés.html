@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Etat des am"nagements effectués</title>
     <style>
       * {
         font-family: sans-serif;
+        height: auto;
+      }
+      h4 {
+        color: #5e5e5e;
       }
       th {
         background-color: #f9a11e;
-        /* border-right: 1px solid rgba(216, 216, 216, 0.8);
-        border-left: 1px solid rgba(216, 216, 216, 0.8); */
         border-right: 1px solid #f9a11e;
         border-left: 1px solid #f9a11e;
         padding: 10px;
@@ -25,15 +27,17 @@
         width: 100%;
         border-collapse: collapse;
       }
-      td,
-      .mnt-total {
-        border-bottom: 1px solid rgb(216, 216, 216);
-        border-right: 1px solid rgb(216, 216, 216);
-        border-left: 1px solid rgb(216, 216, 216);
-        padding: 10px;
+      tr {
+        width: 100%;
+      }
+      td {
+        max-width: 100px;
+        word-break: break-word;
+        padding: 5px;
         display: flex;
         justify-content: center;
         text-align: center;
+        border: 1px solid #b4b4b4;
       }
       th:first-child {
         border-top-left-radius: 12px;
@@ -49,30 +53,44 @@
       td:last-child {
         border-right: none;
       }
-      .mnt-total {
-        color: black;
-        background-color: transparent;
-        text-align: end;
-        padding-right: 20px;
-      }
       .title {
         color: #828282;
         width: 70%;
         margin: 40px auto 40px auto;
         text-align: center;
       }
+      span {
+        color: #f9a11e;
+      }
+      .breaker-line {
+        margin: 3rem auto 3rem auto;
+        width: 100%;
+      }
+      .breaker-line > hr {
+        width: 60%;
+      }
     </style>
   </head>
   <body>
-    <div style="text-align: center;">
-      <img src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg" style="width: 150px;">
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
     </div>
-    <h2 class="title">Reporting : aménagements réalisés</h2>
+    <!-- <h2 class="title">Reporting : aménagements réalisés</h2> -->
+    <h2 class="title">Etat des am"nagements effectués.</h2>
+
+    {{#each .}}
+
+    <h4>
+      Numero du contrat :<span> {{ numero_contrat }} </span>{{#foncier}} - Type
+      d'entité organisationnelle :<span> {{ type_lieu }}</span>
+    </h4>
+
     <table>
       <thead>
         <tr class="table-header">
-          <th>Numero Contrat</th>
-          <th>Type Lieu</th>
           <th>Nature Amenagement</th>
           <th>Numero Facture</th>
           <th>Montant Amenagement</th>
@@ -82,23 +100,21 @@
       </thead>
 
       <tbody>
-        {{#each .}}
+        {{#amenagement}}
         <tr>
-          <td>{{numero_contrat}}</td>
-          {{#foncier}}
-          <td>{{type_lieu}}</td>
-          {{#amenagement}}
-          <td>
-            {{nature_amenagement}}
-          </td>
-          <td>{{numero_facture}}</td>
-          <td>{{montant_amenagement}}</td>
-          <td>{{date_fin_travaux}}</td>
-          <td>{{date_livraison_local}}</td>
-          {{/amenagement}} {{/foncier}}
+          <td>{{ nature_amenagement }}</td>
+          <td>{{ numero_facture }}</td>
+          <td>{{ montant_amenagement }}</td>
+          <td>{{ date_fin_travaux }}</td>
+          <td>{{ date_livraison_local }}</td>
         </tr>
-        {{/each}}
+        {{/amenagement}}
       </tbody>
     </table>
+    {{/foncier}}
+    <div class="breaker-line">
+      <hr />
+    </div>
+    {{/each}}
   </body>
 </html>

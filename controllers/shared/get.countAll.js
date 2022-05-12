@@ -12,7 +12,7 @@ module.exports = {
     try {
       const countProprietaire = await Proprietaire.countDocuments({
         deleted: false,
-      });
+      }) 
       const countMandataire = await Proprietaire.countDocuments({
         deleted: false, 
         is_mandataire: true
@@ -53,13 +53,6 @@ module.exports = {
                   date_fin_travaux: "$$amenagementmap.date_fin_travaux",
                   images_apres_travaux: "$$amenagementmap.images_apres_travaux",
                   croquis_travaux: "$$amenagementmap.croquis_travaux",
-                  fournisseur: {
-                    $filter: {
-                      input: "$$amenagementmap.fournisseur",
-                      as: "fournisseur",
-                      cond: { $eq: ["$$fournisseur.deleted", false] },
-                    },
-                  },
                 },
               },
             },
@@ -114,13 +107,12 @@ module.exports = {
       for (let i = 0; i < countAmenagement.length; i++) {
         let lengthOfEachAmenageme = countAmenagement[i].amenagement;
         totalCountAmenagements += await lengthOfEachAmenageme.length;
-
-        //count nombre des fournisseur
-        for (let f = 0; f < countAmenagement[i].amenagement.length; f++) {
-          let lengthOfEachFournisseur =
-            countAmenagement[i].amenagement[f].fournisseur;
-          totalCountFournisseur += await lengthOfEachFournisseur.length;
-        }
+        // //count nombre des fournisseur
+        // for (let f = 0; f < countAmenagement[i].amenagement.length; f++) {
+        //   let lengthOfEachFournisseur =
+        //     countAmenagement[i].amenagement[f].fournisseur;
+        //   totalCountFournisseur += await lengthOfEachFournisseur.length;
+        // }
       }
 
       //count total des directeurs regional

@@ -7,9 +7,9 @@ const amenagementSchema = new Schema({
   idm: {
     type: String,
   },
-  nature_amenagement: {
+  nature_amenagement: [{
     type: String,
-  },
+  }],
   montant_amenagement: {
     type: String,
   },
@@ -28,14 +28,17 @@ const amenagementSchema = new Schema({
   date_passation_commande: {
     type: String,
   },
+  // fournisseur: {
+  //   type: [fournisseurSchema],
+  // },
   fournisseur: {
-    type: [fournisseurSchema],
+    type: String,
   },
   evaluation_fournisseur: {
     type: String,
   },
   date_fin_travaux: {
-    type: String,
+    type: Date,
   },
   date_livraison_local: {
     type: String,

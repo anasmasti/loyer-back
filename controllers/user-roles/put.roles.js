@@ -4,6 +4,7 @@ module.exports = {
   updateUserRoles: async (req, res) => {
     let item = 0;
     let allUserRoles = [];
+
     for (item in req.body.userRoles) {
       allUserRoles.push({
         roleName: req.body.userRoles[item].roleName,
@@ -34,6 +35,7 @@ module.exports = {
         userRoles: allUserRoles,
         email: req.body.email,
         deleted: req.body.deleted,
+        password: req.body.password,
       })
       .then((data) => {
         res.json(data);
@@ -42,6 +44,26 @@ module.exports = {
         res
           .status(400)
           .send({ message: error.message } || "Can't Update User Roles");
+      });
+  },
+
+  updateProfile: async (req, res) => {
+    let user = req.body;
+
+    let updatedUser = {
+      nom: user.nom,
+      prenom: user.nom,
+      email: user.email,
+      password: user.password,
+    };
+
+    userRoles
+      .findByIdAndUpdate({ _id: req.params.Id }, updatedUser)
+      .then(async (data) => {
+        res.json(data);
+      })
+      .catch((error) => {
+        res.status(400).send({ message: error.message });
       });
   },
 };

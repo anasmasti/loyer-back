@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
+  <annee>2022</annee>
+  <mois>11</mois>
+  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>0.00</totalMntRetenueSource>
+  <totalMntNetLoyer>0.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier/>
+</VersementRASRF>

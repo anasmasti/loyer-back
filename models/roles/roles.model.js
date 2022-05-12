@@ -41,7 +41,6 @@ const userRoleSchema = new Schema({
     },
     code_dr: {
         type:String,
-        required: true
     },
     deleted:{
         type: Boolean,

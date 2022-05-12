@@ -11,12 +11,12 @@ const foncierSchema = new Schema(
     ville: {
       type: String,
     },
-    proprietaire: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Proprietaire",
-      },
-    ],
+    // proprietaire: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Proprietaire",
+    //   },
+    // ],
     lieu: [
       {
         lieu: {
@@ -27,10 +27,16 @@ const foncierSchema = new Schema(
           type: Boolean,
           default: false,
         },
-        transferer: {
-          type: Boolean,
-          default: false,
-        },
+        // en_cours_transfert: {
+        //   type: Boolean,
+        //   default: false,
+        // },
+        // transfere: {
+        //   type: Boolean
+        // }
+        etat_lieu: {
+          type: String,
+        }
       },
     ],
     desc_lieu_entrer: {
@@ -55,9 +61,9 @@ const foncierSchema = new Schema(
     amenagement: {
       type: [amenagementSchema],
     },
-    has_contrat: {
-      type: Boolean,
-      default: false,
+    contrat: {
+      type: Schema.Types.ObjectId,
+      ref: "Contrat"
     },
     deleted: {
       type: Boolean,

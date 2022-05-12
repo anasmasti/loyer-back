@@ -1,66 +1,96 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const fileSchema = require('../shared/file.schema')
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const fileSchema = require("../shared/file.schema");
 
 //contrat Schema
-const EtatContratSchema = new Schema({
+const EtatContratSchema = new Schema(
+  {
+    
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    
+    // Résiliation 
+    date_resiliation: {
+      type: Date,
+    },
     intitule_lieu: {
-        type: String,
+      type: String,
     },
     reprise_caution: {
-        type: String,
+      type: String,
+    },
+    frais_reamenagement: {
+      type: String,
     },
     etat_caution_consomme: {
-        type: String
+      type: String,
     },
     duree_consomme: {
-        type: Number
+      type: Number,
     },
     duree_a_recupere: {
-        type: Number
-    },
-    date_resiliation: {
-        type: Date,
+      type: Number,
     },
     etat_lieu_sortie: {
-        type: String,
+      type: String,
     },
     preavis: {
-        type: Date,
+      type: Date,
     },
+
+    // Suspension 
     date_suspension: {
-        type: Date,
+      type: Date,
     },
     duree_suspension: {
-        type: Number,
+      type: Number,
     },
     motif_suspension: {
-        type: String,
+      type: String,
     },
+    date_fin_suspension: {
+      type: Date,
+      default: new Date("2999-01-01"),
+    },
+
+    // Avenant 
     n_avenant: {
-        type: String,
+      type: String,
     },
-    motif: {
-        type: String,
+    motif: [
+      {
+        type_motif: {
+          type: String,
+        },
+        montant_nouveau_loyer: {
+          type: Number,
+        },
+      },
+    ],
+    date_effet_av: {
+      type: Date,
     },
-    montant_nouveau_loyer: {
-        type: Number,
-    },
+    deleted_proprietaires: [
+      {
+        type: Schema.Types.ObjectId,
+      },
+    ],
     signaletique_successeur: {
-        type: String,
-    },
-    images_etat_res_lieu_sortie: {
-        type: [fileSchema],
-    },
-    lettre_res_piece_jointe: {
-        type: [fileSchema],
+      type: String,
     },
     piece_jointe_avenant: {
-        type: [fileSchema],
+      type: [fileSchema],
     },
-    deleted: {
-        type: Boolean,
-        default: false
-    }
-}, { timestamps: true });
+
+    images_etat_res_lieu_sortie: {
+      type: [fileSchema],
+    },
+    lettre_res_piece_jointe: {
+      type: [fileSchema],
+    },
+  },
+  { timestamps: true }
+);
 module.exports = EtatContratSchema;

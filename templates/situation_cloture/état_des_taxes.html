@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etat mensuel des taxes par propriétaire</title>
+    <style>
+      * {
+        font-family: sans-serif;
+        transform: rotate(180deg) !important;
+      }
+      table {
+        width: calc(100% - 5px);
+        border-collapse: collapse;
+      }
+      td {
+        /* width: 100px !important; */
+        max-width: 70px;
+        font-size: 10px;
+        padding: 10px;
+        /* text-align: center; */
+        /* word-break: break-all; */
+      }
+      .num_contrat_col {
+        word-break: break-all;
+      }
+      /* td:last-child {
+        border-left: 1px solid #f9a11e;
+      } */
+      tr {
+        border-bottom: 1px solid rgb(207, 207, 207);
+      }
+      th {
+        background-color: #f9a11e;
+        color: white;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 10px;
+        width: 100px !important;
+        padding: 10px;
+        /* max-width: 100px; */
+      }
+      th:first-child {
+        border-top-left-radius: 12px;
+      }
+      th:last-child {
+        border-top-right-radius: 12px;
+      }
+      .title {
+        color: #828282;
+        width: 70%;
+        margin: 20px auto 20px auto;
+        text-align: center;
+      }
+      .center {
+        background-color: #f9a11e;
+        padding: 5px;
+        text-align: center;
+        color: white;
+        margin-top: 30px;
+      }
+      h4 {
+        color: #5e5e5e;
+      }
+      span {
+        color: #f9a11e;
+      }
+      #mnt_glbl {
+        text-align: end;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
+    </div>
+    <h2 class="title">
+      <!-- Etat des virements de loyer pour la date {{ mois }}/{{ annee }} -->
+      Etat mensuel des taxes par propriétaire. Mois {{ mois }}/{{ annee }}
+    </h2>
+    <!-- <h4 class="center">
+      Numero du contrat :<span style="color: white">
+        {{ numero_contrat }}
+      </span>
+    </h4>
+    <table>
+      <tr>
+        <td>
+          <h4>Type d'entité :<span> {{ type_lieu }} </span></h4>
+        </td>
+        <td>
+          <h4>CIN/IF :<span> {{ cin }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Nom et prénom / R.S :<span> {{ nom_prenom }} </span></h4>
+        </td>
+        <td>
+          <h4>D.S :<span> -- </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Périodicité :<span> {{ periodicite }} </span></h4>
+        </td>
+        <td>
+          <h4>Montant brut de loyer :<span> {{ montant_loyer }} MAD</span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>
+            Montant brut d'avance :<span>
+              {{ montant_avance_proprietaire }} MAD</span
+            >
+          </h4>
+        </td>
+        <td>
+          <h4>Taux de taxe :<span> {{ taux_impot }}</span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Taxe sur loyer :<span> {{ retenue_source }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>
+            Taxe sur Avance :<span> {{ tax_avance_proprietaire }} MAD</span>
+          </h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Caution :<span> {{ caution_proprietaire }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>Montant net :<span> {{ montant_net }} MAD</span></h4>
+        </td>
+      </tr>
+    </table> -->
+
+    <table align="center">
+      <thead>
+        <tr class="table-header">
+          <th>Numero contrat</th>
+          <th>Type d'entité</th>
+          <th>CIN/IF</th>
+          <th>Nom et prénom / R.S</th>
+          <th>D.S</th>
+          <th>Périodicité</th>
+          <th>Taux de taxe</th>
+          <th>MT brut</th>
+          <th>Montant brut d'avance</th>
+          <th>Taxe sur loyer</th>
+          <th>Taxe sur Avance</th>
+          <th>Caution</th>
+          <th>MT Net</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each comptabilisation_loyer_crediter}}
+        <tr>
+          <td class="num_contrat_col">{{ numero_contrat }}</td>
+          <td>{{ type_lieu }}</td>
+          <td>{{ cin }}</td>
+          <td>{{ nom_prenom }}</td>
+          <td>{{ declaration_option }}</td>
+          <td>{{ periodicite }}</td>
+          <td>{{#if taux_impot}} {{taux_impot}} %{{else}} -- {{/if}}</td>
+          <td>
+            {{#if montant_avance_proprietaire}} {{#ifCondTrue avance_versee }}
+            {{#if montant_loyer}} {{montant_loyer}}{{else}} -- {{/if}} {{else}}
+            -- {{/ifCondTrue}} {{else}}{{#if montant_loyer}}
+            {{montant_loyer}}{{else}} -- {{/if}}{{/if}}
+          </td>
+          <td>
+            {{#ifCondFalse avance_versee }} {{ montant_avance_proprietaire }}
+            {{else}} -- {{/ifCondFalse}}
+          </td>
+          <td>
+            {{#if tax_avance_proprietaire}} {{#ifCondTrue avance_versee }} {{#if
+            retenue_source}} {{retenue_source}}{{else}} -- {{/if}} {{else}} --
+            {{/ifCondTrue}} {{else}}{{#if retenue_source}}{{retenue_source}}
+            {{else}} -- {{/if}}{{/if}}
+          </td>
+          <td>
+            {{#if tax_avance_proprietaire}} {{#ifCondFalse avance_versee }}
+            {{tax_avance_proprietaire}} {{else}} -- {{/ifCondFalse}} {{else}} --
+            {{/if}}
+          </td>
+          <td>
+            {{#if caution_proprietaire }} {{#ifCondFalse caution_versee }}
+            {{caution_proprietaire}} {{else}} -- {{/ifCondFalse}} {{else}} --
+            {{/if}}
+          </td>
+          <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
+        </tr>
+        {{/each}}
+        <tr>
+          <td colspan="7" id="mnt_glbl">
+            <strong> Montants global : </strong>
+          </td>
+          <td><strong>{{ montant_brut_global }}</strong></td>
+          <td><strong>{{ montant_brut_avance_global }}</strong></td>
+          <td><strong>{{ montant_taxe_global }}</strong></td>
+          <td><strong>{{ montant_taxe_avance_global }}</strong></td>
+          <td><strong>{{ montant_caution_global }}</strong></td>
+          <td><strong>{{ montant_net_global }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

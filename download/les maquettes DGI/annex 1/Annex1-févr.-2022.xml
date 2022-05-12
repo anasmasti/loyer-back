@@ -1,95 +1,163 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>2</mois>
-  <totalMntBrutLoyer>33000</totalMntBrutLoyer>
-  <totalMntRetenueSource>2700</totalMntRetenueSource>
-  <totalMntNetLoyer>30300</totalMntNetLoyer>
+  <totalMntBrutLoyer>570000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>38000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>532000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur>MP5552</numCNIBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>L556555</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <nomPrenomBailleur>SASA SASA</nomPrenomBailleur>
+      <adresseBailleur>CASA 56465</adresseBailleur>
+      <adresseBien>rabat 1265</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>0</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>0</mntNetLoyer>
+      <mntBrutLoyer>15400.00</mntBrutLoyer>
+      <mntRetenueSource>770.00</mntRetenueSource>
+      <mntNetLoyer>14630.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>2</ifuBailleur>
-      <numCNIBailleur>BH7444</numCNIBailleur>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>K36582</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse test</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <nomPrenomBailleur>LALA LALA </nomPrenomBailleur>
+      <adresseBailleur>CASA FFA 222</adresseBailleur>
+      <adresseBien>rabat 1265</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>9000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>8100</mntNetLoyer>
+      <mntBrutLoyer>6600.00</mntBrutLoyer>
+      <mntRetenueSource>330.00</mntRetenueSource>
+      <mntNetLoyer>6270.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>3</ifuBailleur>
-      <numCNIBailleur>BB5521</numCNIBailleur>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>H356655</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>aders</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <nomPrenomBailleur>PAPA LALA </nomPrenomBailleur>
+      <adresseBailleur>RABAT 5566</adresseBailleur>
+      <adresseBien>test</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>9000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>8100</mntNetLoyer>
+      <mntBrutLoyer>48000.00</mntBrutLoyer>
+      <mntRetenueSource>5400.00</mntRetenueSource>
+      <mntNetLoyer>42600.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>4</ifuBailleur>
-      <numCNIBailleur>RT123456</numCNIBailleur>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>H456464</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>test</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <nomPrenomBailleur>LALA MED</nomPrenomBailleur>
+      <adresseBailleur>KJHDJOIJ2336</adresseBailleur>
+      <adresseBien>casa 135616</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>3000</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>3000</mntNetLoyer>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>90000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>5</ifuBailleur>
-      <numCNIBailleur>BN5552</numCNIBailleur>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>M333333</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <nomPrenomBailleur>NANA LALA</nomPrenomBailleur>
+      <adresseBailleur>RABAT</adresseBailleur>
+      <adresseBien>casa 135616</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>12000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>11100</mntNetLoyer>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>90000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF6</ifuBailleur>
+      <numCNIBailleur>L5548712</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MAMA MAM</nomPrenomBailleur>
+      <adresseBailleur>LKJIHNJOL354645</adresseBailleur>
+      <adresseBien>casa 135616</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>0.00</mntBrutLoyer>
+      <mntRetenueSource>0.00</mntRetenueSource>
+      <mntNetLoyer>0.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF7</ifuBailleur>
+      <numCNIBailleur>L568932</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SASA BABA</nomPrenomBailleur>
+      <adresseBailleur>LKJOINLJ35646</adresseBailleur>
+      <adresseBien>casa 135616</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>180000.00</mntBrutLoyer>
+      <mntRetenueSource>18000.00</mntRetenueSource>
+      <mntNetLoyer>162000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF8</ifuBailleur>
+      <numCNIBailleur>M3546446</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MED MEDD</nomPrenomBailleur>
+      <adresseBailleur>MKPOJH326</adresseBailleur>
+      <adresseBien>casaa 665469</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>50000.00</mntBrutLoyer>
+      <mntRetenueSource>4500.00</mntRetenueSource>
+      <mntNetLoyer>45500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF9</ifuBailleur>
+      <numCNIBailleur>P3566465</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>VAVA VAVA</nomPrenomBailleur>
+      <adresseBailleur>RABAT 65456461653</adresseBailleur>
+      <adresseBien>cassaa mmml 200</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>90000.00</mntBrutLoyer>
+      <mntRetenueSource>9000.00</mntRetenueSource>
+      <mntNetLoyer>81000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

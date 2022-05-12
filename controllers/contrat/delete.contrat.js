@@ -14,7 +14,7 @@ module.exports = {
       //
       await Foncier.findByIdAndUpdate(
         { _id: findContrat.foncier },
-        { has_contrat: false }
+        { contrat: null }
       );
 
       //remplissage

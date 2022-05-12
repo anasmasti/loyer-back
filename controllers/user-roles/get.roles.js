@@ -4,6 +4,7 @@ module.exports = {
   getAllUserRoles: async (req, res) => {
     await userRoles
       .find()
+      .sort({ updatedAt: "desc" })
       .then((data) => {
         res.json(data);
       })

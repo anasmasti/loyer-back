@@ -1,4 +1,119 @@
 <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etat des entités organisationnelles</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+      th {
+        background-color: #f9a11e;
+        border-right: 1px solid #f9a11e;
+        border-left: 1px solid #f9a11e;
+        padding: 20px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      .table-header {
+        padding: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      .mnt-total {
+        border-bottom: 1px solid rgb(216, 216, 216);
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      th:first-child {
+        border-top-left-radius: 12px;
+        border-left-color: transparent;
+      }
+      th:last-child {
+        border-top-right-radius: 12px;
+        border-right-color: transparent;
+      }
+      td:first-child {
+        border-left: none;
+      }
+      td:last-child {
+        border-right: none;
+      }
+      .mnt-total {
+        color: black;
+        background-color: transparent;
+        text-align: end;
+        padding-right: 20px;
+      }
+      .title {
+        color: #828282;
+        width: 70%;
+        margin: 40px auto 40px auto;
+        text-align: center;
+      }
+      .head-title {
+        width: 70%;
+        text-align: center;
+      }
+      .head-title {
+        color: #3f3f3f;
+        margin: 40px auto 40px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
+    </div>
+    <h2 class="title">
+      Etat des entités organisationnelles.<br> {{mois}}/{{annee}}
+    </h2>
+    <table align="center">
+      <thead>
+        <tr class="table-header">
+          <th>Code lieu</th>
+          <th>Intitule Lieu</th>
+          <th>Code localité</th>
+          <th>Type lieu</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each lieu_data}}
+        <tr>
+          <tr>
+            <td>{{#if code_lieu}} {{code_lieu}} {{else}} -- {{/if}}</td>
+            <td>
+              {{#if intitule_lieu}} {{intitule_lieu}} {{else}} -- {{/if}}
+            </td>
+            <td>
+              {{#if code_localite}} {{code_localite}} {{else}} -- {{/if}}
+            </td>
+            <td>{{#if type_lieu}} {{type_lieu}} {{else}} -- {{/if}}</td>
+          </tr>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </body>
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -97,4 +212,4 @@
       </tbody>
     </table>
   </body>
-</html>
+</html> -->

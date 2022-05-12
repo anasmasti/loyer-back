@@ -1,97 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+<DeclarationRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DeclarationRASRF.xsd">
   <identifiantFiscal>IF</identifiantFiscal>
-  <exerciceFiscalDu>2022-1-1</exerciceFiscalDu>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>33000</totalMntBrutLoyer>
-  <totalMntRetenueSource>2700</totalMntRetenueSource>
-  <totalMntNetLoyer>30300</totalMntNetLoyer>
+  <totalMntBrutLoyer>80000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>12000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>68000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>1</ifuBailleur>
-      <numCNIBailleur>MP5552</numCNIBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>QQQQ</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
+      <nomPrenomBailleur>LFLFLFLF</nomPrenomBailleur>
+      <adresseBailleur>111111</adresseBailleur>
+      <adresseBien>qqqqqqqqqqq</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>0</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>0</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>2</ifuBailleur>
-      <numCNIBailleur>BH7444</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse test</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>9000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>8100</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>3</ifuBailleur>
-      <numCNIBailleur>BB5521</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>aders</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>9000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>8100</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>4</ifuBailleur>
-      <numCNIBailleur>RT123456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>test</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>3000</mntBrutLoyer>
-      <mntRetenueSource>0</mntRetenueSource>
-      <mntNetLoyer>3000</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>5</ifuBailleur>
-      <numCNIBailleur>BN5552</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur/>
-      <adresseBailleur>adresse</adresseBailleur>
-      <adresseBien>adresse</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>12000</mntBrutLoyer>
-      <mntRetenueSource>900</mntRetenueSource>
-      <mntNetLoyer>11100</mntNetLoyer>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>80000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>12000.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>68000.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
-</VersementRASRF>
+</DeclarationRASRF>

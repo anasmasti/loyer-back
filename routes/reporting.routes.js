@@ -8,6 +8,7 @@ const etatLF = require("../controllers/reporting/etat.loyer.lf");
 const etatDR = require("../controllers/reporting/etat.loyer.dr");
 const etatSupervision = require("../controllers/reporting/etat.loyer.supervision");
 const getReporting = require('../controllers/reporting/get.reporting')
+const getProprietaire = require('../controllers/proprietaire/get.proprietaire')
 
 const express = require("express");
 const router = express.Router();
@@ -42,5 +43,4 @@ router
 router
   .route("/reporting/all")
   .post(getReporting.allReporting)
-
 module.exports = router;

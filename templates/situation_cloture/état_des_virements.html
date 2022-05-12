@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etat des virements par mandataire</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      td {
+        width: 100px !important;
+        font-size: 10px;
+        padding: 10px;
+        text-align: center;
+      }
+      tr {
+        border-bottom: 1px solid rgb(207, 207, 207);
+      }
+      th {
+        background-color: #f9a11e;
+        color: white;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 10px;
+        width: 100px !important;
+        padding: 10px;
+        /* max-width: 100px; */
+      }
+      th:first-child {
+        border-top-left-radius: 12px;
+      }
+      th:last-child {
+        border-top-right-radius: 12px;
+      }
+      .title {
+        color: #828282;
+        width: 70%;
+        margin: 40px auto 40px auto;
+        text-align: center;
+      }
+      .center {
+        background-color: #f9a11e;
+        padding: 5px;
+        text-align: center;
+        color: white;
+      }
+      h4 {
+        color: #5e5e5e;
+      }
+      span {
+        color: #f9a11e;
+      }
+      #mnt_glbl {
+        text-align: end;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <img
+        src="http://www.cm6-microfinance.ma/wp-content/uploads/2018/02/Attawfiq-Microfinance.jpg"
+        style="width: 150px"
+      />
+    </div>
+    <h2 class="title">
+      Etat des virements par mandataire. <br />{{mois}}/{{annee}}
+    </h2>
+    <!-- <h4 class="center">
+      Numero du contrat :<span style="color: white;"> {{ numero_contrat }} </span>
+    </h4> -->
+    <!-- <table>
+      <tr>
+        <td>
+          <h4>Mandataire :<span> {{ nom_prenom }} </span></h4>
+        </td>
+        <td>
+          <h4>CIN/IF :<span> {{ cin }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Agence :<span> {{ nom_agence_bancaire }} </span></h4>
+        </td>
+        <td>
+          <h4>Banque :<span> {{ banque }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Type d'entité :<span> {{ type_lieu }} </span></h4>
+        </td>
+        <td>
+          <h4>Périodicité :<span> {{ periodicite }} </span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>MT brut :<span> {{ montant_brut }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>Taxe :<span> {{ montant_taxe }} MAD</span></h4>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>MT Net :<span> {{ montant_net }} MAD</span></h4>
+        </td>
+        <td>
+          <h4>N° de compte :<span> {{ numero_compte_bancaire }} </span></h4>
+        </td>
+      </tr>
+    </table> -->
+
+    <table align="center">
+      <thead>
+        <tr class="table-header">
+          <th>Mandataire</th>
+          <th>Numero contrat</th>
+          <th>CIN/IF</th>
+          <th>Agence</th>
+          <th>Banque</th>
+          <th>Type d'entité</th>
+          <th>Périodicité</th>
+          <th>MT brut global</th>
+          <th>Taxe</th>
+          <th>MT Net</th>
+          <!-- <th>N° de compte</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        {{#each ordre_virement}}
+        <tr>
+          <td>{{ nom_prenom }}</td>
+          <td>{{ numero_contrat }}</td>
+          <td>{{ cin }}</td>
+          <td>
+            {{#if nom_agence_bancaire}} {{nom_agence_bancaire}} {{else}} --
+            {{/if}}
+          </td>
+          <td>{{ banque }}</td>
+          <td>{{ type_lieu }}</td>
+          <td>{{ periodicite }}</td>
+          <td>{{#if montant_brut}} {{montant_brut}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_taxe}} {{montant_taxe}}{{else}} -- {{/if}}</td>
+          <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td>
+          <!-- <td>{{#if montant_net}} {{montant_net}}{{else}} -- {{/if}}</td> -->
+        </tr>
+        {{/each}}
+        <tr>
+          <td colspan="7" id="mnt_glbl">
+            <strong> Montants global : </strong>
+          </td>
+          <td><strong>{{ montant_brut_global }}</strong></td>
+          <td><strong>{{ montant_taxe_global }}</strong></td>
+          <td><strong>{{ montant_net_global }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

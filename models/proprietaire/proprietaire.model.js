@@ -5,6 +5,10 @@ const uniqueValidator = require("mongoose-unique-validator");
 //Protrietaire Schema
 const ProprietaireSchema = new Schema(
   {
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
     cin: {
       type: String,
     },
@@ -24,19 +28,13 @@ const ProprietaireSchema = new Schema(
       type: String,
     },
     telephone: {
-      type: Number,
+      type: String,
     },
     fax: {
-      type: Number,
+      type: String,
     },
     adresse: {
       type: String,
-    },
-    n_compte_bancaire: {
-      // type: Number,
-      type: String,
-      unique: true,
-      required: true,
     },
     // banque_rib: {
     //   type: Number,
@@ -50,62 +48,72 @@ const ProprietaireSchema = new Schema(
     //   type: Number,
     //   required: true,
     // },
-    taux_impot: {
-      type: Number,
-    },
-    retenue_source: {
-      type: Number,
-    },
-    montant_apres_impot: {
-      type: Number,
+    n_compte_bancaire: {
+      type: String,
+      unique: true,
+      required: true,
     },
     banque: {
       type: String,
       required: true,
     },
-    montant_loyer: {
-      type: Number,
-    },
     nom_agence_bancaire: {
       type: String,
     },
-    montant_avance_proprietaire: {
-      type: Number,
-    },
-    tax_avance_proprietaire: {
-      type: Number,
-    },
-    tax_par_periodicite: {
-      type: Number,
-    },
-    pourcentage: {
-      type: Number,
-    },
-    caution_par_proprietaire: {
-      type: Number,
-    },
-    deleted: {
-      type: Boolean,
-      default: false,
-    },
-    is_mandataire: {
-      type: Boolean,
-      default: false,
-    },
-    // has_mandataire:{
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Proprietaire',
-    // },
-    has_mandataire: {
+    type_proprietaire: {
       type: String,
-      default: null,
     },
-    proprietaire_list: [
-      {
-          type: Schema.Types.ObjectId,
-          ref: "Proprietaire",
-      },
-    ],
+    
+
+
+    // taux_impot: {
+    //   type: Number,
+    // },
+    // retenue_source: {
+    //   type: Number,
+    // },
+    // montant_apres_impot: {
+    //   type: Number,
+    // },
+    // montant_loyer: {
+    //   type: Number,
+    // },
+    // montant_avance_proprietaire: {
+    //   type: Number,
+    // },
+    // tax_avance_proprietaire: {
+    //   type: Number,
+    // },
+    // tax_par_periodicite: {
+    //   type: Number,
+    // },
+    // declaration_option: {
+    //   type: String,
+    // },
+    // caution_par_proprietaire: {
+    //   type: Number,
+    // },
+    // is_mandataire: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // part_proprietaire: {
+    //   type: Number,
+    // },
+    // has_mandataire: {
+    //   type: String,
+    //   default: null,
+    // },
+    // statut: {
+    //   type: String,
+    //   default: "Actif",
+    // },
+    // proprietaire_list: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Proprietaire",
+    //   },
+    // ],
   },
   { timestamps: true }
 );

@@ -8,22 +8,25 @@ const router = express.Router();
 
 router
   .route("/lieu/ajouter/:matricule")
-  .post(verifyRole.checkRoles("CDGSP", "CSLA"), postLieu.ajouterLieu);
+  .post(verifyRole.checkRoles("DAJC","CDGSP", "CSLA"), postLieu.ajouterLieu);
 
 router
   .route("/lieu/modifier/:Id/:matricule")
-  .patch(verifyRole.checkRoles("CDGSP", "CSLA"), modifierLieu.modifierLieu);
+  .patch(verifyRole.checkRoles("DAJC","CDGSP", "CSLA"), modifierLieu.modifierLieu);
 
 router
   .route("/lieu/all-lieu/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getAllLieu);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+    getLieu.getAllLieu);
 router
-  .route("/lieu/lieu-by-id/:Id:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuById);
+  .route("/lieu/lieu-by-id/:Id/:matricule")
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+    getLieu.getLieuById);
 router
   .route("/lieu/Dr/Sup/:matricule")
   .get(
-    verifyRole.checkRoles("CDGSP", "CSLA"),
     getLieu.getAllDirectionsAndSupervions
   );
 router
@@ -31,12 +34,20 @@ router
   .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getCountLieu);
 router
   .route("/lieu/detail/:Id/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getLieuById);
+  .get(
+    // verifyRole.checkRoles("CDGSP", "CSLA"), 
+  getLieu.getLieuById);
 router
   .route("/lieu/delete/:Id/:matricule")
   .patch(verifyRole.checkRoles("CDGSP", "CSLA"), deleteLieu.deletedLieu);
+// router
+//   .route("/lieu/contratByLieu/:Id/:matricule")
+//   .get(
+//     // verifyRole.checkRoles("CDGSP", "CSLA"), 
+//     getLieu.getContratByLieu);
 router
-  .route("/lieu/contratByLieu/:Id/:matricule")
-  .get(verifyRole.checkRoles("CDGSP", "CSLA"), getLieu.getContratByLieu);
+  .route("/lieu/lieu-by-type/:matricule")
+  .post(
+    getLieu.getLieuByType);
 
 module.exports = router;

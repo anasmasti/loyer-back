@@ -13,6 +13,16 @@ module.exports = {
       res.status(409).send({ message: "le matricule est déja existe" });
       return;
     }
+
+    let mailExist = await userRoles.findOne({
+      deleted: false,
+      email: req.body.email,
+    });
+
+    if (mailExist) {
+      res.status(409).send({ message: "le mail est déja existe" });
+      return;
+    }
     
     for (item in req.body.userRoles) {
       allUserRoles.push({
