@@ -12,6 +12,7 @@ module.exports = {
 
             await Contrat.find({ deleted: false, 'etat_contrat.libelle': 'Résilié', 'etat_contrat.etat.date_resiliation': { $lte: todayDate } }).sort({ 'updatedAt': -1 })
             .then(async (data) => {
+                console.log(data);
                     for (const i in data) {
                         if (data[i].etat_contrat.etat.reprise_caution == 'Récupérée') {
                             allNotifications.push({
