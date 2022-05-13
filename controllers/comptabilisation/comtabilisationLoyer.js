@@ -138,10 +138,11 @@ module.exports = {
 
     archiveComptabilisation
       .findOne({ mois: req.params.mois, annee: req.params.annee })
-      .then((data) => {
+      .sort({ updatedAt: "desc" })
+      .then(async (data) => {
         if (data) {
           //traitement du date
-          // return res.json(data)
+          // return res.json(data);
           // let dateGenerationVirement = data.date_generation_de_comptabilisation;
           let dateGenerationVirement = new Date(
             `${req.params.annee}/${req.params.mois}/01`
@@ -183,7 +184,7 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            generateLignComptable(
+            await generateLignComptable(
               data.comptabilisation_loyer_crediter[i],
               "D",
               dateWithSlash,
@@ -200,7 +201,7 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            generateLignComptable(
+            await generateLignComptable(
               data.comptabilisation_loyer_crediter[i],
               "C Net",
               dateWithSlash,
@@ -217,7 +218,7 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            generateLignComptable(
+            await generateLignComptable(
               data.comptabilisation_loyer_crediter[i],
               "C Tax",
               dateWithSlash,

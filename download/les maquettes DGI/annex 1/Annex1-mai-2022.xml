@@ -6,6 +6,7 @@
   <annee>2022</annee>
   <mois>5</mois>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <totalMntBrutLoyer>30000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>2500.00</totalMntRetenueSource>
   <totalMntNetLoyer>27500.00</totalMntNetLoyer>
@@ -109,18 +110,32 @@
       <mntRetenueSource>500.00</mntRetenueSource>
       <mntNetLoyer>9500.00</mntNetLoyer>
 =======
+=======
+  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>18500.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+>>>>>>> 44b19730978940d23a006b68756fc888f438a3de
       <numCNIBailleur>BJ10293</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
       <adresseBailleur>test adresse</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <adresseBien>QQQQQ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
+<<<<<<< HEAD
       <mntBrutLoyer>2000.00</mntBrutLoyer>
       <mntRetenueSource>0.00</mntRetenueSource>
       <mntNetLoyer>2000.00</mntNetLoyer>
 >>>>>>> 26651cce668d097296bd3c232f8048ac48290c1f
+=======
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>18500.00</mntNetLoyer>
+>>>>>>> 44b19730978940d23a006b68756fc888f438a3de
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
