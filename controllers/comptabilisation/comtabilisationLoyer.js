@@ -118,7 +118,7 @@ module.exports = {
         ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
         "-" +
         dateGenerationVirement.getFullYear() +
-        "||-\r\n";
+        "|-|-\r\n";
 
       if (!isMntZero) {
         fs.writeFileSync(
