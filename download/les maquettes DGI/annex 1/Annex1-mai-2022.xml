@@ -10,12 +10,12 @@
   <totalMntNetLoyer>18500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BJ10293</numCNIBailleur>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>q666465</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
-      <adresseBailleur>test adresse</adresseBailleur>
-      <adresseBien>QQQQQ</adresseBien>
+      <nomPrenomBailleur>Ali Benani</nomPrenomBailleur>
+      <adresseBailleur>aaaa</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
