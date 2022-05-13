@@ -303,7 +303,7 @@ module.exports = {
         async (foncier) => {
           let lieux = [];
           foncier.lieu.forEach((lieu) => {
-            if (!lieu.deleted) {
+            if (!lieu.deleted && lieu.etat_lieu == "En cours de transfert") {
               let updatedLieu = {
                 deleted: false,
                 etat_lieu: "Transférée",
@@ -751,7 +751,7 @@ module.exports = {
       .then(async (contrat) => {
         // Sending mail to CDGSP
         let mailData;
-        if (data.is_avenant) {
+        if (contrat.is_avenant) {
           mailData = {
             message: `Avenant N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
           };
