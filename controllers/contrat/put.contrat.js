@@ -1,10 +1,12 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const AffectationProrietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 const Foncier = require("../../models/foncier/foncier.model");
 const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
+const ClotureHelper = require("../helpers/cloture/cloture");
 const FilesHelper = require("../helpers/files");
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 
@@ -89,48 +91,102 @@ module.exports = {
       data.etat_contrat.libelle === "Suspendu" ||
       data.etat_contrat.libelle === "toactivate"
     ) {
-      etatContrat = {
-        libelle: "Suspendu",
-        etat: {
-          intitule_lieu: data.etat_contrat.etat.intitule_lieu,
-          date_suspension: data.etat_contrat.etat.date_suspension,
-          duree_suspension: data.etat_contrat.etat.duree_suspension,
-          motif_suspension: data.etat_contrat.etat.motif_suspension,
-          date_fin_suspension: data.etat_contrat.etat.date_fin_suspension,
-        },
-      };
+      let targetDateSUS = new Date(data.etat_contrat.etat.date_fin_suspension);
+      console.log("targetDateSUS", targetDateSUS);
+      if (targetDateSUS.getFullYear() < 2999) {
+        let targetDateFinMonth = targetDateSUS.getMonth() + 1;
+        let targetDateFinYear = targetDateSUS.getFullYear();
 
-      if (
-        data.etat_contrat.etat.duree_suspension != null &&
-        data.etat_contrat.etat.duree_suspension > 0
-      ) {
-        if (existedContrat.date_comptabilisation != null) {
-          const isLessThan = ContratHelper.chackContratDate(
-            existedContrat.date_comptabilisation,
-            data.etat_contrat.etat.date_fin_suspension
-          );
-          if (isLessThan) {
-            nextDateComptabilisation = new Date(
-              data.etat_contrat.etat.date_fin_suspension
-            );
-          } else {
-            nextDateComptabilisation = new Date(
-              existedContrat.date_comptabilisation
-            );
+        const dateTraitement = await ClotureHelper.getTraitementDate(req, res);
+        let targetDateMonth = dateTraitement.getMonth() + 1;
+        let targetDateYear = dateTraitement.getFullYear();
+        if (
+          (targetDateFinMonth == targetDateMonth &&
+            targetDateFinYear == targetDateYear) ||
+          (targetDateFinMonth > targetDateMonth &&
+            targetDateFinYear < targetDateYear) ||
+          (targetDateFinMonth < targetDateMonth &&
+            targetDateFinYear <= targetDateYear)
+        ) {
+          console.log("Innnnnnnnnnn Actif");
+          etatContrat = {
+            libelle: "Actif",
+            etat: {
+              intitule_lieu: data.etat_contrat.etat.intitule_lieu,
+              date_suspension: data.etat_contrat.etat.date_suspension,
+              duree_suspension: data.etat_contrat.etat.duree_suspension,
+              motif_suspension: data.etat_contrat.etat.motif_suspension,
+              date_fin_suspension: data.etat_contrat.etat.date_fin_suspension,
+            },
+          };
+
+          if (
+            data.etat_contrat.etat.duree_suspension != null &&
+            data.etat_contrat.etat.duree_suspension > 0
+          ) {
+            if (existedContrat.date_comptabilisation != null) {
+              const isLessThan = ContratHelper.chackContratDate(
+                existedContrat.date_comptabilisation,
+                data.etat_contrat.etat.date_fin_suspension
+              );
+              if (isLessThan) {
+                nextDateComptabilisation = new Date(
+                  data.etat_contrat.etat.date_fin_suspension
+                );
+              } else {
+                nextDateComptabilisation = new Date(
+                  existedContrat.date_comptabilisation
+                );
+              }
+            } else {
+              if (
+                ContratHelper.chackContratDate(
+                  data.date_premier_paiement,
+                  data.etat_contrat.etat.date_fin_suspension
+                )
+              ) {
+                nextDateComptabilisation = new Date(
+                  existedContrat.date_comptabilisation
+                );
+              }
+            }
           }
         } else {
-          if (
-            ContratHelper.chackContratDate(
-              data.date_premier_paiement,
-              data.etat_contrat.etat.date_fin_suspension
-            )
-          ) {
-            nextDateComptabilisation = new Date(
-              data.etat_contrat.etat.date_fin_suspension
-            );
-          }
+          console.log("Innnnnnnnnnn Sus 1");
+          etatContrat = {
+            libelle: "Suspendu",
+            etat: {
+              intitule_lieu: data.etat_contrat.etat.intitule_lieu,
+              date_suspension: data.etat_contrat.etat.date_suspension,
+              duree_suspension: data.etat_contrat.etat.duree_suspension,
+              motif_suspension: data.etat_contrat.etat.motif_suspension,
+              date_fin_suspension: data.etat_contrat.etat.date_fin_suspension,
+            },
+          };
+
+          nextDateComptabilisation = new Date(
+            data.etat_contrat.etat.date_fin_suspension
+          );
         }
+      } else {
+        console.log("Innnnnnnnnnn Sus 2");
+        etatContrat = {
+          libelle: "Suspendu",
+          etat: {
+            intitule_lieu: data.etat_contrat.etat.intitule_lieu,
+            date_suspension: data.etat_contrat.etat.date_suspension,
+            duree_suspension: data.etat_contrat.etat.duree_suspension,
+            motif_suspension: data.etat_contrat.etat.motif_suspension,
+            date_fin_suspension: data.etat_contrat.etat.date_fin_suspension,
+          },
+        };
+
+        nextDateComptabilisation = new Date(
+          data.etat_contrat.etat.date_fin_suspension
+        );
       }
+
+      nextDateComptabilisation = new Date();
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
@@ -257,16 +313,16 @@ module.exports = {
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
     if (existedContrat.montant_loyer != data.montant_loyer) {
-      await Contrat.find({ _id: req.params.Id, deleted: false })
-        .populate({ path: "foncier", populate: { path: "proprietaire" } })
-        .then(async (data_) => {
-          for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-            let partProprietaire =
-              data_[0].foncier.proprietaire[i].part_proprietaire;
-            let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+      await Contrat.findOne({ _id: req.params.Id }, { deleted: false })
+        .populate({ path: "foncier", match: { deleted: false } })
+        .populate({ path: "proprietaires", match: { deleted: false } })
+        .then(async (contrat) => {
+          for (let i = 0; i < contrat.proprietaires.length; i++) {
+            let partProprietaire = contrat.proprietaires[i].part_proprietaire;
+            let idProprietaire = contrat.proprietaires[i]._id;
             let updatedContrat = data;
             let hasDeclarationOption =
-              data_[0].foncier.proprietaire[i].declaration_option;
+              contrat.proprietaires[i].declaration_option;
 
             let updatedProprietaire = Calcule(
               updatedContrat,
@@ -275,7 +331,7 @@ module.exports = {
               hasDeclarationOption
             );
 
-            await Proprietaire.findByIdAndUpdate(
+            await AffectationProrietaire.findByIdAndUpdate(
               idProprietaire,
               updatedProprietaire
             )
