@@ -74,7 +74,7 @@ module.exports = {
           zoneInitialiseSpace.padEnd(1, " ") +
           "\r\n";
 
-      await fs.writeFileSync(
+        await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +
             " " +
@@ -158,14 +158,14 @@ module.exports = {
             ")" +
             zoneInitialiseSpace.padEnd(12, " ") +
             "LOYER " +
-            dateWithoutDay.padEnd(13, " ") +
-            (banqueRib == null
+            dateWithoutDay.padEnd(12, " ") +
+            (banqueRib != null
               ? zoneInitialiseSpace.padEnd(5, " ")
               : banqueRib.padStart(5, 0)) +
-            (villeRib == null
+            (villeRib != null
               ? zoneInitialiseSpace.padEnd(3, " ")
               : villeRib.padEnd(3, " ")) +
-            (cleRib == null
+            (cleRib != null
               ? zoneInitialiseSpace.padEnd(2, " ")
               : cleRib.padEnd(2, " ")) +
             zoneInitialiseSpace +
