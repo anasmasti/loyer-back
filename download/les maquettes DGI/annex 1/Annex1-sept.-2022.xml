@@ -5,8 +5,26 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>9</mois>
-  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>0.00</totalMntRetenueSource>
-  <totalMntNetLoyer>0.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier/>
+  <totalMntBrutLoyer>11000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>550.00</totalMntRetenueSource>
+  <totalMntNetLoyer>10450.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>F4755545</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NADIA LAla</nomPrenomBailleur>
+      <adresseBailleur>JUIOJHJIOJH546574</adresseBailleur>
+      <adresseBien>LKJOPJOPJ3654654</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>11000.00</mntBrutLoyer>
+      <mntRetenueSource>550.00</mntRetenueSource>
+      <mntNetLoyer>10450.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
 </VersementRASRF>
