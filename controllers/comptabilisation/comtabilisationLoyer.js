@@ -103,24 +103,22 @@ module.exports = {
         "|01|" +
         code +
         "|-|" +
-        codeDr
-          ? codeDr
-          : "|-|-" + "|" + codePv
-          ? codePv
-          : "|-|-" +
-            "|-|-|-|-|-|-|-|-|" +
-            fullMontant +
-            "|" +
-            sens +
-            "|" +
-            numeroContrat +
-            "-" +
-            proprietaireIdentifiant +
-            "|GFL " +
-            ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
-            "-" +
-            dateGenerationVirement.getFullYear() +
-            "|-|-\r\n";
+        codeDr +
+        "|" +
+        codePv +
+        "|-|-|-|-|-|-|-|-|" +
+        fullMontant +
+        "|" +
+        sens +
+        "|" +
+        numeroContrat +
+        "-" +
+        proprietaireIdentifiant +
+        "|GFL " +
+        ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
+        "-" +
+        dateGenerationVirement.getFullYear() +
+        "||-\r\n";
 
       if (!isMntZero) {
         fs.writeFileSync(
