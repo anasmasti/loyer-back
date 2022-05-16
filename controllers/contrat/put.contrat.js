@@ -25,7 +25,7 @@ module.exports = {
       data = null,
       isMotifMontantLoyerChanged = false,
       newMotifMontantLoyer = 0;
-      let
+
     try {
       data = JSON.parse(req.body.data);
       // data = req.body.data;

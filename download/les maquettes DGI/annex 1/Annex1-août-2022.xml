@@ -5,8 +5,60 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>8</mois>
-  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>0.00</totalMntRetenueSource>
-  <totalMntNetLoyer>0.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier/>
+  <totalMntBrutLoyer>80000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>12000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>68000.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>aq5146</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Mohamed Amine</nomPrenomBailleur>
+      <adresseBailleur>adrs</adresseBailleur>
+      <adresseBien>AAAAA</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>10000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>8500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>aq5146</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Mohamed Amine</nomPrenomBailleur>
+      <adresseBailleur>adrs</adresseBailleur>
+      <adresseBien>AAAAA</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>60000.00</mntBrutLoyer>
+      <mntRetenueSource>9000.00</mntRetenueSource>
+      <mntNetLoyer>51000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>q666465</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Ali Benani</nomPrenomBailleur>
+      <adresseBailleur>aaaa</adresseBailleur>
+      <adresseBien>Test adresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>10000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>8500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
 </VersementRASRF>
