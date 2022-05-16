@@ -13,8 +13,8 @@ const mongoose = require("mongoose");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      await clotureHelper.checkContratsAv();
-      await clotureHelper.checkDtFinContratsSus();
+      await clotureHelper.checkContratsAv(req, res);
+      await clotureHelper.checkDtFinContratsSus(req, res);
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
@@ -69,7 +69,7 @@ module.exports = {
       }
 
       if (contrat.length > 0) {
-        console.log('In traitement');
+        console.log("In traitement");
         //comptabilisation pour le paiement des loyers
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
@@ -97,10 +97,13 @@ module.exports = {
             contrat[i].etat_contrat.libelle == "Résilié" &&
             contrat[i].etat_contrat.etat.reprise_caution == "Récupérée"
           ) {
-            let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis)
-            let dateEffResilieMonth = dateEffResilie.getMonth() + 1
-            let dateEffResilieYear = dateEffResilie.getFullYear()
-            if (dateEffResilieMonth == req.body.mois && dateEffResilieYear == req.body.annee) {
+            let dateEffResilie = new Date(contrat[i].etat_contrat.etat.preavis);
+            let dateEffResilieMonth = dateEffResilie.getMonth() + 1;
+            let dateEffResilieYear = dateEffResilie.getFullYear();
+            if (
+              dateEffResilieMonth == req.body.mois &&
+              dateEffResilieYear == req.body.annee
+            ) {
               result = await traitementContratResilie.clotureContratResilie(
                 req,
                 res,
@@ -108,7 +111,7 @@ module.exports = {
                 dateGenerationDeComptabilisation,
                 Contrat,
                 false
-                );
+              );
               result.ordre_virement.forEach((ordVrm) => {
                 ordreVirement.push(ordVrm);
               });
@@ -121,7 +124,6 @@ module.exports = {
             }
           }
         } //end for
-
 
         // Store archives
         const existedEtatVirement = await etatVirementSch.findOne({
