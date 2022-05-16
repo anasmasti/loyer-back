@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
+  <annee>2022</annee>
+  <mois>5</mois>
+  <totalMntBrutLoyer>200000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>22500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>177500.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>aq5146</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Mohamed Amine</nomPrenomBailleur>
+      <adresseBailleur>adrs</adresseBailleur>
+      <adresseBien>tzest aresse</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>200000.00</mntBrutLoyer>
+      <mntRetenueSource>22500.00</mntRetenueSource>
+      <mntNetLoyer>177500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

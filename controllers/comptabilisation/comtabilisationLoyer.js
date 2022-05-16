@@ -103,9 +103,9 @@ module.exports = {
         "|01|" +
         code +
         "|-|" +
-        (codeDr == null ? codeDr : "|-|-") +
+        (codeDr != null ? codeDr : "-") +
         "|" +
-        (codePv == null ? codePv : "|-|-") +
+        (codePv != null ? codePv : "-") +
         "|-|-|-|-|-|-|-|-|" +
         fullMontant +
         "|" +
@@ -118,7 +118,7 @@ module.exports = {
         ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
         "-" +
         dateGenerationVirement.getFullYear() +
-        "||-\r\n";
+        "|-|-\r\n";
 
       if (!isMntZero) {
         fs.writeFileSync(
