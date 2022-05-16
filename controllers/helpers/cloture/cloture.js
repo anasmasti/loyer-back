@@ -53,28 +53,18 @@ module.exports = {
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       numero_contrat: numero_contrat,
       periodicite: periodicite,
-      montant_net: montant_loyer_net && montant_loyer_net.toFixed(2),
-      montant_tax: montant_tax && montant_tax.toFixed(2),
-      montant_caution: montant_caution && montant_caution.toFixed(2),
-      montant_brut: montant_brut && montant_brut.toFixed(2),
-      montant_brut_loyer: montant_brut_loyer && montant_brut_loyer.toFixed(2),
+      montant_net: montant_loyer_net,
+      montant_tax: montant_tax,
+      montant_caution: montant_caution,
+      montant_brut: montant_brut,
+      montant_brut_loyer: montant_brut_loyer,
       taux_impot: proprietaire.taux_impot,
-      caution_proprietaire:
-        proprietaire.caution_par_proprietaire &&
-        proprietaire.caution_par_proprietaire.toFixed(2),
-      tax_avance_proprietaire:
-        proprietaire.tax_avance_proprietair &&
-        proprietaire.tax_avance_proprietair.toFixed(2),
-      tax_loyer:
-        proprietaire.tax_par_periodicite &&
-        proprietaire.tax_par_periodicite.toFixed(2),
-      montant_loyer:
-        proprietaire.montant_loyer && proprietaire.montant_loyer.toFixed(2),
-      montant_avance_proprietaire:
-        proprietaire.montant_avance_proprietaire &&
-        proprietaire.montant_avance_proprietaire.toFixed(2),
-      retenue_source:
-        proprietaire.retenue_source && proprietaire.retenue_source.toFixed(2),
+      caution_proprietaire: proprietaire.caution_par_proprietaire,
+      tax_avance_proprietaire: proprietaire.tax_avance_proprietaire,
+      tax_loyer: proprietaire.tax_par_periodicite,
+      montant_loyer: proprietaire.montant_loyer,
+      montant_avance_proprietaire: proprietaire.montant_avance_proprietaire,
+      retenue_source: proprietaire.retenue_source,
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,
       updatedAt: updatedAt,
@@ -92,7 +82,7 @@ module.exports = {
   ) => {
     let comptabilisationLoyerDebite = {
       intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
-      montant_caution: montant_caution.toFixed(2),
+      montant_caution: montant_caution,
       numero_contrat: numero_contrat,
       direction_regional:
         lieu.lieu.type_lieu == "Direction régionale"
@@ -102,7 +92,7 @@ module.exports = {
           : lieu.lieu.attached_DR.code_lieu || null,
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
-      montant: montantDebiter && montantDebiter.toFixed(2),
+      montant: montantDebiter,
     };
     return comptabilisationLoyerDebite;
   },
@@ -139,9 +129,9 @@ module.exports = {
       type_lieu: lieu.lieu.type_lieu,
       numero_contrat: numero_contrat,
       periodicite: periodicite,
-      montant_net: montant_a_verse && montant_a_verse.toFixed(2),
-      montant_brut: montant_loyer_brut && montant_loyer_brut.toFixed(2),
-      montant_taxe: montant_tax && montant_tax.toFixed(2),
+      montant_net: montant_a_verse,
+      montant_brut: montant_loyer_brut,
+      montant_taxe: montant_tax,
       updatedAt: updatedAt ? updatedAt : "",
     };
     return orderVirement;
