@@ -5,6 +5,25 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>6</mois>
+<<<<<<< HEAD
+  <totalMntBrutLoyer>5000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>4500.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>R35456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KAMAL SAMIR</nomPrenomBailleur>
+      <adresseBailleur>KPKPKLKJ24654654</adresseBailleur>
+      <adresseBien>LKJDLJZAL44774</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
+=======
   <totalMntBrutLoyer>10000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>1500.00</totalMntRetenueSource>
   <totalMntNetLoyer>8500.00</totalMntNetLoyer>
@@ -22,6 +41,7 @@
       <mntBrutLoyer>10000.00</mntBrutLoyer>
       <mntRetenueSource>1500.00</mntRetenueSource>
       <mntNetLoyer>8500.00</mntNetLoyer>
+>>>>>>> 44b19730978940d23a006b68756fc888f438a3de
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
