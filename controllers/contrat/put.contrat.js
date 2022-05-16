@@ -1,5 +1,6 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const AffectationProrietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 const Foncier = require("../../models/foncier/foncier.model");
 const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
@@ -257,16 +258,16 @@ module.exports = {
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
     if (existedContrat.montant_loyer != data.montant_loyer) {
-      await Contrat.find({ _id: req.params.Id, deleted: false })
-        .populate({ path: "foncier", populate: { path: "proprietaire" } })
-        .then(async (data_) => {
-          for (let i = 0; i < data_[0].foncier.proprietaire.length; i++) {
-            let partProprietaire =
-              data_[0].foncier.proprietaire[i].part_proprietaire;
-            let idProprietaire = data_[0].foncier.proprietaire[i]._id;
+      await Contrat.findOne({ _id: req.params.Id }, { deleted: false })
+        .populate({ path: "foncier", match: { deleted: false } })
+        .populate({ path: "proprietaires", match: { deleted: false } })
+        .then(async (contrat) => {
+          for (let i = 0; i < contrat.proprietaires.length; i++) {
+            let partProprietaire = contrat.proprietaires[i].part_proprietaire;
+            let idProprietaire = contrat.proprietaires[i]._id;
             let updatedContrat = data;
             let hasDeclarationOption =
-              data_[0].foncier.proprietaire[i].declaration_option;
+              contrat.proprietaires[i].declaration_option;
 
             let updatedProprietaire = Calcule(
               updatedContrat,
@@ -275,7 +276,7 @@ module.exports = {
               hasDeclarationOption
             );
 
-            await Proprietaire.findByIdAndUpdate(
+            await AffectationProrietaire.findByIdAndUpdate(
               idProprietaire,
               updatedProprietaire
             )
