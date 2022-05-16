@@ -308,7 +308,11 @@ module.exports = {
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    if (existedContrat.montant_loyer != data.montant_loyer) {
+    if (
+      existedContrat.montant_loyer != data.montant_loyer ||
+      existedContrat.duree_avance != data.duree_avance ||
+      existedContrat.duree_caution != existedContrat.duree_caution
+    ) {
       await Contrat.findOne({ _id: req.params.Id }, { deleted: false })
         .populate({ path: "foncier", match: { deleted: false } })
         .populate({ path: "proprietaires", match: { deleted: false } })
