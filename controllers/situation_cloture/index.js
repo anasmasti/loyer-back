@@ -69,7 +69,6 @@ module.exports = {
       }
 
       if (contrat.length > 0) {
-        console.log("In traitement");
         //comptabilisation pour le paiement des loyers
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
@@ -134,6 +133,7 @@ module.exports = {
           mois: req.body.mois,
           annee: req.body.annee,
         });
+
         if (existedEtatVirement && existedEtatTaxes) {
           etatVirementSch
             .findByIdAndUpdate(
@@ -181,16 +181,15 @@ module.exports = {
             mois: req.body.mois,
             annee: req.body.annee,
           });
+
           etatVirement
             .save()
             .then(async (virementData) => {
               await etatTaxes
                 .save()
-                .then((comptabilisationData) => {
-                  etatMonsuelVirement(req, res);
-                  setTimeout(() => {
-                    etatMonsuelTaxes(req, res);
-                  }, 1000);
+                .then(async (comptabilisationData) => {
+                  await etatMonsuelVirement(req, res);
+                  etatMonsuelTaxes(req, res);
                   // res.json({
                   //   virementData,
                   //   comptabilisationData,
@@ -204,13 +203,12 @@ module.exports = {
               res.status(401).send({ message: error.message });
             });
         }
-        // End Store archives
-
         res.json({
           comptabilisationLoyerCrediter,
           comptabilisationLoyerDebiter,
           ordreVirement,
         });
+        // End Store archives
       } else {
         return res.status(402).send({ message: "Aucun contrat inséré" });
       }

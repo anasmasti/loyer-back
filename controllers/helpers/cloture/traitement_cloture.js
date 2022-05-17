@@ -346,7 +346,6 @@ module.exports = {
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {
-      console.log("2");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
@@ -481,7 +480,6 @@ module.exports = {
             dateDebutLoyer.getMonth() + periodicite
           );
         }
-        console.log("nextDateComptabilisation", nextDateComptabilisation);
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },
           {
