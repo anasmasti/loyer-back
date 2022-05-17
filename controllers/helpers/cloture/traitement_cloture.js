@@ -302,14 +302,14 @@ module.exports = {
                 Contrat.montant_avance +
                 Contrat.montant_caution;
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
@@ -442,14 +442,14 @@ module.exports = {
 
               montantDebiter = Contrat.montant_loyer + Contrat.montant_caution;
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
@@ -591,14 +591,14 @@ module.exports = {
 
               montantDebiter = Contrat.montant_loyer;
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
@@ -737,14 +737,14 @@ module.exports = {
 
               montantDebiter = Contrat.montant_loyer;
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
