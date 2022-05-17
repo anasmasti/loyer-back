@@ -108,7 +108,6 @@ module.exports = {
           (targetDateFinMonth < targetDateMonth &&
             targetDateFinYear <= targetDateYear)
         ) {
-          console.log("Innnnnnnnnnn Actif");
           etatContrat = {
             libelle: "Actif",
             etat: {
@@ -152,7 +151,6 @@ module.exports = {
             }
           }
         } else {
-          console.log("Innnnnnnnnnn Sus 1");
           etatContrat = {
             libelle: "Suspendu",
             etat: {
@@ -169,7 +167,6 @@ module.exports = {
           );
         }
       } else {
-        console.log("Innnnnnnnnnn Sus 2");
         etatContrat = {
           libelle: "Suspendu",
           etat: {
@@ -254,18 +251,18 @@ module.exports = {
           newMotifMontantLoyer = motif.montant_nouveau_loyer;
         }
 
-        if (motif.type_motif == "Décès" || motif.type_motif == "Cession") {
-          if (data.etat_contrat.etat.deleted_proprietaires.length > 0) {
-            data.etat_contrat.etat.deleted_proprietaires.forEach(
-              async (proprietaire) => {
-                await Proprietaire.findByIdAndUpdate(
-                  { _id: proprietaire },
-                  { statut: "À supprimer" }
-                );
-              }
-            );
-          }
-        }
+        // if (motif.type_motif == "Décès" || motif.type_motif == "Cession") {
+        //   if (data.etat_contrat.etat.deleted_proprietaires.length > 0) {
+        //     data.etat_contrat.etat.deleted_proprietaires.forEach(
+        //       async (proprietaire) => {
+        //         await Proprietaire.findByIdAndUpdate(
+        //           { _id: proprietaire },
+        //           { statut: "À supprimer" }
+        //         );
+        //       }
+        //     );
+        //   }
+        // }
       });
     }
 
@@ -300,7 +297,6 @@ module.exports = {
       duree_avance: data.duree_avance,
       n_engagement_depense: data.n_engagement_depense,
       echeance_revision_loyer: data.echeance_revision_loyer,
-      // lieu: data.lieu,
       etat_contrat: etatContrat,
       piece_joint_contrat: piece_joint_contrat,
       date_comptabilisation: nextDateComptabilisation
