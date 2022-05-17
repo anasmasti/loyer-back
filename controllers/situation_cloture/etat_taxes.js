@@ -33,7 +33,7 @@ const etatMonsuelTaxes = async (req, res) => {
             montantTaxeGlobal +=
               cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee
                 ? 0
-                : cmpt.montant_tax;
+                : cmpt.retenue_source;
             montantTaxeAvanceGlobal += !cmpt.avance_versee
               ? cmpt.tax_avance_proprietaire
               : 0;
@@ -58,7 +58,7 @@ const etatMonsuelTaxes = async (req, res) => {
               cmpt.montant_avance_proprietaire,
               cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee
                 ? "--"
-                : cmpt.montant_tax,
+                : cmpt.retenue_source,
               cmpt.tax_avance_proprietaire,
               !cmpt.caution_versee ? cmpt.caution_proprietaire : "--",
               cmpt.montant_net,

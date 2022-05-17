@@ -64,7 +64,7 @@ module.exports = {
       montant_loyer: +proprietaire.montant_loyer.toFixed(2),
       montant_avance_proprietaire:
         +proprietaire.montant_avance_proprietaire.toFixed(2),
-      // retenue_source: +proprietaire.retenue_source.toFixed(2),
+      retenue_source: +proprietaire.retenue_source.toFixed(2),
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,
       updatedAt: updatedAt,
