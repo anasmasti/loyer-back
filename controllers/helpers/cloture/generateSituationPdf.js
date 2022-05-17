@@ -23,7 +23,8 @@ async function generatePdf(data, etatType, mois, annee) {
         "utf8"
       );
       options = {
-        format: "A4",
+        format: "Lettre",
+        orientation: "landscape",
         base: "file://" + __dirname + "/public/images/",
       };
     }
