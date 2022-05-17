@@ -5,6 +5,7 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>6</mois>
+<<<<<<< HEAD
   <totalMntBrutLoyer>5000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>500.00</totalMntRetenueSource>
   <totalMntNetLoyer>4500.00</totalMntNetLoyer>
@@ -22,6 +23,25 @@
       <mntBrutLoyer>5000.00</mntBrutLoyer>
       <mntRetenueSource>500.00</mntRetenueSource>
       <mntNetLoyer>4500.00</mntNetLoyer>
+=======
+  <totalMntBrutLoyer>72000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>5400.00</totalMntRetenueSource>
+  <totalMntNetLoyer>66600.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>q666465</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Ali Benani</nomPrenomBailleur>
+      <adresseBailleur>aaaa</adresseBailleur>
+      <adresseBien>test asress</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>72000.00</mntBrutLoyer>
+      <mntRetenueSource>5400.00</mntRetenueSource>
+      <mntNetLoyer>66600.00</mntNetLoyer>
+>>>>>>> d35a871373b090405466041eb70c93b1d971e1e0
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

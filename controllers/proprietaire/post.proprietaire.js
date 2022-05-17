@@ -48,19 +48,19 @@ module.exports = {
 
       const proprietaire = new Proprietaire({
         deleted: false,
-        cin: req.body.cin,
-        passport: req.body.passport,
-        carte_sejour: req.body.carte_sejour,
-        nom_prenom: req.body.nom_prenom,
-        raison_social: req.body.raison_social,
+        cin: req.body.cin.toUpperCase(),
+        passport: req.body.passport.toUpperCase(),
+        carte_sejour: req.body.carte_sejour.toUpperCase(),
+        nom_prenom: req.body.nom_prenom.toUpperCase(),
+        raison_social: req.body.raison_social.toUpperCase(),
         n_registre_commerce: req.body.n_registre_commerce,
         telephone: req.body.telephone,
         fax: req.body.fax,
-        adresse: req.body.adresse,
+        adresse: req.body.adresse.toUpperCase(),
         n_compte_bancaire: req.body.n_compte_bancaire,
-        banque: req.body.banque,
+        banque: req.body.banque.toUpperCase(),
         type_proprietaire: req.body.type_proprietaire,
-        nom_agence_bancaire: req.body.nom_agence_bancaire,
+        nom_agence_bancaire: req.body.nom_agence_bancaire.toUpperCase(),
       });
 
       await proprietaire
