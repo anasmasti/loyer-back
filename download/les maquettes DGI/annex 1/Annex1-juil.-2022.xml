@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
+  <annee>2022</annee>
+  <mois>7</mois>
+  <totalMntBrutLoyer>15000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>13500.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>R35456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KAMAL SAMIR</nomPrenomBailleur>
+      <adresseBailleur>KPKPKLKJ24654654</adresseBailleur>
+      <adresseBien>LKJDLJZAL44774</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>H2356889</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>kamal lolo</nomPrenomBailleur>
+      <adresseBailleur>zedzopipikp 354684</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>4000.00</mntBrutLoyer>
+      <mntRetenueSource>400.00</mntRetenueSource>
+      <mntNetLoyer>3600.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>D5458486</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>samia nabil </nomPrenomBailleur>
+      <adresseBailleur>KIHIUHOJOIJO</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>H3835832</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>LATIFA LALA</nomPrenomBailleur>
+      <adresseBailleur>ZADKLEZDKPM25865</adresseBailleur>
+      <adresseBien>klodjkozajkdp casa 5468</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

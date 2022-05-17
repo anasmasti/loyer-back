@@ -5,40 +5,23 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>9</mois>
-  <totalMntBrutLoyer>70000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>10500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>59500.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>11000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>550.00</totalMntRetenueSource>
+  <totalMntNetLoyer>10450.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>aq5146</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>Mohamed Amine</nomPrenomBailleur>
-      <adresseBailleur>adrs</adresseBailleur>
-      <adresseBien>AAAAA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>8500.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>aq5146</numCNIBailleur>
+      <numCNIBailleur>F4755545</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Mohamed Amine</nomPrenomBailleur>
-      <adresseBailleur>adrs</adresseBailleur>
-      <adresseBien>AAAAA</adresseBien>
+      <nomPrenomBailleur>NADIA LAla</nomPrenomBailleur>
+      <adresseBailleur>JUIOJHJIOJH546574</adresseBailleur>
+      <adresseBien>LKJOPJOPJ3654654</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>60000.00</mntBrutLoyer>
-      <mntRetenueSource>9000.00</mntRetenueSource>
-      <mntNetLoyer>51000.00</mntNetLoyer>
+      <mntBrutLoyer>11000.00</mntBrutLoyer>
+      <mntRetenueSource>550.00</mntRetenueSource>
+      <mntNetLoyer>10450.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

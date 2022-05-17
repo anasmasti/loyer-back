@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
+  <annee>2022</annee>
+  <mois>8</mois>
+  <totalMntBrutLoyer>68000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>3900.00</totalMntRetenueSource>
+  <totalMntNetLoyer>64100.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>H2356889</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>kamal lolo</nomPrenomBailleur>
+      <adresseBailleur>zedzopipikp 354684</adresseBailleur>
+      <adresseBien>LKJFLJRFJKPO54864</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>24000.00</mntBrutLoyer>
+      <mntRetenueSource>800.00</mntRetenueSource>
+      <mntNetLoyer>23200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>F4755545</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NADIA LAla</nomPrenomBailleur>
+      <adresseBailleur>JUIOJHJIOJH546574</adresseBailleur>
+      <adresseBien>34336543</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>18500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>H3835832</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>LATIFA LALA</nomPrenomBailleur>
+      <adresseBailleur>ZADKLEZDKPM25865</adresseBailleur>
+      <adresseBien>ED3MKEOP2 565</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>14400.00</mntBrutLoyer>
+      <mntRetenueSource>960.00</mntRetenueSource>
+      <mntNetLoyer>13440.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>L3543463</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>FATIMA GAGA </nomPrenomBailleur>
+      <adresseBailleur>KJHKIHOIO2566</adresseBailleur>
+      <adresseBien>ED3MKEOP2 565</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>9600.00</mntBrutLoyer>
+      <mntRetenueSource>640.00</mntRetenueSource>
+      <mntNetLoyer>8960.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

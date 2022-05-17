@@ -5,23 +5,24 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
-  <totalMntBrutLoyer>200000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>22500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>177500.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>103547357.32</totalMntBrutLoyer>
+  <totalMntRetenueSource>15532103.60</totalMntRetenueSource>
+  <totalMntNetLoyer>88015253.73</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>aq5146</numCNIBailleur>
+      <numCNIBailleur>BJ123456</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Mohamed Amine</nomPrenomBailleur>
-      <adresseBailleur>adrs</adresseBailleur>
-      <adresseBien>tzest aresse</adresseBien>
+      <nomPrenomBailleur>TEST TEST</nomPrenomBailleur>
+      <adresseBailleur>3243243
+</adresseBailleur>
+      <adresseBien>HGFHFG</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>200000.00</mntBrutLoyer>
-      <mntRetenueSource>22500.00</mntRetenueSource>
-      <mntNetLoyer>177500.00</mntNetLoyer>
+      <mntBrutLoyer>103547357.32</mntBrutLoyer>
+      <mntRetenueSource>15532103.60</mntRetenueSource>
+      <mntNetLoyer>88015253.73</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
