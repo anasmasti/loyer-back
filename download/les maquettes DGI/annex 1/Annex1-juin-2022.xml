@@ -5,125 +5,23 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>6</mois>
-  <totalMntBrutLoyer>80838.29</totalMntBrutLoyer>
-  <totalMntRetenueSource>9900.00</totalMntRetenueSource>
-  <totalMntNetLoyer>65100.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>3000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>17000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>K324554</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KARIMA SASA</nomPrenomBailleur>
-      <adresseBailleur>LOKOPIKOP25484</adresseBailleur>
-      <adresseBien>LKJZEDIJOZ</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>24000.00</mntBrutLoyer>
-      <mntRetenueSource>3600.00</mntRetenueSource>
-      <mntNetLoyer>20400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>IL12254</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>FARIDA VAVA</nomPrenomBailleur>
-      <adresseBailleur>LKJOLJOJKPO</adresseBailleur>
-      <adresseBien>LKJZEDIJOZ</adresseBien>
+      <numCNIBailleur>BG432432</numCNIBailleur>
+      <numCEBailleur>321</numCEBailleur>
+      <nomPrenomBailleur>TETS TESTS</nomPrenomBailleur>
+      <adresseBailleur>11</adresseBailleur>
+      <adresseBien>AAAA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>L5245475</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>MORAD JOJO</nomPrenomBailleur>
-      <adresseBailleur>LKJIKJJOJIOJ354564</adresseBailleur>
-      <adresseBien>KUHUIH36565</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>9000.00</mntBrutLoyer>
-      <mntRetenueSource>900.00</mntRetenueSource>
-      <mntNetLoyer>8100.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
-      <numCNIBailleur>Z213568</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>NABIL MOMO</nomPrenomBailleur>
-      <adresseBailleur>JBHJKHHOIJ24564</adresseBailleur>
-      <adresseBien>KUHUIH36565</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF5</ifuBailleur>
-      <numCNIBailleur>L525655</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KHALID RARA</nomPrenomBailleur>
-      <adresseBailleur>IJIOJOJPO25456</adresseBailleur>
-      <adresseBien>KUHUIH36565</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF6</ifuBailleur>
-      <numCNIBailleur>D235689</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KAMILIA LALA</nomPrenomBailleur>
-      <adresseBailleur>LKJIDJZOJ25456</adresseBailleur>
-      <adresseBien>JKHDZHOJH2514584</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>24000.00</mntBrutLoyer>
-      <mntRetenueSource>3600.00</mntRetenueSource>
-      <mntNetLoyer>20400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF9</ifuBailleur>
-      <numCNIBailleur>L5245475</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>MORAD JOJO</nomPrenomBailleur>
-      <adresseBailleur>LKJIKJJOJIOJ354564</adresseBailleur>
-      <adresseBien>TANGER 255</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>5838.29</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>0.00</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

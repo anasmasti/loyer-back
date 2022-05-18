@@ -4,6 +4,7 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
+<<<<<<< HEAD
   <totalMntBrutLoyer>1262000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>129561.51</totalMntRetenueSource>
   <totalMntNetLoyer>1112438.49</totalMntNetLoyer>
@@ -15,19 +16,39 @@
       <nomPrenomBailleur>SOUMIA LALA</nomPrenomBailleur>
       <adresseBailleur>LJIOJOJ5756</adresseBailleur>
       <adresseBien>JKHIZEHD545</adresseBien>
+=======
+  <totalMntBrutLoyer>35000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>5250.00</totalMntRetenueSource>
+  <totalMntNetLoyer>29750.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>DS45456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>HEMADI TESTAWI</nomPrenomBailleur>
+      <adresseBailleur>AAA</adresseBailleur>
+      <adresseBien>AAAAAAAAAAA</adresseBien>
+>>>>>>> c0f230387b296abaf90d9d068607b17fd329c7c8
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
+<<<<<<< HEAD
       <mntBrutLoyerAnnuel>325879.00</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>46087.90</mntRetenueSourceAnnuel>
       <mntNetLoyerAnnuel>279791.10</mntNetLoyerAnnuel>
+=======
+      <mntBrutLoyerAnnuel>15000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>2250.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>12750.00</mntNetLoyerAnnuel>
+>>>>>>> c0f230387b296abaf90d9d068607b17fd329c7c8
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
+<<<<<<< HEAD
       <numCNIBailleur>68764654</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>STÉ LOCATION 22</nomPrenomBailleur>
@@ -213,13 +234,26 @@
       <nomPrenomBailleur>SAMIR DADA</nomPrenomBailleur>
       <adresseBailleur>KIJUIOJIOJOJK</adresseBailleur>
       <adresseBien>JKHDZHOJH2514584</adresseBien>
+=======
+      <numCNIBailleur>BG432432</numCNIBailleur>
+      <numCEBailleur>321</numCEBailleur>
+      <nomPrenomBailleur>TETS TESTS</nomPrenomBailleur>
+      <adresseBailleur>11</adresseBailleur>
+      <adresseBien>AAAA</adresseBien>
+>>>>>>> c0f230387b296abaf90d9d068607b17fd329c7c8
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
+<<<<<<< HEAD
       <mntBrutLoyerAnnuel>16204.30</mntBrutLoyerAnnuel>
       <mntRetenueSourceAnnuel>1620.43</mntRetenueSourceAnnuel>
       <mntNetLoyerAnnuel>14583.87</mntNetLoyerAnnuel>
+=======
+      <mntBrutLoyerAnnuel>20000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>3000.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>17000.00</mntNetLoyerAnnuel>
+>>>>>>> c0f230387b296abaf90d9d068607b17fd329c7c8
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

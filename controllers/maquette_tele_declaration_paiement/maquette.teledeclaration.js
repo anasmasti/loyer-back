@@ -4,8 +4,6 @@ const archivecomptabilisation = require("../../models/archive/archiveComptabilis
 const archivevirements = require("../../models/archive/archiveVirement.schema");
 const Contrat = require("../../models/contrat/contrat.model");
 const Test = require("../../controllers/contrat/get.contrat");
-// const Test =
-// const Contrat = require("../../controllers/");
 
 // Today's Date
 let currentDate = new Date();
@@ -82,9 +80,7 @@ function CreateAnnex1objectFromContrat(CurrentMonthContrats, annee, mois) {
       },
       identifiantFiscal: "IF",
       exerciceFiscalDu: annee + "-" + "01" + "-" + "01",
-      // exerciceFiscalDu: "2021" + "-" + "1" + "-" + "1",
       exerciceFiscalAu: annee + "-" + 12 + "-" + 31,
-      // exerciceFiscalAu: 2021 + "-" + 12 + "-" + 31,
       annee: annee,
       mois: mois,
       totalMntBrutLoyer: TotalMntBrutLoyer.toFixed(2),
@@ -121,45 +117,50 @@ function CreateAnnex1ObjectFromArchvCompt(
         archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_brut;
       TotalMntRetenueSource +=
         archivecomptabilisation.comptabilisation_loyer_crediter[i]
-          .montant_tax || 0;
+          .retenue_source || 0;
       TotalMntLoyer +=
         archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net;
       //List DetailRetenueRevFoncier
-      DetailRetenueRevFoncier.push({
-        ifuBailleur: `IF${i + 1}`,
-        numCNIBailleur:
-          archivecomptabilisation.comptabilisation_loyer_crediter[i].cin,
-        numCEBailleur:
-          archivecomptabilisation.comptabilisation_loyer_crediter[i]
-            .carte_sejour,
-        nomPrenomBailleur:
-          archivecomptabilisation.comptabilisation_loyer_crediter[i].nom_prenom,
-        adresseBailleur:
-          archivecomptabilisation.comptabilisation_loyer_crediter[i]
-            .adresse_proprietaire,
-        adresseBien:
-          archivecomptabilisation.comptabilisation_loyer_crediter[i]
-            .adresse_lieu,
-        typeBienBailleur: {
-          code: "LUC",
-        },
-        mntBrutLoyer:
-          archivecomptabilisation.comptabilisation_loyer_crediter[
-            i
-          ].montant_brut.toFixed(2), //!!!!!!!
-        // mntRetenueSource: data[0].retenue_source_par_mois,
-        mntRetenueSource:
-          archivecomptabilisation.comptabilisation_loyer_crediter[
-            i
-          ].montant_tax.toFixed(2),
-        mntNetLoyer:
-          archivecomptabilisation.comptabilisation_loyer_crediter[
-            i
-          ].montant_net.toFixed(2),
-        tauxRetenueRevFoncier: {
-          code: "TSR.10.2018",
-        },
-      });
+      if (
+        archivecomptabilisation.comptabilisation_loyer_crediter[i]
+          .retenue_source > 0
+      ) {
+        DetailRetenueRevFoncier.push({
+          ifuBailleur: `IF${i + 1}`,
+          numCNIBailleur:
+            archivecomptabilisation.comptabilisation_loyer_crediter[i].cin,
+          numCEBailleur:
+            archivecomptabilisation.comptabilisation_loyer_crediter[i]
+              .carte_sejour,
+          nomPrenomBailleur:
+            archivecomptabilisation.comptabilisation_loyer_crediter[i]
+              .nom_prenom,
+          adresseBailleur:
+            archivecomptabilisation.comptabilisation_loyer_crediter[i]
+              .adresse_proprietaire,
+          adresseBien:
+            archivecomptabilisation.comptabilisation_loyer_crediter[i]
+              .adresse_lieu,
+          typeBienBailleur: {
+            code: "LUC",
+          },
+          mntBrutLoyer:
+            archivecomptabilisation.comptabilisation_loyer_crediter[
+              i
+            ].montant_brut.toFixed(2),
+          mntRetenueSource:
+            archivecomptabilisation.comptabilisation_loyer_crediter[
+              i
+            ].retenue_source.toFixed(2),
+          mntNetLoyer:
+            archivecomptabilisation.comptabilisation_loyer_crediter[
+              i
+            ].montant_net.toFixed(2),
+          tauxRetenueRevFoncier: {
+            code: "TSR.10.2018",
+          },
+        });
+      }
     }
   }
   // Annex 1
@@ -171,9 +172,7 @@ function CreateAnnex1ObjectFromArchvCompt(
       },
       identifiantFiscal: "IF",
       exerciceFiscalDu: annee + "-" + "01" + "-" + "01",
-      // exerciceFiscalDu: "2021" + "-" + "1" + "-" + "1",
       exerciceFiscalAu: annee + "-" + 12 + "-" + 31,
-      // exerciceFiscalAu: 2021 + "-" + 12 + "-" + 31,
       annee: annee,
       mois: mois,
       totalMntBrutLoyer: TotalMntBrutLoyer.toFixed(2),
@@ -199,7 +198,6 @@ module.exports = {
       .then(async (data) => {
         // return res.json(data);
         if (data) {
-          console.log("Innnnn");
           Annex1 = await CreateAnnex1ObjectFromArchvCompt(
             data,
             req.params.annee,
@@ -233,65 +231,9 @@ module.exports = {
             }
           );
         }
-        // else {
-        // Contrat.find({ deleted: false })
-        //   .populate("foncier")
-        //   .populate({
-        //     path: "foncier",
-        //     populate: {
-        //       path: "proprietaire",
-        //       match: {
-        //         deleted: false,
-        //         statut: { $in: ["Actif", "À supprimer"] },
-        //       },
-        //     },
-        //   })
-        //   .limit(2)
-        //   .then((data) => {
-        //     // if (data.length > 0) {
-        //     for (let i = 0; i < data.length; i++) {
-        //       // Get the Compare Date between
-        //       // date_comptabilisation / date_premier_paiement / date_debut_loyer
-        //       if (data[i].date_comptabilisation != null) {
-        //         CompareDate = new Date(data[i].date_comptabilisation);
-        //       } else {
-        //         if (data[i].date_premier_paiement != null) {
-        //           CompareDate = new Date(data[i].date_premier_paiement);
-        //         } else {
-        //           CompareDate = new Date(data[i].date_debut_loyer);
-        //         }
-        //       }
-        //       CompareDate.setMonth(CompareDate.getMonth() - 1);
-        //       if (
-        //         CompareDate.getMonth() + 1 == req.params.mois &&
-        //         CompareDate.getFullYear() == req.params.annee
-        //       ) {
-        //         CurrentMonthContrats.push(data[i]); //!!!!!!!!!!!!!!!!!!!!!!!
-        //       }
-        //     }
-        //     if (CurrentMonthContrats.length > 0) {
-        //       Annex1 = CreateAnnex1objectFromContrat(
-        //         CurrentMonthContrats,
-        //         req.params.annee,
-        //         req.params.mois
-        //       );
-        //       // res.json(Annex1);
-        //     } else res.status(422).json({ message: " Date invalide " });
-        //     // } else {
-        //     //   res
-        //     //     .status(204)
-        //     //     .send({ message: "Aucune donnée à afficher dans ce mois" });
-        //     // }
-        //   })
-        //   .catch((error) => {
-        //     res.status(403).json({ message: error.message });
-        //   });
-        // }
       })
       .catch((error) => {
         res.status(403).json({ message: error.message });
       });
-
-    // res.send(data);
   },
 };
