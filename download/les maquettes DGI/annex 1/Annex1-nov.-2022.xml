@@ -4,13 +4,47 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>7</mois>
-  <totalMntBrutLoyer>91000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>12167.72</totalMntRetenueSource>
-  <totalMntNetLoyer>78832.28</totalMntNetLoyer>
+  <mois>11</mois>
+  <totalMntBrutLoyer>101000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>13567.72</totalMntRetenueSource>
+  <totalMntNetLoyer>87432.28</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>K324554</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KARIMA SASA</nomPrenomBailleur>
+      <adresseBailleur>LOKOPIKOP25484</adresseBailleur>
+      <adresseBien>LKJZEDIJOZ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>32000.00</mntBrutLoyer>
+      <mntRetenueSource>4800.00</mntRetenueSource>
+      <mntNetLoyer>27200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>IL12254</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>FARIDA VAVA</nomPrenomBailleur>
+      <adresseBailleur>LKJOLJOJKPO</adresseBailleur>
+      <adresseBien>LKJZEDIJOZ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>8000.00</mntBrutLoyer>
+      <mntRetenueSource>800.00</mntRetenueSource>
+      <mntNetLoyer>7200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>D235689</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>KAMILIA LALA</nomPrenomBailleur>
@@ -27,7 +61,7 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF2</ifuBailleur>
+      <ifuBailleur>IF4</ifuBailleur>
       <numCNIBailleur>K3544354</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>ABDOU FAFA</nomPrenomBailleur>
@@ -44,7 +78,7 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
+      <ifuBailleur>IF5</ifuBailleur>
       <numCNIBailleur>L254654</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>SAMIR DADA</nomPrenomBailleur>
@@ -61,7 +95,7 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
+      <ifuBailleur>IF6</ifuBailleur>
       <numCNIBailleur>L5245475</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>MORAD JOJO</nomPrenomBailleur>
@@ -78,7 +112,7 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF5</ifuBailleur>
+      <ifuBailleur>IF7</ifuBailleur>
       <numCNIBailleur>Z213568</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>NABIL MOMO</nomPrenomBailleur>
@@ -95,46 +129,12 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF6</ifuBailleur>
+      <ifuBailleur>IF8</ifuBailleur>
       <numCNIBailleur>L525655</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>KHALID RARA</nomPrenomBailleur>
       <adresseBailleur>IJIOJOJPO25456</adresseBailleur>
       <adresseBien>KUHUIH36565</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF7</ifuBailleur>
-      <numCNIBailleur>K324554</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KARIMA SASA</nomPrenomBailleur>
-      <adresseBailleur>LOKOPIKOP25484</adresseBailleur>
-      <adresseBien>LKJZEDIJOZ</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>24000.00</mntBrutLoyer>
-      <mntRetenueSource>3600.00</mntRetenueSource>
-      <mntNetLoyer>20400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF8</ifuBailleur>
-      <numCNIBailleur>IL12254</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>FARIDA VAVA</nomPrenomBailleur>
-      <adresseBailleur>LKJOLJOJKPO</adresseBailleur>
-      <adresseBien>LKJZEDIJOZ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>

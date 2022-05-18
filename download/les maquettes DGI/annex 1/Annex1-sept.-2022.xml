@@ -5,23 +5,108 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>9</mois>
-  <totalMntBrutLoyer>11000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>550.00</totalMntRetenueSource>
-  <totalMntNetLoyer>10450.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>61000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>7967.72</totalMntRetenueSource>
+  <totalMntNetLoyer>53032.28</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>F4755545</numCNIBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>D235689</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>NADIA LAla</nomPrenomBailleur>
-      <adresseBailleur>JUIOJHJIOJH546574</adresseBailleur>
-      <adresseBien>LKJOPJOPJ3654654</adresseBien>
+      <nomPrenomBailleur>KAMILIA LALA</nomPrenomBailleur>
+      <adresseBailleur>LKJIDJZOJ25456</adresseBailleur>
+      <adresseBien>JKHDZHOJH2514584</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>11000.00</mntBrutLoyer>
-      <mntRetenueSource>550.00</mntRetenueSource>
-      <mntNetLoyer>10450.00</mntNetLoyer>
+      <mntBrutLoyer>24000.00</mntBrutLoyer>
+      <mntRetenueSource>3600.00</mntRetenueSource>
+      <mntNetLoyer>20400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>K3544354</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>ABDOU FAFA</nomPrenomBailleur>
+      <adresseBailleur>MPKLPMKPK</adresseBailleur>
+      <adresseBien>JKHDZHOJH2514584</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>13354.40</mntBrutLoyer>
+      <mntRetenueSource>2003.16</mntRetenueSource>
+      <mntNetLoyer>11351.24</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>L254654</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SAMIR DADA</nomPrenomBailleur>
+      <adresseBailleur>KIJUIOJIOJOJK</adresseBailleur>
+      <adresseBien>JKHDZHOJH2514584</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>2645.60</mntBrutLoyer>
+      <mntRetenueSource>264.56</mntRetenueSource>
+      <mntNetLoyer>2381.04</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>L5245475</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MORAD JOJO</nomPrenomBailleur>
+      <adresseBailleur>LKJIKJJOJIOJ354564</adresseBailleur>
+      <adresseBien>KUHUIH36565</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>9000.00</mntBrutLoyer>
+      <mntRetenueSource>900.00</mntRetenueSource>
+      <mntNetLoyer>8100.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>Z213568</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NABIL MOMO</nomPrenomBailleur>
+      <adresseBailleur>JBHJKHHOIJ24564</adresseBailleur>
+      <adresseBien>KUHUIH36565</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>5400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF6</ifuBailleur>
+      <numCNIBailleur>L525655</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KHALID RARA</nomPrenomBailleur>
+      <adresseBailleur>IJIOJOJPO25456</adresseBailleur>
+      <adresseBien>KUHUIH36565</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>5400.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
