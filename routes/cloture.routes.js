@@ -19,9 +19,9 @@ router
 // router
 //   .route("/generate/etat-virement/:matricule")
 //   .post(verifyRole.checkRoles("CSLA"), etatVirement.etatMonsuelVirement);
-// router
-//   .route("/generate/etat-taxes/:matricule")
-//   .post(verifyRole.checkRoles("CSLA"), etat_taxes.etatMonsuelTaxes);
+router
+  .route("/generate/etat-taxes/:matricule")
+  .post(verifyRole.checkRoles("CSLA"), etat_taxes);
 router
   .route("/all-etats/:mois/:annee")
   .post(allpaths.allEtats);
