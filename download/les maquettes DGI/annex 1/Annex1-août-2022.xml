@@ -26,39 +26,5 @@
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>BG12456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>HAYLALA ONE</nomPrenomBailleur>
-      <adresseBailleur>1</adresseBailleur>
-      <adresseBien>AAAAAAAA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>4.05</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>4.05</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
-      <numCNIBailleur>BG196435</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>HAYLAL TWO</nomPrenomBailleur>
-      <adresseBailleur>5</adresseBailleur>
-      <adresseBien>AAAAAAAA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>36.42</mntBrutLoyer>
-      <mntRetenueSource>0.00</mntRetenueSource>
-      <mntNetLoyer>36.42</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
 </VersementRASRF>
