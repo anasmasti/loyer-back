@@ -73,42 +73,48 @@ module.exports = {
                   ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
                 )
               ) {
-                let proprietaireMnts = await calculProprietaireMnts(
-                  ArchCmptbList,
-                  ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
-                );
+                if (
+                  ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                    .declaration_option == "non"
+                ) {
+                  let proprietaireMnts = await calculProprietaireMnts(
+                    ArchCmptbList,
+                    ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
+                  );
 
-                //List DetailRetenueRevFoncier
-                index += 1;
-                DetailRetenueRevFoncier.push({
-                  ifuBailleur: `IF${index}`,
-                  numCNIBailleur:
-                    ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
-                  numCEBailleur:
-                    ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                      .carte_sejour,
-                  nomPrenomBailleur:
-                    ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                      .nom_prenom,
-                  adresseBailleur:
-                    ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                      .adresse_proprietaire,
-                  adresseBien:
-                    ArchCmptbList[i].comptabilisation_loyer_crediter[j]
-                      .adresse_lieu,
-                  typeBienBailleur: {
-                    code: "LUC",
-                  },
-                  numTSC: 0,
-                  mntBrutLoyerAnnuel: proprietaireMnts.mntBrutTotal.toFixed(2), //!!!!!!!
-                  mntRetenueSourceAnnuel:
-                    proprietaireMnts.mntRetenueSourceTotal.toFixed(2),
-                  mntNetLoyerAnnuel:
-                    proprietaireMnts.mntNetLoyerTotal.toFixed(2),
-                  tauxRetenueRevFoncier: {
-                    code: "TSR.10.2018",
-                  },
-                });
+                  //List DetailRetenueRevFoncier
+                  index += 1;
+                  DetailRetenueRevFoncier.push({
+                    ifuBailleur: `IF${index}`,
+                    numCNIBailleur:
+                      ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
+                    numCEBailleur:
+                      ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                        .carte_sejour,
+                    nomPrenomBailleur:
+                      ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                        .nom_prenom,
+                    adresseBailleur:
+                      ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                        .adresse_proprietaire,
+                    adresseBien:
+                      ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                        .adresse_lieu,
+                    typeBienBailleur: {
+                      code: "LUC",
+                    },
+                    numTSC: 0,
+                    mntBrutLoyerAnnuel:
+                      proprietaireMnts.mntBrutTotal.toFixed(2), //!!!!!!!
+                    mntRetenueSourceAnnuel:
+                      proprietaireMnts.mntRetenueSourceTotal.toFixed(2),
+                    mntNetLoyerAnnuel:
+                      proprietaireMnts.mntNetLoyerTotal.toFixed(2),
+                    tauxRetenueRevFoncier: {
+                      code: "TSR.10.2018",
+                    },
+                  });
+                }
               }
             } //end For
           } //end For
