@@ -874,7 +874,7 @@ module.exports = {
         if (emailsList.length > 0) {
           mail.sendMail(
             `${emailsList.join()}`,
-            "Contrat à valider",
+            "Contrat rejeté",
             "validation1",
             mailData
           );
