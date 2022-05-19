@@ -1,4 +1,5 @@
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
 const Lieu = require("../../models/lieu/lieu.model");
 const Contrat = require("../../models/contrat/contrat.model");
 const User = require("../../models/roles/roles.model");
@@ -12,11 +13,11 @@ module.exports = {
     try {
       const countProprietaire = await Proprietaire.countDocuments({
         deleted: false,
-      }) 
-      const countMandataire = await Proprietaire.countDocuments({
-        deleted: false, 
-        is_mandataire: true
-      })
+      });
+      const countMandataire = await AffectationProprietaire.countDocuments({
+        deleted: false,
+        is_mandataire: true,
+      });
       const countLieu = await Lieu.countDocuments({ deleted: false });
       const countContrat = await Contrat.countDocuments({ deleted: false });
       const countUser = await User.countDocuments({ deleted: false });
@@ -117,7 +118,7 @@ module.exports = {
 
       //count total des directeurs regional
       totalCountDirecteurRegional = countDirecteurRegional.length;
-    
+
       res.json({
         countProprietaire,
         countLieu,
@@ -127,7 +128,7 @@ module.exports = {
         totalCountDirecteurRegional,
         countUser,
         countFoncier,
-        countMandataire
+        countMandataire,
       });
     } catch (error) {
       res.status(402).send({ message: error.message });
