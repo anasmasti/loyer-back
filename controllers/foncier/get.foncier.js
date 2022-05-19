@@ -2,7 +2,7 @@ const Foncier = require("../../models/foncier/foncier.model");
 const Proprietaire = require("../../models/proprietaire/proprietaire.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Contrat = require("../../models/contrat/contrat.model");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 module.exports = {
   //get all foncier and populated with proprietaire deleted: false
@@ -156,10 +156,7 @@ module.exports = {
                         input: "$populatedLieu",
                         as: "populatedLieufillter",
                         cond: {
-                          $eq: [
-                            "$$populatedLieufillter._id",
-                            "$$lieumap.lieu",
-                          ],
+                          $eq: ["$$populatedLieufillter._id", "$$lieumap.lieu"],
                         },
                       },
                     },

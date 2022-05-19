@@ -117,17 +117,21 @@ module.exports = {
           nature_amenagement: data.amenagement[item].nature_amenagement,
           montant_amenagement: data.amenagement[item].montant_amenagement,
           valeur_nature_chargeProprietaire:
-            data.amenagement[item].valeur_nature_chargeProprietaire,
+            data.amenagement[
+              item
+            ].valeur_nature_chargeProprietaire.toUpperCase(),
           valeur_nature_chargeFondation:
-            data.amenagement[item].valeur_nature_chargeFondation,
-          numero_facture: data.amenagement[item].numero_facture,
-          numero_bon_commande: data.amenagement[item].numero_bon_commande,
+            data.amenagement[item].valeur_nature_chargeFondation.toUpperCase(),
+          numero_facture: data.amenagement[item].numero_facture.toUpperCase(),
+          numero_bon_commande:
+            data.amenagement[item].numero_bon_commande.toUpperCase(),
           date_passation_commande:
             data.amenagement[item].date_passation_commande,
-          evaluation_fournisseur: data.amenagement[item].evaluation_fournisseur,
+          evaluation_fournisseur:
+            data.amenagement[item].evaluation_fournisseur.toUpperCase(),
           date_fin_travaux: data.amenagement[item].date_fin_travaux,
           date_livraison_local: data.amenagement[item].date_livraison_local,
-          fournisseur: data.amenagement[item].fournisseur,
+          fournisseur: data.amenagement[item].fournisseur.toUpperCase(),
           images_apres_travaux: imagesAmenagement,
           croquis_travaux: imagesCroquis,
         });
@@ -137,14 +141,14 @@ module.exports = {
       }
 
       const foncier = new Foncier({
-        adresse: data.adresse,
+        adresse: data.adresse.toUpperCase(),
         ville: data.ville,
         desc_lieu_entrer: data.desc_lieu_entrer,
         imgs_lieu_entrer: imagesLieu,
         has_amenagements: data.has_amenagements,
         amenagement: amenagements,
         superficie: data.superficie,
-        etage: data.etage,
+        etage: data.etage.toUpperCase(),
         lieu: lieu,
         type_lieu: data.type_lieu,
         // etat: data.etat,
@@ -152,7 +156,7 @@ module.exports = {
       await foncier
         .save()
         .then((data) => {
-          res.json(data);
+          res.json(data._id);
         })
         .catch((error) => {
           res.status(402).send({ message: error.message });
@@ -171,13 +175,13 @@ module.exports = {
         // }
       }
       const foncier = new Foncier({
-        adresse: data.adresse,
+        adresse: data.adresse.toUpperCase(),
         ville: data.ville,
         desc_lieu_entrer: data.desc_lieu_entrer,
         imgs_lieu_entrer: imagesLieu,
         has_amenagements: data.has_amenagements,
         superficie: data.superficie,
-        etage: data.etage,
+        etage: data.etage.toUpperCase(),
         lieu: lieu,
         type_lieu: data.type_lieu,
         contrat: null,

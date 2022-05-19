@@ -5,23 +5,23 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
-  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>18500.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>15000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>2250.00</totalMntRetenueSource>
+  <totalMntNetLoyer>12750.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>q666465</numCNIBailleur>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>DS45456</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Ali Benani</nomPrenomBailleur>
-      <adresseBailleur>aaaa</adresseBailleur>
-      <adresseBien>Test adresse</adresseBien>
+      <nomPrenomBailleur>HEMADI TESTAWI</nomPrenomBailleur>
+      <adresseBailleur>AAA</adresseBailleur>
+      <adresseBien>AAAAAAAAAAA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>18500.00</mntNetLoyer>
+      <mntBrutLoyer>15000.00</mntBrutLoyer>
+      <mntRetenueSource>2250.00</mntRetenueSource>
+      <mntNetLoyer>12750.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

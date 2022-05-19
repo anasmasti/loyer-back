@@ -9,7 +9,7 @@ module.exports = {
 
     archiveOrdreVirement
       .findOne({ mois: req.params.mois, annee: req.params.annee })
-      .then((data) => {
+      .then(async (data) => {
         // let data = data_[0]
         // return res.json(data);
         //traitement du date
@@ -20,9 +20,10 @@ module.exports = {
         let currentDate = new Date();
         let dateGenerationFichier = `${("0" + currentDate.getDate()).slice(
           -2
-        )}${("0" + (dateGenerationVirement.getMonth() + 1)).slice(
-          -2
-        )}${currentDate.getFullYear().toString().slice(-1)}`;
+        )}${("0" + (currentDate.getMonth() + 1)).slice(-2)}${currentDate
+          .getFullYear()
+          .toString()
+          .slice(-1)}`;
         let dateGenerationVirementToString =
           "01" +
           ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
@@ -37,7 +38,7 @@ module.exports = {
         });
 
         //delete data from file if exist
-        fs.writeFile(
+        await fs.writeFile(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +
             " " +
@@ -74,7 +75,7 @@ module.exports = {
           zoneInitialiseSpace.padEnd(1, " ") +
           "\r\n";
 
-        fs.writeFileSync(
+        await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +
             " " +
@@ -158,7 +159,7 @@ module.exports = {
             ")" +
             zoneInitialiseSpace.padEnd(12, " ") +
             "LOYER " +
-            dateWithoutDay.padEnd(13, " ") +
+            dateWithoutDay.padEnd(12, " ") +
             (banqueRib == null
               ? zoneInitialiseSpace.padEnd(5, " ")
               : banqueRib.padStart(5, 0)) +
@@ -171,7 +172,7 @@ module.exports = {
             zoneInitialiseSpace +
             "\r\n";
 
-          fs.writeFileSync(
+          await fs.writeFileSync(
             "download/ordre virement/Ordre Virement " +
               dateMonthName +
               " " +
@@ -192,7 +193,7 @@ module.exports = {
           totalMontantsNet.toString().replace(".", "").padStart(16, 0) +
           zoneInitialiseSpace.padEnd(42, " ");
 
-        fs.writeFileSync(
+        await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +
             " " +

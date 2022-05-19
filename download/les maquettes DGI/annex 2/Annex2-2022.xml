@@ -4,24 +4,42 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>80000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>12000.00</totalMntRetenueSource>
-  <totalMntNetLoyer>68000.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>75040.47</totalMntBrutLoyer>
+  <totalMntRetenueSource>11250.00</totalMntRetenueSource>
+  <totalMntNetLoyer>63790.47</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>QQQQ</numCNIBailleur>
+      <numCNIBailleur>DS45456</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>LFLFLFLF</nomPrenomBailleur>
-      <adresseBailleur>111111</adresseBailleur>
-      <adresseBien>qqqqqqqqqqq</adresseBien>
+      <nomPrenomBailleur>HEMADI TESTAWI</nomPrenomBailleur>
+      <adresseBailleur>AAA</adresseBailleur>
+      <adresseBien>AAAAAAAAAAA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>0</numTSC>
-      <mntBrutLoyerAnnuel>80000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>12000.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>68000.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>15000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>2250.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>12750.00</mntNetLoyerAnnuel>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>BG432432</numCNIBailleur>
+      <numCEBailleur>321</numCEBailleur>
+      <nomPrenomBailleur>TETS TESTS</nomPrenomBailleur>
+      <adresseBailleur>11</adresseBailleur>
+      <adresseBien>AAAA</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <numTSC>0</numTSC>
+      <mntBrutLoyerAnnuel>60000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>9000.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>51000.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

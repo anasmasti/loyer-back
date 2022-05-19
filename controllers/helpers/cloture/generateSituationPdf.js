@@ -24,6 +24,7 @@ async function generatePdf(data, etatType, mois, annee) {
       );
       options = {
         format: "A4",
+        orientation: "landscape",
         base: "file://" + __dirname + "/public/images/",
       };
     }

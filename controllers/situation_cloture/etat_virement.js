@@ -51,9 +51,9 @@ const etatMonsuelVirement = async (req, res) => {
           " ",
           " ",
           " ",
-          montantBrutGlobal,
-          montantTaxeGlobal,
-          montantNetGlobal,
+          +montantBrutGlobal.toFixed(2),
+          +montantTaxeGlobal.toFixed(2),
+          +montantNetGlobal.toFixed(2),
         ]);
 
         const workSheetColumnName = [
@@ -90,9 +90,9 @@ const etatMonsuelVirement = async (req, res) => {
             date_generation_de_virement: contrat.date_generation_de_virement,
             mois: contrat.mois,
             annee: contrat.annee,
-            montant_brut_global: montantBrutGlobal,
-            montant_taxe_global: montantTaxeGlobal,
-            montant_net_global: montantNetGlobal,
+            montant_brut_global: +montantBrutGlobal.toFixed(2),
+            montant_taxe_global: +montantTaxeGlobal.toFixed(2),
+            montant_net_global: +montantNetGlobal.toFixed(2),
           },
           "état_des_virements",
           req.body.mois,

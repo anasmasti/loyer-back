@@ -92,7 +92,6 @@ module.exports = {
       data.etat_contrat.libelle === "toactivate"
     ) {
       let targetDateSUS = new Date(data.etat_contrat.etat.date_fin_suspension);
-      console.log("targetDateSUS", targetDateSUS);
       if (targetDateSUS.getFullYear() < 2999) {
         let targetDateFinMonth = targetDateSUS.getMonth() + 1;
         let targetDateFinYear = targetDateSUS.getFullYear();
@@ -108,7 +107,6 @@ module.exports = {
           (targetDateFinMonth < targetDateMonth &&
             targetDateFinYear <= targetDateYear)
         ) {
-          console.log("Innnnnnnnnnn Actif");
           etatContrat = {
             libelle: "Actif",
             etat: {
@@ -152,7 +150,6 @@ module.exports = {
             }
           }
         } else {
-          console.log("Innnnnnnnnnn Sus 1");
           etatContrat = {
             libelle: "Suspendu",
             etat: {
@@ -169,7 +166,6 @@ module.exports = {
           );
         }
       } else {
-        console.log("Innnnnnnnnnn Sus 2");
         etatContrat = {
           libelle: "Suspendu",
           etat: {
@@ -248,23 +244,48 @@ module.exports = {
         },
       };
 
-      data.etat_contrat.etat.motif.forEach((motif) => {
+      data.etat_contrat.etat.motif.forEach(async (motif) => {
         if (motif.type_motif == "Révision du prix du loyer") {
           isMotifMontantLoyerChanged = true;
           newMotifMontantLoyer = motif.montant_nouveau_loyer;
-        }
 
-        if (motif.type_motif == "Décès" || motif.type_motif == "Cession") {
-          if (data.etat_contrat.etat.deleted_proprietaires.length > 0) {
-            data.etat_contrat.etat.deleted_proprietaires.forEach(
-              async (proprietaire) => {
-                await Proprietaire.findByIdAndUpdate(
-                  { _id: proprietaire },
-                  { statut: "À supprimer" }
+          await Contrat.findOne({ _id: req.params.Id }, { deleted: false })
+            .populate({ path: "foncier", match: { deleted: false } })
+            .populate({ path: "proprietaires", match: { deleted: false } })
+            .then(async (contrat) => {
+              for (let i = 0; i < contrat.proprietaires.length; i++) {
+                let partProprietaire =
+                  contrat.proprietaires[i].part_proprietaire;
+                let idProprietaire = contrat.proprietaires[i]._id;
+                let updatedContrat = data;
+                let hasDeclarationOption =
+                  contrat.proprietaires[i].declaration_option;
+
+                let updatedProprietaire = Calcule(
+                  updatedContrat,
+                  partProprietaire,
+                  idProprietaire,
+                  hasDeclarationOption
                 );
+
+                await AffectationProrietaire.findByIdAndUpdate(
+                  idProprietaire,
+                  updatedProprietaire
+                )
+                  .then((data) => {
+                    // res.json(data);
+                    console.log("Proprietaire updated");
+                  })
+                  .catch((error) => {
+                    res.status(400).send({ message: error.message });
+                  });
               }
-            );
-          }
+            })
+            .catch((error) => {
+              res.status(422).send({
+                message: error.message,
+              });
+            });
         }
       });
     }
@@ -300,7 +321,6 @@ module.exports = {
       duree_avance: data.duree_avance,
       n_engagement_depense: data.n_engagement_depense,
       echeance_revision_loyer: data.echeance_revision_loyer,
-      // lieu: data.lieu,
       etat_contrat: etatContrat,
       piece_joint_contrat: piece_joint_contrat,
       date_comptabilisation: nextDateComptabilisation
@@ -312,7 +332,11 @@ module.exports = {
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Proprietaire ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     // Recalculate ( Proprietaire ) montant & taxes if ( Montant loyer changed )
-    if (existedContrat.montant_loyer != data.montant_loyer) {
+    if (
+      existedContrat.montant_loyer != data.montant_loyer ||
+      existedContrat.duree_avance != data.duree_avance ||
+      existedContrat.duree_caution != existedContrat.duree_caution
+    ) {
       await Contrat.findOne({ _id: req.params.Id }, { deleted: false })
         .populate({ path: "foncier", match: { deleted: false } })
         .populate({ path: "proprietaires", match: { deleted: false } })
@@ -850,7 +874,7 @@ module.exports = {
         if (emailsList.length > 0) {
           mail.sendMail(
             `${emailsList.join()}`,
-            "Contrat à valider",
+            "Contrat rejeté",
             "validation1",
             mailData
           );

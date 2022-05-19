@@ -212,11 +212,13 @@ module.exports = {
               montant_loyer_brut_loyer = 0;
 
               montant_loyer_brut_mandataire =
-                Contrat.proprietaires[j].montant_avance_proprietaire +
-                Contrat.proprietaires[j].caution_par_proprietaire;
+                +Contrat.proprietaires[j].montant_avance_proprietaire.toFixed(
+                  2
+                ) +
+                +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2);
 
               montant_tax_mandataire =
-                Contrat.proprietaires[j].tax_avance_proprietaire;
+                +Contrat.proprietaires[j].tax_avance_proprietaire.toFixed(2);
 
               montant_loyer_net_mandataire =
                 montant_loyer_brut_mandataire - montant_tax_mandataire;
@@ -249,25 +251,30 @@ module.exports = {
                   k++
                 ) {
                   montant_loyer_brut =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .montant_avance_proprietaire +
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .caution_par_proprietaire;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_avance_proprietaire.toFixed(2) +
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].caution_par_proprietaire.toFixed(2);
 
                   // Montant brut sur loyer
                   montant_loyer_brut_taxes = 0;
 
                   montant_tax =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .tax_avance_proprietaire;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].tax_avance_proprietaire.toFixed(2);
 
-                  montant_loyer_net = montant_loyer_brut - montant_tax;
+                  montant_loyer_net =
+                    +montant_loyer_brut.toFixed(2) - +montant_tax.toFixed(2);
 
-                  montant_a_verse += montant_loyer_net;
+                  montant_a_verse += +montant_loyer_net.toFixed(2);
 
-                  montant_tax_mandataire += montant_tax;
+                  montant_tax_mandataire += +montant_tax.toFixed(2);
 
-                  montant_loyer_brut_mandataire += montant_loyer_brut;
+                  montant_loyer_brut_mandataire +=
+                    +montant_loyer_brut.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -302,14 +309,14 @@ module.exports = {
                 Contrat.montant_avance +
                 Contrat.montant_caution;
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
@@ -346,7 +353,6 @@ module.exports = {
       req.body.mois == dateDebutLoyer.getMonth() + 1 &&
       req.body.annee == dateDebutLoyer.getFullYear()
     ) {
-      console.log("2");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
@@ -354,16 +360,17 @@ module.exports = {
               montant_loyer_brut_loyer = Contrat.proprietaires[j].montant_loyer;
 
               montant_loyer_brut_mandataire =
-                Contrat.proprietaires[j].caution_par_proprietaire +
-                Contrat.proprietaires[j].montant_loyer;
+                +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2) +
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
-              montant_tax_mandataire = Contrat.proprietaires[j].retenue_source;
+              montant_tax_mandataire =
+                +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
               montant_loyer_net_mandataire =
-                Contrat.proprietaires[j].caution_par_proprietaire +
-                Contrat.proprietaires[j].montant_apres_impot;
+                +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2) +
+                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
-              montant_a_verse = montant_loyer_net_mandataire;
+              montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
                 clotureHelper.createComptLoyerCredObject(
@@ -392,26 +399,35 @@ module.exports = {
                   k++
                 ) {
                   montant_loyer_brut_taxes =
-                    Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_loyer_brut =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .caution_par_proprietaire +
-                    Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].caution_par_proprietaire.toFixed(2) +
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_loyer_net =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .caution_par_proprietaire +
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .montant_apres_impot;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].caution_par_proprietaire.toFixed(2) +
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_apres_impot.toFixed(2);
 
                   montant_tax =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .retenue_source;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].retenue_source.toFixed(2);
 
-                  montant_a_verse += montant_loyer_net;
-                  montant_loyer_brut_mandataire += montant_loyer_brut;
-                  montant_tax_mandataire += montant_tax;
+                  montant_a_verse += +montant_loyer_net.toFixed(2);
+                  montant_loyer_brut_mandataire +=
+                    +montant_loyer_brut.toFixed(2);
+                  montant_tax_mandataire += +montant_tax.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -441,16 +457,18 @@ module.exports = {
                 }
               }
 
-              montantDebiter = Contrat.montant_loyer + Contrat.montant_caution;
+              montantDebiter =
+                +Contrat.montant_loyer.toFixed(2) +
+                +Contrat.montant_caution.toFixed(2);
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
@@ -481,7 +499,6 @@ module.exports = {
             dateDebutLoyer.getMonth() + periodicite
           );
         }
-        console.log("nextDateComptabilisation", nextDateComptabilisation);
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },
           {
@@ -508,17 +525,19 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
             if (Contrat.proprietaires[j].is_mandataire == true) {
-              montant_loyer_brut_loyer = Contrat.proprietaires[j].montant_loyer;
+              montant_loyer_brut_loyer =
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
               montant_loyer_net_mandataire =
-                Contrat.proprietaires[j].montant_apres_impot;
+                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
               montant_loyer_brut_mandataire =
-                Contrat.proprietaires[j].montant_loyer;
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
-              montant_tax_mandataire = Contrat.proprietaires[j].retenue_source;
+              montant_tax_mandataire =
+                +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
-              montant_a_verse = montant_loyer_net_mandataire;
+              montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
                 clotureHelper.createComptLoyerCredObject(
@@ -547,22 +566,29 @@ module.exports = {
                   k++
                 ) {
                   montant_loyer_brut_taxes =
-                    Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_loyer_net =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .montant_apres_impot;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_apres_impot.toFixed(2);
 
                   montant_loyer_brut =
-                    Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_tax =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .retenue_source;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].retenue_source.toFixed(2);
 
-                  montant_a_verse += montant_loyer_net;
-                  montant_loyer_brut_mandataire += montant_loyer_brut;
-                  montant_tax_mandataire += montant_tax;
+                  montant_a_verse += +montant_loyer_net.toFixed(2);
+                  montant_loyer_brut_mandataire +=
+                    +montant_loyer_brut.toFixed(2);
+                  montant_tax_mandataire += +montant_tax.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -591,16 +617,16 @@ module.exports = {
                 }
               }
 
-              montantDebiter = Contrat.montant_loyer;
+              montantDebiter = +Contrat.montant_loyer.toFixed(2);
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
@@ -654,17 +680,19 @@ module.exports = {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
             if (Contrat.proprietaires[j].is_mandataire == true) {
-              montant_loyer_brut_loyer = Contrat.proprietaires[j].montant_loyer;
+              montant_loyer_brut_loyer =
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
               montant_loyer_net_mandataire =
-                Contrat.proprietaires[j].montant_apres_impot;
+                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
               montant_loyer_brut_mandataire =
-                Contrat.proprietaires[j].montant_loyer;
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
-              montant_tax_mandataire = Contrat.proprietaires[j].retenue_source;
+              montant_tax_mandataire =
+                +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
-              montant_a_verse = montant_loyer_net_mandataire;
+              montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
                 clotureHelper.createComptLoyerCredObject(
@@ -693,22 +721,29 @@ module.exports = {
                   k++
                 ) {
                   montant_loyer_brut_taxes =
-                    Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_loyer_net =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .montant_apres_impot;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_apres_impot.toFixed(2);
 
                   montant_loyer_brut =
-                    Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_tax =
-                    Contrat.proprietaires[j].proprietaire_list[k]
-                      .retenue_source;
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].retenue_source.toFixed(2);
 
-                  montant_a_verse += montant_loyer_net;
-                  montant_loyer_brut_mandataire += montant_loyer_brut;
-                  montant_tax_mandataire += montant_tax;
+                  montant_a_verse += +montant_loyer_net.toFixed(2);
+                  montant_loyer_brut_mandataire +=
+                    +montant_loyer_brut.toFixed(2);
+                  montant_tax_mandataire += +montant_tax.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -737,16 +772,16 @@ module.exports = {
                 }
               }
 
-              montantDebiter = Contrat.montant_loyer;
+              montantDebiter = +Contrat.montant_loyer.toFixed(2);
 
-              comptabilisationLoyerDebiter.push(
-                clotureHelper.createComptLoyerDebiteObject(
-                  Contrat.foncier.lieu[g],
-                  Contrat.montant_caution,
-                  Contrat.numero_Contrat,
-                  montantDebiter
-                )
-              );
+              // comptabilisationLoyerDebiter.push(
+              //   clotureHelper.createComptLoyerDebiteObject(
+              //     Contrat.foncier.lieu[g],
+              //     Contrat.montant_caution,
+              //     Contrat.numero_Contrat,
+              //     montantDebiter
+              //   )
+              // );
 
               ordreVirement.push(
                 clotureHelper.createOrderVirementObject(
