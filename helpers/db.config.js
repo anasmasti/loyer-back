@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const DB_URL = process.env.DB_URL;
-const DB_LOCAL = process.env.DB_LOCAL;
+const DB_LOCAL = process.env.DB_CLOUD;
 
 //Database configuration
 const db_config = mongoose.connect(
