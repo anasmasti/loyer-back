@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
+  <annee>2022</annee>
+  <mois>5</mois>
+  <totalMntBrutLoyer>10000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>800.00</totalMntRetenueSource>
+  <totalMntNetLoyer>9200.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>qqqqqqq</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>qqqqqqq</nomPrenomBailleur>
+      <adresseBailleur>qqqqq</adresseBailleur>
+      <adresseBien>TEST</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF2</ifuBailleur>
+      <numCNIBailleur>BJ10293</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
+      <adresseBailleur>test adresse</adresseBailleur>
+      <adresseBien>TEST</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

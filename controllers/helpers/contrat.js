@@ -81,7 +81,6 @@ module.exports = {
       ],
       piece_joint_contrat: piece_jointe_avenant,
     });
-    // console.log("nouveauContrat", nouveauContrat);
     await nouveauContrat
       .save()
       .then((newContrat) => {
@@ -103,9 +102,8 @@ module.exports = {
               req,
               res,
               proprietaire,
-              ContratData,
               newContrat,
-              mntLoyer
+              ContratData.etat_contrat.etat.deleted_proprietaires
             );
           }
         }
