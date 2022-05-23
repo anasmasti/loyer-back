@@ -10,89 +10,6 @@ let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth() + 1;
 
-function CreateAnnex1objectFromContrat(CurrentMonthContrats, annee, mois) {
-  let ifuBailleur = 0;
-  let DetailRetenueRevFoncier = [];
-  let TotalMntBrutLoyer = 0;
-  let TotalMntRetenueSource = 0;
-  let TotalMntLoyer = 0;
-
-  // Make data unite ( Calculation )
-  for (let index = 0; index < CurrentMonthContrats.length; index++) {
-    TotalMntBrutLoyer += CurrentMonthContrats[index].total_montant_brut_loyer;
-    TotalMntRetenueSource +=
-      CurrentMonthContrats[index].retenue_source_par_mois;
-    TotalMntLoyer += CurrentMonthContrats[index].total_montant_net_loyer;
-
-    //List DetailRetenueRevFoncier
-    for (
-      let j = 0;
-      j < CurrentMonthContrats[index].foncier.proprietaire.length;
-      j++
-    ) {
-      if (
-        CurrentMonthContrats[index].foncier.proprietaire[j]
-          .declaration_option == "non"
-      ) {
-        ifuBailleur += 1;
-        DetailRetenueRevFoncier.push({
-          ifuBailleur: `IF${ifuBailleur}`,
-          numCNIBailleur:
-            CurrentMonthContrats[index].foncier.proprietaire[j].cin,
-          numCEBailleur:
-            CurrentMonthContrats[index].foncier.proprietaire[j].carte_sejour,
-          nomPrenomBailleur:
-            CurrentMonthContrats[index].foncier.proprietaire[j].nom_prenom,
-          adresseBailleur:
-            CurrentMonthContrats[index].foncier.proprietaire[j].adresse,
-          adresseBien: CurrentMonthContrats[index].foncier.adresse,
-          typeBienBailleur: {
-            code: "LUC",
-          },
-          mntBrutLoyer:
-            CurrentMonthContrats[index].foncier.proprietaire[
-              j
-            ].montant_loyer.toFixed(2),
-          mntRetenueSource:
-            CurrentMonthContrats[index].foncier.proprietaire[
-              j
-            ].retenue_source.toFixed(2),
-          mntNetLoyer:
-            CurrentMonthContrats[index].foncier.proprietaire[
-              j
-            ].montant_apres_impot.toFixed(2),
-          tauxRetenueRevFoncier: {
-            code: "TSR.10.2018",
-          },
-        });
-      }
-    }
-  }
-
-  // Annex 1
-  // let Annex1 =
-
-  return {
-    VersementRASRF: {
-      $: {
-        "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-        "xsi:noNamespaceSchemaLocation": "VersementRASRF.xsd",
-      },
-      identifiantFiscal: "IF",
-      exerciceFiscalDu: annee + "-" + "01" + "-" + "01",
-      exerciceFiscalAu: annee + "-" + 12 + "-" + 31,
-      annee: annee,
-      mois: mois,
-      totalMntBrutLoyer: TotalMntBrutLoyer.toFixed(2),
-      totalMntRetenueSource: TotalMntRetenueSource.toFixed(2),
-      totalMntNetLoyer: TotalMntLoyer.toFixed(2),
-      listDetailRetenueRevFoncier: {
-        DetailRetenueRevFoncier,
-      },
-    },
-  };
-}
-
 function CreateAnnex1ObjectFromArchvCompt(
   archivecomptabilisation,
   annee,
@@ -196,7 +113,7 @@ module.exports = {
       .findOne({ mois: req.params.mois, annee: req.params.annee })
       .sort({ updatedAt: "desc" })
       .then(async (data) => {
-        // return res.json(data);
+        return res.json(data);
         if (data) {
           Annex1 = await CreateAnnex1ObjectFromArchvCompt(
             data,
