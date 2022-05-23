@@ -94,7 +94,7 @@ module.exports = {
                       typeBienBailleur: {
                         code: "LUC",
                       },
-                      numTSC: 0,
+                      numTSC: '-',
                       mntBrutLoyerAnnuel:
                         proprietaireMnts.mntBrutTotal.toFixed(2), //!!!!!!!
                       mntRetenueSourceAnnuel:
