@@ -20,10 +20,9 @@ module.exports = {
         let currentDate = new Date();
         let dateGenerationFichier = `${("0" + currentDate.getDate()).slice(
           -2
-        )}${("0" + (currentDate.getMonth() + 1)).slice(-2)}${currentDate
-          .getFullYear()
-          .toString()
-          .slice(-1)}`;
+        )}${("0" + (dateGenerationVirement.getMonth() + 1)).slice(
+          -2
+        )}${currentDate.getFullYear().toString().slice(-1)}`;
         let dateGenerationVirementToString =
           "01" +
           ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +

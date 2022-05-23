@@ -4,58 +4,75 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>9</mois>
-  <totalMntBrutLoyer>250000.13</totalMntBrutLoyer>
-  <totalMntRetenueSource>15500.01</totalMntRetenueSource>
-  <totalMntNetLoyer>234500.12</totalMntNetLoyer>
+  <mois>5</mois>
+  <totalMntBrutLoyer>432664.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>52689.08</totalMntRetenueSource>
+  <totalMntNetLoyer>379974.92</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BG12456</numCNIBailleur>
+      <numCNIBailleur>D235689</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>HAYLALA ONE</nomPrenomBailleur>
-      <adresseBailleur>1</adresseBailleur>
-      <adresseBien>TRERST</adresseBien>
+      <nomPrenomBailleur>KAMILIA LALA</nomPrenomBailleur>
+      <adresseBailleur>LKJIDJZOJ25456</adresseBailleur>
+      <adresseBien>JKHDZHOJH2514584</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>224334.40</mntBrutLoyer>
-      <mntRetenueSource>11933.44</mntRetenueSource>
-      <mntNetLoyer>212400.96</mntNetLoyer>
+      <mntBrutLoyer>51000.00</mntBrutLoyer>
+      <mntRetenueSource>4050.00</mntRetenueSource>
+      <mntNetLoyer>46950.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>BG196435</numCNIBailleur>
+      <numCNIBailleur>K3544354</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>HAYLAL TWO</nomPrenomBailleur>
-      <adresseBailleur>5</adresseBailleur>
-      <adresseBien>AAAA</adresseBien>
+      <nomPrenomBailleur>ABDOU FAFA</nomPrenomBailleur>
+      <adresseBailleur>MPKLPMKPK</adresseBailleur>
+      <adresseBien>JKHDZHOJH2514584</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>5665.73</mntBrutLoyer>
-      <mntRetenueSource>566.57</mntRetenueSource>
-      <mntNetLoyer>5099.16</mntNetLoyer>
+      <mntBrutLoyer>28378.10</mntBrutLoyer>
+      <mntRetenueSource>2253.55</mntRetenueSource>
+      <mntNetLoyer>26124.55</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>BG432432</numCNIBailleur>
-      <numCEBailleur>321</numCEBailleur>
-      <nomPrenomBailleur>TETS TESTS</nomPrenomBailleur>
-      <adresseBailleur>11</adresseBailleur>
-      <adresseBien>AAAA</adresseBien>
+      <numCNIBailleur>L254654</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SAMIR DADA</nomPrenomBailleur>
+      <adresseBailleur>KIJUIOJIOJOJK</adresseBailleur>
+      <adresseBien>JKHDZHOJH2514584</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>17000.00</mntNetLoyer>
+      <mntBrutLoyer>5621.90</mntBrutLoyer>
+      <mntRetenueSource>297.63</mntRetenueSource>
+      <mntNetLoyer>5324.27</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>HJ325474</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SOUMIA LALA</nomPrenomBailleur>
+      <adresseBailleur>LJIOJOJ5756</adresseBailleur>
+      <adresseBien>JKHIZEHD545</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>325879.00</mntBrutLoyer>
+      <mntRetenueSource>46087.90</mntRetenueSource>
+      <mntNetLoyer>279791.10</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
