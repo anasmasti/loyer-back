@@ -33,9 +33,6 @@ module.exports = {
           }
         );
       });
-      TotalMntBrutLoyer += mntBrutTotal;
-      TotalMntRetenueSource += mntRetenueSourceTotal;
-      TotalMntLoyer += mntNetLoyerTotal;
       proprietaireList.push(cinProprietaire);
       return {
         mntBrutTotal: mntBrutTotal,
@@ -74,6 +71,11 @@ module.exports = {
 
                   //List DetailRetenueRevFoncier
                   if (proprietaireMnts.mntRetenueSourceTotal > 0) {
+                    TotalMntBrutLoyer += proprietaireMnts.mntBrutTotal;
+                    TotalMntRetenueSource +=
+                      proprietaireMnts.mntRetenueSourceTotal;
+                    TotalMntLoyer += proprietaireMnts.mntNetLoyerTotal;
+
                     index += 1;
                     DetailRetenueRevFoncier.push({
                       ifuBailleur: `IF${index}`,
@@ -94,7 +96,7 @@ module.exports = {
                       typeBienBailleur: {
                         code: "LUC",
                       },
-                      numTSC: '-',
+                      numTSC: "-",
                       mntBrutLoyerAnnuel:
                         proprietaireMnts.mntBrutTotal.toFixed(2), //!!!!!!!
                       mntRetenueSourceAnnuel:
