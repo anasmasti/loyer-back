@@ -40,7 +40,7 @@ module.exports = {
               path: "proprietaire",
             },
           ],
-          match: { is_mandataire: true },
+          match: { is_mandataire: true, deleted: false },
         })
         .sort({ updatedAt: "desc" });
      // console.log("requested data ", contrat);
