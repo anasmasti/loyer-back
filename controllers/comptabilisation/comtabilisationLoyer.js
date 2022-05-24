@@ -103,9 +103,9 @@ module.exports = {
         "|01|" +
         code +
         "|-|" +
-        codeDr +
+        (codeDr != null && sens == "D" ? codeDr : "-") +
         "|" +
-        codePv +
+        (codePv != null && sens == "D" ? codePv : "-") +
         "|-|-|-|-|-|-|-|-|" +
         fullMontant +
         "|" +
