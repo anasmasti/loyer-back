@@ -18,7 +18,8 @@ module.exports = {
     periodicite,
     updatedAt,
     caution_versee,
-    avance_versee
+    avance_versee,
+    montant_net_without_caution
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
@@ -70,6 +71,7 @@ module.exports = {
       updatedAt: updatedAt,
       caution_versee: caution_versee,
       avance_versee: avance_versee,
+      montant_net_without_caution: montant_net_without_caution,
     };
     return comptabilisationLoyerCrediter;
   },

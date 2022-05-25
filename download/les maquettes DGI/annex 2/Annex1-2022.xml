@@ -4,6 +4,7 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
+<<<<<<< HEAD
   <mois>5</mois>
   <totalMntBrutLoyer>432664.00</totalMntBrutLoyer>
   <totalMntRetenueSource>52689.08</totalMntRetenueSource>
@@ -22,12 +23,33 @@
       <mntBrutLoyer>51000.00</mntBrutLoyer>
       <mntRetenueSource>4050.00</mntRetenueSource>
       <mntNetLoyer>46950.00</mntNetLoyer>
+=======
+  <mois>6</mois>
+  <totalMntBrutLoyer>80000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>6000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>74000.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>BB10231</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Khalid tawiqi</nomPrenomBailleur>
+      <adresseBailleur>TEST ADRESSE</adresseBailleur>
+      <adresseBien>QFAS</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>18500.00</mntNetLoyer>
+>>>>>>> ae03047fc236b69bf9c3b7f0176b3831af975bbe
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
+<<<<<<< HEAD
       <numCNIBailleur>K3544354</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>ABDOU FAFA</nomPrenomBailleur>
@@ -73,6 +95,19 @@
       <mntBrutLoyer>325879.00</mntBrutLoyer>
       <mntRetenueSource>46087.90</mntRetenueSource>
       <mntNetLoyer>279791.10</mntNetLoyer>
+=======
+      <numCNIBailleur>BJ10293</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
+      <adresseBailleur>test adresse</adresseBailleur>
+      <adresseBien>TEST ADRESSE</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>60000.00</mntBrutLoyer>
+      <mntRetenueSource>4500.00</mntRetenueSource>
+      <mntNetLoyer>55500.00</mntNetLoyer>
+>>>>>>> ae03047fc236b69bf9c3b7f0176b3831af975bbe
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

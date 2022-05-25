@@ -192,6 +192,7 @@ module.exports = {
 
     let montant_loyer_net,
       montant_loyer_brut,
+      montant_net_without_caution = 0,
       montant_tax = 0,
       montant_loyer_brut_taxes,
       montant_loyer_brut_loyer;
@@ -223,6 +224,12 @@ module.exports = {
               montant_loyer_net_mandataire =
                 montant_loyer_brut_mandataire - montant_tax_mandataire;
 
+              montant_net_without_caution =
+                +Contrat.proprietaires[j].montant_avance_proprietaire.toFixed(
+                  2
+                ) -
+                +Contrat.proprietaires[j].tax_avance_proprietaire.toFixed(2);
+
               montant_a_verse = montant_loyer_net_mandataire;
 
               comptabilisationLoyerCrediter.push(
@@ -241,7 +248,8 @@ module.exports = {
                   Contrat.periodicite_paiement,
                   Contrat.updatedAt,
                   Contrat.caution_versee,
-                  Contrat.avance_versee
+                  Contrat.avance_versee,
+                  montant_net_without_caution
                 )
               );
               if (Contrat.proprietaires[j].proprietaire_list.length != 0) {
@@ -276,6 +284,14 @@ module.exports = {
                   montant_loyer_brut_mandataire +=
                     +montant_loyer_brut.toFixed(2);
 
+                  montant_net_without_caution =
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_avance_proprietaire.toFixed(2) -
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].tax_avance_proprietaire.toFixed(2);
+
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
                       Contrat.foncier,
@@ -293,7 +309,8 @@ module.exports = {
                       Contrat.periodicite_paiement,
                       Contrat.updatedAt,
                       Contrat.caution_versee,
-                      Contrat.avance_versee
+                      Contrat.avance_versee,
+                      montant_net_without_caution
                     )
                   );
                   montant_loyer_net = 0;
@@ -367,10 +384,15 @@ module.exports = {
                 +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
               montant_loyer_net_mandataire =
-                +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2) +
-                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
+                montant_loyer_brut_mandataire - montant_tax_mandataire;
+              // +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2) +
+              // +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
               montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
+
+              montant_net_without_caution =
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2) -
+                +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
                 clotureHelper.createComptLoyerCredObject(
@@ -388,7 +410,8 @@ module.exports = {
                   Contrat.periodicite_paiement,
                   Contrat.updatedAt,
                   Contrat.caution_versee,
-                  Contrat.avance_versee
+                  Contrat.avance_versee,
+                  montant_net_without_caution
                 )
               );
 
@@ -425,9 +448,19 @@ module.exports = {
                     ].retenue_source.toFixed(2);
 
                   montant_a_verse += +montant_loyer_net.toFixed(2);
+
                   montant_loyer_brut_mandataire +=
                     +montant_loyer_brut.toFixed(2);
+
                   montant_tax_mandataire += +montant_tax.toFixed(2);
+
+                  montant_net_without_caution =
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2) -
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].retenue_source.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -446,7 +479,8 @@ module.exports = {
                       Contrat.periodicite_paiement,
                       Contrat.updatedAt,
                       Contrat.caution_versee,
-                      Contrat.avance_versee
+                      Contrat.avance_versee,
+                      montant_net_without_caution
                     )
                   );
                   montant_loyer_net = 0;
@@ -539,6 +573,9 @@ module.exports = {
 
               montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
+              montant_net_without_caution =
+                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
+
               comptabilisationLoyerCrediter.push(
                 clotureHelper.createComptLoyerCredObject(
                   Contrat.foncier,
@@ -555,7 +592,8 @@ module.exports = {
                   Contrat.periodicite_paiement,
                   Contrat.updatedAt,
                   Contrat.caution_versee,
-                  Contrat.avance_versee
+                  Contrat.avance_versee,
+                  montant_net_without_caution
                 )
               );
 
@@ -586,9 +624,16 @@ module.exports = {
                     ].retenue_source.toFixed(2);
 
                   montant_a_verse += +montant_loyer_net.toFixed(2);
+
                   montant_loyer_brut_mandataire +=
                     +montant_loyer_brut.toFixed(2);
+
                   montant_tax_mandataire += +montant_tax.toFixed(2);
+
+                  montant_net_without_caution =
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_apres_impot.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -606,7 +651,8 @@ module.exports = {
                       Contrat.periodicite_paiement,
                       Contrat.updatedAt,
                       Contrat.caution_versee,
-                      Contrat.avance_versee
+                      Contrat.avance_versee,
+                      montant_net_without_caution
                     )
                   );
                   montant_loyer_net = 0;
@@ -694,6 +740,9 @@ module.exports = {
 
               montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
+              montant_net_without_caution =
+                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
+
               comptabilisationLoyerCrediter.push(
                 clotureHelper.createComptLoyerCredObject(
                   Contrat.foncier,
@@ -710,7 +759,8 @@ module.exports = {
                   Contrat.periodicite_paiement,
                   Contrat.updatedAt,
                   Contrat.caution_versee,
-                  Contrat.avance_versee
+                  Contrat.avance_versee,
+                  montant_net_without_caution
                 )
               );
 
@@ -741,9 +791,16 @@ module.exports = {
                     ].retenue_source.toFixed(2);
 
                   montant_a_verse += +montant_loyer_net.toFixed(2);
+
                   montant_loyer_brut_mandataire +=
                     +montant_loyer_brut.toFixed(2);
+
                   montant_tax_mandataire += +montant_tax.toFixed(2);
+
+                  montant_net_without_caution =
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_apres_impot.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
                     clotureHelper.createComptLoyerCredObject(
@@ -761,7 +818,8 @@ module.exports = {
                       Contrat.periodicite_paiement,
                       Contrat.updatedAt,
                       Contrat.caution_versee,
-                      Contrat.avance_versee
+                      Contrat.avance_versee,
+                      montant_net_without_caution
                     )
                   );
                   montant_loyer_net = 0;

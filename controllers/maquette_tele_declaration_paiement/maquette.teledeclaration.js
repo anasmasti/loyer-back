@@ -254,12 +254,10 @@ module.exports = {
                       typeBienBailleur: {
                         code: "LUC",
                       },
-                      mntBrutLoyer:
-                        proprietaireMnts.mntBrutTotal.toFixed(2), //!!!!!!!
-                        mntRetenueSource:
+                      mntBrutLoyer: proprietaireMnts.mntBrutTotal.toFixed(2), //!!!!!!!
+                      mntRetenueSource:
                         proprietaireMnts.mntRetenueSourceTotal.toFixed(2),
-                        mntNetLoyer:
-                        proprietaireMnts.mntNetLoyerTotal.toFixed(2),
+                      mntNetLoyer: proprietaireMnts.mntNetLoyerTotal.toFixed(2),
                       tauxRetenueRevFoncier: {
                         code: "TSR.10.2018",
                       },
