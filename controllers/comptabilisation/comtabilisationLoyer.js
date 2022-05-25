@@ -33,41 +33,9 @@ module.exports = {
       sens,
       code,
       montant
-      // Sens,
-      // dateWithSlash,
-      // dateWithDash,
-      // time,
-      // dateGenerationVirement,
-      // dateMonthName,
     ) {
       //traitement du montant
-      // let montant = 0;
       let isMntZero = montant == 0 ? true : false;
-      // let sens;
-      // let code;
-      // switch (Sens) {
-      //   case "D":
-      //     montant = comptabilisation_loyer_crediter.montant_brut;
-      //     isMntZero =
-      //       comptabilisation_loyer_crediter.montant_brut == 0 ? true : false;
-      //     sens = "D";
-      //     code = "64200001";
-      //     break;
-      //   case "C Tax":
-      //     montant = comptabilisation_loyer_crediter.montant_tax;
-      //     isMntZero =
-      //       comptabilisation_loyer_crediter.montant_tax == 0 ? true : false;
-      //     sens = "C";
-      //     code = "32100007";
-      //     break;
-      //   case "C Net":
-      //     montant = comptabilisation_loyer_crediter.montant_net;
-      //     isMntZero =
-      //       comptabilisation_loyer_crediter.montant_net == 0 ? true : false;
-      //     sens = "C";
-      //     code = "32700008";
-      //     break;
-      // }
       let addTwoNumbersAfterComma = montant.toFixed(2);
       let replacePointWithComma = addTwoNumbersAfterComma.replace(".", ",");
       let fullMontant = pad(replacePointWithComma, 9);
@@ -126,9 +94,9 @@ module.exports = {
         "|01|" +
         code +
         "|-|" +
-        (codeDr != null && sens == "D" ? codeDr : "-") +
+        (codeDr != null && code == "64200001" ? codeDr : "-") +
         "|" +
-        (codePv != null && sens == "D" ? codePv : "-") +
+        (codePv != null && code == "64200001" ? codePv : "-") +
         "|-|-|-|-|-|-|-|-|" +
         fullMontant +
         "|" +
@@ -169,7 +137,7 @@ module.exports = {
           // let dateGenerationVirement = data.date_generation_de_comptabilisation;
 
           // delete data from file if exist
-          fs.writeFile(
+          await fs.writeFile(
             "download/comptabilisation loyer/FichierComptableLoyer " +
               dateMonthName +
               " " +
