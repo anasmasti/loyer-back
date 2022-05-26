@@ -46,7 +46,7 @@ module.exports = {
       codeDr = comptabilisation_loyer_crediter.direction_regional;
       lieuIntitule = comptabilisation_loyer_crediter.intitule_lieu;
       if (comptabilisation_loyer_crediter.point_de_vente == "") {
-        codePv = "-";
+        codePv = "-|-";
       } else {
         codePv = comptabilisation_loyer_crediter.point_de_vente;
       }
@@ -105,7 +105,7 @@ module.exports = {
         numeroContrat +
         "-" +
         proprietaireIdentifiant +
-        "|GFL -" +
+        "|GFL " +
         ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
         "-" +
         dateGenerationVirement.getFullYear() +
@@ -137,7 +137,7 @@ module.exports = {
           // let dateGenerationVirement = data.date_generation_de_comptabilisation;
 
           // delete data from file if exist
-          fs.writeFile(
+          await fs.writeFile(
             "download/comptabilisation loyer/FichierComptableLoyer " +
               dateMonthName +
               " " +
