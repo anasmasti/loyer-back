@@ -1,6 +1,7 @@
 const Contrat = require("../../../models/contrat/contrat.model");
 const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
+const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 
 module.exports = {
   createComptLoyerCredObject: (
@@ -19,7 +20,10 @@ module.exports = {
     updatedAt,
     caution_versee,
     avance_versee,
-    montant_net_without_caution
+    is_late,
+    montant_net_without_caution,
+    mois,
+    annee
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
@@ -72,6 +76,9 @@ module.exports = {
       caution_versee: caution_versee,
       avance_versee: avance_versee,
       montant_net_without_caution: montant_net_without_caution,
+      mois: mois,
+      annee: annee,
+      is_late: is_late,
     };
     return comptabilisationLoyerCrediter;
   },
@@ -368,5 +375,113 @@ module.exports = {
         });
       });
     return nextCloture;
+  },
+
+  lateContratTreatment: async (
+    res,
+    contrat,
+    dateGenerationDeComptabilisation,
+    periodicite,
+    ContratSchema,
+    Cloture,
+    treatmentMonth,
+    treatmentAnnee
+  ) => {
+    let lateContratTreatmentDate = {
+      month: new Date(Contrat.date_debut_loyer).getMonth() + 1,
+      year: new Date(Contrat.date_debut_loyer).getFullYear(),
+    };
+    let isTreatmentEnded = false;
+    let comptabilisationLoyerCrediter = [],
+      comptabilisationLoyerDebiter = [],
+      ordreVirement = [];
+
+    while (!isTreatmentEnded) {
+      let result = await traitementCloture.traitementClotureActif(
+        Contrat,
+        dateGenerationDeComptabilisation,
+        periodicite,
+        ContratSchema,
+        true,
+        lateContratTreatmentDate.month,
+        lateContratTreatmentDate.year
+      );
+
+      ordreVirement.push(...result.ordre_virement);
+
+      comptabilisationLoyerCrediter.push(...result.cmptLoyerCrdt);
+
+      // Update archive comptabilisation
+      await archiveComptabilisation
+        .find({
+          mois: lateContratTreatmentDate.month,
+          annee: lateContratTreatmentDate.year,
+        })
+        .then(async (archiveCmpt) => {
+          let updatedComptabilisationLoyerCrediter = [
+            ...archiveCmpt.comptabilisation_loyer_crediter,
+          ];
+          for (let index = 0; index < result.cmptLoyerCrdt.length; index++) {
+            let comptLoyer = result.cmptLoyerCrdt[index];
+            comptLoyer.is_late = false;
+            updatedComptabilisationLoyerCrediter.push(comptLoyer);
+          }
+
+          await archiveComptabilisation.findByIdAndUpdate(
+            { _id: archiveCmpt._id },
+            {
+              comptabilisation_loyer_crediter:
+                updatedComptabilisationLoyerCrediter,
+            }
+          );
+        })
+        .catch((error) => {
+          res.status(402).send({ message: error.message });
+        });
+
+      // Update archive virement
+      await archiveVirement
+        .find({
+          mois: lateContratTreatmentDate.month,
+          annee: lateContratTreatmentDate.year,
+        })
+        .then(async (archiveVirmt) => {
+          let updatedOrdreVirement = [...archiveVirmt.ordre_virement];
+          for (let index = 0; index < result.ordre_virement.length; index++) {
+            let ordrVir = result.ordre_virement[index];
+            ordrVir.is_late = false;
+            updatedOrdreVirement.push(ordrVir);
+          }
+          await archiveVirement.findByIdAndUpdate(
+            { _id: archiveVirmt._id },
+            {
+              ordre_virement: updatedOrdreVirement,
+            }
+          );
+        })
+        .catch((error) => {
+          res.status(402).send({ message: error.message });
+        });
+
+      if (
+        lateContratTreatmentDate.month == treatmentMonth &&
+        lateContratTreatmentDate.year == treatmentAnnee
+      ) {
+        isTreatmentEnded = true;
+      } else {
+        if (lateContratTreatmentDate.month == 12) {
+          lateContratTreatmentDate.month = 1;
+          lateContratTreatmentDate.year = +lateContratTreatmentDate.year + 1;
+        } else {
+          lateContratTreatmentDate.month = +lateContratTreatmentDate.month + 1;
+        }
+      }
+    }
+
+    return {
+      ordre_virement: ordreVirement,
+      cmptLoyerCrdt: comptabilisationLoyerCrediter,
+      cmptLoyerDebt: comptabilisationLoyerDebiter,
+    };
   },
 };

@@ -5,17 +5,17 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>6</mois>
-  <totalMntBrutLoyer>80000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>6000.00</totalMntRetenueSource>
-  <totalMntNetLoyer>74000.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>55000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>4500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>50500.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BB10231</numCNIBailleur>
+      <numCNIBailleur>H2454343</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Khalid tawiqi</nomPrenomBailleur>
-      <adresseBailleur>TEST ADRESSE</adresseBailleur>
-      <adresseBien>QFAS</adresseBien>
+      <nomPrenomBailleur>NABILA RACHAD</nomPrenomBailleur>
+      <adresseBailleur>LKJLJOOJPO</adresseBailleur>
+      <adresseBien>AGADIR MOPO54534</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
@@ -28,17 +28,68 @@
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>BJ10293</numCNIBailleur>
+      <numCNIBailleur>M5454545</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Ahmed tawfiqi</nomPrenomBailleur>
-      <adresseBailleur>test adresse</adresseBailleur>
-      <adresseBien>TEST ADRESSE</adresseBien>
+      <nomPrenomBailleur>SAMAH LALA</nomPrenomBailleur>
+      <adresseBailleur>LOIOOPK254</adresseBailleur>
+      <adresseBien>AGADIR MOPO54534</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>60000.00</mntBrutLoyer>
-      <mntRetenueSource>4500.00</mntRetenueSource>
-      <mntNetLoyer>55500.00</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>18500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>BH789645</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>BENJELLOUN MOHAMED</nomPrenomBailleur>
+      <adresseBailleur>CASA</adresseBailleur>
+      <adresseBien>CASA</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5625.00</mntBrutLoyer>
+      <mntRetenueSource>562.50</mntRetenueSource>
+      <mntNetLoyer>5062.50</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>BH784123</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>BENJELLOUN AHMED</nomPrenomBailleur>
+      <adresseBailleur>CASA</adresseBailleur>
+      <adresseBien>CASA</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5625.00</mntBrutLoyer>
+      <mntRetenueSource>562.50</mntRetenueSource>
+      <mntNetLoyer>5062.50</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>LK326598</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>BENJELLOUNE LEILA</nomPrenomBailleur>
+      <adresseBailleur>CASA</adresseBailleur>
+      <adresseBien>CASA</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3750.00</mntBrutLoyer>
+      <mntRetenueSource>375.00</mntRetenueSource>
+      <mntNetLoyer>3375.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

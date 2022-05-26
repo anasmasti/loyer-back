@@ -155,10 +155,14 @@ const ContratSchema = new Schema(
     },
     has_avenant: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    is_late: {
+      type: Boolean,
+      default: false,
     },
 
-    // Proprietaires 
+    // Proprietaires
     proprietaires: [
       {
         type: Schema.Types.ObjectId,

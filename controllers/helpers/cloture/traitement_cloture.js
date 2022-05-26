@@ -2,13 +2,14 @@ const clotureHelper = require("./cloture");
 
 module.exports = {
   traitementClotureResilie: async (
-    req,
     res,
     Contrat,
     dateGenerationDeComptabilisation,
     periodicite,
     ContratSchema,
-    Cloture
+    Cloture,
+    treatmentMonth,
+    treatmentAnnee
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -128,8 +129,8 @@ module.exports = {
                 Contrat.proprietaires[j],
                 Contrat.numero_contrat,
                 Contrat.periodicite_paiement,
-                req.body.mois,
-                req.body.annee,
+                treatmentMonth,
+                treatmentAnnee,
                 montant_a_verse,
                 montant_loyer_brut_mandataire,
                 montant_tax_mandataire,
@@ -172,13 +173,14 @@ module.exports = {
   },
 
   traitementClotureActif: async (
-    req,
     res,
     Contrat,
     dateGenerationDeComptabilisation,
     periodicite,
     ContratSchema,
-    Cloture
+    Cloture,
+    treatmentMonth,
+    treatmentAnnee
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -203,8 +205,8 @@ module.exports = {
 
     if (
       Contrat.montant_avance > 0 &&
-      req.body.mois == dateDebutLoyer.getMonth() + 1 &&
-      req.body.annee == dateDebutLoyer.getFullYear()
+      treatmentMonth == dateDebutLoyer.getMonth() + 1 &&
+      treatmentAnnee == dateDebutLoyer.getFullYear()
     ) {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
@@ -249,7 +251,10 @@ module.exports = {
                   Contrat.updatedAt,
                   Contrat.caution_versee,
                   Contrat.avance_versee,
-                  montant_net_without_caution
+                  Contrat.is_late,
+                  montant_net_without_caution,
+                  treatmentMonth,
+                  treatmentAnnee
                 )
               );
               if (Contrat.proprietaires[j].proprietaire_list.length != 0) {
@@ -310,7 +315,10 @@ module.exports = {
                       Contrat.updatedAt,
                       Contrat.caution_versee,
                       Contrat.avance_versee,
-                      montant_net_without_caution
+                      Contrat.is_late,
+                      montant_net_without_caution,
+                      treatmentMonth,
+                      treatmentAnnee
                     )
                   );
                   montant_loyer_net = 0;
@@ -341,8 +349,8 @@ module.exports = {
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  req.body.mois,
-                  req.body.annee,
+                  treatmentMonth,
+                  treatmentAnnee,
                   montant_a_verse,
                   montant_loyer_brut_mandataire,
                   montant_tax_mandataire,
@@ -367,8 +375,8 @@ module.exports = {
 
     if (
       (Contrat.montant_avance == 0 || Contrat.montant_avance == null) &&
-      req.body.mois == dateDebutLoyer.getMonth() + 1 &&
-      req.body.annee == dateDebutLoyer.getFullYear()
+      treatmentMonth == dateDebutLoyer.getMonth() + 1 &&
+      treatmentAnnee == dateDebutLoyer.getFullYear()
     ) {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
@@ -411,7 +419,10 @@ module.exports = {
                   Contrat.updatedAt,
                   Contrat.caution_versee,
                   Contrat.avance_versee,
-                  montant_net_without_caution
+                  Contrat.is_late,
+                  montant_net_without_caution,
+                  treatmentMonth,
+                  treatmentAnnee
                 )
               );
 
@@ -480,7 +491,10 @@ module.exports = {
                       Contrat.updatedAt,
                       Contrat.caution_versee,
                       Contrat.avance_versee,
-                      montant_net_without_caution
+                      Contrat.is_late,
+                      montant_net_without_caution,
+                      treatmentMonth,
+                      treatmentAnnee
                     )
                   );
                   montant_loyer_net = 0;
@@ -510,8 +524,8 @@ module.exports = {
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  req.body.mois,
-                  req.body.annee,
+                  treatmentMonth,
+                  treatmentAnnee,
                   montant_a_verse,
                   montant_loyer_brut_mandataire,
                   montant_tax_mandataire,
@@ -552,8 +566,8 @@ module.exports = {
 
     if (
       Contrat.montant_avance > 0 &&
-      req.body.mois == premierDateDePaiement.getMonth() + 1 &&
-      req.body.annee == premierDateDePaiement.getFullYear()
+      treatmentMonth == premierDateDePaiement.getMonth() + 1 &&
+      treatmentAnnee == premierDateDePaiement.getFullYear()
     ) {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
@@ -593,7 +607,10 @@ module.exports = {
                   Contrat.updatedAt,
                   Contrat.caution_versee,
                   Contrat.avance_versee,
-                  montant_net_without_caution
+                  Contrat.is_late,
+                  montant_net_without_caution,
+                  treatmentMonth,
+                  treatmentAnnee
                 )
               );
 
@@ -652,7 +669,10 @@ module.exports = {
                       Contrat.updatedAt,
                       Contrat.caution_versee,
                       Contrat.avance_versee,
-                      montant_net_without_caution
+                      Contrat.is_late,
+                      montant_net_without_caution,
+                      treatmentMonth,
+                      treatmentAnnee
                     )
                   );
                   montant_loyer_net = 0;
@@ -680,8 +700,8 @@ module.exports = {
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  req.body.mois,
-                  req.body.annee,
+                  treatmentMonth,
+                  treatmentAnnee,
                   montant_a_verse,
                   montant_loyer_brut_mandataire,
                   montant_tax_mandataire,
@@ -719,8 +739,8 @@ module.exports = {
     }
 
     if (
-      req.body.mois == dateDeComptabilisation.getMonth() + 1 &&
-      req.body.annee == dateDeComptabilisation.getFullYear()
+      treatmentMonth == dateDeComptabilisation.getMonth() + 1 &&
+      treatmentAnnee == dateDeComptabilisation.getFullYear()
     ) {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
@@ -760,7 +780,10 @@ module.exports = {
                   Contrat.updatedAt,
                   Contrat.caution_versee,
                   Contrat.avance_versee,
-                  montant_net_without_caution
+                  Contrat.is_late,
+                  montant_net_without_caution,
+                  treatmentMonth,
+                  treatmentAnnee
                 )
               );
 
@@ -819,7 +842,10 @@ module.exports = {
                       Contrat.updatedAt,
                       Contrat.caution_versee,
                       Contrat.avance_versee,
-                      montant_net_without_caution
+                      Contrat.is_late,
+                      montant_net_without_caution,
+                      treatmentMonth,
+                      treatmentAnnee
                     )
                   );
                   montant_loyer_net = 0;
@@ -847,8 +873,8 @@ module.exports = {
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
                   Contrat.periodicite_paiement,
-                  req.body.mois,
-                  req.body.annee,
+                  treatmentMonth,
+                  treatmentAnnee,
                   montant_a_verse,
                   montant_loyer_brut_mandataire,
                   montant_tax_mandataire,

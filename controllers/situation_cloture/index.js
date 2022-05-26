@@ -74,12 +74,13 @@ module.exports = {
           //traitement pour comptabiliser les contrats Actif
           if (contrat[i].etat_contrat.libelle == "Actif") {
             result = await traitementContratActif.clotureContratActif(
-              req,
               res,
               contrat[i],
               dateGenerationDeComptabilisation,
               Contrat,
-              false
+              false,
+              req.body.mois,
+              req.body.annee
             );
             result.ordre_virement.forEach((ordVrm) => {
               ordreVirement.push(ordVrm);
@@ -104,12 +105,13 @@ module.exports = {
               dateEffResilieYear == req.body.annee
             ) {
               result = await traitementContratResilie.clotureContratResilie(
-                req,
                 res,
                 contrat[i],
                 dateGenerationDeComptabilisation,
                 Contrat,
-                false
+                false,
+                req.body.mois,
+                req.body.annee
               );
               result.ordre_virement.forEach((ordVrm) => {
                 ordreVirement.push(ordVrm);

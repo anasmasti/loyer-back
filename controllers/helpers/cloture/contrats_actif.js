@@ -1,16 +1,23 @@
 const traitementCloture = require("./traitement_cloture");
+const clotureHelper = require("./cloture");
 
 module.exports = {
   clotureContratActif: (
-    req,
     res,
     Contrat,
     dateGenerationDeComptabilisation,
     ContratSchema,
-    Cloture
+    Cloture,
+    treatmentMonth,
+    treatmentAnnee
   ) => {
     try {
       let periodicite;
+
+      // let date_premier_pai = {
+      //   month: new Date(Contrat.date_premier_paiement).getMonth() + 1,
+      //   year: new Date(Contrat.date_premier_paiement).getFullYear(),
+      // };
 
       //traitement du periodicite Mensuelle
       if (Contrat.periodicite_paiement == "mensuelle") {
@@ -27,15 +34,29 @@ module.exports = {
         periodicite = 12;
       }
 
-      return traitementCloture.traitementClotureActif(
-        req,
-        res,
-        Contrat,
-        dateGenerationDeComptabilisation,
-        periodicite,
-        ContratSchema,
-        Cloture
-      );
+      if (Contrat.is_late) {
+        return clotureHelper.lateContratTreatment(
+          res,
+          Contrat,
+          dateGenerationDeComptabilisation,
+          periodicite,
+          ContratSchema,
+          Cloture,
+          treatmentMonth,
+          treatmentAnnee
+        );
+      } else {
+        return traitementCloture.traitementClotureActif(
+          res,
+          Contrat,
+          dateGenerationDeComptabilisation,
+          periodicite,
+          ContratSchema,
+          Cloture,
+          treatmentMonth,
+          treatmentAnnee
+        );
+      }
     } catch (error) {
       res.status(402).json({ messssssage: error.message });
     }

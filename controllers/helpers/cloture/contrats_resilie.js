@@ -7,7 +7,9 @@ module.exports = {
     Contrat,
     dateGenerationDeComptabilisation,
     ContratSchema,
-    Cloture
+    Cloture,
+    treatmentMonth,
+    treatmentAnnee
   ) => {
     try {
       let periodicite;
@@ -28,13 +30,14 @@ module.exports = {
       }
 
       return traitementCloture.traitementClotureResilie(
-        req,
         res,
         Contrat,
         dateGenerationDeComptabilisation,
         periodicite,
         ContratSchema,
-        Cloture
+        Cloture,
+        treatmentMonth,
+        treatmentAnnee
       );
     } catch (error) {
       res.status(402).json({ messssssage: error.message });
