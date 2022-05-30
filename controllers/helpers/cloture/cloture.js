@@ -2,6 +2,7 @@ const Contrat = require("../../../models/contrat/contrat.model");
 const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
+const sharedHelper = require("./shared/aggrigationObjects");
 
 module.exports = {
   createComptLoyerCredObject: (
@@ -392,9 +393,11 @@ module.exports = {
       year: new Date(Contrat.date_debut_loyer).getFullYear(),
     };
     let isTreatmentEnded = false;
-    let comptabilisationLoyerCrediter = [],
-      comptabilisationLoyerDebiter = [],
-      ordreVirement = [];
+    let aggrigatedComptabilisationLoyer = [],
+      aggrigatedOrdreVirement = [],
+      comptabilisationLoyer = [],
+      ordreVirement = [],
+      code;
 
     while (!isTreatmentEnded) {
       let result = await traitementCloture.traitementClotureActif(
@@ -407,80 +410,33 @@ module.exports = {
         lateContratTreatmentDate.year
       );
 
-      ordreVirement.push(...result.ordre_virement);
-
-      comptabilisationLoyerCrediter.push(...result.cmptLoyerCrdt);
-
-      // Update archive comptabilisation
-      await archiveComptabilisation
-        .find({
-          mois: lateContratTreatmentDate.month,
-          annee: lateContratTreatmentDate.year,
-        })
-        .then(async (archiveCmpt) => {
-          let updatedComptabilisationLoyerCrediter = [
-            ...archiveCmpt.comptabilisation_loyer_crediter,
-          ];
-          for (let index = 0; index < result.cmptLoyerCrdt.length; index++) {
-            let comptLoyer = result.cmptLoyerCrdt[index];
-            comptLoyer.is_late = false;
-            updatedComptabilisationLoyerCrediter.push(comptLoyer);
-          }
-
-          await archiveComptabilisation.findByIdAndUpdate(
-            { _id: archiveCmpt._id },
-            {
-              comptabilisation_loyer_crediter:
-                updatedComptabilisationLoyerCrediter,
-            }
-          );
-        })
-        .catch((error) => {
-          res.status(402).send({ message: error.message });
-        });
-
-      // Update archive virement
-      await archiveVirement
-        .find({
-          mois: lateContratTreatmentDate.month,
-          annee: lateContratTreatmentDate.year,
-        })
-        .then(async (archiveVirmt) => {
-          let updatedOrdreVirement = [...archiveVirmt.ordre_virement];
-          for (let index = 0; index < result.ordre_virement.length; index++) {
-            let ordrVir = result.ordre_virement[index];
-            ordrVir.is_late = false;
-            updatedOrdreVirement.push(ordrVir);
-          }
-          await archiveVirement.findByIdAndUpdate(
-            { _id: archiveVirmt._id },
-            {
-              ordre_virement: updatedOrdreVirement,
-            }
-          );
-        })
-        .catch((error) => {
-          res.status(402).send({ message: error.message });
-        });
-
+      ordreVirement.push(result.ordre_virement);
+      comptabilisationLoyer.push(result.cmptLoyerCrdt);
       if (
         lateContratTreatmentDate.month == treatmentMonth &&
         lateContratTreatmentDate.year == treatmentAnnee
       ) {
         isTreatmentEnded = true;
+        aggrigatedOrdreVirement.push(ordreVirement);
+        aggrigatedComptabilisationLoyer.push(comptabilisationLoyer);
       } else {
         if (lateContratTreatmentDate.month == 12) {
           lateContratTreatmentDate.month = 1;
           lateContratTreatmentDate.year = +lateContratTreatmentDate.year + 1;
+          aggrigatedOrdreVirement.push(
+            sharedHelper.aggrigateOrderVirementObjects()
+          );
+          aggrigatedComptabilisationLoyer.push(
+            sharedHelper.aggrigateLoyerComptObjects()
+          );
         } else {
           lateContratTreatmentDate.month = +lateContratTreatmentDate.month + 1;
         }
       }
     }
-
     return {
-      ordre_virement: ordreVirement,
-      cmptLoyerCrdt: comptabilisationLoyerCrediter,
+      ordre_virement: aggrigatedOrdreVirement,
+      cmptLoyerCrdt: aggrigatedComptabilisationLoyer,
       cmptLoyerDebt: comptabilisationLoyerDebiter,
     };
   },
