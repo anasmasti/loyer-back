@@ -11,12 +11,10 @@ async function storePaths(mois, annee, extentionSent, dateToString, etatType) {
       annee: annee,
     })
     .then(async (data) => {
-      // return console.log(data);
       try {
         if (data.length == 0) {
           reportingPaths.push({
             [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extentionSent}/${etatType}_${dateToString}.${extentionSent}`,
-            // extention: extention,
           });
           let etat_paths = new etatPaths({
             etat_paths: reportingPaths,
@@ -26,18 +24,7 @@ async function storePaths(mois, annee, extentionSent, dateToString, etatType) {
           return await etat_paths.save();
         } else {
           for (let i = 0; i < data[0].etat_paths.length; i++) {
-            // for (j in data[0].etat_paths[i]) {
-            //   if (
-            //     data[0].etat_paths[i][j] ==
-            //     `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`
-            //   ) {
-            //     reportingPaths.push({
-            //       [`${etatType}_${extention}`]: `download/generated situation/${etatType}_${extention}/${etatType}_${dateToString}.${extention}`,
-            //     });
-            //   } else {
             reportingPaths.push(data[0].etat_paths[i]);
-            // }
-            // }
           }
           let pathExist = false;
           for (let k = 0; k < reportingPaths.length; k++) {
@@ -68,7 +55,6 @@ async function storePaths(mois, annee, extentionSent, dateToString, etatType) {
       }
     })
     .catch((error) => {
-      // res.status(402).send({ message: error.message })
       console.error(error);
     });
 }

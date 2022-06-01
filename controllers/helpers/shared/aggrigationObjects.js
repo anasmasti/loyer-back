@@ -1,7 +1,7 @@
-const Contrat = require("../../../../models/contrat/contrat.model");
-const ContratHelper = require("../../contrat");
-const archiveComptabilisation = require("../../../../models/archive/archiveComptabilisation.schema");
-const archiveVirement = require("../../../../models/archive/archiveVirement.schema");
+const Contrat = require("../../../models/contrat/contrat.model");
+const ContratHelper = require("../contrat");
+const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
+const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 
 module.exports = {
   aggrigateOrderVirementObjects: async (orderVirements) => {

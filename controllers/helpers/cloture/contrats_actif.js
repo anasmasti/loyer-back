@@ -1,5 +1,5 @@
 const traitementCloture = require("./traitement_cloture");
-const clotureHelper = require("./cloture");
+const checkContrats = require("../shared/check_contrats");
 
 module.exports = {
   clotureContratActif: (
@@ -13,11 +13,6 @@ module.exports = {
   ) => {
     try {
       let periodicite;
-
-      // let date_premier_pai = {
-      //   month: new Date(Contrat.date_premier_paiement).getMonth() + 1,
-      //   year: new Date(Contrat.date_premier_paiement).getFullYear(),
-      // };
 
       //traitement du periodicite Mensuelle
       if (Contrat.periodicite_paiement == "mensuelle") {
@@ -34,8 +29,8 @@ module.exports = {
         periodicite = 12;
       }
 
-      if (Contrat.is_late) {
-        return clotureHelper.lateContratTreatment(
+      if (Contrat.is_overdue) {
+        return checkContrats.lateContratTreatment(
           res,
           Contrat,
           dateGenerationDeComptabilisation,

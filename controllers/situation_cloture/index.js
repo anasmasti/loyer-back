@@ -4,8 +4,7 @@ const etatVirementSch = require("../../models/situation_cloture/etatVirement.sch
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
-const clotureHelper = require("../helpers/cloture/cloture");
-const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const checkContrats = require("../helpers/shared/check_contrats");
 const etatMonsuelTaxes = require("./etat_taxes");
 const etatMonsuelVirement = require("./etat_virement");
 const mongoose = require("mongoose");
@@ -13,8 +12,8 @@ const mongoose = require("mongoose");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      await clotureHelper.checkContratsAv(req, res);
-      await clotureHelper.checkDtFinContratsSus(req, res);
+      await checkContrats.checkContratsAv(req, res);
+      await checkContrats.checkContratsSus(req, res);
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],

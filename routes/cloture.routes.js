@@ -4,7 +4,7 @@ const verifyRole = require("../middleware/verify-user-role");
 const situationCloture = require("../controllers/situation_cloture/index");
 const etatVirement = require("../controllers/situation_cloture/etat_virement");
 const etat_taxes = require("../controllers/situation_cloture/etat_taxes");
-const allpaths = require("../controllers/situation_cloture/all_paths");
+const allpaths = require("../controllers/helpers/shared/all_etat_paths");
 
 const router = express.Router();
 

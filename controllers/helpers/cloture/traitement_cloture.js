@@ -1,4 +1,4 @@
-const clotureHelper = require("./cloture");
+const createObjectHelper = require("../shared/create_objects");
 
 module.exports = {
   traitementClotureResilie: async (
@@ -26,27 +26,34 @@ module.exports = {
     let montant_loyer_net_mandataire,
       montant_loyer_brut_mandataire,
       montant_tax_mandataire = 0,
-      montant_loyer_brut_taxes;
+      montant_loyer_brut_taxes,
+      montant_net_without_caution = 0;
     let montant_a_verse = 0;
 
     for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
       if (Contrat.foncier.lieu[g].deleted == false) {
         for (let j = 0; j < Contrat.proprietaires.length; j++) {
           if (Contrat.proprietaires[j].is_mandataire == true) {
-            montant_loyer_brut_loyer = Contrat.proprietaires[j].montant_loyer;
+            montant_loyer_brut_loyer =
+              +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
             montant_loyer_net_mandataire =
-              Contrat.proprietaires[j].montant_apres_impot;
+              +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
             montant_loyer_brut_mandataire =
-              Contrat.proprietaires[j].montant_loyer;
+              +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
-            montant_tax_mandataire = Contrat.proprietaires[j].retenue_source;
+            montant_tax_mandataire =
+              +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
-            montant_a_verse = montant_loyer_net_mandataire;
+            montant_net_without_caution =
+              +Contrat.proprietaires[j].montant_loyer.toFixed(2) -
+              +Contrat.proprietaires[j].retenue_source.toFixed(2);
+
+            montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
             comptabilisationLoyerCrediter.push(
-              clotureHelper.createComptLoyerCredObject(
-                Contrat.foncier,
+              createObjectHelper.createComptLoyerCredObject(
+                Contrat,
                 Contrat.proprietaires[j],
                 Contrat.foncier.lieu[g],
                 dateGenerationDeComptabilisation,
@@ -56,11 +63,9 @@ module.exports = {
                 montant_loyer_brut_loyer,
                 dateDebutLoyer,
                 0,
-                Contrat.numero_contrat,
-                Contrat.periodicite_paiement,
-                Contrat.updatedAt,
-                Contrat.caution_versee,
-                Contrat.avance_versee
+                montant_net_without_caution,
+                treatmentMonth,
+                treatmentAnnee
               )
             );
             if (Contrat.proprietaires[j].proprietaire_list.length !== 0) {
@@ -70,25 +75,40 @@ module.exports = {
                 k++
               ) {
                 montant_loyer_brut_taxes =
-                  Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                  +Contrat.proprietaires[j].proprietaire_list[
+                    k
+                  ].montant_loyer.toFixed(2);
 
                 montant_loyer_net =
-                  Contrat.proprietaires[j].proprietaire_list[k]
-                    .montant_apres_impot;
+                  +Contrat.proprietaires[j].proprietaire_list[
+                    k
+                  ].montant_apres_impot.toFixed(2);
 
                 montant_loyer_brut =
-                  Contrat.proprietaires[j].proprietaire_list[k].montant_loyer;
+                  +Contrat.proprietaires[j].proprietaire_list[
+                    k
+                  ].montant_loyer.toFixed(2);
 
                 montant_tax =
-                  Contrat.proprietaires[j].proprietaire_list[k].retenue_source;
+                  +Contrat.proprietaires[j].proprietaire_list[
+                    k
+                  ].retenue_source.toFixed(2);
 
-                montant_a_verse += montant_loyer_net;
-                montant_loyer_brut_mandataire += montant_loyer_brut;
-                montant_tax_mandataire += montant_tax;
+                montant_net_without_caution =
+                  +Contrat.proprietaires[j].proprietaire_list[
+                    k
+                  ].montant_loyer.toFixed(2) -
+                  +Contrat.proprietaires[j].proprietaire_list[
+                    k
+                  ].retenue_source.toFixed(2);
+
+                montant_a_verse += +montant_loyer_net.toFixed(2);
+                montant_loyer_brut_mandataire += +montant_loyer_brut.toFixed(2);
+                montant_tax_mandataire += +montant_tax.toFixed(2);
 
                 comptabilisationLoyerCrediter.push(
-                  clotureHelper.createComptLoyerCredObject(
-                    Contrat.foncier,
+                  createObjectHelper.createComptLoyerCredObject(
+                    Contrat,
                     Contrat.proprietaires[j].proprietaire_list[k],
                     Contrat.foncier.lieu[g],
                     dateGenerationDeComptabilisation,
@@ -97,11 +117,9 @@ module.exports = {
                     montant_loyer_brut,
                     dateDebutLoyer,
                     0,
-                    Contrat.numero_contrat,
-                    Contrat.periodicite_paiement,
-                    Contrat.updatedAt,
-                    Contrat.caution_versee,
-                    Contrat.avance_versee
+                    montant_net_without_caution,
+                    treatmentMonth,
+                    treatmentAnnee
                   )
                 );
                 montant_loyer_net = 0;
@@ -111,20 +129,10 @@ module.exports = {
                 montant_loyer_brut_taxes = 0;
               }
             }
-
             montantDebiter = Contrat.montant_loyer;
 
-            comptabilisationLoyerDebiter.push(
-              clotureHelper.createComptLoyerDebiteObject(
-                Contrat.foncier.lieu[g],
-                Contrat.montant_caution,
-                Contrat.numero_Contrat,
-                montantDebiter
-              )
-            );
-
             ordreVirement.push(
-              clotureHelper.createOrderVirementObject(
+              createObjectHelper.createOrderVirementObject(
                 Contrat.foncier.lieu[g],
                 Contrat.proprietaires[j],
                 Contrat.numero_contrat,
@@ -235,8 +243,8 @@ module.exports = {
               montant_a_verse = montant_loyer_net_mandataire;
 
               comptabilisationLoyerCrediter.push(
-                clotureHelper.createComptLoyerCredObject(
-                  Contrat.foncier,
+                createObjectHelper.createComptLoyerCredObject(
+                  Contrat,
                   Contrat.proprietaires[j],
                   Contrat.foncier.lieu[g],
                   dateGenerationDeComptabilisation,
@@ -246,12 +254,6 @@ module.exports = {
                   montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   Contrat.proprietaires[j].caution_par_proprietaire,
-                  Contrat.numero_contrat,
-                  Contrat.periodicite_paiement,
-                  Contrat.updatedAt,
-                  Contrat.caution_versee,
-                  Contrat.avance_versee,
-                  Contrat.is_late,
                   montant_net_without_caution,
                   treatmentMonth,
                   treatmentAnnee
@@ -298,8 +300,8 @@ module.exports = {
                     ].tax_avance_proprietaire.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
-                    clotureHelper.createComptLoyerCredObject(
-                      Contrat.foncier,
+                    createObjectHelper.createComptLoyerCredObject(
+                      Contrat,
                       Contrat.proprietaires[j].proprietaire_list[k],
                       Contrat.foncier.lieu[g],
                       dateGenerationDeComptabilisation,
@@ -310,12 +312,6 @@ module.exports = {
                       dateDebutLoyer,
                       Contrat.proprietaires[j].proprietaire_list[k]
                         .caution_par_proprietaire,
-                      Contrat.numero_contrat,
-                      Contrat.periodicite_paiement,
-                      Contrat.updatedAt,
-                      Contrat.caution_versee,
-                      Contrat.avance_versee,
-                      Contrat.is_late,
                       montant_net_without_caution,
                       treatmentMonth,
                       treatmentAnnee
@@ -334,17 +330,8 @@ module.exports = {
                 Contrat.montant_avance +
                 Contrat.montant_caution;
 
-              // comptabilisationLoyerDebiter.push(
-              //   clotureHelper.createComptLoyerDebiteObject(
-              //     Contrat.foncier.lieu[g],
-              //     Contrat.montant_caution,
-              //     Contrat.numero_Contrat,
-              //     montantDebiter
-              //   )
-              // );
-
               ordreVirement.push(
-                clotureHelper.createOrderVirementObject(
+                createObjectHelper.createOrderVirementObject(
                   Contrat.foncier.lieu[g],
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
@@ -393,8 +380,6 @@ module.exports = {
 
               montant_loyer_net_mandataire =
                 montant_loyer_brut_mandataire - montant_tax_mandataire;
-              // +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2) +
-              // +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
               montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
@@ -403,8 +388,8 @@ module.exports = {
                 +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
-                clotureHelper.createComptLoyerCredObject(
-                  Contrat.foncier,
+                createObjectHelper.createComptLoyerCredObject(
+                  Contrat,
                   Contrat.proprietaires[j],
                   Contrat.foncier.lieu[g],
                   dateGenerationDeComptabilisation,
@@ -414,12 +399,6 @@ module.exports = {
                   montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   Contrat.proprietaires[j].caution_par_proprietaire,
-                  Contrat.numero_contrat,
-                  Contrat.periodicite_paiement,
-                  Contrat.updatedAt,
-                  Contrat.caution_versee,
-                  Contrat.avance_versee,
-                  Contrat.is_late,
                   montant_net_without_caution,
                   treatmentMonth,
                   treatmentAnnee
@@ -474,8 +453,8 @@ module.exports = {
                     ].retenue_source.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
-                    clotureHelper.createComptLoyerCredObject(
-                      Contrat.foncier,
+                    createObjectHelper.createComptLoyerCredObject(
+                      Contrat,
                       Contrat.proprietaires[j].proprietaire_list[k],
                       Contrat.foncier.lieu[g],
                       dateGenerationDeComptabilisation,
@@ -486,12 +465,6 @@ module.exports = {
                       dateDebutLoyer,
                       Contrat.proprietaires[j].proprietaire_list[k]
                         .caution_par_proprietaire,
-                      Contrat.numero_contrat,
-                      Contrat.periodicite_paiement,
-                      Contrat.updatedAt,
-                      Contrat.caution_versee,
-                      Contrat.avance_versee,
-                      Contrat.is_late,
                       montant_net_without_caution,
                       treatmentMonth,
                       treatmentAnnee
@@ -509,17 +482,8 @@ module.exports = {
                 +Contrat.montant_loyer.toFixed(2) +
                 +Contrat.montant_caution.toFixed(2);
 
-              // comptabilisationLoyerDebiter.push(
-              //   clotureHelper.createComptLoyerDebiteObject(
-              //     Contrat.foncier.lieu[g],
-              //     Contrat.montant_caution,
-              //     Contrat.numero_Contrat,
-              //     montantDebiter
-              //   )
-              // );
-
               ordreVirement.push(
-                clotureHelper.createOrderVirementObject(
+                createObjectHelper.createOrderVirementObject(
                   Contrat.foncier.lieu[g],
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
@@ -591,8 +555,8 @@ module.exports = {
                 +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
-                clotureHelper.createComptLoyerCredObject(
-                  Contrat.foncier,
+                createObjectHelper.createComptLoyerCredObject(
+                  Contrat,
                   Contrat.proprietaires[j],
                   Contrat.foncier.lieu[g],
                   dateGenerationDeComptabilisation,
@@ -602,12 +566,6 @@ module.exports = {
                   montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   0,
-                  Contrat.numero_contrat,
-                  Contrat.periodicite_paiement,
-                  Contrat.updatedAt,
-                  Contrat.caution_versee,
-                  Contrat.avance_versee,
-                  Contrat.is_late,
                   montant_net_without_caution,
                   treatmentMonth,
                   treatmentAnnee
@@ -653,8 +611,8 @@ module.exports = {
                     ].montant_apres_impot.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
-                    clotureHelper.createComptLoyerCredObject(
-                      Contrat.foncier,
+                    createObjectHelper.createComptLoyerCredObject(
+                      Contrat,
                       Contrat.proprietaires[j].proprietaire_list[k],
                       Contrat.foncier.lieu[g],
                       dateGenerationDeComptabilisation,
@@ -664,12 +622,6 @@ module.exports = {
                       montant_loyer_brut_taxes,
                       dateDebutLoyer,
                       0,
-                      Contrat.numero_contrat,
-                      Contrat.periodicite_paiement,
-                      Contrat.updatedAt,
-                      Contrat.caution_versee,
-                      Contrat.avance_versee,
-                      Contrat.is_late,
                       montant_net_without_caution,
                       treatmentMonth,
                       treatmentAnnee
@@ -685,17 +637,8 @@ module.exports = {
 
               montantDebiter = +Contrat.montant_loyer.toFixed(2);
 
-              // comptabilisationLoyerDebiter.push(
-              //   clotureHelper.createComptLoyerDebiteObject(
-              //     Contrat.foncier.lieu[g],
-              //     Contrat.montant_caution,
-              //     Contrat.numero_Contrat,
-              //     montantDebiter
-              //   )
-              // );
-
               ordreVirement.push(
-                clotureHelper.createOrderVirementObject(
+                createObjectHelper.createOrderVirementObject(
                   Contrat.foncier.lieu[g],
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,
@@ -764,8 +707,8 @@ module.exports = {
                 +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
 
               comptabilisationLoyerCrediter.push(
-                clotureHelper.createComptLoyerCredObject(
-                  Contrat.foncier,
+                createObjectHelper.createComptLoyerCredObject(
+                  Contrat,
                   Contrat.proprietaires[j],
                   Contrat.foncier.lieu[g],
                   dateGenerationDeComptabilisation,
@@ -775,12 +718,6 @@ module.exports = {
                   montant_loyer_brut_loyer,
                   dateDebutLoyer,
                   0,
-                  Contrat.numero_contrat,
-                  Contrat.periodicite_paiement,
-                  Contrat.updatedAt,
-                  Contrat.caution_versee,
-                  Contrat.avance_versee,
-                  Contrat.is_late,
                   montant_net_without_caution,
                   treatmentMonth,
                   treatmentAnnee
@@ -826,8 +763,8 @@ module.exports = {
                     ].montant_apres_impot.toFixed(2);
 
                   comptabilisationLoyerCrediter.push(
-                    clotureHelper.createComptLoyerCredObject(
-                      Contrat.foncier,
+                    createObjectHelper.createComptLoyerCredObject(
+                      Contrat,
                       Contrat.proprietaires[j].proprietaire_list[k],
                       Contrat.foncier.lieu[g],
                       dateGenerationDeComptabilisation,
@@ -837,12 +774,6 @@ module.exports = {
                       montant_loyer_brut_taxes,
                       dateDebutLoyer,
                       0,
-                      Contrat.numero_contrat,
-                      Contrat.periodicite_paiement,
-                      Contrat.updatedAt,
-                      Contrat.caution_versee,
-                      Contrat.avance_versee,
-                      Contrat.is_late,
                       montant_net_without_caution,
                       treatmentMonth,
                       treatmentAnnee
@@ -858,17 +789,8 @@ module.exports = {
 
               montantDebiter = +Contrat.montant_loyer.toFixed(2);
 
-              // comptabilisationLoyerDebiter.push(
-              //   clotureHelper.createComptLoyerDebiteObject(
-              //     Contrat.foncier.lieu[g],
-              //     Contrat.montant_caution,
-              //     Contrat.numero_Contrat,
-              //     montantDebiter
-              //   )
-              // );
-
               ordreVirement.push(
-                clotureHelper.createOrderVirementObject(
+                createObjectHelper.createOrderVirementObject(
                   Contrat.foncier.lieu[g],
                   Contrat.proprietaires[j],
                   Contrat.numero_contrat,

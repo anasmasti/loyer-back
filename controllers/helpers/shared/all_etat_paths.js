@@ -1,4 +1,4 @@
-const etatPaths = require("../../models/situation_cloture/etatPaths.schema");
+const etatPaths = require("../../../models/situation_cloture/etatPaths.schema");
 
 module.exports = {
   allEtats: async (req, res) => {

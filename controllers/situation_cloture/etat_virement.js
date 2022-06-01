@@ -1,5 +1,5 @@
 const etatVirement = require("../../models/situation_cloture/etatVirement.schema");
-const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const generatePdfs = require("../helpers/shared/generate_pdfs");
 const exportUsersToExcel = require("../../helpers/generate_excel");
 const fs = require("fs");
 const path = require("path");
@@ -84,7 +84,7 @@ const etatMonsuelVirement = async (req, res) => {
         );
 
         // Generate Pdf
-        generatePdf(
+        generatePdfs.generateSituationPdf(
           {
             ordre_virement: orderesVirement,
             date_generation_de_virement: contrat.date_generation_de_virement,

@@ -1,5 +1,5 @@
 const etatTaxes = require("../../models/situation_cloture/etatTaxes.schema");
-const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const generatePdfs = require("../helpers/shared/generate_pdfs");
 const exportUsersToExcel = require("../../helpers/generate_excel");
 const fs = require("fs");
 const path = require("path");
@@ -110,7 +110,7 @@ const etatMonsuelTaxes = async (req, res) => {
           );
 
           // Generate PDF
-          generatePdf(
+          generatePdfs.generateSituationPdf(
             {
               comptabilisation_loyer_crediter:
                 contrat.comptabilisation_loyer_crediter,

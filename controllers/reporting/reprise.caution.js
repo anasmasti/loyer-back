@@ -1,6 +1,6 @@
 const moment = require('moment');
 const Contrat = require('../../models/contrat/contrat.model');
-const generatePdf = require('../helpers/generatePdf')
+const generatePdfs = require("../helpers/shared/generate_pdfs");
 
 
 module.exports = {

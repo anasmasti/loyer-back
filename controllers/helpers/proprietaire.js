@@ -1,9 +1,9 @@
-const Contrat = require("../../../models/contrat/contrat.model");
-const User = require("../../../models/roles/roles.model");
-const AffectationProprietaire = require("../../../models/affectation_proprietaire/affectation_proprietaire.schema");
-const Proprietaire = require("../../../models/proprietaire/proprietaire.model");
-const mail = require("../../../helpers/mail.send");
-const Calcule = require("../../helpers/calculProprietaire");
+const Contrat = require("../../models/contrat/contrat.model");
+const User = require("../../models/roles/roles.model");
+const AffectationProprietaire = require("../../models/affectation_proprietaire/affectation_proprietaire.schema");
+const Proprietaire = require("../../models/proprietaire/proprietaire.model");
+const mail = require("../../helpers/mail.send");
+const Calcule = require("./calculProprietaire");
 
 module.exports = {
   proprietaireASupprimer: async (contrat) => {

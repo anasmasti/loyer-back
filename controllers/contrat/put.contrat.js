@@ -6,7 +6,7 @@ const User = require("../../models/roles/roles.model");
 const mail = require("../../helpers/mail.send");
 const Calcule = require("../helpers/calculProprietaire");
 const ContratHelper = require("../helpers/contrat");
-const ClotureHelper = require("../helpers/cloture/cloture");
+const TreatmentDate = require("../helpers/shared/treatmentDate");
 const FilesHelper = require("../helpers/files");
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 
@@ -96,7 +96,7 @@ module.exports = {
         let targetDateFinMonth = targetDateSUS.getMonth() + 1;
         let targetDateFinYear = targetDateSUS.getFullYear();
 
-        const dateTraitement = await ClotureHelper.getTraitementDate(req, res);
+        const dateTraitement = await TreatmentDate(req, res);
         let targetDateMonth = dateTraitement.getMonth() + 1;
         let targetDateYear = dateTraitement.getFullYear();
         if (
