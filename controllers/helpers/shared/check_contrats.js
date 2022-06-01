@@ -2,7 +2,9 @@ const Contrat = require("../../../models/contrat/contrat.model");
 const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
+const incrementMonth = require("./increment_month");
 // const sharedHelper = require("./shared/aggrigationObjects");
+const traitementCloture = require("../cloture/traitement_cloture");
 
 module.exports = {
   checkContratsAv: async (req, res) => {
@@ -226,16 +228,45 @@ module.exports = {
     treatmentMonth,
     treatmentAnnee
   ) => {
-    let lateContratTreatmentDate = {
-      month: new Date(Contrat.date_debut_loyer).getMonth() + 1,
-      year: new Date(Contrat.date_debut_loyer).getFullYear(),
-    };
     let isTreatmentEnded = false;
     let aggrigatedComptabilisationLoyer = [],
       aggrigatedOrdreVirement = [],
       comptabilisationLoyer = [],
       ordreVirement = [],
       code;
+    let lateContratTreatmentDate = {
+      month: new Date(Contrat.date_debut_loyer).getMonth() + 1,
+      year: new Date(Contrat.date_debut_loyer).getFullYear(),
+    };
+    let dureeAvanceInMonths = 0;
+    let dureeAvanceToPay = 0;
+
+    switch (contrat.periodicite_paiement) {
+      case "mensuelle":
+        dureeAvanceInMonths = contrat.duree_avance * 1;
+        break;
+      case "trimestrielle":
+        dureeAvanceInMonths = contrat.duree_avance * 3;
+        break;
+      case "annuelle":
+        dureeAvanceInMonths = contrat.duree_avance * 12;
+        break;
+    }
+
+    for (let index = 0; index < dureeAvanceInMonths; index++) {
+      lateContratTreatmentDate = incrementMonth(
+        lateContratTreatmentDate.month,
+        lateContratTreatmentDate.year
+      );
+
+      if (
+        (lateContratTreatmentDate.month >= treatmentMonth &&
+          lateContratTreatmentDate.year >= treatmentAnnee) ||
+        lateContratTreatmentDate.year > treatmentAnnee
+      ) {
+        dureeAvanceToPay += 1;
+      }
+    }
 
     while (!isTreatmentEnded) {
       let result = await traitementCloture.traitementClotureActif(
