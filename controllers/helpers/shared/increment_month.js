@@ -1,4 +1,4 @@
-const incrementMonth = async (month, year) => {
+const incrementMonth = (month, year) => {
   if (month == 12) {
     month = 1;
     year = +year + 1;

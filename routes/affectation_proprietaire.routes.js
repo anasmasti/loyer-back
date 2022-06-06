@@ -4,6 +4,7 @@ const getAffecttionProprietaire = require("../controllers/affectation_proprietai
 const postAffecttionProprietaire = require("../controllers/affectation_proprietaire/post.affectationproprietaire");
 const putAffecttionProprietaire = require("../controllers/affectation_proprietaire/put.affectationproprietaire");
 const deleteAffecttionProprietaire = require("../controllers/affectation_proprietaire/delete.affectationproprietaire");
+const test = require("../controllers/helpers/proprietaire");
 const verifyRole = require("../middleware/verify-user-role");
 const router = express.Router();
 
@@ -37,5 +38,9 @@ router
 router
   .route("/affectation-proprietaire/libre-proprietaires/:IdContrat/:matricule")
   .get(getAffecttionProprietaire.getProprietairesHasntMondataire);
+
+// router
+//   .route("/affectation-proprietaire/test-avance-fanction/:dureeAvance")
+//   .post(test.calculAvancePerDuration);
 
 module.exports = router;

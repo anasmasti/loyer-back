@@ -59,7 +59,8 @@ module.exports = {
       avance_versee: Contrat.avance_versee,
       mois: mois,
       annee: annee,
-      is_overdue: Contrat.is_overdue,
+      is_overdued: Contrat.is_overdued,
+      is_previous_year: false,
       caution_proprietaire: +proprietaire.caution_par_proprietaire.toFixed(2),
       montant_net_without_caution: montant_net_without_caution,
       montant_net: +montant_loyer_net.toFixed(2),
@@ -136,6 +137,7 @@ module.exports = {
       montant_brut: +montant_loyer_brut.toFixed(2),
       montant_taxe: +montant_tax.toFixed(2),
       updatedAt: updatedAt ? updatedAt : "",
+      is_previous_year: false,
     };
     return orderVirement;
   },

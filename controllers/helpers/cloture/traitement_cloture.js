@@ -533,6 +533,7 @@ module.exports = {
       treatmentMonth == premierDateDePaiement.getMonth() + 1 &&
       treatmentAnnee == premierDateDePaiement.getFullYear()
     ) {
+      console.log("In the treatment function");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
@@ -680,6 +681,13 @@ module.exports = {
           });
       }
     }
+
+    console.log("1", treatmentMonth, treatmentAnnee);
+    console.log(
+      "2",
+      dateDeComptabilisation.getMonth() + 1,
+      dateDeComptabilisation.getFullYear()
+    );
 
     if (
       treatmentMonth == dateDeComptabilisation.getMonth() + 1 &&

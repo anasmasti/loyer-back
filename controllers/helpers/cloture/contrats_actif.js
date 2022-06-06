@@ -29,7 +29,7 @@ module.exports = {
         periodicite = 12;
       }
 
-      if (Contrat.is_overdue) {
+      if (Contrat.is_overdued) {
         return checkContrats.lateContratTreatment(
           res,
           Contrat,

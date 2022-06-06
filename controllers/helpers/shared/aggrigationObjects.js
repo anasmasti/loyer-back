@@ -4,21 +4,24 @@ const archiveComptabilisation = require("../../../models/archive/archiveComptabi
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 
 module.exports = {
-  aggrigateOrderVirementObjects: async (orderVirements) => {
+  aggrigateOrderVirementObjects: (orderVirements) => {
     let aggrigatedOrderVirements = [];
+    let aggrigatedList = [];
+
     for (let index = 0; index < orderVirements.length; index++) {
       let montant_net_total = 0,
         montant_brut_total = 0,
         montant_taxe_total = 0;
-      let aggrigatedList = [];
 
-      if (!aggrigatedList.includes(orderVrmt.cin)) {
+      if (!aggrigatedList.includes(orderVirements[index].cin)) {
         for (let j = 0; j < orderVirements.length; j++) {
           const orderVrmt = orderVirements[j];
-          montant_net_total += orderVrmt.montant_net;
-          montant_brut_total += orderVrmt.montant_brut;
-          montant_taxe_total += orderVrmt.montant_taxe;
-          aggrigatedList.push(orderVrmt.cin);
+          if (orderVrmt.cin == orderVirements[index].cin) {
+            montant_net_total += orderVrmt.montant_net;
+            montant_brut_total += orderVrmt.montant_brut;
+            montant_taxe_total += orderVrmt.montant_taxe;
+            aggrigatedList.push(orderVrmt.cin);
+          }
         }
 
         aggrigatedOrderVirements.push({
@@ -40,15 +43,18 @@ module.exports = {
           montant_brut: montant_brut_total,
           montant_taxe: montant_taxe_total,
           updatedAt: orderVirements[index].updatedAt,
+          is_overdued: orderVirements[index].is_overdued,
         });
       }
     }
-
+    console.log(aggrigatedOrderVirements);
     return aggrigatedOrderVirements;
   },
 
-  aggrigateLoyerComptObjects: async (cmptLoyer) => {
+  aggrigateLoyerComptObjects: (cmptLoyer, is_previous_year) => {
     let aggrigatedCmptLoyer = [];
+    let aggrigatedList = [];
+
     for (let index = 0; index < cmptLoyer.length; index++) {
       let montant_net_total = 0,
         montant_tax_total = 0,
@@ -62,28 +68,29 @@ module.exports = {
         montant_avance_proprietaire_total = 0,
         retenue_source_total = 0,
         montant_net_without_caution_total = 0;
-      let aggrigatedList = [];
 
-      if (!aggrigatedList.includes(orderVirements[index].cin)) {
+      if (!aggrigatedList.includes(cmptLoyer[index].cin)) {
         for (let j = 0; j < cmptLoyer.length; j++) {
           const _cmptLoyer = cmptLoyer[j];
 
-          montant_net_total = _cmptLoyer.montant_net;
-          montant_tax_total = _cmptLoyer.montant_tax;
-          montant_caution_total = _cmptLoyer.montant_caution;
-          montant_brut_total = _cmptLoyer.montant_brut;
-          montant_brut_loyer_total = _cmptLoyer.montant_brut_loyer;
-          caution_proprietaire_total = _cmptLoyer.caution_proprietaire;
-          tax_avance_proprietaire_total = _cmptLoyer.tax_avance_proprietaire;
-          tax_loyer_total = _cmptLoyer.tax_loyer;
-          montant_loyer_total = _cmptLoyer.montant_loyer;
-          montant_avance_proprietaire_total =
-            _cmptLoyer.montant_avance_proprietaire;
-          retenue_source_total = _cmptLoyer.retenue_source;
-          montant_net_without_caution_total =
-            _cmptLoyer.montant_net_without_caution;
+          if (_cmptLoyer.cin == cmptLoyer[index].cin) {
+            montant_net_total += _cmptLoyer.montant_net;
+            montant_tax_total += _cmptLoyer.montant_tax;
+            // montant_caution_total = _cmptLoyer.montant_caution;
+            montant_brut_total += _cmptLoyer.montant_brut;
+            montant_brut_loyer_total = _cmptLoyer.montant_brut_loyer;
+            caution_proprietaire_total = _cmptLoyer.caution_proprietaire;
+            tax_avance_proprietaire_total = _cmptLoyer.tax_avance_proprietaire;
+            tax_loyer_total = _cmptLoyer.tax_loyer;
+            montant_loyer_total = _cmptLoyer.montant_loyer;
+            montant_avance_proprietaire_total =
+              _cmptLoyer.montant_avance_proprietaire;
+            retenue_source_total = _cmptLoyer.retenue_source;
+            montant_net_without_caution_total +=
+              _cmptLoyer.montant_net_without_caution;
 
-          aggrigatedList.push(_cmptLoyer.cin);
+            aggrigatedList.push(cmptLoyer[index].cin);
+          }
         }
 
         aggrigatedCmptLoyer.push({
@@ -116,7 +123,8 @@ module.exports = {
           avance_versee: cmptLoyer[index].avance_versee,
           mois: cmptLoyer[index].mois,
           annee: cmptLoyer[index].annee,
-          is_late: cmptLoyer[index].is_late,
+          is_overdued: cmptLoyer[index].is_overdued,
+          is_previous_year: is_previous_year,
           // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
           montant_net: montant_net_total,
           montant_tax: montant_tax_total,

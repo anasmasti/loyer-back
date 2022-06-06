@@ -1,9 +1,10 @@
 const Contrat = require("../../../models/contrat/contrat.model");
 const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
+const proprietaireHelper = require("../proprietaire");
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 const incrementMonth = require("./increment_month");
-// const sharedHelper = require("./shared/aggrigationObjects");
+const sharedHelper = require("./aggrigationObjects");
 const traitementCloture = require("../cloture/traitement_cloture");
 
 module.exports = {
@@ -231,16 +232,18 @@ module.exports = {
     let isTreatmentEnded = false;
     let aggrigatedComptabilisationLoyer = [],
       aggrigatedOrdreVirement = [],
+      comptabilisationLoyerDebiter = [],
       comptabilisationLoyer = [],
       ordreVirement = [],
       code;
     let lateContratTreatmentDate = {
-      month: new Date(Contrat.date_debut_loyer).getMonth() + 1,
-      year: new Date(Contrat.date_debut_loyer).getFullYear(),
+      month: new Date(contrat.date_debut_loyer).getMonth() + 1,
+      year: new Date(contrat.date_debut_loyer).getFullYear(),
     };
     let dureeAvanceInMonths = 0;
     let dureeAvanceToPay = 0;
 
+    // Convert duree avance to months
     switch (contrat.periodicite_paiement) {
       case "mensuelle":
         dureeAvanceInMonths = contrat.duree_avance * 1;
@@ -253,12 +256,9 @@ module.exports = {
         break;
     }
 
+    // Remove avance months from overdued months
     for (let index = 0; index < dureeAvanceInMonths; index++) {
-      lateContratTreatmentDate = incrementMonth(
-        lateContratTreatmentDate.month,
-        lateContratTreatmentDate.year
-      );
-
+      // Get avance months if it's not overdued
       if (
         (lateContratTreatmentDate.month >= treatmentMonth &&
           lateContratTreatmentDate.year >= treatmentAnnee) ||
@@ -266,43 +266,124 @@ module.exports = {
       ) {
         dureeAvanceToPay += 1;
       }
-    }
 
-    while (!isTreatmentEnded) {
-      let result = await traitementCloture.traitementClotureActif(
-        Contrat,
-        dateGenerationDeComptabilisation,
-        periodicite,
-        ContratSchema,
-        true,
+      lateContratTreatmentDate = incrementMonth(
         lateContratTreatmentDate.month,
         lateContratTreatmentDate.year
       );
+    }
 
-      ordreVirement.push(result.ordre_virement);
-      comptabilisationLoyer.push(result.cmptLoyerCrdt);
-      if (
-        lateContratTreatmentDate.month == treatmentMonth &&
-        lateContratTreatmentDate.year == treatmentAnnee
-      ) {
-        isTreatmentEnded = true;
-        aggrigatedOrdreVirement.push(ordreVirement);
-        aggrigatedComptabilisationLoyer.push(comptabilisationLoyer);
-      } else {
-        if (lateContratTreatmentDate.month == 12) {
-          lateContratTreatmentDate.month = 1;
-          lateContratTreatmentDate.year = +lateContratTreatmentDate.year + 1;
+    if (dureeAvanceToPay > 0) {
+      const treatmentResult =
+        await proprietaireHelper.avanceByDurationTreatment(
+          Contrat,
+          dureeAvanceToPay,
+          dateGenerationDeComptabilisation,
+          {
+            treatmentMonth,
+            treatmentAnnee,
+          }
+        );
+
+      aggrigatedOrdreVirement.push(...treatmentResult.ordre_virement);
+      aggrigatedComptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+    } else {
+      while (!isTreatmentEnded) {
+        // Request updated contrat
+        const requestedContrat = await Contrat.findById({
+          _id: contrat._id,
+        })
+          .populate({
+            path: "foncier",
+            populate: {
+              path: "lieu.lieu",
+              populate: {
+                path: "attached_DR",
+              },
+            },
+          })
+          .populate({
+            path: "proprietaires",
+            populate: [
+              {
+                path: "proprietaire_list",
+                populate: { path: "proprietaire" },
+              },
+              {
+                path: "proprietaire",
+              },
+            ],
+            match: { is_mandataire: true, deleted: false },
+          });
+        const treatmentResult = await traitementCloture.traitementClotureActif(
+          res,
+          requestedContrat,
+          dateGenerationDeComptabilisation,
+          periodicite,
+          ContratSchema,
+          true,
+          lateContratTreatmentDate.month,
+          lateContratTreatmentDate.year
+        );
+
+        ordreVirement.push(...treatmentResult.ordre_virement);
+        comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+
+        if (
+          lateContratTreatmentDate.month == treatmentMonth &&
+          lateContratTreatmentDate.year == treatmentAnnee
+        ) {
+          isTreatmentEnded = true;
           aggrigatedOrdreVirement.push(
-            sharedHelper.aggrigateOrderVirementObjects()
+            ...sharedHelper.aggrigateOrderVirementObjects(ordreVirement, false)
           );
           aggrigatedComptabilisationLoyer.push(
-            sharedHelper.aggrigateLoyerComptObjects()
+            ...sharedHelper.aggrigateLoyerComptObjects(
+              comptabilisationLoyer,
+              false
+            )
           );
         } else {
-          lateContratTreatmentDate.month = +lateContratTreatmentDate.month + 1;
+          if (lateContratTreatmentDate.month == 12) {
+            lateContratTreatmentDate.month = 1;
+            lateContratTreatmentDate.year = +lateContratTreatmentDate.year + 1;
+            aggrigatedOrdreVirement.push(
+              ...sharedHelper.aggrigateOrderVirementObjects(ordreVirement, true)
+            );
+            aggrigatedComptabilisationLoyer.push(
+              ...sharedHelper.aggrigateLoyerComptObjects(
+                comptabilisationLoyer,
+                true
+              )
+            );
+          } else {
+            lateContratTreatmentDate.month =
+              +lateContratTreatmentDate.month + 1;
+          }
         }
       }
     }
+
+    if (!Cloture) {
+      await ContratSchema.findByIdAndUpdate(
+        { _id: contrat._id },
+        {
+          date_comptabilisation: null,
+          caution_versee: false,
+          avance_versee: false,
+        }
+      );
+    } else {
+      await ContratSchema.findByIdAndUpdate(
+        { _id: contrat._id },
+        {
+          caution_versee: true,
+          avance_versee: true,
+          is_overdued: false,
+        }
+      );
+    }
+
     return {
       ordre_virement: aggrigatedOrdreVirement,
       cmptLoyerCrdt: aggrigatedComptabilisationLoyer,
