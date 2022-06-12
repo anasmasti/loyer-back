@@ -17,6 +17,7 @@ module.exports = {
     dateDebutLoyer,
     montant_caution,
     montant_net_without_caution,
+    isOverduedAvance = false,
     mois,
     annee
   ) => {
@@ -59,22 +60,29 @@ module.exports = {
       avance_versee: Contrat.avance_versee,
       mois: mois,
       annee: annee,
-      is_overdued: Contrat.is_overdued,
-      is_previous_year: false,
-      caution_proprietaire: +proprietaire.caution_par_proprietaire.toFixed(2),
-      montant_net_without_caution: montant_net_without_caution,
+      is_overdued: false,
+      is_annee_antr: false,
+      updatedAt: Contrat.updatedAt,
+      // Montant calculés
       montant_net: +montant_loyer_net.toFixed(2),
       montant_tax: +montant_tax.toFixed(2),
-      montant_caution: +montant_caution.toFixed(2),
       montant_brut: +montant_brut.toFixed(2),
-      montant_brut_loyer: +montant_brut_loyer.toFixed(2),
-      tax_avance_proprietaire: +proprietaire.tax_avance_proprietaire.toFixed(2),
-      tax_loyer: +proprietaire.tax_par_periodicite.toFixed(2),
+      montant_net_without_caution: montant_net_without_caution,
+      // Montants de loyer (contrat)
       montant_loyer: +proprietaire.montant_loyer.toFixed(2),
-      montant_avance_proprietaire:
-        +proprietaire.montant_avance_proprietaire.toFixed(2),
+      tax_loyer: +proprietaire.tax_par_periodicite.toFixed(2),
       retenue_source: +proprietaire.retenue_source.toFixed(2),
-      updatedAt: Contrat.updatedAt,
+      montant_brut_loyer: +montant_brut_loyer.toFixed(2),
+      // Montants de caution
+      montant_caution: +montant_caution.toFixed(2),
+      caution_proprietaire: +proprietaire.caution_par_proprietaire.toFixed(2),
+      // Avance
+      montant_avance_proprietaire: isOverduedAvance
+        ? +montant_brut.toFixed(2)
+        : +proprietaire.montant_avance_proprietaire.toFixed(2),
+      tax_avance_proprietaire: isOverduedAvance
+        ? +montant_tax.toFixed(2)
+        : +proprietaire.tax_avance_proprietaire.toFixed(2),
     };
     return comptabilisationLoyerCrediter;
   },
@@ -137,7 +145,8 @@ module.exports = {
       montant_brut: +montant_loyer_brut.toFixed(2),
       montant_taxe: +montant_tax.toFixed(2),
       updatedAt: updatedAt ? updatedAt : "",
-      is_previous_year: false,
+      is_annee_antr: false,
+      is_overdued: false,
     };
     return orderVirement;
   },

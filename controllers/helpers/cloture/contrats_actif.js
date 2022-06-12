@@ -1,5 +1,4 @@
 const traitementCloture = require("./traitement_cloture");
-const checkContrats = require("../shared/check_contrats");
 
 module.exports = {
   clotureContratActif: (
@@ -29,29 +28,29 @@ module.exports = {
         periodicite = 12;
       }
 
-      if (Contrat.is_overdued) {
-        return checkContrats.lateContratTreatment(
-          res,
-          Contrat,
-          dateGenerationDeComptabilisation,
-          periodicite,
-          ContratSchema,
-          Cloture,
-          treatmentMonth,
-          treatmentAnnee
-        );
-      } else {
-        return traitementCloture.traitementClotureActif(
-          res,
-          Contrat,
-          dateGenerationDeComptabilisation,
-          periodicite,
-          ContratSchema,
-          Cloture,
-          treatmentMonth,
-          treatmentAnnee
-        );
-      }
+      // if (Contrat.is_overdued) {
+      //   return checkContrats.lateContratTreatment(
+      //     res,
+      //     Contrat,
+      //     dateGenerationDeComptabilisation,
+      //     periodicite,
+      //     ContratSchema,
+      //     Cloture,
+      //     treatmentMonth,
+      //     treatmentAnnee
+      //   );
+      // } else {
+      return traitementCloture.traitementClotureActif(
+        res,
+        Contrat,
+        dateGenerationDeComptabilisation,
+        periodicite,
+        ContratSchema,
+        Cloture,
+        treatmentMonth,
+        treatmentAnnee
+      );
+      // }
     } catch (error) {
       res.status(402).json({ messssssage: error.message });
     }

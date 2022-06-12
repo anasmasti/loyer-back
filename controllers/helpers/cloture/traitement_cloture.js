@@ -1,4 +1,7 @@
 const createObjectHelper = require("../shared/create_objects");
+const clotureHelper = require("../shared/cloture_helper");
+// import * as moment from "moment";
+const moment = require("moment");
 
 module.exports = {
   traitementClotureResilie: async (
@@ -188,7 +191,8 @@ module.exports = {
     ContratSchema,
     Cloture,
     treatmentMonth,
-    treatmentAnnee
+    treatmentAnnee,
+    isOverdued = false
   ) => {
     let comptabilisationLoyerCrediter = [],
       montantDebiter = 0,
@@ -197,7 +201,9 @@ module.exports = {
 
     let dateDebutLoyer = new Date(Contrat.date_debut_loyer);
     let premierDateDePaiement = new Date(Contrat.date_premier_paiement);
+    console.log("Before", Contrat.date_comptabilisation);
     let dateDeComptabilisation = new Date(Contrat.date_comptabilisation);
+    console.log("After", dateDeComptabilisation);
     let dateFinDeContrat = Contrat.date_fin_Contrat;
 
     let montant_loyer_net,
@@ -371,10 +377,15 @@ module.exports = {
             if (Contrat.proprietaires[j].is_mandataire == true) {
               montant_loyer_brut_loyer = Contrat.proprietaires[j].montant_loyer;
 
-              montant_loyer_brut_mandataire =
-                +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2) +
-                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
-
+              if (isOverdued) {
+                montant_loyer_brut_mandataire =
+                  +Contrat.proprietaires[j].montant_loyer.toFixed(2);
+              } else {
+                montant_loyer_brut_mandataire =
+                  +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(
+                    2
+                  ) + +Contrat.proprietaires[j].montant_loyer.toFixed(2);
+              }
               montant_tax_mandataire =
                 +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
@@ -667,6 +678,7 @@ module.exports = {
             premierDateDePaiement.getMonth() + periodicite
           );
         }
+        // console.log("Heeeeeeeey", nextDateComptabilisation);
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },
           {
@@ -682,12 +694,12 @@ module.exports = {
       }
     }
 
-    console.log("1", treatmentMonth, treatmentAnnee);
-    console.log(
-      "2",
-      dateDeComptabilisation.getMonth() + 1,
-      dateDeComptabilisation.getFullYear()
-    );
+    // console.log("1", treatmentMonth, treatmentAnnee);
+    // console.log(
+    //   "2",
+    //   dateDeComptabilisation.getMonth() + 1,
+    //   dateDeComptabilisation.getFullYear()
+    // );
 
     if (
       treatmentMonth == dateDeComptabilisation.getMonth() + 1 &&
@@ -815,17 +827,13 @@ module.exports = {
           }
         }
       }
+
       if (Cloture) {
-        let nextDateComptabilisation;
-        if (periodicite == 12) {
-          nextDateComptabilisation = dateDeComptabilisation.setFullYear(
-            dateDeComptabilisation.getFullYear() + 1
+        let nextDateComptabilisation =
+          await clotureHelper.generateNextDateComptabilisation(
+            dateDeComptabilisation,
+            periodicite
           );
-        } else {
-          nextDateComptabilisation = dateDeComptabilisation.setMonth(
-            dateDeComptabilisation.getMonth() + periodicite
-          );
-        }
 
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },

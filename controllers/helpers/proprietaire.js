@@ -117,124 +117,130 @@ module.exports = {
     let montant_loyer_brut = 0;
     let montant_tax = 0;
     let montant_net_global = 0;
-    for (let g = 0; g < contrat.foncier.lieu.length; g++) {
-      if (contrat.foncier.lieu[g].deleted == false) {
-        for (let j = 0; j < contrat.proprietaires.length; j++) {
-          if (contrat.proprietaires[j].is_mandataire == true) {
-            // Calcul 'Montants d'avance' by duration
-            // let dureeAvance = contrat.duree_avance;
-            let montantAvance = 0;
-            let taxAvance = 0;
 
-            montantAvance =
-              +contrat.proprietaires[j].montant_loyer.toFixed(2) * dureeAvance;
-            taxAvance =
-              +contrat.proprietaires[j].retenue_source.toFixed(2) * dureeAvance;
-            // Fin ( Calcul 'Montants d'avance' by duration )
+    try {
+      for (let g = 0; g < contrat.foncier.lieu.length; g++) {
+        if (contrat.foncier.lieu[g].deleted == false) {
+          for (let j = 0; j < contrat.proprietaires.length; j++) {
+            if (contrat.proprietaires[j].is_mandataire == true) {
+              // Calcul 'Montants d'avance' by duration
+              let montantAvance = 0;
+              let taxAvance = 0;
 
-            montant_brut_global_mandataire = +montantAvance.toFixed(2);
+              montantAvance =
+                +contrat.proprietaires[j].montant_loyer.toFixed(2) *
+                dureeAvance;
+              taxAvance =
+                +contrat.proprietaires[j].retenue_source.toFixed(2) *
+                dureeAvance;
+              // Fin ( Calcul 'Montants d'avance' by duration )
 
-            montant_tax_mandataire = +taxAvance.toFixed(2);
+              montant_brut_global_mandataire = +montantAvance.toFixed(2);
 
-            montant_net_global_mandataire =
-              montant_brut_global_mandataire - montant_tax_mandataire;
+              montant_tax_mandataire = +taxAvance.toFixed(2);
 
-            // 'Montant net' global excluding 'caution'
-            montant_net_without_caution =
-              +montantAvance.toFixed(2) - +taxAvance.toFixed(2);
+              montant_net_global_mandataire =
+                montant_brut_global_mandataire - montant_tax_mandataire;
 
-            comptabilisationLoyerCrediter.push(
-              createObjectHelper.createComptLoyerCredObject(
-                contrat,
-                contrat.proprietaires[j],
-                contrat.foncier.lieu[g],
-                dateGenerationDeComptabilisation,
-                montant_net_global_mandataire,
-                montant_tax_mandataire,
-                montant_brut_global_mandataire, // 'Montant brut' including 'avance' and 'caution' if they exist
-                0, // Montant brut de loyer
-                null,
-                contrat.proprietaires[j].caution_par_proprietaire,
-                montant_net_without_caution,
-                treatmentDate.treatmentMonth,
-                treatmentDate.treatmentAnnee
-              )
-            );
-            if (contrat.proprietaires[j].proprietaire_list.length != 0) {
-              for (
-                let k = 0;
-                k < contrat.proprietaires[j].proprietaire_list.length;
-                k++
-              ) {
-                // Calcul 'Montants d'avance' by duration
-                montantAvance =
-                  +contrat.proprietaires[j].proprietaire_list[
-                    k
-                  ].montant_loyer.toFixed(2) * dureeAvance;
-                taxAvance =
-                  +contrat.proprietaires[j].proprietaire_list[
-                    k
-                  ].retenue_source.toFixed(2) * dureeAvance;
-                // Fin ( Calcul 'Montants d'avance' by duration )
+              // 'Montant net' global excluding 'caution'
+              montant_net_without_caution =
+                +montantAvance.toFixed(2) - +taxAvance.toFixed(2);
 
-                montant_brut_global = +montantAvance.toFixed(2);
+              comptabilisationLoyerCrediter.push(
+                createObjectHelper.createComptLoyerCredObject(
+                  contrat,
+                  contrat.proprietaires[j],
+                  contrat.foncier.lieu[g],
+                  dateGenerationDeComptabilisation,
+                  montant_net_global_mandataire,
+                  montant_tax_mandataire,
+                  montant_brut_global_mandataire, // 'Montant brut' including 'avance' and 'caution' if they exist
+                  0, // Montant brut de loyer
+                  null,
+                  contrat.proprietaires[j].caution_par_proprietaire,
+                  montant_net_without_caution,
+                  treatmentDate.treatmentMonth,
+                  treatmentDate.treatmentAnnee
+                )
+              );
+              if (contrat.proprietaires[j].proprietaire_list.length != 0) {
+                for (
+                  let k = 0;
+                  k < contrat.proprietaires[j].proprietaire_list.length;
+                  k++
+                ) {
+                  // Calcul 'Montants d'avance' by duration
+                  montantAvance =
+                    +contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2) * dureeAvance;
+                  taxAvance =
+                    +contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].retenue_source.toFixed(2) * dureeAvance;
+                  // Fin ( Calcul 'Montants d'avance' by duration )
 
-                montant_tax = +taxAvance.toFixed(2);
+                  montant_brut_global = +montantAvance.toFixed(2);
 
-                montant_net_global =
-                  +montant_brut_global.toFixed(2) - +montant_tax.toFixed(2);
+                  montant_tax = +taxAvance.toFixed(2);
 
-                montant_tax_mandataire += +montant_tax.toFixed(2);
+                  montant_net_global =
+                    +montant_brut_global.toFixed(2) - +montant_tax.toFixed(2);
 
-                montant_brut_global_mandataire +=
-                  +montant_brut_global.toFixed(2);
+                  montant_tax_mandataire += +montant_tax.toFixed(2);
 
-                montant_net_global_mandataire += montant_net_global;
+                  montant_brut_global_mandataire +=
+                    +montant_brut_global.toFixed(2);
 
-                montant_net_without_caution =
-                  +montantAvance.toFixed(2) - +taxAvance.toFixed(2);
+                  montant_net_global_mandataire += montant_net_global;
 
-                comptabilisationLoyerCrediter.push(
-                  createObjectHelper.createComptLoyerCredObject(
-                    contrat,
-                    contrat.proprietaires[j].proprietaire_list[k],
-                    contrat.foncier.lieu[g],
-                    dateGenerationDeComptabilisation,
-                    montant_net_global,
-                    montant_tax,
-                    montant_brut_global, // 'Montant brut' including 'avance' and 'caution' if they exist
-                    0, // Montant brut de loyer
-                    dateDebutLoyer,
-                    contrat.proprietaires[j].proprietaire_list[k]
-                      .caution_par_proprietaire,
-                    montant_net_without_caution,
-                    treatmentDate.treatmentMonth,
-                    treatmentDate.treatmentAnnee
-                  )
-                );
-                montant_net_global = 0;
-                montant_brut_global = 0;
-                montant_tax = 0;
+                  montant_net_without_caution =
+                    +montantAvance.toFixed(2) - +taxAvance.toFixed(2);
+
+                  comptabilisationLoyerCrediter.push(
+                    createObjectHelper.createComptLoyerCredObject(
+                      contrat,
+                      contrat.proprietaires[j].proprietaire_list[k],
+                      contrat.foncier.lieu[g],
+                      dateGenerationDeComptabilisation,
+                      montant_net_global,
+                      montant_tax,
+                      montant_brut_global, // 'Montant brut' including 'avance' and 'caution' if they exist
+                      0, // Montant brut de loyer
+                      dateDebutLoyer,
+                      contrat.proprietaires[j].proprietaire_list[k]
+                        .caution_par_proprietaire,
+                      montant_net_without_caution,
+                      treatmentDate.treatmentMonth,
+                      treatmentDate.treatmentAnnee
+                    )
+                  );
+                  montant_net_global = 0;
+                  montant_brut_global = 0;
+                  montant_tax = 0;
+                }
               }
-            }
 
-            ordreVirement.push(
-              createObjectHelper.createOrderVirementObject(
-                contrat.foncier.lieu[g],
-                contrat.proprietaires[j],
-                contrat.numero_contrat,
-                contrat.periodicite_paiement,
-                treatmentDate.treatmentMonth,
-                treatmentDate.treatmentAnnee,
-                montant_net_global_mandataire,
-                montant_brut_global_mandataire,
-                montant_tax_mandataire,
-                contrat.updatedAt
-              )
-            );
+              ordreVirement.push(
+                createObjectHelper.createOrderVirementObject(
+                  contrat.foncier.lieu[g],
+                  contrat.proprietaires[j],
+                  contrat.numero_contrat,
+                  contrat.periodicite_paiement,
+                  treatmentDate.treatmentMonth,
+                  treatmentDate.treatmentAnnee,
+                  montant_net_global_mandataire,
+                  montant_brut_global_mandataire,
+                  montant_tax_mandataire,
+                  contrat.updatedAt
+                )
+              );
+            }
           }
         }
       }
+    } catch (error) {
+      console.log(error);
     }
     // res.json({
     //   ordre_virement: ordreVirement,

@@ -159,6 +159,8 @@
           <th>Montant brut d'avance</th>
           <th>Taxe sur loyer</th>
           <th>Taxe sur Avance</th>
+          <th>MT brut (Rappel)</th>
+          <th>Taxe (Rappel)</th>
           <th>Caution</th>
           <th>MT Net</th>
         </tr>
@@ -194,6 +196,16 @@
             {{tax_avance_proprietaire}} {{else}} -- {{/ifCondFalse}} {{else}} --
             {{/if}}
           </td>
+
+          <td>
+            {{#if is_overdued}} {{#if montant_brut }} {{montant_brut}} {{else}}
+            -- {{/if}} {{else}} -- {{/if}}
+          </td>
+          <td>
+            {{#if is_overdued}} {{#if montant_tax }} {{montant_tax}} {{else}} --
+            {{/if}} {{else}} -- {{/if}}
+          </td>
+
           <td>
             {{#if caution_proprietaire }} {{#ifCondFalse caution_versee }}
             {{caution_proprietaire}} {{else}} -- {{/ifCondFalse}} {{else}} --
@@ -210,6 +222,8 @@
           <td><strong>{{ montant_brut_avance_global }}</strong></td>
           <td><strong>{{ montant_taxe_global }}</strong></td>
           <td><strong>{{ montant_taxe_avance_global }}</strong></td>
+          <td><strong>{{montantBrutRappelGlobal}}</strong></td>
+          <td><strong>{{montantTaxeRappelGlobal}}</strong></td>
           <td><strong>{{ montant_caution_global }}</strong></td>
           <td><strong>{{ montant_net_global }}</strong></td>
         </tr>

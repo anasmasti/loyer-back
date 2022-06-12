@@ -4,7 +4,7 @@ const archiveComptabilisation = require("../../../models/archive/archiveComptabi
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 
 module.exports = {
-  aggrigateOrderVirementObjects: (orderVirements) => {
+  aggrigateOrderVirementObjects: (orderVirements, is_overdued, isAnneeAntr) => {
     let aggrigatedOrderVirements = [];
     let aggrigatedList = [];
 
@@ -24,6 +24,17 @@ module.exports = {
           }
         }
 
+        // Generate numero contrat 'Rappel'
+        let numeroContrat = orderVirements[index].numero_contrat;
+
+        if (is_overdued) {
+          if (isAnneeAntr) {
+            numeroContrat = `Rap/EA-${numeroContrat}`;
+          } else {
+            numeroContrat = `Rappel-${numeroContrat}`;
+          }
+        }
+
         aggrigatedOrderVirements.push({
           type_enregistrement: orderVirements[index].type_enregistrement,
           cin: orderVirements[index].cin,
@@ -37,21 +48,21 @@ module.exports = {
           banque: orderVirements[index].banque,
           intitule_lieu: orderVirements[index].intitule_lieu,
           type_lieu: orderVirements[index].type_lieu,
-          numero_contrat: orderVirements[index].numero_contrat,
+          numero_contrat: numeroContrat,
           periodicite: orderVirements[index].periodicite,
           montant_net: montant_net_total,
           montant_brut: montant_brut_total,
           montant_taxe: montant_taxe_total,
           updatedAt: orderVirements[index].updatedAt,
-          is_overdued: orderVirements[index].is_overdued,
+          is_overdued: is_overdued,
+          is_annee_antr: isAnneeAntr,
         });
       }
     }
-    console.log(aggrigatedOrderVirements);
     return aggrigatedOrderVirements;
   },
 
-  aggrigateLoyerComptObjects: (cmptLoyer, is_previous_year) => {
+  aggrigateLoyerComptObjects: (cmptLoyer, is_overdued, isAnneeAntr) => {
     let aggrigatedCmptLoyer = [];
     let aggrigatedList = [];
 
@@ -76,7 +87,6 @@ module.exports = {
           if (_cmptLoyer.cin == cmptLoyer[index].cin) {
             montant_net_total += _cmptLoyer.montant_net;
             montant_tax_total += _cmptLoyer.montant_tax;
-            // montant_caution_total = _cmptLoyer.montant_caution;
             montant_brut_total += _cmptLoyer.montant_brut;
             montant_brut_loyer_total = _cmptLoyer.montant_brut_loyer;
             caution_proprietaire_total = _cmptLoyer.caution_proprietaire;
@@ -90,6 +100,17 @@ module.exports = {
               _cmptLoyer.montant_net_without_caution;
 
             aggrigatedList.push(cmptLoyer[index].cin);
+          }
+        }
+
+        // Generate numero contrat 'Rappel'
+        let numeroContrat = cmptLoyer[index].numero_contrat;
+
+        if (is_overdued) {
+          if (isAnneeAntr) {
+            numeroContrat = `Rap/EA-${numeroContrat}`;
+          } else {
+            numeroContrat = `Rappel-${numeroContrat}`;
           }
         }
 
@@ -113,18 +134,18 @@ module.exports = {
           centre_de_cout: cmptLoyer[index].centre_de_cout,
           direction_regional: cmptLoyer[index].direction_regional,
           point_de_vente: cmptLoyer[index].point_de_vente,
-          numero_contrat: cmptLoyer[index].numero_contrat,
+          numero_contrat: numeroContrat,
           periodicite: cmptLoyer[index].periodicite,
           taux_impot: cmptLoyer[index].taux_impot,
           date_comptabilisation: cmptLoyer[index].date_comptabilisation,
           updatedAt: cmptLoyer[index].updatedAt,
           declaration_option: cmptLoyer[index].declaration_option,
-          caution_versee: cmptLoyer[index].caution_versee,
-          avance_versee: cmptLoyer[index].avance_versee,
+          caution_versee: true,
+          avance_versee: true,
           mois: cmptLoyer[index].mois,
           annee: cmptLoyer[index].annee,
-          is_overdued: cmptLoyer[index].is_overdued,
-          is_previous_year: is_previous_year,
+          is_overdued: is_overdued,
+          is_annee_antr: isAnneeAntr,
           // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
           montant_net: montant_net_total,
           montant_tax: montant_tax_total,

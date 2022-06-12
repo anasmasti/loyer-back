@@ -5,7 +5,8 @@ const proprietaireHelper = require("../proprietaire");
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 const incrementMonth = require("./increment_month");
 const sharedHelper = require("./aggrigationObjects");
-const traitementCloture = require("../cloture/traitement_cloture");
+const clotureHelper = require("./cloture_helper");
+const lateContratTreatment = require("../cloture/contrats_en_retard");
 
 module.exports = {
   checkContratsAv: async (req, res) => {
@@ -219,175 +220,92 @@ module.exports = {
       });
   },
 
-  lateContratTreatment: async (
+  checkContratsOverdued: async (
     res,
-    contrat,
-    dateGenerationDeComptabilisation,
-    periodicite,
-    ContratSchema,
-    Cloture,
+    contratSchema,
     treatmentMonth,
-    treatmentAnnee
+    treatmentAnnee,
+    Cloture,
+    dateGenerationDeComptabilisation
   ) => {
-    let isTreatmentEnded = false;
-    let aggrigatedComptabilisationLoyer = [],
-      aggrigatedOrdreVirement = [],
-      comptabilisationLoyerDebiter = [],
+    let orderVirement = [],
       comptabilisationLoyer = [],
-      ordreVirement = [],
-      code;
-    let lateContratTreatmentDate = {
-      month: new Date(contrat.date_debut_loyer).getMonth() + 1,
-      year: new Date(contrat.date_debut_loyer).getFullYear(),
-    };
-    let dureeAvanceInMonths = 0;
-    let dureeAvanceToPay = 0;
+      comptabilisationLoyerDebt = [];
 
-    // Convert duree avance to months
-    switch (contrat.periodicite_paiement) {
-      case "mensuelle":
-        dureeAvanceInMonths = contrat.duree_avance * 1;
-        break;
-      case "trimestrielle":
-        dureeAvanceInMonths = contrat.duree_avance * 3;
-        break;
-      case "annuelle":
-        dureeAvanceInMonths = contrat.duree_avance * 12;
-        break;
-    }
-
-    // Remove avance months from overdued months
-    for (let index = 0; index < dureeAvanceInMonths; index++) {
-      // Get avance months if it's not overdued
-      if (
-        (lateContratTreatmentDate.month >= treatmentMonth &&
-          lateContratTreatmentDate.year >= treatmentAnnee) ||
-        lateContratTreatmentDate.year > treatmentAnnee
-      ) {
-        dureeAvanceToPay += 1;
-      }
-
-      lateContratTreatmentDate = incrementMonth(
-        lateContratTreatmentDate.month,
-        lateContratTreatmentDate.year
-      );
-    }
-
-    if (dureeAvanceToPay > 0) {
-      const treatmentResult =
-        await proprietaireHelper.avanceByDurationTreatment(
-          Contrat,
-          dureeAvanceToPay,
-          dateGenerationDeComptabilisation,
-          {
-            treatmentMonth,
-            treatmentAnnee,
-          }
-        );
-
-      aggrigatedOrdreVirement.push(...treatmentResult.ordre_virement);
-      aggrigatedComptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
-    } else {
-      while (!isTreatmentEnded) {
-        // Request updated contrat
-        const requestedContrat = await Contrat.findById({
-          _id: contrat._id,
-        })
-          .populate({
-            path: "foncier",
+    try {
+      //get current contrat of this month
+      let contrats = await Contrat.find({
+        deleted: false,
+        is_overdued: true,
+      })
+        .populate({
+          path: "foncier",
+          populate: {
+            path: "lieu.lieu",
             populate: {
-              path: "lieu.lieu",
-              populate: {
-                path: "attached_DR",
-              },
+              path: "attached_DR",
             },
-          })
-          .populate({
-            path: "proprietaires",
-            populate: [
-              {
-                path: "proprietaire_list",
-                populate: { path: "proprietaire" },
-              },
-              {
-                path: "proprietaire",
-              },
-            ],
-            match: { is_mandataire: true, deleted: false },
-          });
-        const treatmentResult = await traitementCloture.traitementClotureActif(
-          res,
-          requestedContrat,
-          dateGenerationDeComptabilisation,
-          periodicite,
-          ContratSchema,
-          true,
-          lateContratTreatmentDate.month,
-          lateContratTreatmentDate.year
+          },
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+              populate: { path: "proprietaire" },
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true, deleted: false },
+        })
+        .sort({ updatedAt: "desc" });
+
+      for (let index = 0; index < contrats.length; index++) {
+        const contrat = contrats[index];
+
+        let lateContratTreatmentDate = {
+          month: new Date(contrat.date_debut_loyer).getMonth() + 1,
+          year: new Date(contrat.date_debut_loyer).getFullYear(),
+        };
+        let dureeAvanceToPay = 0;
+
+        let result = clotureHelper.removeAvanceFromRappel(
+          lateContratTreatmentDate,
+          { treatmentMonth, treatmentAnnee },
+          contrat
         );
 
-        ordreVirement.push(...treatmentResult.ordre_virement);
+        // console.log("Contrat", contrat);
+        lateContratTreatmentDate = result.lateContratTreatmentDate;
+        dureeAvanceToPay = result.dureeAvanceToPay;
+
+        let treatmentResult = await lateContratTreatment(
+          res,
+          contrat,
+          dateGenerationDeComptabilisation,
+          contrat.periodicite_paiement,
+          contratSchema,
+          Cloture,
+          treatmentMonth,
+          treatmentAnnee,
+          lateContratTreatmentDate,
+          dureeAvanceToPay
+        );
+
+        orderVirement.push(...treatmentResult.ordre_virement);
         comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
-
-        if (
-          lateContratTreatmentDate.month == treatmentMonth &&
-          lateContratTreatmentDate.year == treatmentAnnee
-        ) {
-          isTreatmentEnded = true;
-          aggrigatedOrdreVirement.push(
-            ...sharedHelper.aggrigateOrderVirementObjects(ordreVirement, false)
-          );
-          aggrigatedComptabilisationLoyer.push(
-            ...sharedHelper.aggrigateLoyerComptObjects(
-              comptabilisationLoyer,
-              false
-            )
-          );
-        } else {
-          if (lateContratTreatmentDate.month == 12) {
-            lateContratTreatmentDate.month = 1;
-            lateContratTreatmentDate.year = +lateContratTreatmentDate.year + 1;
-            aggrigatedOrdreVirement.push(
-              ...sharedHelper.aggrigateOrderVirementObjects(ordreVirement, true)
-            );
-            aggrigatedComptabilisationLoyer.push(
-              ...sharedHelper.aggrigateLoyerComptObjects(
-                comptabilisationLoyer,
-                true
-              )
-            );
-          } else {
-            lateContratTreatmentDate.month =
-              +lateContratTreatmentDate.month + 1;
-          }
-        }
+        comptabilisationLoyerDebt.push(...treatmentResult.cmptLoyerDebt);
       }
-    }
-
-    if (!Cloture) {
-      await ContratSchema.findByIdAndUpdate(
-        { _id: contrat._id },
-        {
-          date_comptabilisation: null,
-          caution_versee: false,
-          avance_versee: false,
-        }
-      );
-    } else {
-      await ContratSchema.findByIdAndUpdate(
-        { _id: contrat._id },
-        {
-          caution_versee: true,
-          avance_versee: true,
-          is_overdued: false,
-        }
-      );
+    } catch (error) {
+      console.log(error);
     }
 
     return {
-      ordre_virement: aggrigatedOrdreVirement,
-      cmptLoyerCrdt: aggrigatedComptabilisationLoyer,
-      cmptLoyerDebt: comptabilisationLoyerDebiter,
+      ordre_virement: orderVirement,
+      cmptLoyerCrdt: comptabilisationLoyer,
+      cmptLoyerDebt: comptabilisationLoyerDebt,
     };
   },
 };
