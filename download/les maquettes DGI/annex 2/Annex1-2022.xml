@@ -4,24 +4,24 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>6</mois>
-  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>3000.00</totalMntRetenueSource>
-  <totalMntNetLoyer>17000.00</totalMntNetLoyer>
+  <mois>7</mois>
+  <totalMntBrutLoyer>100000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>15000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>85000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>BB10231</numCNIBailleur>
+      <numCNIBailleur>BB193467</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>Khalid tawiqi</nomPrenomBailleur>
+      <nomPrenomBailleur>AHMED TEST</nomPrenomBailleur>
       <adresseBailleur>TEST ADRESSE</adresseBailleur>
       <adresseBien>TEST ADRESSE</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>17000.00</mntNetLoyer>
+      <mntBrutLoyer>100000.00</mntBrutLoyer>
+      <mntRetenueSource>15000.00</mntRetenueSource>
+      <mntNetLoyer>85000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

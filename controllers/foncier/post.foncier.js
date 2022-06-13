@@ -151,6 +151,8 @@ module.exports = {
         etage: data.etage.toUpperCase(),
         lieu: lieu,
         type_lieu: data.type_lieu,
+        latitude: data.latitude,
+        longitude: data.longitude,
         // etat: data.etat,
       });
       await foncier
