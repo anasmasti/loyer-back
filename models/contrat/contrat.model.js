@@ -157,7 +157,7 @@ const ContratSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    is_late: {
+    is_overdued: {
       type: Boolean,
       default: false,
     },

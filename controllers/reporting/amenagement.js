@@ -1,7 +1,7 @@
 const moment = require("moment");
 const Contrat = require("../../models/contrat/contrat.model");
 const Foncier = require("../../models/foncier/foncier.model");
-const generatePdf = require("../helpers/generatePdf");
+const generatePdfs = require("../helpers/shared/generate_pdfs");
 
 module.exports = {
   amenagementReporting: async (_, res) => {
@@ -38,14 +38,19 @@ module.exports = {
                         input: "$$fonciermap.amenagement",
                         as: "amenagementfillter",
                         cond: {
-                        //   $eq: ["$$amenagementfillter.deleted", false],
+                          //   $eq: ["$$amenagementfillter.deleted", false],
                           $and: [
-                              { $eq: ["$$amenagementfillter.deleted", false] },
-                              { $lte: ["$$amenagementfillter.date_fin_travaux", today] },
+                            { $eq: ["$$amenagementfillter.deleted", false] },
+                            {
+                              $lte: [
+                                "$$amenagementfillter.date_fin_travaux",
+                                today,
+                              ],
+                            },
                             //   {$or: [
                             //       { $eq: ["$$amenagementfillter.date_fin_travaux", ""] },
                             //   ]}
-                          ]
+                          ],
                         },
                       },
                     },
@@ -100,7 +105,7 @@ module.exports = {
     ])
       .then((data) => {
         res.json(data);
-        // generatePdf(data, 'aménagements_réalisés')
+        // generatePdfs.generateReportingPdf(data, "aménagements_réalisés");
       })
       .catch((error) => {
         res.status(402).json({ message: error.message });

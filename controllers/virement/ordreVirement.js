@@ -74,6 +74,8 @@ module.exports = {
           zoneInitialiseSpace.padEnd(1, " ") +
           "\r\n";
 
+        console.log(headerOrdreVirement);
+
         await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
             dateMonthName +

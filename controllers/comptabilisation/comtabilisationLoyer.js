@@ -94,9 +94,13 @@ module.exports = {
         "|01|" +
         code +
         "|-|" +
-        (codeDr != null && code == "64200001" ? codeDr : "-") +
+        (codeDr != null && (code == "64200001" || code == "64290001")
+          ? codeDr
+          : "-") +
         "|" +
-        (codePv != null && code == "64200001" ? codePv : "-") +
+        (codePv != null && (code == "64200001" || code == "64290001")
+          ? codePv
+          : "-") +
         "|-|-|-|-|-|-|-|-|" +
         fullMontant +
         "|" +
@@ -150,23 +154,27 @@ module.exports = {
             }
           );
 
+          console.log("headerOrdreVirement");
+
           //ecriture comptable du loyer Sens D
           for (
             let i = 0;
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            let montant =
-              data.comptabilisation_loyer_crediter[i].montant_brut_loyer == 0
-                ? data.comptabilisation_loyer_crediter[i]
-                    .montant_avance_proprietaire
-                : data.comptabilisation_loyer_crediter[i].montant_brut_loyer;
-            await generateLignComptable(
-              data.comptabilisation_loyer_crediter[i],
-              "D",
-              "64200001",
-              montant
-            );
+            if (!data.comptabilisation_loyer_crediter[i].is_overdued) {
+              let montant =
+                data.comptabilisation_loyer_crediter[i].montant_brut_loyer == 0
+                  ? data.comptabilisation_loyer_crediter[i]
+                      .montant_avance_proprietaire
+                  : data.comptabilisation_loyer_crediter[i].montant_brut_loyer;
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "D",
+                "64200001",
+                montant
+              );
+            }
           }
 
           //ecriture comptable du loyer Sens C net
@@ -175,13 +183,15 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            await generateLignComptable(
-              data.comptabilisation_loyer_crediter[i],
-              "C",
-              "32700008",
-              data.comptabilisation_loyer_crediter[i]
-                .montant_net_without_caution
-            );
+            if (!data.comptabilisation_loyer_crediter[i].is_overdued) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "C",
+                "32700008",
+                data.comptabilisation_loyer_crediter[i]
+                  .montant_net_without_caution
+              );
+            }
           }
 
           //ecriture comptable du loyer Sens C tax
@@ -190,12 +200,14 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            await generateLignComptable(
-              data.comptabilisation_loyer_crediter[i],
-              "C",
-              "32100007",
-              data.comptabilisation_loyer_crediter[i].montant_tax
-            );
+            if (!data.comptabilisation_loyer_crediter[i].is_overdued) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "C",
+                "32100007",
+                data.comptabilisation_loyer_crediter[i].montant_tax
+              );
+            }
           }
 
           //ecriture comptable du loyer Sens D caution
@@ -204,13 +216,15 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            if (data.comptabilisation_loyer_crediter[i].montant_caution > 0) {
-              await generateLignComptable(
-                data.comptabilisation_loyer_crediter[i],
-                "D",
-                "31500003",
-                data.comptabilisation_loyer_crediter[i].montant_caution
-              );
+            if (!data.comptabilisation_loyer_crediter[i].is_overdued) {
+              if (data.comptabilisation_loyer_crediter[i].montant_caution > 0) {
+                await generateLignComptable(
+                  data.comptabilisation_loyer_crediter[i],
+                  "D",
+                  "31500003",
+                  data.comptabilisation_loyer_crediter[i].montant_caution
+                );
+              }
             }
           }
 
@@ -220,12 +234,133 @@ module.exports = {
             i < data.comptabilisation_loyer_crediter.length;
             i++
           ) {
-            if (data.comptabilisation_loyer_crediter[i].montant_caution > 0) {
+            if (
+              data.comptabilisation_loyer_crediter[i].montant_caution > 0 &&
+              !data.comptabilisation_loyer_crediter[i].is_overdued
+            ) {
               await generateLignComptable(
                 data.comptabilisation_loyer_crediter[i],
                 "C",
                 "32700008",
                 data.comptabilisation_loyer_crediter[i].montant_caution
+              );
+            }
+          }
+
+          // :::::::::::::::::::::::::::::::::::: Rappel (same year) ::::::::::::::::::::::::::::::::::::
+
+          //ecriture comptable du loyer Sens D
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            if (
+              data.comptabilisation_loyer_crediter[i].is_overdued &&
+              !data.comptabilisation_loyer_crediter[i].is_annee_antr
+            ) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "D",
+                "64200001",
+                data.comptabilisation_loyer_crediter[i].montant_brut
+              );
+            }
+          }
+
+          //ecriture comptable du loyer Sens C net
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            if (
+              data.comptabilisation_loyer_crediter[i].is_overdued &&
+              !data.comptabilisation_loyer_crediter[i].is_annee_antr
+            ) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "C",
+                "32700008",
+                data.comptabilisation_loyer_crediter[i].montant_net
+              );
+            }
+          }
+
+          //ecriture comptable du loyer Sens C tax
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            if (
+              data.comptabilisation_loyer_crediter[i].is_overdued &&
+              !data.comptabilisation_loyer_crediter[i].is_annee_antr
+            ) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "C",
+                "32100007",
+                data.comptabilisation_loyer_crediter[i].montant_tax
+              );
+            }
+          }
+
+          // :::::::::::::::::::::::::::::::::::: Rappel (previous years) ::::::::::::::::::::::::::::::::::::
+
+          //ecriture comptable du loyer Sens D
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            if (
+              data.comptabilisation_loyer_crediter[i].is_overdued &&
+              data.comptabilisation_loyer_crediter[i].is_annee_antr
+            ) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "D",
+                "64290001",
+                data.comptabilisation_loyer_crediter[i].montant_brut
+              );
+            }
+          }
+
+          //ecriture comptable du loyer Sens C net
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            if (
+              data.comptabilisation_loyer_crediter[i].is_overdued &&
+              data.comptabilisation_loyer_crediter[i].is_annee_antr
+            ) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "C",
+                "32700008",
+                data.comptabilisation_loyer_crediter[i].montant_net
+              );
+            }
+          }
+
+          //ecriture comptable du loyer Sens C tax
+          for (
+            let i = 0;
+            i < data.comptabilisation_loyer_crediter.length;
+            i++
+          ) {
+            if (
+              data.comptabilisation_loyer_crediter[i].is_overdued &&
+              data.comptabilisation_loyer_crediter[i].is_annee_antr
+            ) {
+              await generateLignComptable(
+                data.comptabilisation_loyer_crediter[i],
+                "C",
+                "32100007",
+                data.comptabilisation_loyer_crediter[i].montant_tax
               );
             }
           }

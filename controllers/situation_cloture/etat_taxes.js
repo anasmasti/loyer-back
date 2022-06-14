@@ -1,5 +1,5 @@
 const etatTaxes = require("../../models/situation_cloture/etatTaxes.schema");
-const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const generatePdfs = require("../helpers/shared/generate_pdfs");
 const exportUsersToExcel = require("../../helpers/generate_excel");
 const fs = require("fs");
 const path = require("path");
@@ -21,8 +21,10 @@ const etatMonsuelTaxes = async (req, res) => {
           let montantCautionGlobal = 0;
           let montantTaxeGlobal = 0;
           let montantTaxeAvanceGlobal = 0;
+          let montantTaxeRappelGlobal = 0;
           let montantBrutGlobal = 0;
           let montantBrutAvanceGlobal = 0;
+          let montantBrutRappelGlobal = 0;
           // Generate Excel
           const dataExcel = [];
           contrat.comptabilisation_loyer_crediter.forEach((cmpt) => {
@@ -44,6 +46,12 @@ const etatMonsuelTaxes = async (req, res) => {
             montantBrutAvanceGlobal += !cmpt.avance_versee
               ? cmpt.montant_avance_proprietaire
               : 0;
+
+            // Rappel
+            montantBrutRappelGlobal +=
+              cmpt.is_overdued && cmpt.montant_brut ? cmpt.montant_brut : 0;
+            montantTaxeRappelGlobal +=
+              cmpt.is_overdued && cmpt.montant_tax ? cmpt.montant_tax : 0;
             let cmptMapped = [
               cmpt.numero_contrat,
               cmpt.type_lieu,
@@ -60,6 +68,8 @@ const etatMonsuelTaxes = async (req, res) => {
                 ? "--"
                 : cmpt.retenue_source,
               cmpt.tax_avance_proprietaire,
+              cmpt.is_overdued ? cmpt.montant_brut : 0,
+              cmpt.is_overdued ? cmpt.montant_tax : 0,
               !cmpt.caution_versee ? cmpt.caution_proprietaire : "--",
               cmpt.montant_net,
             ];
@@ -79,6 +89,8 @@ const etatMonsuelTaxes = async (req, res) => {
             +montantTaxeGlobal.toFixed(2),
             +montantTaxeAvanceGlobal.toFixed(2),
             +montantCautionGlobal.toFixed(2),
+            +montantBrutRappelGlobal.toFixed(2),
+            +montantTaxeRappelGlobal.toFixed(2),
             +montantNetGlobal.toFixed(2),
           ]);
           const workSheetColumnName = [
@@ -94,6 +106,8 @@ const etatMonsuelTaxes = async (req, res) => {
             "Taxe/loyer",
             "Taxe/avance",
             "Caution",
+            "MT brut (Rappel)",
+            "Taxe (Rappel)",
             "MT net",
           ];
           const workSheetName = "Etat Taxes";
@@ -110,7 +124,7 @@ const etatMonsuelTaxes = async (req, res) => {
           );
 
           // Generate PDF
-          generatePdf(
+          generatePdfs.generateSituationPdf(
             {
               comptabilisation_loyer_crediter:
                 contrat.comptabilisation_loyer_crediter,
@@ -120,6 +134,8 @@ const etatMonsuelTaxes = async (req, res) => {
               montant_taxe_avance_global: +montantTaxeAvanceGlobal.toFixed(2),
               montant_net_global: +montantNetGlobal.toFixed(2),
               montant_caution_global: +montantCautionGlobal.toFixed(2),
+              montantBrutRappelGlobal: +montantBrutRappelGlobal.toFixed(2),
+              montantTaxeRappelGlobal: +montantTaxeRappelGlobal.toFixed(2),
               mois: contrat.mois,
               annee: contrat.annee,
               date_generation_de_virement: contrat.date_generation_de_virement,

@@ -1,7 +1,7 @@
 const Contrat = require("../../models/contrat/contrat.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const Lieu = require("../../models/lieu/lieu.model");
-const generatePdf = require("./generatePdf");
+const generatePdfs = require("./shared/generate_pdfs");
 const moment = require("moment");
 
 module.exports = {
@@ -216,7 +216,7 @@ module.exports = {
               break;
           }
           res.json(data);
-          generatePdf(
+          generatePdfs.generateReportingPdf(
             {
               mois: generationDate.getMonth() + 1,
               annee: generationDate.getFullYear(),

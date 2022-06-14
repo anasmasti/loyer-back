@@ -7,7 +7,7 @@ module.exports = {
     try {
       data = await JSON.parse(req.body.data);
       // data = req.body.data;
-      // return console.log(data);
+      console.log(data);
     } catch (error) {
       return res.status(422).send({ message: error.message });
     }
@@ -151,6 +151,8 @@ module.exports = {
         etage: data.etage.toUpperCase(),
         lieu: lieu,
         type_lieu: data.type_lieu,
+        latitude: data.latitude,
+        longitude: data.longitude,
         // etat: data.etat,
       });
       await foncier
@@ -185,6 +187,8 @@ module.exports = {
         lieu: lieu,
         type_lieu: data.type_lieu,
         contrat: null,
+        latitude: data.latitude,
+        longitude: data.longitude,
         // etat: data.etat,
       });
       await foncier

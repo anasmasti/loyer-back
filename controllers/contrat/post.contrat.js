@@ -2,6 +2,7 @@ const Contrat = require("../../models/contrat/contrat.model");
 const Lieu = require("../../models/lieu/lieu.model");
 const Foncier = require("../../models/foncier/foncier.model");
 const FilesHelper = require("../helpers/files");
+const TreatmentDate = require("../helpers/shared/treatmentDate");
 
 module.exports = {
   ajouterContrat: async (req, res) => {
@@ -57,6 +58,19 @@ module.exports = {
       });
     }
 
+    // Test if contrat is overdued
+    let is_overdued = false;
+    const treatmentDate = await TreatmentDate(req, res);
+    const dateDebutLoyerMonth = new Date(data.date_debut_loyer).getMonth() + 1;
+    const dateDebutLoyerYear = new Date(data.date_debut_loyer).getFullYear();
+    if (
+      (dateDebutLoyerMonth < treatmentDate.getMonth() + 1 &&
+        dateDebutLoyerYear == treatmentDate.getFullYear()) ||
+      dateDebutLoyerYear < treatmentDate.getFullYear()
+    ) {
+      is_overdued = true;
+    }
+
     //set numero de contrat
     let numeroContrat;
     requestedLieu.type_lieu == "Logement de fonction"
@@ -99,6 +113,7 @@ module.exports = {
       // type_lieu: data.type_lieu,
       foncier: req.params.IdFoncier,
       nombre_part: data.nombre_part,
+      is_overdued: is_overdued,
       etat_contrat: {
         libelle: "Initié",
         etat: {},

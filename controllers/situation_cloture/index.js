@@ -4,8 +4,8 @@ const etatVirementSch = require("../../models/situation_cloture/etatVirement.sch
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
-const clotureHelper = require("../helpers/cloture/cloture");
-const generatePdf = require("../helpers/cloture/generateSituationPdf");
+const checkContrats = require("../helpers/shared/check_contrats");
+const overduedContrats = require("../helpers/cloture/contrats_en_retard");
 const etatMonsuelTaxes = require("./etat_taxes");
 const etatMonsuelVirement = require("./etat_virement");
 const mongoose = require("mongoose");
@@ -13,12 +13,36 @@ const mongoose = require("mongoose");
 module.exports = {
   situation_cloture: async (req, res, next) => {
     try {
-      await clotureHelper.checkContratsAv(req, res);
-      await clotureHelper.checkDtFinContratsSus(req, res);
       let comptabilisationLoyerCrediter = [],
         montantDebiter = 0,
         comptabilisationLoyerDebiter = [],
         ordreVirement = [];
+
+      //traitement pour date generation de comptabilisation
+      let dateGenerationDeComptabilisation = null;
+      let result;
+      if (req.body.mois == 12) {
+        dateGenerationDeComptabilisation = new Date(
+          req.body.annee + 1 + "-" + "01" + "-" + "01"
+        );
+      } else {
+        dateGenerationDeComptabilisation = new Date(
+          req.body.annee +
+            "-" +
+            ("0" + (req.body.mois + 1)).slice(-2) +
+            "-" +
+            "01"
+        );
+      }
+
+      // :::::::::::::::::::::::::::::::::::::::::::::: Checking contrats ::::::::::::::::::::::::::::::::::::::::::::::
+
+      // Check 'Avenant' contrats
+      await checkContrats.checkContratsAv(req, res);
+      // Check 'Suspendu' contrats
+      await checkContrats.checkContratsSus(req, res);
+
+      // :::::::::::::::::::::::::::::::::::::::::::::: End Checking contrats ::::::::::::::::::::::::::::::::::::::::::::::
 
       //get current contrat of this month
       let contrat = await Contrat.find({
@@ -51,46 +75,41 @@ module.exports = {
 
       // return res.json(contrat);
 
-      //traitement pour date generation de comptabilisation
-      let dateGenerationDeComptabilisation = null;
-      let result;
-      if (req.body.mois == 12) {
-        dateGenerationDeComptabilisation = new Date(
-          req.body.annee + 1 + "-" + "01" + "-" + "01"
-        );
-      } else {
-        dateGenerationDeComptabilisation = new Date(
-          req.body.annee +
-            "-" +
-            ("0" + (req.body.mois + 1)).slice(-2) +
-            "-" +
-            "01"
-        );
-      }
-
       if (contrat.length > 0) {
         //comptabilisation pour le paiement des loyers
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
           if (contrat[i].etat_contrat.libelle == "Actif") {
-            result = await traitementContratActif.clotureContratActif(
-              res,
-              contrat[i],
-              dateGenerationDeComptabilisation,
-              Contrat,
-              false,
-              req.body.mois,
-              req.body.annee
+            let treatmentResult;
+            if (contrat[i].is_overdued) {
+              treatmentResult = await overduedContrats(
+                res,
+                contrat[i],
+                dateGenerationDeComptabilisation,
+                contrat[i].periodicite_paiement,
+                Contrat,
+                false,
+                req.body.mois,
+                req.body.annee
+              );
+            } else {
+              treatmentResult =
+                await traitementContratActif.clotureContratActif(
+                  res,
+                  contrat[i],
+                  dateGenerationDeComptabilisation,
+                  Contrat,
+                  false,
+                  req.body.mois,
+                  req.body.annee
+                );
+            } //end if
+
+            ordreVirement.push(...treatmentResult.ordre_virement);
+            comptabilisationLoyerCrediter.push(
+              ...treatmentResult.cmptLoyerCrdt
             );
-            result.ordre_virement.forEach((ordVrm) => {
-              ordreVirement.push(ordVrm);
-            });
-            result.cmptLoyerCrdt.forEach((cmptCrdt) => {
-              comptabilisationLoyerCrediter.push(cmptCrdt);
-            });
-            result.cmptLoyerDebt.forEach((cmptDept) => {
-              comptabilisationLoyerDebiter.push(cmptDept);
-            });
+            comptabilisationLoyerDebiter.push(...treatmentResult.cmptLoyerDebt);
           } //end if
 
           if (

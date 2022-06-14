@@ -36,7 +36,7 @@ const foncierSchema = new Schema(
         // }
         etat_lieu: {
           type: String,
-        }
+        },
       },
     ],
     desc_lieu_entrer: {
@@ -63,7 +63,13 @@ const foncierSchema = new Schema(
     },
     contrat: {
       type: Schema.Types.ObjectId,
-      ref: "Contrat"
+      ref: "Contrat",
+    },
+    latitude: {
+      type: String,
+    },
+    longitude: {
+      type: String,
     },
     deleted: {
       type: Boolean,

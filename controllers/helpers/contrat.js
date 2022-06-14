@@ -217,6 +217,24 @@ module.exports = {
       });
   },
 
+  generateNumeroContrat: (numeroContrat) => {
+    let splitedNumeroContrat = numeroContrat.split("/");
+    console.log("splitedNumeroContrat", splitedNumeroContrat);
+    console.log("splitedNumeroContrat[-1]", splitedNumeroContrat.length - 1);
+    if (splitedNumeroContrat[splitedNumeroContrat.length - 1].includes("AV")) {
+      let countedAV = splitedNumeroContrat[
+        splitedNumeroContrat.length - 1
+      ].replace("AV", "");
+      console.log("countedAV", countedAV);
+      splitedNumeroContrat[splitedNumeroContrat.length - 1] = `AV${
+        +countedAV + 1
+      }`;
+    } else {
+      splitedNumeroContrat[splitedNumeroContrat.length] = "AV1";
+    }
+    return splitedNumeroContrat.join("/").toString();
+  },
+
   chackContratDate: (targetDate, targetDateFin) => {
     let _targetDateFin = new Date(targetDateFin);
     let targetDateFinMonth = _targetDateFin.getMonth() + 1;
@@ -238,23 +256,5 @@ module.exports = {
     } else {
       return false;
     }
-  },
-
-  generateNumeroContrat: (numeroContrat) => {
-    let splitedNumeroContrat = numeroContrat.split("/");
-    console.log("splitedNumeroContrat", splitedNumeroContrat);
-    console.log("splitedNumeroContrat[-1]", splitedNumeroContrat.length - 1);
-    if (splitedNumeroContrat[splitedNumeroContrat.length - 1].includes("AV")) {
-      let countedAV = splitedNumeroContrat[
-        splitedNumeroContrat.length - 1
-      ].replace("AV", "");
-      console.log("countedAV", countedAV);
-      splitedNumeroContrat[splitedNumeroContrat.length - 1] = `AV${
-        +countedAV + 1
-      }`;
-    } else {
-      splitedNumeroContrat[splitedNumeroContrat.length] = "AV1";
-    }
-    return splitedNumeroContrat.join("/").toString();
   },
 };

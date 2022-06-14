@@ -1,151 +1,14 @@
 const Contrat = require("../../../models/contrat/contrat.model");
 const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
+const proprietaireHelper = require("../proprietaire");
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
-const sharedHelper = require("./shared/aggrigationObjects");
+const incrementMonth = require("./increment_month");
+const sharedHelper = require("./aggrigationObjects");
+const clotureHelper = require("./cloture_helper");
+const lateContratTreatment = require("../cloture/contrats_en_retard");
 
 module.exports = {
-  createComptLoyerCredObject: (
-    foncier,
-    proprietaire,
-    lieu,
-    dateGenerationDeComptabilisation,
-    montant_loyer_net,
-    montant_tax,
-    montant_brut,
-    montant_brut_loyer,
-    dateDebutLoyer,
-    montant_caution,
-    numero_contrat,
-    periodicite,
-    updatedAt,
-    caution_versee,
-    avance_versee,
-    is_late,
-    montant_net_without_caution,
-    mois,
-    annee
-  ) => {
-    let comptabilisationLoyerCrediter = {
-      nom_de_piece: dateGenerationDeComptabilisation,
-      nom_prenom: proprietaire.proprietaire.nom_prenom
-        ? proprietaire.proprietaire.nom_prenom
-        : proprietaire.proprietaire.raison_social,
-      date_gl: dateGenerationDeComptabilisation,
-      date_operation: dateGenerationDeComptabilisation,
-      cin: proprietaire.proprietaire.cin
-        ? proprietaire.proprietaire.cin
-        : proprietaire.proprietaire.n_registre_commerce,
-      passport: proprietaire.proprietaire.passport,
-      carte_sejour: proprietaire.proprietaire.carte_sejour,
-      type: "LOY",
-      adresse_proprietaire: proprietaire.proprietaire.adresse,
-      adresse_lieu: foncier.adresse,
-      origine: "PAISOFT",
-      devises: "MAD",
-      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
-      type_lieu: lieu.lieu.type_lieu,
-      code_lieu: lieu.lieu.code_lieu,
-      etablissement: "01",
-      centre_de_cout: "NS",
-      direction_regional:
-        lieu.lieu.type_lieu == "Direction régionale"
-          ? lieu.lieu.code_lieu
-          : lieu.lieu.type_lieu == "Siège"
-          ? null
-          : lieu.lieu.attached_DR.code_lieu || null,
-      point_de_vente:
-        lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
-      numero_contrat: numero_contrat,
-      periodicite: periodicite,
-      montant_net: +montant_loyer_net.toFixed(2),
-      montant_tax: +montant_tax.toFixed(2),
-      montant_caution: +montant_caution.toFixed(2),
-      montant_brut: +montant_brut.toFixed(2),
-      montant_brut_loyer: +montant_brut_loyer.toFixed(2),
-      taux_impot: proprietaire.taux_impot,
-      caution_proprietaire: +proprietaire.caution_par_proprietaire.toFixed(2),
-      tax_avance_proprietaire: +proprietaire.tax_avance_proprietaire.toFixed(2),
-      tax_loyer: +proprietaire.tax_par_periodicite.toFixed(2),
-      montant_loyer: +proprietaire.montant_loyer.toFixed(2),
-      montant_avance_proprietaire:
-        +proprietaire.montant_avance_proprietaire.toFixed(2),
-      retenue_source: +proprietaire.retenue_source.toFixed(2),
-      date_comptabilisation: dateDebutLoyer,
-      declaration_option: proprietaire.declaration_option,
-      updatedAt: updatedAt,
-      caution_versee: caution_versee,
-      avance_versee: avance_versee,
-      montant_net_without_caution: montant_net_without_caution,
-      mois: mois,
-      annee: annee,
-      is_late: is_late,
-    };
-    return comptabilisationLoyerCrediter;
-  },
-
-  createComptLoyerDebiteObject: (
-    lieu,
-    montant_caution,
-    numero_contrat,
-    montantDebiter
-  ) => {
-    let comptabilisationLoyerDebite = {
-      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
-      montant_caution: +montant_caution.toFixed(2),
-      numero_contrat: numero_contrat,
-      direction_regional:
-        lieu.lieu.type_lieu == "Direction régionale"
-          ? lieu.lieu.code_lieu
-          : lieu.lieu.type_lieu == "Siège"
-          ? null
-          : lieu.lieu.attached_DR.code_lieu || null,
-      point_de_vente:
-        lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
-      montant: +montantDebiter.toFixed(2),
-    };
-    return comptabilisationLoyerDebite;
-  },
-
-  createOrderVirementObject: (
-    lieu,
-    proprietaire,
-    numero_contrat,
-    periodicite,
-    mois,
-    annee,
-    montant_a_verse,
-    montant_loyer_brut,
-    montant_tax,
-    updatedAt
-  ) => {
-    let orderVirement = {
-      type_enregistrement: "0602",
-      cin: proprietaire.proprietaire.cin
-        ? proprietaire.proprietaire.cin
-        : proprietaire.proprietaire.n_registre_commerce,
-      passport: proprietaire.proprietaire.passport,
-      carte_sejour: proprietaire.proprietaire.carte_sejour,
-      nom_prenom: proprietaire.proprietaire.nom_prenom
-        ? proprietaire.proprietaire.nom_prenom
-        : proprietaire.proprietaire.raison_social,
-      numero_compte_bancaire: proprietaire.proprietaire.n_compte_bancaire,
-      mois: mois,
-      annee: annee,
-      nom_agence_bancaire: proprietaire.proprietaire.nom_agence_bancaire,
-      banque: proprietaire.proprietaire.banque,
-      intitule_lieu: lieu.lieu.intitule_lieu ? lieu.lieu.intitule_lieu : " ",
-      type_lieu: lieu.lieu.type_lieu,
-      numero_contrat: numero_contrat,
-      periodicite: periodicite,
-      montant_net: +montant_a_verse.toFixed(2),
-      montant_brut: +montant_loyer_brut.toFixed(2),
-      montant_taxe: +montant_tax.toFixed(2),
-      updatedAt: updatedAt ? updatedAt : "",
-    };
-    return orderVirement;
-  },
-
   checkContratsAv: async (req, res) => {
     await Contrat.findOne({
       "etat_contrat.libelle": "Planifié",
@@ -278,7 +141,7 @@ module.exports = {
       });
   },
 
-  checkDtFinContratsSus: async (req, res) => {
+  checkContratsSus: async (req, res) => {
     await Contrat.find({ deleted: false, "etat_contrat.libelle": "Suspendu" })
       .then(async (contrats) => {
         await archiveComptabilisation
@@ -357,87 +220,92 @@ module.exports = {
       });
   },
 
-  getTraitementDate: async (req, res) => {
-    let nextCloture;
-    await archiveComptabilisation
-      .find()
-      .sort({ date_generation_de_comptabilisation: "desc" })
-      .select({ date_generation_de_comptabilisation: 1 })
-      .then(async (Comptabilisationdata) => {
-        nextCloture = new Date(
-          Comptabilisationdata[0].date_generation_de_comptabilisation
-        );
-        // let currentMonth = nextCloture.getMonth() + 1;
-        // let currentYear = nextCloture.getFullYear();
-      })
-      .catch((error) => {
-        res.status(402).send({
-          message: `Erreur de generation de date de traitement : ${error.message}`,
-        });
-      });
-    return nextCloture;
-  },
-
-  lateContratTreatment: async (
+  checkContratsOverdued: async (
     res,
-    contrat,
-    dateGenerationDeComptabilisation,
-    periodicite,
-    ContratSchema,
-    Cloture,
+    contratSchema,
     treatmentMonth,
-    treatmentAnnee
+    treatmentAnnee,
+    Cloture,
+    dateGenerationDeComptabilisation
   ) => {
-    let lateContratTreatmentDate = {
-      month: new Date(Contrat.date_debut_loyer).getMonth() + 1,
-      year: new Date(Contrat.date_debut_loyer).getFullYear(),
-    };
-    let isTreatmentEnded = false;
-    let aggrigatedComptabilisationLoyer = [],
-      aggrigatedOrdreVirement = [],
+    let orderVirement = [],
       comptabilisationLoyer = [],
-      ordreVirement = [],
-      code;
+      comptabilisationLoyerDebt = [];
 
-    while (!isTreatmentEnded) {
-      let result = await traitementCloture.traitementClotureActif(
-        Contrat,
-        dateGenerationDeComptabilisation,
-        periodicite,
-        ContratSchema,
-        true,
-        lateContratTreatmentDate.month,
-        lateContratTreatmentDate.year
-      );
+    try {
+      //get current contrat of this month
+      let contrats = await Contrat.find({
+        deleted: false,
+        is_overdued: true,
+      })
+        .populate({
+          path: "foncier",
+          populate: {
+            path: "lieu.lieu",
+            populate: {
+              path: "attached_DR",
+            },
+          },
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+              populate: { path: "proprietaire" },
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true, deleted: false },
+        })
+        .sort({ updatedAt: "desc" });
 
-      ordreVirement.push(result.ordre_virement);
-      comptabilisationLoyer.push(result.cmptLoyerCrdt);
-      if (
-        lateContratTreatmentDate.month == treatmentMonth &&
-        lateContratTreatmentDate.year == treatmentAnnee
-      ) {
-        isTreatmentEnded = true;
-        aggrigatedOrdreVirement.push(ordreVirement);
-        aggrigatedComptabilisationLoyer.push(comptabilisationLoyer);
-      } else {
-        if (lateContratTreatmentDate.month == 12) {
-          lateContratTreatmentDate.month = 1;
-          lateContratTreatmentDate.year = +lateContratTreatmentDate.year + 1;
-          aggrigatedOrdreVirement.push(
-            sharedHelper.aggrigateOrderVirementObjects()
-          );
-          aggrigatedComptabilisationLoyer.push(
-            sharedHelper.aggrigateLoyerComptObjects()
-          );
-        } else {
-          lateContratTreatmentDate.month = +lateContratTreatmentDate.month + 1;
-        }
+      for (let index = 0; index < contrats.length; index++) {
+        const contrat = contrats[index];
+
+        let lateContratTreatmentDate = {
+          month: new Date(contrat.date_debut_loyer).getMonth() + 1,
+          year: new Date(contrat.date_debut_loyer).getFullYear(),
+        };
+        let dureeAvanceToPay = 0;
+
+        let result = clotureHelper.removeAvanceFromRappel(
+          lateContratTreatmentDate,
+          { treatmentMonth, treatmentAnnee },
+          contrat
+        );
+
+        // console.log("Contrat", contrat);
+        lateContratTreatmentDate = result.lateContratTreatmentDate;
+        dureeAvanceToPay = result.dureeAvanceToPay;
+
+        let treatmentResult = await lateContratTreatment(
+          res,
+          contrat,
+          dateGenerationDeComptabilisation,
+          contrat.periodicite_paiement,
+          contratSchema,
+          Cloture,
+          treatmentMonth,
+          treatmentAnnee,
+          lateContratTreatmentDate,
+          dureeAvanceToPay
+        );
+
+        orderVirement.push(...treatmentResult.ordre_virement);
+        comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+        comptabilisationLoyerDebt.push(...treatmentResult.cmptLoyerDebt);
       }
+    } catch (error) {
+      console.log(error);
     }
+
     return {
-      ordre_virement: aggrigatedOrdreVirement,
-      cmptLoyerCrdt: aggrigatedComptabilisationLoyer,
-      cmptLoyerDebt: comptabilisationLoyerDebiter,
+      ordre_virement: orderVirement,
+      cmptLoyerCrdt: comptabilisationLoyer,
+      cmptLoyerDebt: comptabilisationLoyerDebt,
     };
   },
 };

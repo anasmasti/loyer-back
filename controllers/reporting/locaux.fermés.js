@@ -1,5 +1,5 @@
 const Foncier = require('../../models/foncier/foncier.model');
-const generatePdf = require('../helpers/generatePdf')
+const generatePdfs = require("../helpers/shared/generate_pdfs");
 
 module.exports = {
     locauxFermesReporting: async (req, res) => {
@@ -25,7 +25,7 @@ module.exports = {
         ])
             .then((data) => {
                 res.json(data)
-                generatePdf(data , 'locaux_fermés')
+                generatePdfs.generateReportingPdf(data , 'locaux_fermés')
             })
             .catch((error) => {
                 res.status(402).send({ message: error.message })
