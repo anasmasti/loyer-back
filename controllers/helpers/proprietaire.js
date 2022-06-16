@@ -160,7 +160,8 @@ module.exports = {
                   contrat.proprietaires[j].caution_par_proprietaire,
                   montant_net_without_caution,
                   treatmentDate.treatmentMonth,
-                  treatmentDate.treatmentAnnee
+                  treatmentDate.treatmentAnnee,
+                  true
                 )
               );
               if (contrat.proprietaires[j].proprietaire_list.length != 0) {
@@ -212,7 +213,8 @@ module.exports = {
                         .caution_par_proprietaire,
                       montant_net_without_caution,
                       treatmentDate.treatmentMonth,
-                      treatmentDate.treatmentAnnee
+                      treatmentDate.treatmentAnnee,
+                      true
                     )
                   );
                   montant_net_global = 0;

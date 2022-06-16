@@ -17,9 +17,9 @@ module.exports = {
     dateDebutLoyer,
     montant_caution,
     montant_net_without_caution,
-    isOverduedAvance = false,
     mois,
-    annee
+    annee,
+    isOverduedAvance = false
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
@@ -52,7 +52,7 @@ module.exports = {
       point_de_vente:
         lieu.lieu.type_lieu == "Point de vente" ? lieu.lieu.code_lieu : "",
       numero_contrat: Contrat.numero_contrat,
-      periodicite: Contrat.periodicite,
+      periodicite: Contrat.periodicite_paiement,
       taux_impot: proprietaire.taux_impot,
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,

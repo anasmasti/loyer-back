@@ -20,14 +20,15 @@ const lateContratTreatment = async (
     let aggrigatedComptabilisationLoyer = [],
       aggrigatedOrdreVirement = [],
       comptabilisationLoyerDebiter = [],
-      comptabilisationLoyer = [],
-      ordreVirement = [];
+      ordreVirement = [],
+      comptabilisationLoyer = [];
 
     let lateContratTreatmentDate = {
       month: new Date(contrat.date_debut_loyer).getMonth() + 1,
       year: new Date(contrat.date_debut_loyer).getFullYear(),
     };
-    let dureeAvanceToPay = 0;
+    let dureeAvance = 0;
+    let dureeAvanceRappel = 0;
 
     // Remove avance period from 'Rappel'
     let result = clotureHelper.removeAvanceFromRappel(
@@ -38,13 +39,32 @@ const lateContratTreatment = async (
 
     // console.log("Contrat", contrat);
     lateContratTreatmentDate = result.lateContratTreatmentDate;
-    dureeAvanceToPay = result.dureeAvanceToPay;
+    dureeAvance = result.dureeAvance;
+    dureeAvanceRappel = result.dureeAvanceRappel;
 
-    if (dureeAvanceToPay > 0) {
+    // Rappel Avance treatment
+    if (dureeAvanceRappel > 0) {
       const treatmentResult =
         await proprietaireHelper.avanceByDurationTreatment(
           contrat,
-          dureeAvanceToPay,
+          dureeAvanceRappel,
+          dateGenerationDeComptabilisation,
+          {
+            treatmentMonth,
+            treatmentAnnee,
+          }
+        );
+
+      ordreVirement.push(...treatmentResult.ordre_virement);
+      comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+    }
+
+    // Current Avance treatment
+    if (dureeAvance > 0) {
+      const treatmentResult =
+        await proprietaireHelper.avanceByDurationTreatment(
+          contrat,
+          dureeAvance,
           dateGenerationDeComptabilisation,
           {
             treatmentMonth,
@@ -54,7 +74,24 @@ const lateContratTreatment = async (
 
       aggrigatedOrdreVirement.push(...treatmentResult.ordre_virement);
       aggrigatedComptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
-    } else {
+      if (ordreVirement.length > 0) {
+        aggrigatedOrdreVirement.push(
+          ...sharedHelper.aggrigateOrderVirementObjects(
+            ordreVirement,
+            true,
+            false
+          )
+        );
+        aggrigatedComptabilisationLoyer.push(
+          ...sharedHelper.aggrigateLoyerComptObjects(
+            comptabilisationLoyer,
+            true,
+            false
+          )
+        );
+      }
+    }
+    if (dureeAvance == 0) {
       while (!isTreatmentEnded) {
         // Request updated contrat
         const requestedContrat = await Contrat.findById({

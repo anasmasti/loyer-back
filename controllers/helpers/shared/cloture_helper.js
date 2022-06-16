@@ -12,7 +12,8 @@ module.exports = {
     contrat
   ) => {
     let dureeAvanceInMonths = 0;
-    let dureeAvanceToPay = 0;
+    let dureeAvance = 0;
+    let dureeAvanceRappel = 0;
 
     // Convert duree avance to months
     switch (contrat.periodicite_paiement) {
@@ -29,13 +30,21 @@ module.exports = {
 
     // Remove avance months from overdued months
     for (let index = 0; index < dureeAvanceInMonths; index++) {
+      // Get overdued avance months
+      if (
+        (lateContratTreatmentDate.month < treatmentDate.treatmentMonth &&
+          lateContratTreatmentDate.year == treatmentDate.treatmentAnnee) ||
+        lateContratTreatmentDate.year < treatmentDate.treatmentAnnee
+      ) {
+        dureeAvanceRappel += 1;
+      }
       // Get avance months if it's not overdued
       if (
         (lateContratTreatmentDate.month >= treatmentDate.treatmentMonth &&
           lateContratTreatmentDate.year >= treatmentDate.treatmentAnnee) ||
         lateContratTreatmentDate.year > treatmentDate.treatmentAnnee
       ) {
-        dureeAvanceToPay += 1;
+        dureeAvance += 1;
       }
 
       lateContratTreatmentDate = incrementMonth(
@@ -46,7 +55,8 @@ module.exports = {
 
     return {
       lateContratTreatmentDate,
-      dureeAvanceToPay,
+      dureeAvance,
+      dureeAvanceRappel,
     };
   },
 
