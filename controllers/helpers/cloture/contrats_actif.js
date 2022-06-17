@@ -8,7 +8,8 @@ module.exports = {
     ContratSchema,
     Cloture,
     treatmentMonth,
-    treatmentAnnee
+    treatmentAnnee,
+    calculCaution
   ) => {
     try {
       let periodicite;
@@ -48,7 +49,8 @@ module.exports = {
         ContratSchema,
         Cloture,
         treatmentMonth,
-        treatmentAnnee
+        treatmentAnnee,
+        calculCaution
       );
       // }
     } catch (error) {

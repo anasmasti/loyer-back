@@ -62,7 +62,12 @@ module.exports = {
     return aggrigatedOrderVirements;
   },
 
-  aggrigateLoyerComptObjects: (cmptLoyer, is_overdued, isAnneeAntr) => {
+  aggrigateLoyerComptObjects: (
+    cmptLoyer,
+    is_overdued,
+    isAnneeAntr,
+    cautionVersee = true
+  ) => {
     let aggrigatedCmptLoyer = [];
     let aggrigatedList = [];
 
@@ -140,7 +145,7 @@ module.exports = {
           date_comptabilisation: cmptLoyer[index].date_comptabilisation,
           updatedAt: cmptLoyer[index].updatedAt,
           declaration_option: cmptLoyer[index].declaration_option,
-          caution_versee: true,
+          caution_versee: cautionVersee,
           avance_versee: true,
           mois: cmptLoyer[index].mois,
           annee: cmptLoyer[index].annee,
