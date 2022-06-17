@@ -12,6 +12,7 @@ module.exports = {
     ContratData,
     numeroContrat,
     existedContrat,
+    isOverdued = false,
     piece_jointe_avenant
   ) => {
     // Update ( montant loyer )
@@ -61,6 +62,8 @@ module.exports = {
       date_comptabilisation: existedContrat.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       foncier: ContratData.foncier,
       is_avenant: true,
+      has_avenant: false,
+      is_overdued: isOverdued,
       nombre_part: ContratData.nombre_part,
       etat_contrat: {
         libelle: "Initié",
