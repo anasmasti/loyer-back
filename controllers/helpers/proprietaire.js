@@ -105,7 +105,8 @@ module.exports = {
     contrat,
     dureeAvance,
     dateGenerationDeComptabilisation,
-    treatmentDate
+    treatmentDate,
+    calculCaution
   ) => {
     let comptabilisationLoyerCrediter = [];
     let ordreVirement = [];
@@ -135,7 +136,13 @@ module.exports = {
                 dureeAvance;
               // Fin ( Calcul 'Montants d'avance' by duration )
 
-              montant_brut_global_mandataire = +montantAvance.toFixed(2);
+              if (calculCaution) {
+                montant_brut_global_mandataire =
+                  +montantAvance.toFixed(2) +
+                  +contrat.proprietaires[j].caution_par_proprietaire.toFixed(2);
+              } else {
+                montant_brut_global_mandataire = +montantAvance.toFixed(2);
+              }
 
               montant_tax_mandataire = +taxAvance.toFixed(2);
 

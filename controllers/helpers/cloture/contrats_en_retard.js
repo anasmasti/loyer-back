@@ -27,10 +27,11 @@ const lateContratTreatment = async (
       month: new Date(contrat.date_debut_loyer).getMonth() + 1,
       year: new Date(contrat.date_debut_loyer).getFullYear(),
     };
+    // Avance
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
 
-    // Remove avance period from 'Rappel'
+    // Separate avance period from 'Rappel'
     let result = clotureHelper.removeAvanceFromRappel(
       lateContratTreatmentDate,
       { treatmentMonth, treatmentAnnee },
@@ -69,7 +70,8 @@ const lateContratTreatment = async (
           {
             treatmentMonth,
             treatmentAnnee,
-          }
+          },
+          false // Calcul caution
         );
 
       aggrigatedOrdreVirement.push(...treatmentResult.ordre_virement);
@@ -91,7 +93,9 @@ const lateContratTreatment = async (
         );
       }
     }
+
     if (dureeAvance == 0) {
+      let calculCaution = false;
       while (!isTreatmentEnded) {
         // Request updated contrat
         const requestedContrat = await Contrat.findById({
@@ -120,7 +124,6 @@ const lateContratTreatment = async (
             match: { is_mandataire: true, deleted: false },
           });
 
-        //   console.log("requestedContrat", requestedContrat);
         const treatmentResult =
           await traitementContratActif.clotureContratActif(
             res,
@@ -130,7 +133,8 @@ const lateContratTreatment = async (
             true,
             lateContratTreatmentDate.month,
             lateContratTreatmentDate.year,
-            true
+            true,
+            calculCaution
           );
 
         ordreVirement.push(...treatmentResult.ordre_virement);
@@ -152,14 +156,13 @@ const lateContratTreatment = async (
             ...sharedHelper.aggrigateLoyerComptObjects(
               comptabilisationLoyer,
               true,
-              true
+              true,
+              false
             )
           );
           ordreVirement = [];
           comptabilisationLoyer = [];
         }
-
-        //   console.log(lateContratTreatmentDate);
 
         lateContratTreatmentDate = await incrementMonth(
           lateContratTreatmentDate.month,
@@ -170,7 +173,7 @@ const lateContratTreatment = async (
           lateContratTreatmentDate.month == treatmentMonth &&
           lateContratTreatmentDate.year == treatmentAnnee
         ) {
-          // isTreatmentEnded = true;
+          calculCaution = true;
           aggrigatedOrdreVirement.push(
             ...sharedHelper.aggrigateOrderVirementObjects(
               ordreVirement,
@@ -182,6 +185,7 @@ const lateContratTreatment = async (
             ...sharedHelper.aggrigateLoyerComptObjects(
               comptabilisationLoyer,
               true,
+              false,
               false
             )
           );

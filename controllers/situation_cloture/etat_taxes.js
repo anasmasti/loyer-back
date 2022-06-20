@@ -29,29 +29,37 @@ const etatMonsuelTaxes = async (req, res) => {
           const dataExcel = [];
           contrat.comptabilisation_loyer_crediter.forEach((cmpt) => {
             montantNetGlobal += cmpt.montant_net;
+            // Caution
             montantCautionGlobal += !cmpt.caution_versee
               ? cmpt.caution_proprietaire
               : 0;
-            montantTaxeGlobal +=
-              cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee
-                ? 0
-                : cmpt.retenue_source;
+
+            // Avance
             montantTaxeAvanceGlobal += !cmpt.avance_versee
               ? cmpt.tax_avance_proprietaire
               : 0;
-            montantBrutGlobal +=
-              cmpt.montant_avance_proprietaire != 0 && !cmpt.avance_versee
-                ? 0
-                : cmpt.montant_brut_loyer;
             montantBrutAvanceGlobal += !cmpt.avance_versee
               ? cmpt.montant_avance_proprietaire
               : 0;
+
+            // Loyer
+            montantBrutGlobal +=
+              (cmpt.montant_avance_proprietaire != 0 && !cmpt.avance_versee) ||
+              cmpt.is_overdued
+                ? 0
+                : cmpt.montant_brut_loyer;
+            montantTaxeGlobal +=
+              (cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee) ||
+              cmpt.is_overdued
+                ? 0
+                : cmpt.retenue_source;
 
             // Rappel
             montantBrutRappelGlobal +=
               cmpt.is_overdued && cmpt.montant_brut ? cmpt.montant_brut : 0;
             montantTaxeRappelGlobal +=
               cmpt.is_overdued && cmpt.montant_tax ? cmpt.montant_tax : 0;
+
             let cmptMapped = [
               cmpt.numero_contrat,
               cmpt.type_lieu,
@@ -60,11 +68,13 @@ const etatMonsuelTaxes = async (req, res) => {
               cmpt.declaration_option,
               cmpt.periodicite,
               cmpt.taux_impot,
-              cmpt.montant_avance_proprietaire != 0 && !cmpt.avance_versee
+              (cmpt.montant_avance_proprietaire != 0 && !cmpt.avance_versee) ||
+              cmpt.is_overdued
                 ? "--"
                 : cmpt.montant_brut_loyer,
               cmpt.montant_avance_proprietaire,
-              cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee
+              (cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee) ||
+              cmpt.is_overdued
                 ? "--"
                 : cmpt.retenue_source,
               cmpt.tax_avance_proprietaire,
