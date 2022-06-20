@@ -74,7 +74,7 @@ module.exports = {
     for (let index = 0; index < cmptLoyer.length; index++) {
       let montant_net_total = 0,
         montant_tax_total = 0,
-        montant_caution_total = 0,
+        // montant_caution_total = 0,
         montant_brut_total = 0,
         montant_brut_loyer_total = 0,
         caution_proprietaire_total = 0,
@@ -154,7 +154,7 @@ module.exports = {
           // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
           montant_net: montant_net_total,
           montant_tax: montant_tax_total,
-          montant_caution: montant_caution_total,
+          montant_caution: cmptLoyer[index].montant_caution,
           montant_brut: montant_brut_total,
           montant_brut_loyer: montant_brut_loyer_total,
           caution_proprietaire: caution_proprietaire_total,
