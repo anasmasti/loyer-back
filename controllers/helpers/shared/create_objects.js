@@ -64,9 +64,9 @@ module.exports = {
       is_annee_antr: false,
       updatedAt: Contrat.updatedAt,
       // Montant calculés
-      montant_net: +montant_loyer_net.toFixed(2),
-      montant_tax: +montant_tax.toFixed(2),
       montant_brut: +montant_brut.toFixed(2),
+      montant_tax: +montant_tax.toFixed(2),
+      montant_net: +montant_loyer_net.toFixed(2),
       montant_net_without_caution: montant_net_without_caution,
       // Montants de loyer (contrat)
       montant_loyer: +proprietaire.montant_loyer.toFixed(2),

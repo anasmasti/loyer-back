@@ -137,6 +137,8 @@ const lateContratTreatment = async (
             calculCaution
           );
 
+        calculCaution = false;
+
         ordreVirement.push(...treatmentResult.ordre_virement);
         comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
 
@@ -185,7 +187,6 @@ const lateContratTreatment = async (
             ...sharedHelper.aggrigateLoyerComptObjects(
               comptabilisationLoyer,
               true,
-              false,
               false
             )
           );
@@ -208,6 +209,7 @@ const lateContratTreatment = async (
           aggrigatedComptabilisationLoyer.push(
             ...sharedHelper.aggrigateLoyerComptObjects(
               comptabilisationLoyer,
+              false,
               false,
               false
             )

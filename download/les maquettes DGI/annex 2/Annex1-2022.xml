@@ -5,14 +5,21 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
+<<<<<<< HEAD
   <totalMntBrutLoyer>205000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>29550.00</totalMntRetenueSource>
   <totalMntNetLoyer>175450.00</totalMntNetLoyer>
+=======
+  <totalMntBrutLoyer>25000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>2000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>23000.00</totalMntNetLoyer>
+>>>>>>> 5b7814b474f66b7f7bcdbdd21e97a7022ce80d38
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
       <numCNIBailleur>J547865</numCNIBailleur>
       <numCEBailleur/>
+<<<<<<< HEAD
       <nomPrenomBailleur>MARIAM HAHA</nomPrenomBailleur>
       <adresseBailleur>LKKJOIKJPK3253655</adresseBailleur>
       <adresseBien>OIUOUJOI9U0O12589</adresseBien>
@@ -73,6 +80,17 @@
       <mntBrutLoyer>24000.00</mntBrutLoyer>
       <mntRetenueSource>2400.00</mntRetenueSource>
       <mntNetLoyer>21600.00</mntNetLoyer>
+=======
+      <nomPrenomBailleur>AHMED TEST</nomPrenomBailleur>
+      <adresseBailleur>TEST ADRESSE</adresseBailleur>
+      <adresseBien>UUUUUUU</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>25000.00</mntBrutLoyer>
+      <mntRetenueSource>2000.00</mntRetenueSource>
+      <mntNetLoyer>23000.00</mntNetLoyer>
+>>>>>>> 5b7814b474f66b7f7bcdbdd21e97a7022ce80d38
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

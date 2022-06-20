@@ -1,3 +1,3 @@
 # AMF
 #### Gestion des loyers API
-> v1
+> v1 beta7

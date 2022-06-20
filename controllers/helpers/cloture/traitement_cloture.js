@@ -545,6 +545,7 @@ module.exports = {
       treatmentMonth == premierDateDePaiement.getMonth() + 1 &&
       treatmentAnnee == premierDateDePaiement.getFullYear()
     ) {
+      console.log("teeeeeest1");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
@@ -583,7 +584,11 @@ module.exports = {
                   montant_loyer_brut_mandataire,
                   montant_loyer_brut_loyer,
                   dateDebutLoyer,
-                  0,
+                  calculCaution
+                    ? +Contrat.proprietaires[
+                        j
+                      ].caution_par_proprietaire.toFixed(2)
+                    : 0,
                   montant_net_without_caution,
                   treatmentMonth,
                   treatmentAnnee
@@ -639,7 +644,11 @@ module.exports = {
                       montant_loyer_brut,
                       montant_loyer_brut_taxes,
                       dateDebutLoyer,
-                      0,
+                      calculCaution
+                        ? +Contrat.proprietaires[j].proprietaire_list[
+                            k
+                          ].caution_par_proprietaire.toFixed(2)
+                        : 0,
                       montant_net_without_caution,
                       treatmentMonth,
                       treatmentAnnee
@@ -707,6 +716,7 @@ module.exports = {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
+            console.log("teeeeeest2", calculCaution, +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2));
             if (Contrat.proprietaires[j].is_mandataire == true) {
               if (calculCaution) {
                 montant_loyer_brut_mandataire =
@@ -743,7 +753,11 @@ module.exports = {
                   montant_loyer_brut_mandataire,
                   montant_loyer_brut_loyer,
                   dateDebutLoyer,
-                  0,
+                  calculCaution
+                    ? +Contrat.proprietaires[
+                        j
+                      ].caution_par_proprietaire.toFixed(2)
+                    : 0,
                   montant_net_without_caution,
                   treatmentMonth,
                   treatmentAnnee
@@ -809,7 +823,11 @@ module.exports = {
                       montant_loyer_brut,
                       montant_loyer_brut_taxes,
                       dateDebutLoyer,
-                      0,
+                      calculCaution
+                        ? +Contrat.proprietaires[j].proprietaire_list[
+                            k
+                          ].caution_par_proprietaire.toFixed(2)
+                        : 0,
                       montant_net_without_caution,
                       treatmentMonth,
                       treatmentAnnee

@@ -9,6 +9,7 @@ module.exports = {
     Cloture,
     treatmentMonth,
     treatmentAnnee,
+    isOverdued,
     calculCaution
   ) => {
     try {
@@ -50,6 +51,7 @@ module.exports = {
         Cloture,
         treatmentMonth,
         treatmentAnnee,
+        isOverdued,
         calculCaution
       );
       // }
