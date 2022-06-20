@@ -38,7 +38,6 @@ const lateContratTreatment = async (
       contrat
     );
 
-    // console.log("Contrat", contrat);
     lateContratTreatmentDate = result.lateContratTreatmentDate;
     dureeAvance = result.dureeAvance;
     dureeAvanceRappel = result.dureeAvanceRappel;
@@ -53,7 +52,8 @@ const lateContratTreatment = async (
           {
             treatmentMonth,
             treatmentAnnee,
-          }
+          },
+          false // Calcul caution
         );
 
       ordreVirement.push(...treatmentResult.ordre_virement);
@@ -71,7 +71,7 @@ const lateContratTreatment = async (
             treatmentMonth,
             treatmentAnnee,
           },
-          false // Calcul caution
+          true // Calcul caution
         );
 
       aggrigatedOrdreVirement.push(...treatmentResult.ordre_virement);
@@ -134,7 +134,7 @@ const lateContratTreatment = async (
             lateContratTreatmentDate.month,
             lateContratTreatmentDate.year,
             true,
-            calculCaution
+            calculCaution // Calcul caution
           );
 
         calculCaution = false;
@@ -166,6 +166,7 @@ const lateContratTreatment = async (
           comptabilisationLoyer = [];
         }
 
+        // increment the date by 1 month
         lateContratTreatmentDate = await incrementMonth(
           lateContratTreatmentDate.month,
           lateContratTreatmentDate.year

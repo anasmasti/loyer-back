@@ -164,7 +164,11 @@ module.exports = {
                   montant_brut_global_mandataire, // 'Montant brut' including 'avance' and 'caution' if they exist
                   0, // Montant brut de loyer
                   null,
-                  contrat.proprietaires[j].caution_par_proprietaire,
+                  calculCaution
+                    ? +contrat.proprietaires[
+                        j
+                      ].caution_par_proprietaire.toFixed(2)
+                    : 0,
                   montant_net_without_caution,
                   treatmentDate.treatmentMonth,
                   treatmentDate.treatmentAnnee,
@@ -188,7 +192,15 @@ module.exports = {
                     ].retenue_source.toFixed(2) * dureeAvance;
                   // Fin ( Calcul 'Montants d'avance' by duration )
 
-                  montant_brut_global = +montantAvance.toFixed(2);
+                  if (calculCaution) {
+                    montant_brut_global =
+                      +montantAvance.toFixed(2) +
+                      +contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].caution_par_proprietaire.toFixed(2);
+                  } else {
+                    montant_brut_global = +montantAvance.toFixed(2);
+                  }
 
                   montant_tax = +taxAvance.toFixed(2);
 
@@ -216,8 +228,11 @@ module.exports = {
                       montant_brut_global, // 'Montant brut' including 'avance' and 'caution' if they exist
                       0, // Montant brut de loyer
                       dateDebutLoyer,
-                      contrat.proprietaires[j].proprietaire_list[k]
-                        .caution_par_proprietaire,
+                      calculCaution
+                        ? +contrat.proprietaires[j].proprietaire_list[
+                            k
+                          ].caution_par_proprietaire.toFixed(2)
+                        : 0,
                       montant_net_without_caution,
                       treatmentDate.treatmentMonth,
                       treatmentDate.treatmentAnnee,

@@ -39,7 +39,6 @@ module.exports = {
       let addTwoNumbersAfterComma = montant.toFixed(2);
       let replacePointWithComma = addTwoNumbersAfterComma.replace(".", ",");
       let fullMontant = pad(replacePointWithComma, 9);
-      let numeroContrat = comptabilisation_loyer_crediter.numero_contrat;
 
       //les infos du lieu
       let codeDr, codePv, lieuIntitule;
@@ -70,6 +69,17 @@ module.exports = {
         proprietaireIdentifiant = comptabilisation_loyer_crediter.passport;
       } else {
         proprietaireIdentifiant = comptabilisation_loyer_crediter.cin;
+      }
+
+      // Generate numero contrat 'Rappel'
+      let numeroContrat = comptabilisation_loyer_crediter.numero_contrat;
+
+      if (comptabilisation_loyer_crediter.is_overdued) {
+        if (comptabilisation_loyer_crediter.is_annee_antr) {
+          numeroContrat = `Rap/EA-${numeroContrat}`;
+        } else {
+          numeroContrat = `Rappel-${numeroContrat}`;
+        }
       }
 
       //ecriture debiter
