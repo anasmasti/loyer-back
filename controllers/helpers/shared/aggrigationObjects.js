@@ -27,13 +27,13 @@ module.exports = {
         // Generate numero contrat 'Rappel'
         let numeroContrat = orderVirements[index].numero_contrat;
 
-        if (is_overdued) {
-          if (isAnneeAntr) {
-            numeroContrat = `Rap/EA-${numeroContrat}`;
-          } else {
-            numeroContrat = `Rappel-${numeroContrat}`;
-          }
-        }
+        // if (is_overdued) {
+        //   if (isAnneeAntr) {
+        //     numeroContrat = `Rap/EA-${numeroContrat}`;
+        //   } else {
+        //     numeroContrat = `Rappel-${numeroContrat}`;
+        //   }
+        // }
 
         aggrigatedOrderVirements.push({
           type_enregistrement: orderVirements[index].type_enregistrement,
@@ -111,13 +111,13 @@ module.exports = {
         // Generate numero contrat 'Rappel'
         let numeroContrat = cmptLoyer[index].numero_contrat;
 
-        if (is_overdued) {
-          if (isAnneeAntr) {
-            numeroContrat = `Rap/EA-${numeroContrat}`;
-          } else {
-            numeroContrat = `Rappel-${numeroContrat}`;
-          }
-        }
+        // if (is_overdued) {
+        //   if (isAnneeAntr) {
+        //     numeroContrat = `Rap/EA-${numeroContrat}`;
+        //   } else {
+        //     numeroContrat = `Rappel-${numeroContrat}`;
+        //   }
+        // }
 
         aggrigatedCmptLoyer.push({
           nom_de_piece: cmptLoyer[index].nom_de_piece,

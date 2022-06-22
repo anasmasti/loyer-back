@@ -168,7 +168,11 @@
       <tbody>
         {{#each comptabilisation_loyer_crediter}}
         <tr>
-          <td class="num_contrat_col">{{ numero_contrat }}</td>
+          <td class="num_contrat_col">
+            {{ numero_contrat }} <br />
+            {{#if is_overdued}}( Rappel {{#if is_annee_antr}} - EA {{/if}}
+            ){{/if}}
+          </td>
           <td>{{ type_lieu }}</td>
           <td>{{ cin }}</td>
           <td>{{ nom_prenom }}</td>

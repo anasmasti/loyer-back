@@ -14,6 +14,7 @@ module.exports = {
         // return res.json(data);
         //traitement du date
         let result = [];
+        let ordreVirementCalculé = [];
         let totalMontantsNet = 0;
         let zoneInitialiseSpace = " ";
         let dateGenerationVirement = data.date_generation_de_virement;
@@ -93,12 +94,8 @@ module.exports = {
 
         //set virement informations
         for (let i = 0; i < data.ordre_virement.length; i++) {
-          //traitement du montant Net
-          let montantNet = data.ordre_virement[i].montant_net;
-          totalMontantsNet += montantNet;
-          let addTwoNumbersAfterComma = montantNet.toFixed(2);
-          let removePointFromMontant = addTwoNumbersAfterComma.replace(".", "");
-          let fullMontant = removePointFromMontant.toString();
+          let fullMontant;
+          let montantGlobal = 0;
 
           // traitement d'identifiant du proprietaire
           let proprietaireIdentifiant;
@@ -141,50 +138,76 @@ module.exports = {
           );
           let nomAgenceBancaire = data.ordre_virement[i].nom_agence_bancaire;
 
-          // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\r\n'
-          let ecritureOrdreVirement =
-            "0602" +
-            zoneInitialiseSpace.padStart(14, " ") +
-            proprietaireIdentifiant.padEnd(12, " ") +
-            nomAndPrenom.padEnd(24, " ") +
-            (nomAgenceBancaire == null
-              ? zoneInitialiseSpace.padEnd(20, " ")
-              : nomAgenceBancaire.padEnd(20, " ")) +
-            zoneInitialiseSpace.padEnd(12, " ") +
-            (numeroCompteBancaire == null
-              ? zoneInitialiseSpace.padEnd(16, " ")
-              : numeroCompteBancaire.padEnd(16, " ")) +
-            // numeroCompteBancaire.padEnd(13, " ") +
-            // fullMontant.padEnd(16, " ") +
-            fullMontant.padStart(16, 0) +
-            ")" +
-            zoneInitialiseSpace.padEnd(12, " ") +
-            "LOYER " +
-            dateWithoutDay.padEnd(12, " ") +
-            (banqueRib == null
-              ? zoneInitialiseSpace.padEnd(5, " ")
-              : banqueRib.padStart(5, 0)) +
-            (villeRib == null
-              ? zoneInitialiseSpace.padEnd(3, " ")
-              : villeRib.padEnd(3, " ")) +
-            (cleRib == null
-              ? zoneInitialiseSpace.padEnd(2, " ")
-              : cleRib.padEnd(2, " ")) +
-            zoneInitialiseSpace +
-            "\r\n";
-
-          await fs.writeFileSync(
-            "download/ordre virement/Ordre Virement " +
-              dateMonthName +
-              " " +
-              dateGenerationVirement.getFullYear() +
-              ".txt",
-            ecritureOrdreVirement,
-            { flag: "a" },
-            (error) => {
-              if (error) res.json({ message: error.message });
+          for (let j = 0; j < data.ordre_virement.length; j++) {
+            if (
+              data.ordre_virement[i].cin == data.ordre_virement[j].cin &&
+              data.ordre_virement[i].numero_contrat ==
+                data.ordre_virement[j].numero_contrat &&
+              !ordreVirementCalculé.includes(data.ordre_virement[i].cin)
+            ) {
+              //traitement du montant Net
+              let montantNet = data.ordre_virement[j].montant_net;
+              totalMontantsNet += montantNet;
+              montantGlobal += montantNet;
+              console.log(montantNet);
+              let addTwoNumbersAfterComma = montantGlobal.toFixed(2);
+              let removePointFromMontant = addTwoNumbersAfterComma.replace(
+                ".",
+                ""
+              );
+              fullMontant = removePointFromMontant.toString();
             }
-          );
+          }
+
+          if (!ordreVirementCalculé.includes(data.ordre_virement[i].cin)) {
+            // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\r\n'
+            let ecritureOrdreVirement =
+              "0602" +
+              zoneInitialiseSpace.padStart(14, " ") +
+              proprietaireIdentifiant.padEnd(12, " ") +
+              nomAndPrenom.padEnd(24, " ") +
+              (nomAgenceBancaire == null
+                ? zoneInitialiseSpace.padEnd(20, " ")
+                : nomAgenceBancaire.padEnd(20, " ")) +
+              zoneInitialiseSpace.padEnd(12, " ") +
+              (numeroCompteBancaire == null
+                ? zoneInitialiseSpace.padEnd(16, " ")
+                : numeroCompteBancaire.padEnd(16, " ")) +
+              // numeroCompteBancaire.padEnd(13, " ") +
+              // fullMontant.padEnd(16, " ") +
+              fullMontant.padStart(16, 0) +
+              ")" +
+              zoneInitialiseSpace.padEnd(12, " ") +
+              "LOYER " +
+              dateWithoutDay.padEnd(12, " ") +
+              (banqueRib == null
+                ? zoneInitialiseSpace.padEnd(5, " ")
+                : banqueRib.padStart(5, 0)) +
+              (villeRib == null
+                ? zoneInitialiseSpace.padEnd(3, " ")
+                : villeRib.padEnd(3, " ")) +
+              (cleRib == null
+                ? zoneInitialiseSpace.padEnd(2, " ")
+                : cleRib.padEnd(2, " ")) +
+              zoneInitialiseSpace +
+              "\r\n";
+
+            await fs.writeFileSync(
+              "download/ordre virement/Ordre Virement " +
+                dateMonthName +
+                " " +
+                dateGenerationVirement.getFullYear() +
+                ".txt",
+              ecritureOrdreVirement,
+              { flag: "a" },
+              (error) => {
+                if (error) res.json({ message: error.message });
+              }
+            );
+
+            ordreVirementCalculé.push(data.ordre_virement[i].cin);
+            montantGlobal = 0;
+          }
         }
 
         totalMontantsNet = totalMontantsNet.toFixed(2);
