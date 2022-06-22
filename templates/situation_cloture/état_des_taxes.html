@@ -180,11 +180,31 @@
           <td>{{ periodicite }}</td>
           <td>{{#if taux_impot}} {{taux_impot}} %{{else}} -- {{/if}}</td>
           <td>
-            {{#if montant_avance_proprietaire}} {{#ifCondTrue avance_versee }}
-            {{#ifCondFalse is_overdued }} {{#if montant_loyer}}
-            {{montant_loyer}} {{else}} -- {{/if}} {{else}} -- {{/ifCondFalse}}
-            {{else}} -- {{/ifCondTrue}} {{else}} {{#if montant_loyer}}
-            {{montant_loyer}} {{else}} -- {{/if}} {{/if}}
+            {{#if montant_avance_proprietaire}} 
+              {{#ifCondTrue avance_versee }}
+               {{#ifCondFalse is_overdued }} 
+                {{#if montant_loyer}}
+                  {{montant_loyer}} 
+                {{else}} 
+                  -- 
+                {{/if}} 
+               {{else}}
+                -- 
+               {{/ifCondFalse}}
+              {{else}} 
+                -- 
+              {{/ifCondTrue}} 
+            {{else}} 
+            {{#ifCondFalse is_overdued }} 
+            {{#if montant_loyer}}
+              {{montant_loyer}} 
+            {{else}} 
+              -- 
+            {{/if}} 
+           {{else}}
+            -- 
+           {{/ifCondFalse}}
+            {{/if}}
           </td>
           <td>
             {{#ifCondFalse avance_versee }} {{ montant_avance_proprietaire }}
@@ -194,8 +214,8 @@
             {{#if tax_avance_proprietaire}} {{#ifCondTrue avance_versee }}
             {{#ifCondFalse is_overdued }} {{#if retenue_source}}
             {{retenue_source}} {{else}} -- {{/if}} {{else}} -- {{/ifCondFalse}}
-            {{else}} -- {{/ifCondTrue}} {{else}} {{#if
-            retenue_source}}{{retenue_source}} {{else}} -- {{/if}}{{/if}}
+            {{else}} -- {{/ifCondTrue}} {{else}} {{#ifCondFalse is_overdued }} {{#if retenue_source}}
+            {{retenue_source}} {{else}} -- {{/if}} {{else}} -- {{/ifCondFalse}}{{/if}}
           </td>
           <td>
             {{#if tax_avance_proprietaire}} {{#ifCondFalse avance_versee }}

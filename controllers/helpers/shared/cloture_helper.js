@@ -14,6 +14,7 @@ module.exports = {
     let dureeAvanceInMonths = 0;
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
+    let dureeAvanceRappelAnneeAntr = 0;
 
     // Convert duree avance to months
     switch (contrat.periodicite_paiement) {
@@ -47,6 +48,14 @@ module.exports = {
         dureeAvance += 1;
       }
 
+      if (
+        lateContratTreatmentDate.month == 12 &&
+        lateContratTreatmentDate.year == +treatmentDate.treatmentAnnee - 1
+      ) {
+        dureeAvanceRappelAnneeAntr = dureeAvanceRappel;
+        dureeAvanceRappel = 0;
+      }
+
       lateContratTreatmentDate = incrementMonth(
         lateContratTreatmentDate.month,
         lateContratTreatmentDate.year
@@ -57,6 +66,7 @@ module.exports = {
       lateContratTreatmentDate,
       dureeAvance,
       dureeAvanceRappel,
+      dureeAvanceRappelAnneeAntr,
     };
   },
 
@@ -246,24 +256,19 @@ module.exports = {
   },
 
   generateNextDateComptabilisation: (dateDeComptabilisation, periodicite) => {
-    // let nextDateComptabilisation = dateDeComptabilisation;
-    // nextDateComptabilisation.setDate(15);
+    let nextDateComptabilisation = dateDeComptabilisation;
+    nextDateComptabilisation.setDate(15);
 
-    // if (periodicite == 12) {
-    //   nextDateComptabilisation.setFullYear(
-    //     nextDateComptabilisation.getFullYear() + 1
-    //   );
-    // } else {
-    //   nextDateComptabilisation.setMonth(
-    //     nextDateComptabilisation.getMonth() + periodicite
-    //   );
-    // }
-    let date1 = new Date("2022-05-01");
-    // let result = moment(date1).add(1, "M").format("YYYY/MM/DD");
-    date1.setDate(14);
-    date1.setMonth(date1.getMonth() + 1);
-    console.log(date1);
+    if (periodicite == 12) {
+      nextDateComptabilisation.setFullYear(
+        nextDateComptabilisation.getFullYear() + 1
+      );
+    } else {
+      nextDateComptabilisation.setMonth(
+        nextDateComptabilisation.getMonth() + periodicite
+      );
+    }
 
-    // return;
+    return nextDateComptabilisation;
   },
 };
