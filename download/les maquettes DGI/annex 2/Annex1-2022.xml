@@ -4,10 +4,10 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>5</mois>
-  <totalMntBrutLoyer>348000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>43350.00</totalMntRetenueSource>
-  <totalMntNetLoyer>304650.00</totalMntNetLoyer>
+  <mois>6</mois>
+  <totalMntBrutLoyer>157000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>21450.00</totalMntRetenueSource>
+  <totalMntNetLoyer>135550.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
@@ -15,70 +15,19 @@
       <numCEBailleur/>
       <nomPrenomBailleur>KHADIJA LALA</nomPrenomBailleur>
       <adresseBailleur>KHDEHOI35456</adresseBailleur>
-      <adresseBien>FES PKPO2545454</adresseBien>
+      <adresseBien>THYTRHR36546</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>19200.00</mntBrutLoyer>
-      <mntRetenueSource>1440.00</mntRetenueSource>
-      <mntNetLoyer>17760.00</mntNetLoyer>
+      <mntBrutLoyer>94800.00</mntBrutLoyer>
+      <mntRetenueSource>12480.00</mntRetenueSource>
+      <mntNetLoyer>82320.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>L3578354</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>NABIL KAMAL</nomPrenomBailleur>
-      <adresseBailleur>PMLPL35434</adresseBailleur>
-      <adresseBien>FES PKPO2545454</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>28800.00</mntBrutLoyer>
-      <mntRetenueSource>2160.00</mntRetenueSource>
-      <mntNetLoyer>26640.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
-      <numCNIBailleur>P5874857</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KARIM JALAL</nomPrenomBailleur>
-      <adresseBailleur>FREGREG68796</adresseBailleur>
-      <adresseBien>LJODIEJ354</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>80000.00</mntBrutLoyer>
-      <mntRetenueSource>12000.00</mntRetenueSource>
-      <mntNetLoyer>68000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
-      <numCNIBailleur>D524564</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>SAMIRA TATA</nomPrenomBailleur>
-      <adresseBailleur>LKJOIFEJIOZ</adresseBailleur>
-      <adresseBien>JKHIOHOI1354654</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>100000.00</mntBrutLoyer>
-      <mntRetenueSource>12000.00</mntRetenueSource>
-      <mntNetLoyer>88000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF5</ifuBailleur>
       <numCNIBailleur>F4767464</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>MED FARID </nomPrenomBailleur>
@@ -87,9 +36,60 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>120000.00</mntBrutLoyer>
-      <mntRetenueSource>15750.00</mntRetenueSource>
-      <mntNetLoyer>104250.00</mntNetLoyer>
+      <mntBrutLoyer>15000.00</mntBrutLoyer>
+      <mntRetenueSource>2250.00</mntRetenueSource>
+      <mntNetLoyer>12750.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF3</ifuBailleur>
+      <numCNIBailleur>D524564</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SAMIRA TATA</nomPrenomBailleur>
+      <adresseBailleur>LKJOIFEJIOZ</adresseBailleur>
+      <adresseBien>JKHIOHOI1354654</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>P5874857</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KARIM JALAL</nomPrenomBailleur>
+      <adresseBailleur>FREGREG68796</adresseBailleur>
+      <adresseBien>LJODIEJ354</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>L3578354</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NABIL KAMAL</nomPrenomBailleur>
+      <adresseBailleur>PMLPL35434</adresseBailleur>
+      <adresseBien>FES PKPO2545454</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>7200.00</mntBrutLoyer>
+      <mntRetenueSource>720.00</mntRetenueSource>
+      <mntNetLoyer>6480.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

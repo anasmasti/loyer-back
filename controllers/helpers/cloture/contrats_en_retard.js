@@ -29,7 +29,6 @@ const lateContratTreatment = async (
     let dureeAvanceRappelAnneeAntr = 0;
 
     if (contrat.is_avenant) {
-      console.log("TTeeeeeeeeeeeest");
       lateContratTreatmentDate = {
         month: new Date(contrat.date_comptabilisation).getMonth() + 1,
         year: new Date(contrat.date_comptabilisation).getFullYear(),
@@ -98,8 +97,33 @@ const lateContratTreatment = async (
           false // Calcul caution
         );
 
-      ordreVirement.push(...treatmentResult.ordre_virement);
-      comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+      if (
+        lateContratTreatmentDate.month == treatmentMonth &&
+        lateContratTreatmentDate.year == treatmentAnnee
+      ) {
+        if (!contrat.is_avenant) {
+          calculCaution = true;
+        }
+        aggrigatedOrdreVirement.push(
+          ...sharedHelper.aggrigateOrderVirementObjects(
+            treatmentResult.ordre_virement,
+            true,
+            false
+          )
+        );
+        aggrigatedComptabilisationLoyer.push(
+          ...sharedHelper.aggrigateLoyerComptObjects(
+            treatmentResult.cmptLoyerCrdt,
+            true,
+            false
+          )
+        );
+        ordreVirement = [];
+        comptabilisationLoyer = [];
+      } else {
+        ordreVirement.push(...treatmentResult.ordre_virement);
+        comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+      }
     }
 
     // Current Avance treatment
