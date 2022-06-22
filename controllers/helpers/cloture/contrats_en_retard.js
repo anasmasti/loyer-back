@@ -196,8 +196,11 @@ const lateContratTreatment = async (
           lateContratTreatmentDate.year == treatmentAnnee
         ) {
           // if (!contrat.is_avenant) {
-          calculCaution = !contrat.caution_versee;
+          //calculCaution = !contrat.caution_versee;
           // }
+          if (!contrat.is_avenant) {
+            calculCaution = true;
+          }
           aggrigatedOrdreVirement.push(
             ...sharedHelper.aggrigateOrderVirementObjects(
               ordreVirement,
@@ -235,7 +238,8 @@ const lateContratTreatment = async (
               comptabilisationLoyer,
               false,
               false,
-              !calculCaution
+              //!calculCaution
+              contrat.is_avenant ? true : false
             )
           );
           ordreVirement = [];
