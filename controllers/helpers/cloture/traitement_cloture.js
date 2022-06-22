@@ -716,7 +716,6 @@ module.exports = {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
-            console.log("teeeeeest2", calculCaution, +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2));
             if (Contrat.proprietaires[j].is_mandataire == true) {
               if (calculCaution) {
                 montant_loyer_brut_mandataire =

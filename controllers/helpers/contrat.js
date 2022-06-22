@@ -59,7 +59,10 @@ module.exports = {
       duree_avance: ContratData.duree_avance,
       n_engagement_depense: ContratData.n_engagement_depense,
       echeance_revision_loyer: ContratData.echeance_revision_loyer,
-      date_comptabilisation: existedContrat.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // date_comptabilisation: existedContrat.date_comptabilisation, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      date_comptabilisation: isOverdued
+        ? ContratData.etat_contrat.etat.date_effet_av
+        : existedContrat.date_comptabilisation,
       foncier: ContratData.foncier,
       is_avenant: true,
       has_avenant: false,
@@ -238,7 +241,7 @@ module.exports = {
     return splitedNumeroContrat.join("/").toString();
   },
 
-  chackContratDate: (targetDate, targetDateFin) => {
+  checkContratDate: (targetDate, targetDateFin) => {
     let _targetDateFin = new Date(targetDateFin);
     let targetDateFinMonth = _targetDateFin.getMonth() + 1;
     let targetDateFinYear = _targetDateFin.getFullYear();

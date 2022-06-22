@@ -3,8 +3,7 @@ const http = require("http");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const handlebars = require('handlebars')
-
+const handlebars = require("handlebars");
 
 // Routes
 const proprietaireRoute = require("./routes/proprietaire.routes");
@@ -19,8 +18,9 @@ const downloadFilesRoute = require("./routes/download_files.routes");
 const clotureRoute = require("./routes/cloture.routes");
 const foncierRoute = require("./routes/foncier.routes");
 const authRoute = require("./routes/auth.routes");
-const notificationRoute = require('./routes/notification.routes')
-const reportingRoute = require('./routes/reporting.routes')
+const notificationRoute = require("./routes/notification.routes");
+const reportingRoute = require("./routes/reporting.routes");
+const test = require("./routes/test.routes");
 
 const dotenv = require("dotenv");
 const db_config = require("./helpers/db.config");
@@ -41,7 +41,7 @@ const PORT = process.env.PORT;
 app.use("/uploads", express.static("./uploads"));
 app.use("/download", express.static("./download"));
 // app.use(express.static(__dirname, '/public'));
-app.use("/public" , express.static(__dirname + "./public"));
+app.use("/public", express.static(__dirname + "./public"));
 
 //securing Api with Helmet
 app.use(helmet.frameguard({ action: "deny" }));
@@ -80,7 +80,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 ((...routes) => {
   routes.forEach((route) => {
     return app.use("/api/v1/", [route]);
-  })
+  });
 })(
   homeRoute,
   proprietaireRoute,
@@ -96,9 +96,10 @@ app.use(bodyParser.json({ limit: "50mb" }));
   foncierRoute,
   notificationRoute,
   reportingRoute,
+  test
 );
 
-handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+handlebars.registerHelper("dateFormat", require("handlebars-dateformat"));
 
 //database connection
 db_config;
