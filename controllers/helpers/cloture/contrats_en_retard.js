@@ -26,6 +26,7 @@ const lateContratTreatment = async (
     // Avance
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
+    let dureeAvanceRappelAnneeAntr = 0;
 
     if (contrat.is_avenant) {
       console.log("TTeeeeeeeeeeeest");
@@ -49,6 +50,38 @@ const lateContratTreatment = async (
       lateContratTreatmentDate = result.lateContratTreatmentDate;
       dureeAvance = result.dureeAvance;
       dureeAvanceRappel = result.dureeAvanceRappel;
+      dureeAvanceRappelAnneeAntr = result.dureeAvanceRappelAnneeAntr;
+    }
+
+    // Rappel Avance treatment previous year
+    if (dureeAvanceRappelAnneeAntr > 0) {
+      const treatmentResult =
+        await proprietaireHelper.avanceByDurationTreatment(
+          contrat,
+          dureeAvanceRappelAnneeAntr,
+          dateGenerationDeComptabilisation,
+          {
+            treatmentMonth,
+            treatmentAnnee,
+          },
+          false // Calcul caution
+        );
+
+      aggrigatedOrdreVirement.push(
+        ...sharedHelper.aggrigateOrderVirementObjects(
+          treatmentResult.ordre_virement,
+          true,
+          true
+        )
+      );
+      aggrigatedComptabilisationLoyer.push(
+        ...sharedHelper.aggrigateLoyerComptObjects(
+          treatmentResult.cmptLoyerCrdt,
+          true,
+          true,
+          true
+        )
+      );
     }
 
     // Rappel Avance treatment
@@ -160,12 +193,15 @@ const lateContratTreatment = async (
 
         ordreVirement.push(...treatmentResult.ordre_virement);
         comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+        if (contrat.numero_contrat == "665/FES 2") {
+          console.log(lateContratTreatmentDate, treatmentMonth, treatmentAnnee);
+        }
 
         if (
           lateContratTreatmentDate.month == 12 &&
           lateContratTreatmentDate.year == +treatmentAnnee - 1
         ) {
-          // console.log();
+          console.log("Innnnnnn");
           aggrigatedOrdreVirement.push(
             ...sharedHelper.aggrigateOrderVirementObjects(
               ordreVirement,
@@ -178,7 +214,7 @@ const lateContratTreatment = async (
               comptabilisationLoyer,
               true,
               true,
-              false
+              true
             )
           );
           ordreVirement = [];

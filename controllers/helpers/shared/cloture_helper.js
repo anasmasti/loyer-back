@@ -14,6 +14,7 @@ module.exports = {
     let dureeAvanceInMonths = 0;
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
+    let dureeAvanceRappelAnneeAntr = 0;
 
     // Convert duree avance to months
     switch (contrat.periodicite_paiement) {
@@ -47,6 +48,14 @@ module.exports = {
         dureeAvance += 1;
       }
 
+      if (
+        lateContratTreatmentDate.month == 12 &&
+        lateContratTreatmentDate.year == +treatmentDate.treatmentAnnee - 1
+      ) {
+        dureeAvanceRappelAnneeAntr = dureeAvanceRappel;
+        dureeAvanceRappel = 0;
+      }
+
       lateContratTreatmentDate = incrementMonth(
         lateContratTreatmentDate.month,
         lateContratTreatmentDate.year
@@ -57,6 +66,7 @@ module.exports = {
       lateContratTreatmentDate,
       dureeAvance,
       dureeAvanceRappel,
+      dureeAvanceRappelAnneeAntr,
     };
   },
 
