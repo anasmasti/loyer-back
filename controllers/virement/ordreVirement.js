@@ -143,7 +143,9 @@ module.exports = {
               data.ordre_virement[i].cin == data.ordre_virement[j].cin &&
               data.ordre_virement[i].numero_contrat ==
                 data.ordre_virement[j].numero_contrat &&
-              !ordreVirementCalculé.includes(data.ordre_virement[i].cin)
+              !ordreVirementCalculé.includes(
+                `${data.ordre_virement[i].cin}-${data.ordre_virement[i].numero_contrat}`
+              )
             ) {
               //traitement du montant Net
               let montantNet = data.ordre_virement[j].montant_net;
@@ -159,7 +161,11 @@ module.exports = {
             }
           }
 
-          if (!ordreVirementCalculé.includes(data.ordre_virement[i].cin)) {
+          if (
+            !ordreVirementCalculé.includes(
+              `${data.ordre_virement[i].cin}-${data.ordre_virement[i].numero_contrat}`
+            )
+          ) {
             // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\r\n'
             let ecritureOrdreVirement =
               "0602" +
@@ -205,7 +211,9 @@ module.exports = {
               }
             );
 
-            ordreVirementCalculé.push(data.ordre_virement[i].cin);
+            ordreVirementCalculé.push(
+              `${data.ordre_virement[i].cin}-${data.ordre_virement[i].numero_contrat}`
+            );
             montantGlobal = 0;
           }
         }
