@@ -246,24 +246,19 @@ module.exports = {
   },
 
   generateNextDateComptabilisation: (dateDeComptabilisation, periodicite) => {
-    // let nextDateComptabilisation = dateDeComptabilisation;
-    // nextDateComptabilisation.setDate(15);
+    let nextDateComptabilisation = dateDeComptabilisation;
+    nextDateComptabilisation.setDate(15);
 
-    // if (periodicite == 12) {
-    //   nextDateComptabilisation.setFullYear(
-    //     nextDateComptabilisation.getFullYear() + 1
-    //   );
-    // } else {
-    //   nextDateComptabilisation.setMonth(
-    //     nextDateComptabilisation.getMonth() + periodicite
-    //   );
-    // }
-    let date1 = new Date("2022-05-01");
-    // let result = moment(date1).add(1, "M").format("YYYY/MM/DD");
-    date1.setDate(14);
-    date1.setMonth(date1.getMonth() + 1);
-    console.log(date1);
+    if (periodicite == 12) {
+      nextDateComptabilisation.setFullYear(
+        nextDateComptabilisation.getFullYear() + 1
+      );
+    } else {
+      nextDateComptabilisation.setMonth(
+        nextDateComptabilisation.getMonth() + periodicite
+      );
+    }
 
-    // return;
+    return nextDateComptabilisation;
   },
 };
