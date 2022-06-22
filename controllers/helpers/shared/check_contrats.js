@@ -7,6 +7,7 @@ const incrementMonth = require("./increment_month");
 const sharedHelper = require("./aggrigationObjects");
 const clotureHelper = require("./cloture_helper");
 const lateContratTreatment = require("../cloture/contrats_en_retard");
+const TreatmentDate = require("../shared/treatmentDate");
 
 module.exports = {
   checkContratsAv: async (req, res) => {
@@ -14,7 +15,10 @@ module.exports = {
       "etat_contrat.libelle": "Planifié",
       deleted: false,
     })
-      .populate({ path: "old_contrat.contrat" })
+      .populate({
+        path: "old_contrat.contrat",
+        match: { deleted: false, "etat_contrat.libelle": "Actif" },
+      })
       .populate({ path: "foncier", match: { deleted: false } })
       .populate({ path: "proprietaire", match: { deleted: false } })
       .then(async (data) => {
@@ -26,117 +30,93 @@ module.exports = {
           let etatOldContrat;
           let etatNewContrat;
 
-          let nextCloture;
-          await archiveComptabilisation
-            .find()
-            .sort({ date_generation_de_comptabilisation: "desc" })
-            .select({ date_generation_de_comptabilisation: 1 })
-            .then(async (Comptabilisationdata) => {
-              // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-              nextCloture = new Date(
-                Comptabilisationdata[0].date_generation_de_comptabilisation
-              );
+          let treatmentDate = await TreatmentDate(req, res);
 
-              let currentMonth = nextCloture.getMonth() + 1;
-              let currentYear = nextCloture.getFullYear();
-              let dateDeffetAV = new Date(
-                contratAV.etat_contrat.etat.date_effet_av
-              );
-              let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
-              let dateDeffetAVYear = dateDeffetAV.getFullYear();
-              if (
-                (dateDeffetAVMonth == currentMonth &&
-                  dateDeffetAVYear == currentYear) ||
-                (dateDeffetAVMonth > currentMonth &&
-                  dateDeffetAVYear < currentYear) ||
-                (dateDeffetAVMonth < currentMonth &&
-                  !(dateDeffetAVYear > currentYear))
+          let treatmentMonth = treatmentDate.getMonth() + 1;
+          let treatmentYear = treatmentDate.getFullYear();
+          let dateDeffetAV = new Date(
+            contratAV.etat_contrat.etat.date_effet_av
+          );
+          let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
+          let dateDeffetAVYear = dateDeffetAV.getFullYear();
+
+          if (
+            (dateDeffetAVMonth <= treatmentMonth &&
+              dateDeffetAVYear == treatmentYear) ||
+            dateDeffetAVYear < treatmentYear
+          ) {
+            if (oldContrats.length > 0) {
+              // Get the old contrat
+              try {
+                oldContrat = oldContrats.find((contrat) => {
+                  return contrat.contrat.etat_contrat.libelle == "Actif";
+                }).contrat;
+              } catch (error) {
+                res.status(412).send({ message: "Aucun contrat actif trouvé" });
+              }
+
+              // the old contrat etat
+              etatOldContrat = {
+                libelle: "Modifié",
+                etat: oldContrat.etat_contrat.etat,
+              };
+
+              // the new contrat etat
+              etatNewContrat = {
+                libelle: "Actif",
+                etat: contratAV.etat_contrat.etat,
+              };
+
+              for (
+                let index = 0;
+                index < contratAV.etat_contrat.etat.motif.length;
+                index++
               ) {
-                if (oldContrats.length > 0) {
-                  // Get the old contrat
-                  try {
-                    oldContrat = oldContrats.find((contrat) => {
-                      return contrat.contrat.etat_contrat.libelle == "Actif";
-                    }).contrat;
-                  } catch (error) {
-                    res
-                      .status(412)
-                      .send({ message: "Aucun contrat actif trouvé" });
-                  }
-
-                  // Customise the old contrat etat
-                  etatOldContrat = {
-                    libelle: "Modifié",
-                    etat: oldContrat.etat_contrat.etat,
-                  };
-
-                  // Customise the new contrat etat
-                  etatNewContrat = {
-                    libelle: "Actif",
-                    etat: contratAV.etat_contrat.etat,
-                  };
-
-                  for (
-                    let index = 0;
-                    index < contratAV.etat_contrat.etat.motif.length;
-                    index++
+                const motif = contratAV.etat_contrat.etat.motif[index];
+                // Delete proprietaires
+                if (motif.type_motif == "Deces") {
+                  if (
+                    contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
                   ) {
-                    const motif = contratAV.etat_contrat.etat.motif[index];
-                    // Delete proprietaires
-                    if (motif.type_motif == "Deces") {
-                      if (
-                        contratAV.etat_contrat.etat.deleted_proprietaires
-                          .length > 0
-                      ) {
-                        for (
-                          let index = 0;
-                          index <
-                          contratAV.etat_contrat.etat.deleted_proprietaires
-                            .length;
-                          index++
-                        ) {
-                          const proprietaire =
-                            contratAV.etat_contrat.etat.deleted_proprietaires[
-                              index
-                            ];
+                    for (
+                      let index = 0;
+                      index <
+                      contratAV.etat_contrat.etat.deleted_proprietaires.length;
+                      index++
+                    ) {
+                      const proprietaire =
+                        contratAV.etat_contrat.etat.deleted_proprietaires[
+                          index
+                        ];
 
-                          ContratHelper.proprietaireDeces(
-                            req,
-                            res,
-                            proprietaire
-                          );
-                        }
-                      }
+                      ContratHelper.proprietaireDeces(req, res, proprietaire);
                     }
                   }
-
-                  // Change is_avenant to false
-
-                  // Update the old contrat
-                  await Contrat.findByIdAndUpdate(oldContrat._id, {
-                    // date_fin_contrat: dateFinOldContrat,
-                    etat_contrat: etatOldContrat,
-                  });
-
-                  // Update the AV contrat
-                  await Contrat.findByIdAndUpdate(contratAV._id, {
-                    date_comptabilisation: oldContrat.date_comptabilisation,
-                    etat_contrat: etatNewContrat,
-                  })
-                    .then(async () => {
-                      // Sending mail to DAJC, CDGSP and CSLA
-                      // ContratHelper.sendMailToAll(req.params.Id);
-                    })
-                    .catch((error) => {
-                      console.error(error.message);
-                    });
                 }
               }
-              // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-            })
-            .catch((error) => {
-              res.status(402).send({ message: error.message });
-            });
+
+              // Change is_avenant to false
+
+              // Update the old contrat
+              await Contrat.findByIdAndUpdate(oldContrat._id, {
+                // date_fin_contrat: dateFinOldContrat,
+                etat_contrat: etatOldContrat,
+              });
+
+              // Update the AV contrat
+              await Contrat.findByIdAndUpdate(contratAV._id, {
+                date_comptabilisation: oldContrat.date_comptabilisation,
+                etat_contrat: etatNewContrat,
+              })
+                .then(async () => {
+                  // Sending mail to DAJC, CDGSP and CSLA
+                  // ContratHelper.sendMailToAll(req.params.Id);
+                })
+                .catch((error) => {
+                  console.error(error.message);
+                });
+            }
+          }
         }
       });
   },
@@ -173,7 +153,7 @@ module.exports = {
                   contrat.etat_contrat.etat.duree_suspension > 0
                 ) {
                   if (contrat.date_comptabilisation != null) {
-                    const isLessThan = ContratHelper.chackContratDate(
+                    const isLessThan = ContratHelper.checkContratDate(
                       contrat.date_comptabilisation,
                       contrat.etat_contrat.etat.date_fin_suspension
                     );
@@ -188,7 +168,7 @@ module.exports = {
                     }
                   } else {
                     if (
-                      ContratHelper.chackContratDate(
+                      ContratHelper.checkContratDate(
                         contrat.date_premier_paiement,
                         contrat.etat_contrat.etat.date_fin_suspension
                       )

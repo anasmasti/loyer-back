@@ -25,9 +25,11 @@ module.exports = {
       data = null,
       isMotifMontantLoyerChanged = false,
       newMotifMontantLoyer = 0;
+    const dateTraitement = await TreatmentDate(req, res);
 
     try {
       data = JSON.parse(req.body.data);
+      console.log(data);
       // data = req.body.data;
     } catch (error) {
       res.status(422).send({ message: error.message });
@@ -74,6 +76,16 @@ module.exports = {
       let numeroContrat = ContratHelper.generateNumeroContrat(
         data.numero_contrat
       );
+      let isOverdued = false;
+      const dateEffetAv = new Date(data.etat_contrat.etat.date_effet_av);
+
+      if (
+        (dateEffetAv.getMonth() + 1 < dateTraitement.getMonth() + 1 &&
+          dateEffetAv.getFullYear() == dateTraitement.getFullYear()) ||
+        dateEffetAv.getFullYear() < dateTraitement.getFullYear()
+      ) {
+        isOverdued = true;
+      }
 
       ContratHelper.createContratAV(
         req,
@@ -81,6 +93,7 @@ module.exports = {
         data,
         numeroContrat,
         existedContrat,
+        isOverdued,
         piece_jointe_avenant
       );
       etatContrat = {
@@ -96,16 +109,13 @@ module.exports = {
         let targetDateFinMonth = targetDateSUS.getMonth() + 1;
         let targetDateFinYear = targetDateSUS.getFullYear();
 
-        const dateTraitement = await TreatmentDate(req, res);
         let targetDateMonth = dateTraitement.getMonth() + 1;
         let targetDateYear = dateTraitement.getFullYear();
+
         if (
-          (targetDateFinMonth == targetDateMonth &&
+          (targetDateFinMonth <= targetDateMonth &&
             targetDateFinYear == targetDateYear) ||
-          (targetDateFinMonth > targetDateMonth &&
-            targetDateFinYear < targetDateYear) ||
-          (targetDateFinMonth < targetDateMonth &&
-            targetDateFinYear <= targetDateYear)
+          targetDateFinYear < targetDateYear
         ) {
           etatContrat = {
             libelle: "Actif",
@@ -118,37 +128,40 @@ module.exports = {
             },
           };
 
-          if (
-            data.etat_contrat.etat.duree_suspension != null &&
-            data.etat_contrat.etat.duree_suspension > 0
-          ) {
-            if (existedContrat.date_comptabilisation != null) {
-              const isLessThan = ContratHelper.chackContratDate(
-                existedContrat.date_comptabilisation,
+          // if (
+          //   data.etat_contrat.etat.duree_suspension != null &&
+          //   data.etat_contrat.etat.duree_suspension > 0
+          // ) {
+          if (existedContrat.date_comptabilisation != null) {
+            const isLessThan = ContratHelper.checkContratDate(
+              existedContrat.date_comptabilisation,
+              data.etat_contrat.etat.date_fin_suspension
+            );
+            if (isLessThan) {
+              console.log(1);
+              nextDateComptabilisation = new Date(
                 data.etat_contrat.etat.date_fin_suspension
               );
-              if (isLessThan) {
-                nextDateComptabilisation = new Date(
-                  data.etat_contrat.etat.date_fin_suspension
-                );
-              } else {
-                nextDateComptabilisation = new Date(
-                  existedContrat.date_comptabilisation
-                );
-              }
             } else {
-              if (
-                ContratHelper.chackContratDate(
-                  data.date_premier_paiement,
-                  data.etat_contrat.etat.date_fin_suspension
-                )
-              ) {
-                nextDateComptabilisation = new Date(
-                  existedContrat.date_comptabilisation
-                );
-              }
+              console.log(2);
+              nextDateComptabilisation = new Date(
+                existedContrat.date_comptabilisation
+              );
+            }
+          } else {
+            if (
+              ContratHelper.checkContratDate(
+                data.date_premier_paiement,
+                data.etat_contrat.etat.date_fin_suspension
+              )
+            ) {
+              console.log(3);
+              nextDateComptabilisation = new Date(
+                existedContrat.date_comptabilisation
+              );
             }
           }
+          // }
         } else {
           etatContrat = {
             libelle: "Suspendu",
@@ -161,8 +174,9 @@ module.exports = {
             },
           };
 
+          console.log(4);
           nextDateComptabilisation = new Date(
-            data.etat_contrat.etat.date_fin_suspension
+            existedContrat.date_comptabilisation
           );
         }
       } else {
@@ -177,12 +191,13 @@ module.exports = {
           },
         };
 
+        console.log(5);
         nextDateComptabilisation = new Date(
-          data.etat_contrat.etat.date_fin_suspension
+          existedContrat.date_comptabilisation
         );
       }
 
-      nextDateComptabilisation = new Date();
+      // nextDateComptabilisation = new Date();
     } else if (data.etat_contrat.libelle === "Résilié") {
       etatContrat = {
         libelle: data.etat_contrat.libelle,
@@ -576,7 +591,10 @@ module.exports = {
 
   modifierValidationDAJC: async (req, res) => {
     await Contrat.findOne({ _id: req.params.Id, deleted: false })
-      .populate({ path: "old_contrat.contrat" })
+      .populate({
+        path: "old_contrat.contrat",
+        match: { deleted: false, "etat_contrat.libelle": "Actif" },
+      })
       .populate({
         path: "proprietaires",
         match: { deleted: false },
@@ -588,119 +606,124 @@ module.exports = {
         let dateFinOldContrat;
         let etatOldContrat;
         let etatNewContrat;
+        let dateComptabilisation;
 
-        let nextCloture;
-        await archiveComptabilisation
-          .find()
-          .sort({ date_generation_de_comptabilisation: "desc" })
-          .select({ date_generation_de_comptabilisation: 1 })
-          .then(async (Comptabilisationdata) => {
-            // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-            if (oldContrats.length > 0) {
-              // Get the old contrat
-              oldContrat = oldContrats.find((contrat) => {
-                return contrat.contrat.etat_contrat.libelle == "Actif";
-              }).contrat;
+        if (oldContrats.length > 0) {
+          // Get the old contrat
+          oldContrat = oldContrats.find((contrat) => {
+            return contrat.contrat.etat_contrat.libelle == "Actif";
+          }).contrat;
 
-              // Get old contrat's final date by subtracting 1 day from date d'effet av
-              nextCloture = new Date(
-                Comptabilisationdata[0].date_generation_de_comptabilisation
-              );
-              let currentMonth = nextCloture.getMonth() + 1;
-              let currentYear = nextCloture.getFullYear();
-              let dateDeffetAV = new Date(
+          let treatmentDate = await TreatmentDate(req, res);
+          let treatmentMonth = treatmentDate.getMonth() + 1;
+          let treatmentYear = treatmentDate.getFullYear();
+          let dateDeffetAV = new Date(
+            contratAV.etat_contrat.etat.date_effet_av
+          );
+          let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
+          let dateDeffetAVYear = dateDeffetAV.getFullYear();
+
+          if (
+            (dateDeffetAVMonth <= treatmentMonth &&
+              dateDeffetAVYear == treatmentYear) ||
+            dateDeffetAVYear < treatmentYear
+          ) {
+            // the old contrat etat
+            etatOldContrat = {
+              libelle: "Modifié",
+              etat: oldContrat.etat_contrat.etat,
+            };
+            // the new contrat etat
+            etatNewContrat = {
+              libelle: "Actif",
+              etat: contratAV.etat_contrat.etat,
+            };
+
+            // Avenant motifs
+            contratAV.etat_contrat.etat.motif.forEach(async (motif) => {
+              // Delete proprietaires
+              if (motif.type_motif == "Deces") {
+                if (
+                  contratAV.etat_contrat.etat.deleted_proprietaires.length > 0
+                ) {
+                  contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
+                    (proprietaire) => {
+                      ContratHelper.proprietaireDeces(req, res, proprietaire);
+                    }
+                  );
+                }
+              }
+            });
+
+            // Set date comptabilisation
+            dateComptabilisation = new Date(
+              contratAV.etat_contrat.etat.date_effet_av
+            );
+
+            // Change is_avenant to false
+          } else {
+            // the old contrat etat
+            etatOldContrat = oldContrat.etat_contrat;
+
+            // the new contrat etat
+            etatNewContrat = {
+              libelle: "Planifié",
+              etat: contratAV.etat_contrat.etat,
+            };
+
+            // Set date comptabilisation
+            if (
+              (new Date(oldContrat.date_comptabilisation).getMonth() + 1 <=
+                new Date(contratAV.etat_contrat.etat.date_effet_av).getMonth() +
+                  1 &&
+                new Date(oldContrat.date_comptabilisation).getFullYear() ==
+                  new Date(
+                    contratAV.etat_contrat.etat.date_effet_av
+                  ).getFullYear()) ||
+              new Date(oldContrat.date_comptabilisation).getFullYear() <
+                new Date(
+                  contratAV.etat_contrat.etat.date_effet_av
+                ).getFullYear()
+            )
+              dateComptabilisation = new Date(oldContrat.date_comptabilisation);
+            else
+              dateComptabilisation = new Date(
                 contratAV.etat_contrat.etat.date_effet_av
               );
-              let dateDeffetAVMonth = dateDeffetAV.getMonth() + 1;
-              let dateDeffetAVYear = dateDeffetAV.getFullYear();
-
-              if (
-                (dateDeffetAVMonth == currentMonth &&
-                  dateDeffetAVYear == currentYear) ||
-                (dateDeffetAVMonth > currentMonth &&
-                  dateDeffetAVYear < currentYear) ||
-                (dateDeffetAVMonth < currentMonth &&
-                  !(dateDeffetAVYear > currentYear))
-              ) {
-                // Customise the old contrat etat
-                etatOldContrat = {
-                  libelle: "Modifié",
-                  etat: oldContrat.etat_contrat.etat,
-                };
-                // Customise the new contrat etat
-                etatNewContrat = {
-                  libelle: "Actif",
-                  etat: contratAV.etat_contrat.etat,
-                };
-
-                contratAV.etat_contrat.etat.motif.forEach(async (motif) => {
-                  // Delete proprietaires
-                  if (motif.type_motif == "Deces") {
-                    if (
-                      contratAV.etat_contrat.etat.deleted_proprietaires.length >
-                      0
-                    ) {
-                      contratAV.etat_contrat.etat.deleted_proprietaires.forEach(
-                        (proprietaire) => {
-                          ContratHelper.proprietaireDeces(
-                            req,
-                            res,
-                            proprietaire
-                          );
-                        }
-                      );
-                    }
-                  }
-                });
-
-                // Change is_avenant to false
-              } else {
-                // Customise the old contrat etat
-                etatOldContrat = oldContrat.etat_contrat;
-                // Customise the new contrat etat
-                etatNewContrat = {
-                  libelle: "Planifié",
-                  etat: contratAV.etat_contrat.etat,
-                };
-              }
-              // Update the old contrat
-              await Contrat.findByIdAndUpdate(oldContrat._id, {
-                // date_fin_contrat: dateFinOldContrat,
-                etat_contrat: etatOldContrat,
-              });
-
-              // Update the AV contrat
-              await Contrat.findByIdAndUpdate(req.params.Id, {
-                date_comptabilisation: oldContrat.date_comptabilisation,
-                etat_contrat: etatNewContrat,
-                validation2_DAJC: true,
-              })
-                .then(async () => {
-                  // Sending mail to DAJC, CDGSP and CSLA
-                  ContratHelper.sendMailToAll(req.params.Id);
-                })
-                .catch((error) => {
-                  console.error(error.message);
-                });
-            } else {
-              let etatContrat = {
-                libelle: "Actif",
-                etat: {},
-              };
-
-              await Contrat.findByIdAndUpdate(req.params.Id, {
-                validation2_DAJC: true,
-                etat_contrat: etatContrat,
-              }).then(async (updatedContrat) => {
-                // Sending mail to DAJC, CDGSP and CSLA
-                ContratHelper.sendMailToAll(req.params.Id);
-              });
-            }
-            // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-          })
-          .catch((error) => {
-            res.status(402).send({ message: error.message });
+          }
+          // Update the old contrat
+          await Contrat.findByIdAndUpdate(oldContrat._id, {
+            // date_fin_contrat: dateFinOldContrat,
+            etat_contrat: etatOldContrat,
           });
+
+          // Update the AV contrat
+          await Contrat.findByIdAndUpdate(req.params.Id, {
+            date_comptabilisation: dateComptabilisation,
+            etat_contrat: etatNewContrat,
+            validation2_DAJC: true,
+          })
+            .then(async () => {
+              // Sending mail to DAJC, CDGSP and CSLA
+              ContratHelper.sendMailToAll(req.params.Id);
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
+        } else {
+          let etatContrat = {
+            libelle: "Actif",
+            etat: {},
+          };
+
+          await Contrat.findByIdAndUpdate(req.params.Id, {
+            validation2_DAJC: true,
+            etat_contrat: etatContrat,
+          }).then(async (updatedContrat) => {
+            // Sending mail to DAJC, CDGSP and CSLA
+            ContratHelper.sendMailToAll(req.params.Id);
+          });
+        }
       });
   },
 

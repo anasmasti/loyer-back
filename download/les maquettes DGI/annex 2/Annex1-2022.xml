@@ -6,6 +6,7 @@
   <annee>2022</annee>
   <mois>5</mois>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <totalMntBrutLoyer>205000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>29550.00</totalMntRetenueSource>
   <totalMntNetLoyer>175450.00</totalMntNetLoyer>
@@ -82,15 +83,32 @@
       <mntNetLoyer>21600.00</mntNetLoyer>
 =======
       <nomPrenomBailleur>AHMED TEST</nomPrenomBailleur>
+=======
+  <totalMntBrutLoyer>10000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1500.00</totalMntRetenueSource>
+  <totalMntNetLoyer>8500.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF1</ifuBailleur>
+      <numCNIBailleur>BJ123457</numCNIBailleur>
+      <numCEBailleur>123</numCEBailleur>
+      <nomPrenomBailleur>DEV TEST </nomPrenomBailleur>
+>>>>>>> 14b31433535e91a76b51f7d7c9036d4ee21ad3c7
       <adresseBailleur>TEST ADRESSE</adresseBailleur>
-      <adresseBien>UUUUUUU</adresseBien>
+      <adresseBien>WWWWW</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
+<<<<<<< HEAD
       <mntBrutLoyer>25000.00</mntBrutLoyer>
       <mntRetenueSource>2000.00</mntRetenueSource>
       <mntNetLoyer>23000.00</mntNetLoyer>
 >>>>>>> 5b7814b474f66b7f7bcdbdd21e97a7022ce80d38
+=======
+      <mntBrutLoyer>10000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>8500.00</mntNetLoyer>
+>>>>>>> 14b31433535e91a76b51f7d7c9036d4ee21ad3c7
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

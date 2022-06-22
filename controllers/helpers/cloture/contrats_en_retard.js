@@ -22,25 +22,34 @@ const lateContratTreatment = async (
       comptabilisationLoyerDebiter = [],
       ordreVirement = [],
       comptabilisationLoyer = [];
-
-    let lateContratTreatmentDate = {
-      month: new Date(contrat.date_debut_loyer).getMonth() + 1,
-      year: new Date(contrat.date_debut_loyer).getFullYear(),
-    };
+    let lateContratTreatmentDate;
     // Avance
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
 
-    // Separate avance period from 'Rappel'
-    let result = clotureHelper.removeAvanceFromRappel(
-      lateContratTreatmentDate,
-      { treatmentMonth, treatmentAnnee },
-      contrat
-    );
+    if (contrat.is_avenant) {
+      console.log("TTeeeeeeeeeeeest");
+      lateContratTreatmentDate = {
+        month: new Date(contrat.date_comptabilisation).getMonth() + 1,
+        year: new Date(contrat.date_comptabilisation).getFullYear(),
+      };
+    } else {
+      lateContratTreatmentDate = {
+        month: new Date(contrat.date_debut_loyer).getMonth() + 1,
+        year: new Date(contrat.date_debut_loyer).getFullYear(),
+      };
 
-    lateContratTreatmentDate = result.lateContratTreatmentDate;
-    dureeAvance = result.dureeAvance;
-    dureeAvanceRappel = result.dureeAvanceRappel;
+      // Separate avance period from 'Rappel'
+      let result = clotureHelper.removeAvanceFromRappel(
+        lateContratTreatmentDate,
+        { treatmentMonth, treatmentAnnee },
+        contrat
+      );
+
+      lateContratTreatmentDate = result.lateContratTreatmentDate;
+      dureeAvance = result.dureeAvance;
+      dureeAvanceRappel = result.dureeAvanceRappel;
+    }
 
     // Rappel Avance treatment
     if (dureeAvanceRappel > 0) {
@@ -97,6 +106,16 @@ const lateContratTreatment = async (
     if (dureeAvance == 0) {
       let calculCaution = false;
       while (!isTreatmentEnded) {
+        // if (
+        //   lateContratTreatmentDate.month == 10 &&
+        //   lateContratTreatmentDate.year == 2022
+        // ) {
+        //   console.log(typeof treatmentMonth);
+        // } else {
+        //   console.log(lateContratTreatmentDate);
+        //   console.log("Ouuuut");
+        // }
+        // break;
         // Request updated contrat
         const requestedContrat = await Contrat.findById({
           _id: contrat._id,
@@ -176,7 +195,9 @@ const lateContratTreatment = async (
           lateContratTreatmentDate.month == treatmentMonth &&
           lateContratTreatmentDate.year == treatmentAnnee
         ) {
-          calculCaution = true;
+          // if (!contrat.is_avenant) {
+          calculCaution = !contrat.caution_versee;
+          // }
           aggrigatedOrdreVirement.push(
             ...sharedHelper.aggrigateOrderVirementObjects(
               ordreVirement,
@@ -196,8 +217,10 @@ const lateContratTreatment = async (
         }
 
         if (
-          lateContratTreatmentDate.month == +treatmentMonth + 1 &&
-          lateContratTreatmentDate.year == treatmentAnnee
+          (lateContratTreatmentDate.month == +treatmentMonth + 1 &&
+            lateContratTreatmentDate.year == treatmentAnnee) ||
+          (lateContratTreatmentDate.month == 1 &&
+            lateContratTreatmentDate.year == +treatmentAnnee + 1)
         ) {
           isTreatmentEnded = true;
           aggrigatedOrdreVirement.push(
@@ -212,12 +235,13 @@ const lateContratTreatment = async (
               comptabilisationLoyer,
               false,
               false,
-              false
+              !calculCaution
             )
           );
           ordreVirement = [];
           comptabilisationLoyer = [];
         }
+        // break;
       }
     }
 
@@ -225,9 +249,9 @@ const lateContratTreatment = async (
       await ContratSchema.findByIdAndUpdate(
         { _id: contrat._id },
         {
-          date_comptabilisation: null,
-          caution_versee: false,
-          avance_versee: false,
+          date_comptabilisation: contrat.date_comptabilisation,
+          caution_versee: contrat.caution_versee,
+          avance_versee: contrat.avance_versee,
         }
       );
     } else {
