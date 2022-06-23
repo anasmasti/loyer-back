@@ -45,7 +45,7 @@ module.exports = {
       codeDr = comptabilisation_loyer_crediter.direction_regional;
       lieuIntitule = comptabilisation_loyer_crediter.intitule_lieu;
       if (comptabilisation_loyer_crediter.point_de_vente == "") {
-        codePv = "-|-";
+        codePv = null;
       } else {
         codePv = comptabilisation_loyer_crediter.point_de_vente;
       }
@@ -105,13 +105,12 @@ module.exports = {
         code +
         "|-|" +
         (codeDr != null && (code == "64200001" || code == "64290001")
-          ? codeDr
-          : "-") +
-        "|" +
+          ? `${codeDr}|`
+          : "-|") +
         (codePv != null && (code == "64200001" || code == "64290001")
-          ? codePv
-          : "-") +
-        "|-|-|-|-|-|-|-|-|" +
+          ? `${codePv}|`
+          : "-|") +
+        "-|-|-|-|-|-|-|-|" +
         fullMontant +
         "|" +
         sens +
