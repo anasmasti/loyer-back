@@ -4,47 +4,30 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>6</mois>
-  <totalMntBrutLoyer>117000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>15450.00</totalMntRetenueSource>
-  <totalMntNetLoyer>101550.00</totalMntNetLoyer>
+  <mois>7</mois>
+  <totalMntBrutLoyer>87000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>11950.00</totalMntRetenueSource>
+  <totalMntNetLoyer>75050.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
-      <numCNIBailleur>D524564</numCNIBailleur>
+      <numCNIBailleur>F4767464</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>SAMIRA TATA</nomPrenomBailleur>
-      <adresseBailleur>LKJOIFEJIOZ</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
+      <nomPrenomBailleur>MED FARID </nomPrenomBailleur>
+      <adresseBailleur>OIUJOIIP345654</adresseBailleur>
+      <adresseBien>LJDJZALJ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>60000.00</mntBrutLoyer>
-      <mntRetenueSource>7500.00</mntRetenueSource>
-      <mntNetLoyer>52500.00</mntNetLoyer>
+      <mntBrutLoyer>15000.00</mntBrutLoyer>
+      <mntRetenueSource>2250.00</mntRetenueSource>
+      <mntNetLoyer>12750.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF2</ifuBailleur>
-      <numCNIBailleur>P5874857</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KARIM JALAL</nomPrenomBailleur>
-      <adresseBailleur>FREGREG68796</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>30000.00</mntBrutLoyer>
-      <mntRetenueSource>4500.00</mntRetenueSource>
-      <mntNetLoyer>25500.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>K5443645</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>KHADIJA LALA</nomPrenomBailleur>
@@ -61,7 +44,7 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF4</ifuBailleur>
+      <ifuBailleur>IF3</ifuBailleur>
       <numCNIBailleur>L3578354</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>NABIL KAMAL</nomPrenomBailleur>
@@ -78,18 +61,52 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
-      <ifuBailleur>IF5</ifuBailleur>
-      <numCNIBailleur>F4767464</numCNIBailleur>
+      <ifuBailleur>IF4</ifuBailleur>
+      <numCNIBailleur>P5874857</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>MED FARID </nomPrenomBailleur>
-      <adresseBailleur>OIUJOIIP345654</adresseBailleur>
-      <adresseBien>LJDJZALJ</adresseBien>
+      <nomPrenomBailleur>KARIM JALAL</nomPrenomBailleur>
+      <adresseBailleur>FREGREG68796</adresseBailleur>
+      <adresseBien>LJODIEJ354</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>15000.00</mntBrutLoyer>
-      <mntRetenueSource>2250.00</mntRetenueSource>
-      <mntNetLoyer>12750.00</mntNetLoyer>
+      <mntBrutLoyer>30000.00</mntBrutLoyer>
+      <mntRetenueSource>4500.00</mntRetenueSource>
+      <mntNetLoyer>25500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF5</ifuBailleur>
+      <numCNIBailleur>D524564</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SAMIRA TATA</nomPrenomBailleur>
+      <adresseBailleur>LKJOIFEJIOZ</adresseBailleur>
+      <adresseBien>JKHIOHOI1354654</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF6</ifuBailleur>
+      <numCNIBailleur>BJ110393</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>TRM TEST</nomPrenomBailleur>
+      <adresseBailleur>TEST</adresseBailleur>
+      <adresseBien>TEST</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>10000.00</mntBrutLoyer>
+      <mntRetenueSource>1000.00</mntRetenueSource>
+      <mntNetLoyer>9000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
