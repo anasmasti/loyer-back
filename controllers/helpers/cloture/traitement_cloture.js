@@ -423,31 +423,33 @@ module.exports = {
                   k < Contrat.proprietaires[j].proprietaire_list.length;
                   k++
                 ) {
-                  montant_loyer_brut_taxes =
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].montant_loyer.toFixed(2);
-
-                  montant_loyer_brut =
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].caution_par_proprietaire.toFixed(2) +
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].montant_loyer.toFixed(2);
-
-                  montant_loyer_net =
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].caution_par_proprietaire.toFixed(2) +
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].montant_apres_impot.toFixed(2);
+                  if (isOverdued) {
+                    montant_loyer_brut =
+                      +Contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].montant_loyer.toFixed(2);
+                  } else {
+                    montant_loyer_brut =
+                      +Contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].caution_par_proprietaire.toFixed(2) +
+                      +Contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].montant_loyer.toFixed(2);
+                  }
 
                   montant_tax =
                     +Contrat.proprietaires[j].proprietaire_list[
                       k
                     ].retenue_source.toFixed(2);
+
+                  montant_loyer_net =
+                    +montant_loyer_brut.toFixed(2) - +montant_tax.toFixed(2);
+
+                  montant_loyer_brut_taxes =
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_a_verse += +montant_loyer_net.toFixed(2);
 
@@ -545,28 +547,28 @@ module.exports = {
       treatmentMonth == premierDateDePaiement.getMonth() + 1 &&
       treatmentAnnee == premierDateDePaiement.getFullYear()
     ) {
-      console.log("teeeeeest1");
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           for (let j = 0; j < Contrat.proprietaires.length; j++) {
             if (Contrat.proprietaires[j].is_mandataire == true) {
               if (calculCaution) {
-                montant_loyer_brut_loyer =
+                montant_loyer_brut_mandataire =
                   +Contrat.proprietaires[j].montant_loyer.toFixed(2) +
                   +Contrat.proprietaires[j].caution_par_proprietaire.toFixed(2);
               } else {
-                montant_loyer_brut_loyer =
+                montant_loyer_brut_mandataire =
                   +Contrat.proprietaires[j].montant_loyer.toFixed(2);
               }
 
-              montant_loyer_net_mandataire =
-                +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
-
-              montant_loyer_brut_mandataire =
-                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
-
               montant_tax_mandataire =
                 +Contrat.proprietaires[j].retenue_source.toFixed(2);
+
+              montant_loyer_net_mandataire =
+                +montant_loyer_brut_mandataire.toFixed(2) -
+                +montant_tax_mandataire.toFixed(2);
+
+              montant_loyer_brut_loyer =
+                +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
               montant_a_verse = +montant_loyer_net_mandataire.toFixed(2);
 
@@ -601,25 +603,33 @@ module.exports = {
                   k < Contrat.proprietaires[j].proprietaire_list.length;
                   k++
                 ) {
-                  montant_loyer_brut_taxes =
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].montant_loyer.toFixed(2);
-
-                  montant_loyer_net =
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].montant_apres_impot.toFixed(2);
-
-                  montant_loyer_brut =
-                    +Contrat.proprietaires[j].proprietaire_list[
-                      k
-                    ].montant_loyer.toFixed(2);
+                  if (calculCaution) {
+                    montant_loyer_brut =
+                      +Contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].montant_loyer.toFixed(2) +
+                      +Contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].caution_par_proprietaire.toFixed(2);
+                  } else {
+                    montant_loyer_brut =
+                      +Contrat.proprietaires[j].proprietaire_list[
+                        k
+                      ].montant_loyer.toFixed(2);
+                  }
 
                   montant_tax =
                     +Contrat.proprietaires[j].proprietaire_list[
                       k
                     ].retenue_source.toFixed(2);
+
+                  montant_loyer_net =
+                    +montant_loyer_brut.toFixed(2) - +montant_tax.toFixed(2);
+
+                  montant_loyer_brut_taxes =
+                    +Contrat.proprietaires[j].proprietaire_list[
+                      k
+                    ].montant_loyer.toFixed(2);
 
                   montant_a_verse += +montant_loyer_net.toFixed(2);
 
