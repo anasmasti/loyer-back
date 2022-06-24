@@ -89,7 +89,7 @@ module.exports = {
     ];
     const workSheetName = "teledeclaration annuelle";
     const filePath = `${pathString}`;
-    fs.createWriteStream(path.resolve(filePath));
+    // fs.createWriteStream(path.resolve(filePath));
 
     exportUsersToExcel(
       dataExcel,

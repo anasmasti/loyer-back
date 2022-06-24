@@ -14,7 +14,7 @@ const etatMonsuelTaxes = async (req, res) => {
       mois: req.body.mois,
       annee: req.body.annee,
     })
-    .then((contrat) => {
+    .then(async (contrat) => {
       try {
         if (contrat) {
           let montantNetGlobal = 0;
@@ -120,12 +120,13 @@ const etatMonsuelTaxes = async (req, res) => {
             "Taxe (Rappel)",
             "MT net",
           ];
+
           const workSheetName = "Etat Taxes";
           const filePath = `./download/generated situation/état_des_taxes_xlsx/état_des_taxes_${req.body.mois}_${req.body.annee}.xlsx`;
-          fs.createWriteStream(path.resolve(filePath));
+          // fs.createWriteStream(path.resolve(filePath));
           // fs.createReadStream(path.resolve(filePath));
 
-          exportUsersToExcel(
+          await exportUsersToExcel(
             dataExcel,
             workSheetColumnName,
             workSheetName,
