@@ -40,7 +40,7 @@ module.exports = {
       // Check 'Avenant' contrats
       await checkContrats.checkContratsAv(req, res);
       // Check 'Suspendu' contrats
-      await checkContrats.checkContratsSus(req, res);
+      // await checkContrats.checkContratsSus(req, res);
 
       // :::::::::::::::::::::::::::::::::::::::::::::: End Checking contrats ::::::::::::::::::::::::::::::::::::::::::::::
 

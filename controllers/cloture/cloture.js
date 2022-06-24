@@ -35,8 +35,6 @@ module.exports = {
 
       // Check 'Avenant' contrats
       await checkContrats.checkContratsAv(req, res);
-      // Check 'Suspendu' contrats
-      await checkContrats.checkContratsSus(req, res);
 
       // :::::::::::::::::::::::::::::::::::::::::::::: End Checking contrats ::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -178,6 +176,13 @@ module.exports = {
       } else {
         return res.status(402).send({ message: "Aucun contrat inséré" });
       }
+
+      // :::::::::::::::::::::::::::::::::::::::::::::: Checking contrats ::::::::::::::::::::::::::::::::::::::::::::::
+
+      // Check 'Suspendu' contrats
+      await checkContrats.checkContratsSus(req, res);
+
+      // :::::::::::::::::::::::::::::::::::::::::::::: End Checking contrats ::::::::::::::::::::::::::::::::::::::::::::::
     } catch (error) {
       res.status(402).json({ message: error.message });
     }

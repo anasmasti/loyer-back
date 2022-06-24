@@ -23,6 +23,7 @@ const lateContratTreatment = async (
       ordreVirement = [],
       comptabilisationLoyer = [];
     let lateContratTreatmentDate;
+    let calculCaution = false;
     // Avance
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
@@ -98,11 +99,19 @@ const lateContratTreatment = async (
         );
 
       if (
-        lateContratTreatmentDate.month == treatmentMonth &&
-        lateContratTreatmentDate.year == treatmentAnnee
+        (lateContratTreatmentDate.month >= treatmentMonth &&
+          lateContratTreatmentDate.year == treatmentAnnee) ||
+        lateContratTreatmentDate.year > treatmentAnnee
       ) {
         if (!contrat.is_avenant) {
           calculCaution = true;
+        }
+        if (
+          (lateContratTreatmentDate.month > treatmentMonth &&
+            lateContratTreatmentDate.year == treatmentAnnee) ||
+          lateContratTreatmentDate.year > treatmentAnnee
+        ) {
+          isTreatmentEnded = true;
         }
         aggrigatedOrdreVirement.push(
           ...sharedHelper.aggrigateOrderVirementObjects(
@@ -158,155 +167,153 @@ const lateContratTreatment = async (
           )
         );
       }
+      isTreatmentEnded = true;
     }
 
-    if (dureeAvance == 0) {
-      let calculCaution = false;
-      while (!isTreatmentEnded) {
-        // if (
-        //   lateContratTreatmentDate.month == 10 &&
-        //   lateContratTreatmentDate.year == 2022
-        // ) {
-        //   console.log(typeof treatmentMonth);
-        // } else {
-        //   console.log(lateContratTreatmentDate);
-        //   console.log("Ouuuut");
-        // }
-        // break;
-        // Request updated contrat
-        const requestedContrat = await Contrat.findById({
-          _id: contrat._id,
-        })
-          .populate({
-            path: "foncier",
+    while (!isTreatmentEnded) {
+      // if (
+      //   lateContratTreatmentDate.month == 10 &&
+      //   lateContratTreatmentDate.year == 2022
+      // ) {
+      //   console.log(typeof treatmentMonth);
+      // } else {
+      //   console.log(lateContratTreatmentDate);
+      //   console.log("Ouuuut");
+      // }
+      // break;
+      // Request updated contrat
+      const requestedContrat = await Contrat.findById({
+        _id: contrat._id,
+      })
+        .populate({
+          path: "foncier",
+          populate: {
+            path: "lieu.lieu",
             populate: {
-              path: "lieu.lieu",
-              populate: {
-                path: "attached_DR",
-              },
+              path: "attached_DR",
             },
-          })
-          .populate({
-            path: "proprietaires",
-            populate: [
-              {
-                path: "proprietaire_list",
-                populate: { path: "proprietaire" },
-              },
-              {
-                path: "proprietaire",
-              },
-            ],
-            match: { is_mandataire: true, deleted: false },
-          });
+          },
+        })
+        .populate({
+          path: "proprietaires",
+          populate: [
+            {
+              path: "proprietaire_list",
+              populate: { path: "proprietaire" },
+            },
+            {
+              path: "proprietaire",
+            },
+          ],
+          match: { is_mandataire: true, deleted: false },
+        });
 
-        const treatmentResult =
-          await traitementContratActif.clotureContratActif(
-            res,
-            requestedContrat,
-            dateGenerationDeComptabilisation,
-            ContratSchema,
-            true,
-            lateContratTreatmentDate.month,
-            lateContratTreatmentDate.year,
-            true,
-            calculCaution // Calcul caution
-          );
+      const treatmentResult = await traitementContratActif.clotureContratActif(
+        res,
+        requestedContrat,
+        dateGenerationDeComptabilisation,
+        ContratSchema,
+        true,
+        lateContratTreatmentDate.month,
+        lateContratTreatmentDate.year,
+        true,
+        calculCaution // Calcul caution
+      );
 
-        calculCaution = false;
-
-        ordreVirement.push(...treatmentResult.ordre_virement);
-        comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
-        if (contrat.numero_contrat == "665/FES 2") {
-          console.log(lateContratTreatmentDate, treatmentMonth, treatmentAnnee);
-        }
-
-        if (
-          lateContratTreatmentDate.month == 12 &&
-          lateContratTreatmentDate.year == +treatmentAnnee - 1
-        ) {
-          console.log("Innnnnnn");
-          aggrigatedOrdreVirement.push(
-            ...sharedHelper.aggrigateOrderVirementObjects(
-              ordreVirement,
-              true,
-              true
-            )
-          );
-          aggrigatedComptabilisationLoyer.push(
-            ...sharedHelper.aggrigateLoyerComptObjects(
-              comptabilisationLoyer,
-              true,
-              true,
-              true
-            )
-          );
-          ordreVirement = [];
-          comptabilisationLoyer = [];
-        }
-
-        // increment the date by 1 month
-        lateContratTreatmentDate = await incrementMonth(
-          lateContratTreatmentDate.month,
-          lateContratTreatmentDate.year
-        );
-
-        if (
-          lateContratTreatmentDate.month == treatmentMonth &&
-          lateContratTreatmentDate.year == treatmentAnnee
-        ) {
-          // if (!contrat.is_avenant) {
-          //calculCaution = !contrat.caution_versee;
-          // }
-          if (!contrat.is_avenant) {
-            calculCaution = true;
-          }
-          aggrigatedOrdreVirement.push(
-            ...sharedHelper.aggrigateOrderVirementObjects(
-              ordreVirement,
-              true,
-              false
-            )
-          );
-          aggrigatedComptabilisationLoyer.push(
-            ...sharedHelper.aggrigateLoyerComptObjects(
-              comptabilisationLoyer,
-              true,
-              false
-            )
-          );
-          ordreVirement = [];
-          comptabilisationLoyer = [];
-        }
-
-        if (
-          (lateContratTreatmentDate.month == +treatmentMonth + 1 &&
-            lateContratTreatmentDate.year == treatmentAnnee) ||
-          (lateContratTreatmentDate.month == 1 &&
-            lateContratTreatmentDate.year == +treatmentAnnee + 1)
-        ) {
-          isTreatmentEnded = true;
-          aggrigatedOrdreVirement.push(
-            ...sharedHelper.aggrigateOrderVirementObjects(
-              ordreVirement,
-              false,
-              false
-            )
-          );
-          aggrigatedComptabilisationLoyer.push(
-            ...sharedHelper.aggrigateLoyerComptObjects(
-              comptabilisationLoyer,
-              false,
-              false,
-              //!calculCaution
-              contrat.is_avenant ? true : false
-            )
-          );
-          ordreVirement = [];
-          comptabilisationLoyer = [];
-        }
-        // break;
+      if (contrat.numero_contrat == "007/SUP TAZA") {
+        console.log("calculCaution", calculCaution);
       }
+
+      calculCaution = false;
+
+      ordreVirement.push(...treatmentResult.ordre_virement);
+      comptabilisationLoyer.push(...treatmentResult.cmptLoyerCrdt);
+
+      if (
+        lateContratTreatmentDate.month == 12 &&
+        lateContratTreatmentDate.year == +treatmentAnnee - 1
+      ) {
+        console.log("Innnnnnn");
+        aggrigatedOrdreVirement.push(
+          ...sharedHelper.aggrigateOrderVirementObjects(
+            ordreVirement,
+            true,
+            true
+          )
+        );
+        aggrigatedComptabilisationLoyer.push(
+          ...sharedHelper.aggrigateLoyerComptObjects(
+            comptabilisationLoyer,
+            true,
+            true,
+            true
+          )
+        );
+        ordreVirement = [];
+        comptabilisationLoyer = [];
+      }
+
+      // increment the date by 1 month
+      lateContratTreatmentDate = await incrementMonth(
+        lateContratTreatmentDate.month,
+        lateContratTreatmentDate.year
+      );
+
+      if (
+        lateContratTreatmentDate.month == treatmentMonth &&
+        lateContratTreatmentDate.year == treatmentAnnee
+      ) {
+        // if (!contrat.is_avenant) {
+        //calculCaution = !contrat.caution_versee;
+        // }
+        if (!contrat.is_avenant) {
+          calculCaution = true;
+        }
+        aggrigatedOrdreVirement.push(
+          ...sharedHelper.aggrigateOrderVirementObjects(
+            ordreVirement,
+            true,
+            false
+          )
+        );
+        aggrigatedComptabilisationLoyer.push(
+          ...sharedHelper.aggrigateLoyerComptObjects(
+            comptabilisationLoyer,
+            true,
+            false
+          )
+        );
+        ordreVirement = [];
+        comptabilisationLoyer = [];
+      }
+
+      if (
+        (lateContratTreatmentDate.month == +treatmentMonth + 1 &&
+          lateContratTreatmentDate.year == treatmentAnnee) ||
+        (lateContratTreatmentDate.month == 1 &&
+          lateContratTreatmentDate.year == +treatmentAnnee + 1)
+      ) {
+        isTreatmentEnded = true;
+        aggrigatedOrdreVirement.push(
+          ...sharedHelper.aggrigateOrderVirementObjects(
+            ordreVirement,
+            false,
+            false
+          )
+        );
+        aggrigatedComptabilisationLoyer.push(
+          ...sharedHelper.aggrigateLoyerComptObjects(
+            comptabilisationLoyer,
+            false,
+            false,
+            //!calculCaution
+            contrat.is_avenant ? true : false
+          )
+        );
+        ordreVirement = [];
+        comptabilisationLoyer = [];
+      }
+      // break;
     }
 
     if (!Cloture) {

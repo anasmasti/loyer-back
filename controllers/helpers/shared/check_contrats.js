@@ -124,74 +124,58 @@ module.exports = {
   checkContratsSus: async (req, res) => {
     await Contrat.find({ deleted: false, "etat_contrat.libelle": "Suspendu" })
       .then(async (contrats) => {
-        await archiveComptabilisation
-          .find()
-          .sort({ date_generation_de_comptabilisation: "desc" })
-          .select({ date_generation_de_comptabilisation: 1 })
-          .then(async (Comptabilisationdata) => {
-            for (let index = 0; index < contrats.length; index++) {
-              const contrat = contrats[index];
-              let susDate = new Date(
+        for (let index = 0; index < contrats.length; index++) {
+          const contrat = contrats[index];
+          let susDate = new Date(contrat.etat_contrat.etat.date_fin_suspension);
+          let susMonth = susDate.getMonth() + 1;
+          let susYear = susDate.getFullYear();
+          let nextDateComptabilisation = null;
+
+          let treatmentDate = await TreatmentDate(req, res);
+          let currentMonth = treatmentDate.getMonth() + 1;
+          let currentYear = treatmentDate.getFullYear();
+          treatmentDate = incrementMonth(currentMonth, currentYear);
+          if (
+            (susMonth == treatmentDate.month &&
+              susYear == treatmentDate.year) ||
+            (susMonth > treatmentDate.month && susYear < treatmentDate.year) ||
+            (susMonth < treatmentDate.month && !(susYear > treatmentDate.year))
+          ) {
+            if (contrat.date_comptabilisation != null) {
+              const isLessThan = ContratHelper.checkContratDate(
+                contrat.date_comptabilisation,
                 contrat.etat_contrat.etat.date_fin_suspension
               );
-              let susMonth = susDate.getMonth() + 1;
-              let susYear = susDate.getFullYear();
-              let nextDateComptabilisation = null;
-              let nextCloture;
-              nextCloture = new Date(
-                Comptabilisationdata[0].date_generation_de_comptabilisation
-              );
-              let currentMonth = nextCloture.getMonth() + 1;
-              let currentYear = nextCloture.getFullYear();
+              if (isLessThan) {
+                nextDateComptabilisation = new Date(
+                  contrat.etat_contrat.etat.date_fin_suspension
+                );
+              } else {
+                nextDateComptabilisation = new Date(
+                  contrat.date_comptabilisation
+                );
+              }
+            } else {
               if (
-                (susMonth == currentMonth && susYear == currentYear) ||
-                (susMonth > currentMonth && susYear < currentYear) ||
-                (susMonth < currentMonth && !(susYear > currentYear))
+                ContratHelper.checkContratDate(
+                  contrat.date_premier_paiement,
+                  contrat.etat_contrat.etat.date_fin_suspension
+                )
               ) {
-                if (
-                  contrat.etat_contrat.etat.duree_suspension != null &&
-                  contrat.etat_contrat.etat.duree_suspension > 0
-                ) {
-                  if (contrat.date_comptabilisation != null) {
-                    const isLessThan = ContratHelper.checkContratDate(
-                      contrat.date_comptabilisation,
-                      contrat.etat_contrat.etat.date_fin_suspension
-                    );
-                    if (isLessThan) {
-                      nextDateComptabilisation = new Date(
-                        contrat.etat_contrat.etat.date_fin_suspension
-                      );
-                    } else {
-                      nextDateComptabilisation = new Date(
-                        contrat.date_comptabilisation
-                      );
-                    }
-                  } else {
-                    if (
-                      ContratHelper.checkContratDate(
-                        contrat.date_premier_paiement,
-                        contrat.etat_contrat.etat.date_fin_suspension
-                      )
-                    ) {
-                      nextDateComptabilisation = new Date(
-                        contrat.date_comptabilisation
-                      );
-                    }
-                  }
-                }
-                await Contrat.findByIdAndUpdate(
-                  { _id: contrat._id },
-                  {
-                    "etat_contrat.libelle": "Actif",
-                    date_comptabilisation: nextDateComptabilisation,
-                  }
+                nextDateComptabilisation = new Date(
+                  contrat.date_comptabilisation
                 );
               }
             }
-          })
-          .catch((error) => {
-            res.status(402).send({ message: error.message });
-          });
+            await Contrat.findByIdAndUpdate(
+              { _id: contrat._id },
+              {
+                "etat_contrat.libelle": "Actif",
+                date_comptabilisation: nextDateComptabilisation,
+              }
+            );
+          }
+        }
       })
       .catch((error) => {
         res.status(402).send({

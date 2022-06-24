@@ -11,7 +11,7 @@ module.exports = {
     treatmentDate,
     contrat
   ) => {
-    let dureeAvanceInMonths = 0;
+    let periodicite = 0;
     let dureeAvance = 0;
     let dureeAvanceRappel = 0;
     let dureeAvanceRappelAnneeAntr = 0;
@@ -19,18 +19,18 @@ module.exports = {
     // Convert duree avance to months
     switch (contrat.periodicite_paiement) {
       case "mensuelle":
-        dureeAvanceInMonths = contrat.duree_avance * 1;
+        periodicite = 1;
         break;
       case "trimestrielle":
-        dureeAvanceInMonths = contrat.duree_avance * 3;
+        periodicite = 3;
         break;
       case "annuelle":
-        dureeAvanceInMonths = contrat.duree_avance * 12;
+        periodicite = 12;
         break;
     }
 
     // Remove avance months from overdued months
-    for (let index = 0; index < dureeAvanceInMonths; index++) {
+    for (let index = 0; index < contrat.duree_avance; index++) {
       // Get overdued avance months
       if (
         (lateContratTreatmentDate.month < treatmentDate.treatmentMonth &&
@@ -58,10 +58,18 @@ module.exports = {
 
       lateContratTreatmentDate = incrementMonth(
         lateContratTreatmentDate.month,
-        lateContratTreatmentDate.year
+        lateContratTreatmentDate.year,
+        periodicite
       );
     }
-
+    if (contrat.numero_contrat == "990/PV 01") {
+      console.log({
+        lateContratTreatmentDate,
+        dureeAvance,
+        dureeAvanceRappel,
+        dureeAvanceRappelAnneeAntr,
+      });
+    }
     return {
       lateContratTreatmentDate,
       dureeAvance,
