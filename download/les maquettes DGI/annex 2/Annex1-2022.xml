@@ -4,10 +4,10 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>6</mois>
-  <totalMntBrutLoyer>157000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>21450.00</totalMntRetenueSource>
-  <totalMntNetLoyer>135550.00</totalMntNetLoyer>
+  <mois>10</mois>
+  <totalMntBrutLoyer>102000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>14450.00</totalMntRetenueSource>
+  <totalMntNetLoyer>87550.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur>IF1</ifuBailleur>
@@ -19,9 +19,9 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>94800.00</mntBrutLoyer>
-      <mntRetenueSource>12480.00</mntRetenueSource>
-      <mntNetLoyer>82320.00</mntNetLoyer>
+      <mntBrutLoyer>14800.00</mntBrutLoyer>
+      <mntRetenueSource>1980.00</mntRetenueSource>
+      <mntNetLoyer>12820.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -90,6 +90,40 @@
       <mntBrutLoyer>7200.00</mntBrutLoyer>
       <mntRetenueSource>720.00</mntRetenueSource>
       <mntNetLoyer>6480.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF6</ifuBailleur>
+      <numCNIBailleur>M564634</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>LATIFA FIFA</nomPrenomBailleur>
+      <adresseBailleur>KPKL^P^P</adresseBailleur>
+      <adresseBien>LKJOIJ245</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur>IF7</ifuBailleur>
+      <numCNIBailleur>K254546</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MANAL JAJA</nomPrenomBailleur>
+      <adresseBailleur>ERFREFE546</adresseBailleur>
+      <adresseBien>LKJOLKOP2548658</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

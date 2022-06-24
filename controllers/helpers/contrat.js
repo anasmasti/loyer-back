@@ -104,13 +104,18 @@ module.exports = {
             if (deletedProprietaire == proprietaire._id) check = true;
           }
           if (!check) {
-            ProprietaireHelper.duplicateProprietaire(
-              req,
-              res,
-              proprietaire,
-              newContrat,
-              ContratData.etat_contrat.etat.deleted_proprietaires
-            );
+            try{
+              ProprietaireHelper.duplicateProprietaire(
+                req,
+                res,
+                proprietaire,
+                newContrat,
+                ContratData.etat_contrat.etat.deleted_proprietaires
+              );
+            }catch(error){
+              console.log(error.message)
+            }
+         
           }
         }
 

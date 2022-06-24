@@ -73,33 +73,37 @@ module.exports = {
 
     //checking and store etats
     if (data.etat_contrat.libelle === "Avenant") {
-      let numeroContrat = ContratHelper.generateNumeroContrat(
-        data.numero_contrat
-      );
-      let isOverdued = false;
-      const dateEffetAv = new Date(data.etat_contrat.etat.date_effet_av);
+      try {
+        let numeroContrat = ContratHelper.generateNumeroContrat(
+          data.numero_contrat
+        );
+        let isOverdued = false;
+        const dateEffetAv = new Date(data.etat_contrat.etat.date_effet_av);
 
-      if (
-        (dateEffetAv.getMonth() + 1 < dateTraitement.getMonth() + 1 &&
-          dateEffetAv.getFullYear() == dateTraitement.getFullYear()) ||
-        dateEffetAv.getFullYear() < dateTraitement.getFullYear()
-      ) {
-        isOverdued = true;
+        if (
+          (dateEffetAv.getMonth() + 1 < dateTraitement.getMonth() + 1 &&
+            dateEffetAv.getFullYear() == dateTraitement.getFullYear()) ||
+          dateEffetAv.getFullYear() < dateTraitement.getFullYear()
+        ) {
+          isOverdued = true;
+        }
+
+        ContratHelper.createContratAV(
+          req,
+          res,
+          data,
+          numeroContrat,
+          existedContrat,
+          isOverdued,
+          piece_jointe_avenant
+        );
+        etatContrat = {
+          libelle: "Actif",
+          etat: existedContrat.etat_contrat.etat,
+        };
+      } catch (error) {
+        res.status(400).send({ message: error.message });
       }
-
-      ContratHelper.createContratAV(
-        req,
-        res,
-        data,
-        numeroContrat,
-        existedContrat,
-        isOverdued,
-        piece_jointe_avenant
-      );
-      etatContrat = {
-        libelle: "Actif",
-        etat: existedContrat.etat_contrat.etat,
-      };
     } else if (
       data.etat_contrat.libelle === "Suspendu" ||
       data.etat_contrat.libelle === "toactivate"
