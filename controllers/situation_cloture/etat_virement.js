@@ -72,7 +72,7 @@ const etatMonsuelVirement = async (req, res) => {
 
         const workSheetName = "Etat Virement";
         const filePath = `./download/generated situation/état_des_virements_xlsx/état_des_virements_${req.body.mois}_${req.body.annee}.xlsx`;
-        fs.createWriteStream(path.resolve(filePath));
+        // fs.createWriteStream(path.resolve(filePath));
         // fs.createReadStream(path.resolve(filePath));
 
         exportUsersToExcel(
