@@ -30,46 +30,74 @@ module.exports = {
     }
 
     // Remove avance months from overdued months
-    for (let index = 0; index < contrat.duree_avance; index++) {
-      // Get overdued avance months
-      if (
-        (lateContratTreatmentDate.month < treatmentDate.treatmentMonth &&
-          lateContratTreatmentDate.year == treatmentDate.treatmentAnnee) ||
-        lateContratTreatmentDate.year < treatmentDate.treatmentAnnee
-      ) {
-        dureeAvanceRappel += 1;
-      }
-      // Get avance months if it's not overdued
-      if (
-        (lateContratTreatmentDate.month >= treatmentDate.treatmentMonth &&
-          lateContratTreatmentDate.year >= treatmentDate.treatmentAnnee) ||
-        lateContratTreatmentDate.year > treatmentDate.treatmentAnnee
-      ) {
-        dureeAvance += 1;
-      }
+    if (contrat.periodicite_paiement == "annuelle") {
+      for (let index = 0; index < contrat.duree_avance; index++) {
+        // Get overdued avance months
+        if (
+          (lateContratTreatmentDate.month < treatmentDate.treatmentMonth &&
+            lateContratTreatmentDate.year == treatmentDate.treatmentAnnee) ||
+          lateContratTreatmentDate.year < treatmentDate.treatmentAnnee
+        ) {
+          dureeAvanceRappel += 1;
+        }
+        // Get avance months if it's not overdued
+        if (
+          (lateContratTreatmentDate.month >= treatmentDate.treatmentMonth &&
+            lateContratTreatmentDate.year >= treatmentDate.treatmentAnnee) ||
+          lateContratTreatmentDate.year > treatmentDate.treatmentAnnee
+        ) {
+          dureeAvance += 1;
+        }
 
-      if (
-        lateContratTreatmentDate.month == 12 &&
-        lateContratTreatmentDate.year == +treatmentDate.treatmentAnnee - 1
-      ) {
-        dureeAvanceRappelAnneeAntr = dureeAvanceRappel;
-        dureeAvanceRappel = 0;
-      }
+        if (
+          // lateContratTreatmentDate.month == 12 &&
+          lateContratTreatmentDate.year <= treatmentDate.treatmentAnnee
+        ) {
+          dureeAvanceRappelAnneeAntr = dureeAvanceRappelAnneeAntr + 1;
+          dureeAvanceRappel = 0;
+        }
 
-      lateContratTreatmentDate = incrementMonth(
-        lateContratTreatmentDate.month,
-        lateContratTreatmentDate.year,
-        periodicite
-      );
+        lateContratTreatmentDate = incrementMonth(
+          lateContratTreatmentDate.month,
+          lateContratTreatmentDate.year,
+          periodicite
+        );
+      }
+    } else {
+      for (let index = 0; index < contrat.duree_avance; index++) {
+        // Get overdued avance months
+        if (
+          (lateContratTreatmentDate.month < treatmentDate.treatmentMonth &&
+            lateContratTreatmentDate.year == treatmentDate.treatmentAnnee) ||
+          lateContratTreatmentDate.year < treatmentDate.treatmentAnnee
+        ) {
+          dureeAvanceRappel += 1;
+        }
+        // Get avance months if it's not overdued
+        if (
+          (lateContratTreatmentDate.month >= treatmentDate.treatmentMonth &&
+            lateContratTreatmentDate.year >= treatmentDate.treatmentAnnee) ||
+          lateContratTreatmentDate.year > treatmentDate.treatmentAnnee
+        ) {
+          dureeAvance += 1;
+        }
+
+        if (
+          lateContratTreatmentDate.month == 12 &&
+          lateContratTreatmentDate.year == +treatmentDate.treatmentAnnee - 1
+        ) {
+          dureeAvanceRappelAnneeAntr = dureeAvanceRappel;
+          dureeAvanceRappel = 0;
+        }
+
+        lateContratTreatmentDate = incrementMonth(
+          lateContratTreatmentDate.month,
+          lateContratTreatmentDate.year,
+          periodicite
+        );
+      }
     }
-    if (contrat.numero_contrat == "990/PV 01") {
-      console.log({
-        lateContratTreatmentDate,
-        dureeAvance,
-        dureeAvanceRappel,
-        dureeAvanceRappelAnneeAntr,
-      });
-    }
+
     return {
       lateContratTreatmentDate,
       dureeAvance,

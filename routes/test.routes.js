@@ -1,8 +1,8 @@
 const express = require("express");
-const getProprietaire = require("../controllers/helpers/shared/cloture_helper");
+const testFunction = require("../helpers/mail.send");
 
 const router = express.Router();
 
-router.route("/test").get(getProprietaire.generateNextDateComptabilisation);
+router.route("/test").get(testFunction.sendMail);
 
 module.exports = router;

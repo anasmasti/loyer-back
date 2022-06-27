@@ -72,12 +72,12 @@ const etatMonsuelTaxes = async (req, res) => {
               cmpt.is_overdued
                 ? "--"
                 : cmpt.montant_brut_loyer,
-              cmpt.montant_avance_proprietaire,
+              !cmpt.avance_versee ? cmpt.montant_avance_proprietaire : 0,
               (cmpt.tax_avance_proprietaire != 0 && !cmpt.avance_versee) ||
               cmpt.is_overdued
                 ? "--"
                 : cmpt.retenue_source,
-              cmpt.tax_avance_proprietaire,
+              !cmpt.avance_versee ? cmpt.tax_avance_proprietaire : 0,
               cmpt.is_overdued ? cmpt.montant_brut : 0,
               cmpt.is_overdued ? cmpt.montant_tax : 0,
               !cmpt.caution_versee ? cmpt.caution_proprietaire : "--",
@@ -85,9 +85,9 @@ const etatMonsuelTaxes = async (req, res) => {
             ];
             dataExcel.push(cmptMapped);
           });
-          
-// console.log("montantCautionGlobal", montantCautionGlobal);
-// montantCautionGlobal  = 111111
+
+          // console.log("montantCautionGlobal", montantCautionGlobal);
+          // montantCautionGlobal  = 111111
           dataExcel.push([
             " ",
             " ",
@@ -100,9 +100,9 @@ const etatMonsuelTaxes = async (req, res) => {
             +montantBrutAvanceGlobal.toFixed(2),
             +montantTaxeGlobal.toFixed(2),
             +montantTaxeAvanceGlobal.toFixed(2),
-            +montantCautionGlobal.toFixed(2),
             +montantBrutRappelGlobal.toFixed(2),
             +montantTaxeRappelGlobal.toFixed(2),
+            +montantCautionGlobal.toFixed(2),
             +montantNetGlobal.toFixed(2),
           ]);
           const workSheetColumnName = [
@@ -117,9 +117,9 @@ const etatMonsuelTaxes = async (req, res) => {
             "MT brut d'avance",
             "Taxe/loyer",
             "Taxe/avance",
-            "Caution",
             "MT brut (Rappel)",
             "Taxe (Rappel)",
+            "Caution",
             "MT net",
           ];
 
