@@ -1,9 +1,3 @@
-const Contrat = require("../../../models/contrat/contrat.model");
-const ContratHelper = require("../contrat");
-const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
-const archiveVirement = require("../../../models/archive/archiveVirement.schema");
-const sharedHelper = require("./aggrigationObjects");
-
 module.exports = {
   createComptLoyerCredObject: (
     Contrat,

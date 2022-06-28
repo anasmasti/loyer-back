@@ -241,7 +241,8 @@ module.exports = {
 
                     index += 1;
                     DetailRetenueRevFoncier.push({
-                      ifuBailleur: `IF${index}`,
+                      // ifuBailleur: `IF${index}`,
+                      ifuBailleur: ``,
                       numCNIBailleur:
                         ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
                       numCEBailleur:
@@ -298,7 +299,7 @@ module.exports = {
             req,
             res,
             Annex1,
-            `download/les maquettes DGI/annex 2/Annex1-${req.params.annee}.xml`
+            `download/les maquettes DGI/annex 2/Declaration_VersementRASRF-${req.params.annee}.xml`
           );
 
           // Download the excel file

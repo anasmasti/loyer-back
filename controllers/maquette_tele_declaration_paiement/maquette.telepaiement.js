@@ -78,7 +78,8 @@ module.exports = {
 
                     index += 1;
                     DetailRetenueRevFoncier.push({
-                      ifuBailleur: `IF${index}`,
+                      // ifuBailleur: `IF${index}`,
+                      ifuBailleur: ``,
                       numCNIBailleur:
                         ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin,
                       numCEBailleur:
@@ -104,7 +105,14 @@ module.exports = {
                       mntNetLoyerAnnuel:
                         proprietaireMnts.mntNetLoyerTotal.toFixed(2),
                       tauxRetenueRevFoncier: {
-                        code: "TSR.10.2018",
+                        code: `TRS.${
+                          ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                            .taux_impot > 0
+                            ? ArchCmptbList[i].comptabilisation_loyer_crediter[
+                                j
+                              ].taux_impot
+                            : 0
+                        }.2018`,
                       },
                     });
                   }
@@ -137,7 +145,7 @@ module.exports = {
             req,
             res,
             Annex2,
-            `download/les maquettes DGI/annex 2/Annex2-${req.params.annee}.xml`
+            `download/les maquettes DGI/annex 2/Declaration_DeclarationRASRF-${req.params.annee}.xml`
           );
 
           // Download the excel file

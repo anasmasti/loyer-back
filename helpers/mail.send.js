@@ -6,6 +6,7 @@ const readFile = promisify(fs.readFile);
 
 module.exports = {
   sendMail: async (to, subject, fileName, data) => {
+    // sendMail: async (req, res) => {
     var fileSource = await readFile(
       `./templates/mails/${fileName}.html`,
       "utf8"
@@ -13,10 +14,14 @@ module.exports = {
     var template = Handlebars.compile(fileSource);
     var htmlToSend = template(data);
     let transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "imap.gmail.com",
+      port: 993,
+      secure: true,
       auth: {
-        user: "attawfiqmf.app@gmail.com",
-        pass: "Attawfiq@Gmail_2021",
+        // user: "attawfiqmf.app@gmail.com",
+        // pass: "Attawfiq@Gmail_2021",
+        user: "amf.loyer@gmail.com",
+        pass: "amf.loyer.app",
       },
       tls: {
         rejectUnauthorized: false,
