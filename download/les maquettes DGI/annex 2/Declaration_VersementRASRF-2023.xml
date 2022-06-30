@@ -4,11 +4,96 @@
   <exerciceFiscalDu>2023-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2023-12-31</exerciceFiscalAu>
   <annee>2023</annee>
-  <mois>7</mois>
-  <totalMntBrutLoyer>66833.33</totalMntBrutLoyer>
-  <totalMntRetenueSource>9100.00</totalMntRetenueSource>
-  <totalMntNetLoyer>57733.33</totalMntNetLoyer>
+  <mois>8</mois>
+  <totalMntBrutLoyer>253833.33</totalMntBrutLoyer>
+  <totalMntRetenueSource>27700.00</totalMntRetenueSource>
+  <totalMntNetLoyer>226133.33</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>J5454525</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>LALA NANA</nomPrenomBailleur>
+      <adresseBailleur>KJHIHOIHO</adresseBailleur>
+      <adresseBien>IUUHUIHUIOHI</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>120000.00</mntBrutLoyer>
+      <mntRetenueSource>18000.00</mntRetenueSource>
+      <mntNetLoyer>102000.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>L5453746</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MERYEM RARA</nomPrenomBailleur>
+      <adresseBailleur>OLJOP</adresseBailleur>
+      <adresseBien>FFDDEDE568486</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>75000.00</mntBrutLoyer>
+      <mntRetenueSource>3900.00</mntRetenueSource>
+      <mntNetLoyer>71100.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>K254546</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>MANAL JAJA</nomPrenomBailleur>
+      <adresseBailleur>ERFREFE546</adresseBailleur>
+      <adresseBien>IOUJHIOUJIO3546</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>30000.00</mntBrutLoyer>
+      <mntRetenueSource>2250.00</mntRetenueSource>
+      <mntNetLoyer>27750.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>L3563563</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>ALAAL JAJA </nomPrenomBailleur>
+      <adresseBailleur>IPOIKPÎO^P</adresseBailleur>
+      <adresseBien>MKPIK</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>5400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>KL254545</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>LAILA JJJJ</nomPrenomBailleur>
+      <adresseBailleur>OKIPOKPO225</adresseBailleur>
+      <adresseBien>GRREGEGHR</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>4500.00</mntBrutLoyer>
+      <mntRetenueSource>450.00</mntRetenueSource>
+      <mntNetLoyer>4050.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TSR.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
       <numCNIBailleur>K2574857</numCNIBailleur>
@@ -39,74 +124,6 @@
       <mntBrutLoyer>5000.00</mntBrutLoyer>
       <mntRetenueSource>500.00</mntRetenueSource>
       <mntNetLoyer>4500.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>L5453746</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>MERYEM RARA</nomPrenomBailleur>
-      <adresseBailleur>OLJOP</adresseBailleur>
-      <adresseBien>GRREGEGHR</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>3000.00</mntBrutLoyer>
-      <mntRetenueSource>300.00</mntRetenueSource>
-      <mntNetLoyer>2700.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>KL254545</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>LAILA JJJJ</nomPrenomBailleur>
-      <adresseBailleur>OKIPOKPO225</adresseBailleur>
-      <adresseBien>GRREGEGHR</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>4500.00</mntBrutLoyer>
-      <mntRetenueSource>450.00</mntRetenueSource>
-      <mntNetLoyer>4050.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>L3563563</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>ALAAL JAJA </nomPrenomBailleur>
-      <adresseBailleur>IPOIKPÎO^P</adresseBailleur>
-      <adresseBien>MKPIK</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>K5443645</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>KHADIJA LALA</nomPrenomBailleur>
-      <adresseBailleur>KHDEHOI35456</adresseBailleur>
-      <adresseBien>KJHKUHUI</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>35000.00</mntBrutLoyer>
-      <mntRetenueSource>5250.00</mntRetenueSource>
-      <mntNetLoyer>29750.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TSR.10.2018</code>
       </tauxRetenueRevFoncier>

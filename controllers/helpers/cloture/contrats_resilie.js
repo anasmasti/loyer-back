@@ -2,7 +2,6 @@ const traitementCloture = require("./traitement_cloture");
 
 module.exports = {
   clotureContratResilie: (
-    req,
     res,
     Contrat,
     dateGenerationDeComptabilisation,

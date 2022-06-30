@@ -171,6 +171,14 @@ const lateContratTreatment = async (
       isTreatmentEnded = true;
     }
 
+    if (
+      (lateContratTreatmentDate.month > treatmentMonth &&
+        lateContratTreatmentDate.year == treatmentAnnee) ||
+      lateContratTreatmentDate.year > treatmentAnnee
+    ) {
+      isTreatmentEnded = true;
+    }
+
     while (!isTreatmentEnded) {
       // if (
       //   lateContratTreatmentDate.month == 10 &&
