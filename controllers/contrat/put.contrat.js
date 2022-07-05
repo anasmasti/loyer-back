@@ -839,73 +839,81 @@ module.exports = {
   },
 
   annulerContrat: async (req, res) => {
-    let etatContrat = {
-      libelle: "Initié",
-      etat: {},
-    };
-    await Contrat.findByIdAndUpdate(req.params.Id, {
-      validation1_DMG: false,
-      validation2_DAJC: false,
-      etat_contrat: etatContrat,
-    })
-      .populate({
-        path: "foncier",
-        populate: {
-          path: "proprietaire",
-          populate: { path: "proprietaire_list" },
-        },
-      })
-      .then(async (contrat) => {
-        // Sending mail to CDGSP
-        let mailData;
-        if (contrat.is_avenant) {
-          mailData = {
-            message: `Avenant N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
-          };
-        } else {
-          mailData = {
-            message: `Le contrat N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
-          };
-        }
+    let etatContrat;
+    await Contrat.findById({ _id: req.params.Id }, { deleted: false })
+      .then(async (requestedContrat) => {
+        etatContrat = etatContrat = {
+          libelle: "Initié",
+          etat: requestedContrat.etat_contrat.etat,
+        };
 
-        let emailsList = [];
+        await Contrat.findByIdAndUpdate(req.params.Id, {
+          validation1_DMG: false,
+          validation2_DAJC: false,
+          etat_contrat: etatContrat,
+        })
+          .populate({
+            path: "foncier",
+            populate: {
+              path: "proprietaire",
+              populate: { path: "proprietaire_list" },
+            },
+          })
+          .then(async (contrat) => {
+            // Sending mail to CDGSP
+            let mailData;
+            if (contrat.is_avenant) {
+              mailData = {
+                message: `Avenant N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
+              };
+            } else {
+              mailData = {
+                message: `Le contrat N°${contrat.numero_contrat}. (${contrat.foncier.type_lieu}) a été rejeté`,
+              };
+            }
 
-        await User.aggregate([
-          {
-            $match: {
-              deleted: false,
-              userRoles: {
-                $elemMatch: {
+            let emailsList = [];
+
+            await User.aggregate([
+              {
+                $match: {
                   deleted: false,
-                  $or: [
-                    {
-                      roleCode: "CDGSP",
+                  userRoles: {
+                    $elemMatch: {
+                      deleted: false,
+                      $or: [
+                        {
+                          roleCode: "CDGSP",
+                        },
+                        {
+                          roleCode: "CSLA",
+                        },
+                      ],
                     },
-                    {
-                      roleCode: "CSLA",
-                    },
-                  ],
+                  },
                 },
               },
-            },
-          },
-        ])
-          .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-              emailsList.push(data[i].email);
+            ])
+              .then((data) => {
+                for (let i = 0; i < data.length; i++) {
+                  emailsList.push(data[i].email);
+                }
+              })
+              .catch((error) => {
+                res.status(400).send({ message: error.message });
+              });
+            if (emailsList.length > 0) {
+              mail.sendMail(
+                `${emailsList.join()}`,
+                "Contrat rejeté",
+                "validation1",
+                mailData
+              );
             }
-          })
-          .catch((error) => {
-            res.status(400).send({ message: error.message });
           });
-        if (emailsList.length > 0) {
-          mail.sendMail(
-            `${emailsList.join()}`,
-            "Contrat rejeté",
-            "validation1",
-            mailData
-          );
-        }
+      })
+      .catch(() => {
+        res.status(400).send({ message: error.message });
       });
   },
 };
