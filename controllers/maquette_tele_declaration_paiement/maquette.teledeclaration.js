@@ -265,7 +265,15 @@ module.exports = {
                         proprietaireMnts.mntRetenueSourceTotal.toFixed(2),
                       mntNetLoyer: proprietaireMnts.mntNetLoyerTotal.toFixed(2),
                       tauxRetenueRevFoncier: {
-                        code: "TSR.10.2018",
+                        // code: "TSR.10.2018",
+                        code: `TRS.${
+                          ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                            .taux_impot > 0
+                            ? ArchCmptbList[i].comptabilisation_loyer_crediter[
+                                j
+                              ].taux_impot
+                            : 0
+                        }.2018`,
                       },
                     });
                   }

@@ -23,7 +23,7 @@
       <mntRetenueSource>1500.00</mntRetenueSource>
       <mntNetLoyer>8500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
+        <code>TRS.15.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
@@ -40,7 +40,7 @@
       <mntRetenueSource>1500.00</mntRetenueSource>
       <mntNetLoyer>8500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
+        <code>TRS.15.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
@@ -57,7 +57,7 @@
       <mntRetenueSource>1500.00</mntRetenueSource>
       <mntNetLoyer>8500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
-        <code>TSR.10.2018</code>
+        <code>TRS.15.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
