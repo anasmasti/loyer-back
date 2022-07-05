@@ -85,6 +85,10 @@ module.exports = {
           } else {
             dureeAvance += 1;
           }
+          if (dureeAvanceRappelAnneeAntr > 0) {
+            dureeAvance += dureeAvanceRappelAnneeAntr;
+            dureeAvanceRappelAnneeAntr = 0;
+          }
         }
 
         if (
