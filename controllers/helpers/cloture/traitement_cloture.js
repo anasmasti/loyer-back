@@ -40,14 +40,15 @@ module.exports = {
             montant_loyer_brut_loyer =
               +Contrat.proprietaires[j].montant_loyer.toFixed(2);
 
+            montant_tax_mandataire =
+              +Contrat.proprietaires[j].retenue_source.toFixed(2);
+
             montant_loyer_net_mandataire =
-              +Contrat.proprietaires[j].montant_apres_impot.toFixed(2);
+              +montant_loyer_brut_loyer.toFixed(2) -
+              +montant_tax_mandataire.toFixed(2);
 
             montant_loyer_brut_mandataire =
               +Contrat.proprietaires[j].montant_loyer.toFixed(2);
-
-            montant_tax_mandataire =
-              +Contrat.proprietaires[j].retenue_source.toFixed(2);
 
             montant_net_without_caution =
               +Contrat.proprietaires[j].montant_loyer.toFixed(2) -
