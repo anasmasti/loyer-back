@@ -55,7 +55,6 @@ const lateContratTreatment = async (
 
     // Rappel Avance treatment previous year
     if (dureeAvanceRappelAnneeAntr > 0) {
-      console.log("Innnnnnnnnnn");
       const treatmentResult =
         await proprietaireHelper.avanceByDurationTreatment(
           contrat,
@@ -147,7 +146,8 @@ const lateContratTreatment = async (
             treatmentMonth,
             treatmentAnnee,
           },
-          true // Calcul caution
+          true, // Calcul caution
+          false
         );
 
       aggrigatedOrdreVirement.push(...treatmentResult.ordre_virement);

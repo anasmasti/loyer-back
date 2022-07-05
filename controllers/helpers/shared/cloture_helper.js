@@ -79,7 +79,12 @@ module.exports = {
             lateContratTreatmentDate.year >= treatmentDate.treatmentAnnee) ||
           lateContratTreatmentDate.year > treatmentDate.treatmentAnnee
         ) {
-          dureeAvance += 1;
+          if (dureeAvanceRappel > 0) {
+            dureeAvance = dureeAvanceRappel + 1;
+            dureeAvanceRappel = 0;
+          } else {
+            dureeAvance += 1;
+          }
         }
 
         if (
@@ -97,6 +102,14 @@ module.exports = {
         );
       }
     }
+
+    console.log({
+      numero: contrat.numero_contrat,
+      lateContratTreatmentDate,
+      dureeAvance,
+      dureeAvanceRappel,
+      dureeAvanceRappelAnneeAntr,
+    });
 
     return {
       lateContratTreatmentDate,

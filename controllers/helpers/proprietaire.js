@@ -106,7 +106,8 @@ module.exports = {
     dureeAvance,
     dateGenerationDeComptabilisation,
     treatmentDate,
-    calculCaution
+    calculCaution,
+    isOverduedAvance = true
   ) => {
     let comptabilisationLoyerCrediter = [];
     let ordreVirement = [];
@@ -172,7 +173,7 @@ module.exports = {
                   montant_net_without_caution,
                   treatmentDate.treatmentMonth,
                   treatmentDate.treatmentAnnee,
-                  true
+                  isOverduedAvance
                 )
               );
               if (contrat.proprietaires[j].proprietaire_list.length != 0) {
@@ -236,7 +237,7 @@ module.exports = {
                       montant_net_without_caution,
                       treatmentDate.treatmentMonth,
                       treatmentDate.treatmentAnnee,
-                      true
+                      isOverduedAvance
                     )
                   );
                   montant_net_global = 0;
