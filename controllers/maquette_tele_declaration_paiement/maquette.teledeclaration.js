@@ -36,7 +36,7 @@
 //         archivecomptabilisation.comptabilisation_loyer_crediter[i]
 //           .retenue_source || 0;
 //       TotalMntLoyer +=
-//         archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net;
+//         archivecomptabilisation.comptabilisation_loyer_crediter[i].montant_net_without_caution;
 //       //List DetailRetenueRevFoncier
 //       if (
 //         archivecomptabilisation.comptabilisation_loyer_crediter[i]
@@ -72,7 +72,7 @@
 //           mntNetLoyer:
 //             archivecomptabilisation.comptabilisation_loyer_crediter[
 //               i
-//             ].montant_net.toFixed(2),
+//             ].montant_net_without_caution.toFixed(2),
 //           tauxRetenueRevFoncier: {
 //             code: "TSR.10.2018",
 //           },
@@ -188,7 +188,8 @@ module.exports = {
             if (comptabilisationloyer.cin == cinProprietaire) {
               mntBrutTotal += comptabilisationloyer.montant_brut;
               mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
-              mntNetLoyerTotal += comptabilisationloyer.montant_net;
+              mntNetLoyerTotal +=
+                comptabilisationloyer.montant_net_without_caution;
             }
           }
         );

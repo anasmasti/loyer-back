@@ -28,7 +28,8 @@ module.exports = {
             if (comptabilisationloyer.cin == cinProprietaire) {
               mntBrutTotal += comptabilisationloyer.montant_brut;
               mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
-              mntNetLoyerTotal += comptabilisationloyer.montant_net;
+              mntNetLoyerTotal +=
+                comptabilisationloyer.montant_net_without_caution;
             }
           }
         );
