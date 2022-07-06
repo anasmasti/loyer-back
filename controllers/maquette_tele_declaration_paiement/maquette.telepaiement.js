@@ -26,7 +26,9 @@ module.exports = {
         ArchCmptb.comptabilisation_loyer_crediter.forEach(
           (comptabilisationloyer) => {
             if (comptabilisationloyer.cin == cinProprietaire) {
-              mntBrutTotal += comptabilisationloyer.montant_brut;
+              mntBrutTotal +=
+                comptabilisationloyer.montant_brut -
+                comptabilisationloyer.montant_caution;
               mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
               mntNetLoyerTotal +=
                 comptabilisationloyer.montant_net_without_caution;
