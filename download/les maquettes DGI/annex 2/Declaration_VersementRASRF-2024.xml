@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
+  <identifiantFiscal>IF</identifiantFiscal>
+  <exerciceFiscalDu>2024-01-01</exerciceFiscalDu>
+  <exerciceFiscalAu>2024-12-31</exerciceFiscalAu>
+  <annee>2024</annee>
+  <mois>1</mois>
+  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>2100.00</totalMntRetenueSource>
+  <totalMntNetLoyer>17900.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>K5443645</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KHADIJA LALA</nomPrenomBailleur>
+      <adresseBailleur>KHDEHOI35456</adresseBailleur>
+      <adresseBien>QQQQ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>2100.00</mntRetenueSource>
+      <mntNetLoyer>17900.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.15.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+  </listDetailRetenueRevFoncier>
+</VersementRASRF>

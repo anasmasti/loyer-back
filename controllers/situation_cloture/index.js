@@ -82,7 +82,6 @@ module.exports = {
           //traitement pour comptabiliser les contrats Actif
           if (contrat[i].etat_contrat.libelle == "Actif") {
             if (contrat[i].is_avenant) {
-              console.log("testtttttt");
               contrat[i].etat_contrat.etat.motif.forEach(async (motif) => {
                 if (motif.type_motif == "Révision du prix du loyer") {
                   // let dateEffetAv = new Date(
