@@ -5,13 +5,12 @@ const fileSchema = require("../shared/file.schema");
 //contrat Schema
 const EtatContratSchema = new Schema(
   {
-    
     deleted: {
       type: Boolean,
       default: false,
     },
-    
-    // Résiliation 
+
+    // Résiliation
     date_resiliation: {
       type: Date,
     },
@@ -40,7 +39,7 @@ const EtatContratSchema = new Schema(
       type: Date,
     },
 
-    // Suspension 
+    // Suspension
     date_suspension: {
       type: Date,
     },
@@ -55,7 +54,7 @@ const EtatContratSchema = new Schema(
       default: new Date("2999-01-01"),
     },
 
-    // Avenant 
+    // Avenant
     n_avenant: {
       type: String,
     },
@@ -89,6 +88,18 @@ const EtatContratSchema = new Schema(
     },
     lettre_res_piece_jointe: {
       type: [fileSchema],
+    },
+    etat_contrat_rappel_montant_loyer_ea: {
+      type: Number,
+    },
+    etat_contrat_rappel_montant_loyer_ma: {
+      type: Number,
+    },
+    etat_contrat_rappel_montant_taxe_ea: {
+      type: Number,
+    },
+    etat_contrat_rappel_montant_taxe_ma: {
+      type: Number,
     },
   },
   { timestamps: true }

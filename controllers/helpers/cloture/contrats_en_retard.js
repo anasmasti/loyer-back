@@ -31,8 +31,8 @@ const lateContratTreatment = async (
 
     if (contrat.is_avenant) {
       lateContratTreatmentDate = {
-        month: new Date(contrat.date_comptabilisation).getMonth() + 1,
-        year: new Date(contrat.date_comptabilisation).getFullYear(),
+        month: new Date(contrat.etat_contrat.etat.date_effet_av).getMonth() + 1,
+        year: new Date(contrat.etat_contrat.etat.date_effet_av).getFullYear(),
       };
     } else {
       lateContratTreatmentDate = {
@@ -180,16 +180,6 @@ const lateContratTreatment = async (
     }
 
     while (!isTreatmentEnded) {
-      // if (
-      //   lateContratTreatmentDate.month == 10 &&
-      //   lateContratTreatmentDate.year == 2022
-      // ) {
-      //   console.log(typeof treatmentMonth);
-      // } else {
-      //   console.log(lateContratTreatmentDate);
-      //   console.log("Ouuuut");
-      // }
-      // break;
       // Request updated contrat
       const requestedContrat = await Contrat.findById({
         _id: contrat._id,
@@ -267,10 +257,10 @@ const lateContratTreatment = async (
         lateContratTreatmentDate.month == treatmentMonth &&
         lateContratTreatmentDate.year == treatmentAnnee
       ) {
-        // if (!contrat.is_avenant) {
-        //calculCaution = !contrat.caution_versee;
-        // }
-        if (!contrat.is_avenant) {
+        if (contrat.is_avenant) {
+          isTreatmentEnded = true;
+          break;
+        } else {
           calculCaution = true;
         }
         aggrigatedOrdreVirement.push(

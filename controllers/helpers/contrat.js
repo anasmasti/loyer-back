@@ -78,6 +78,14 @@ module.exports = {
           piece_jointe_avenant: piece_jointe_avenant,
           deleted_proprietaires:
             ContratData.etat_contrat.etat.deleted_proprietaires,
+          etat_contrat_rappel_montant_loyer_ea:
+            ContratData.etat_contrat.etat.etat_contrat_rappel_montant_loyer_ea,
+          etat_contrat_rappel_montant_loyer_ma:
+            ContratData.etat_contrat.etat.etat_contrat_rappel_montant_loyer_ma,
+          etat_contrat_rappel_montant_taxe_ea:
+            ContratData.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ea,
+          etat_contrat_rappel_montant_taxe_ma:
+            ContratData.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ma,
         },
       },
       old_contrat: [
@@ -104,7 +112,7 @@ module.exports = {
             if (deletedProprietaire == proprietaire._id) check = true;
           }
           if (!check) {
-            try{
+            try {
               ProprietaireHelper.duplicateProprietaire(
                 req,
                 res,
@@ -112,10 +120,9 @@ module.exports = {
                 newContrat,
                 ContratData.etat_contrat.etat.deleted_proprietaires
               );
-            }catch(error){
-              console.log(error.message)
+            } catch (error) {
+              console.log(error.message);
             }
-         
           }
         }
 

@@ -94,7 +94,7 @@ module.exports = {
           data,
           numeroContrat,
           existedContrat,
-          isOverdued,
+          false,
           piece_jointe_avenant
         );
         etatContrat = {
@@ -842,7 +842,7 @@ module.exports = {
     let etatContrat;
     await Contrat.findById({ _id: req.params.Id }, { deleted: false })
       .then(async (requestedContrat) => {
-        etatContrat = etatContrat = {
+        etatContrat = {
           libelle: "Initié",
           etat: requestedContrat.etat_contrat.etat,
         };

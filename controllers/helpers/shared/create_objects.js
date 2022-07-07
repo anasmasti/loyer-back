@@ -13,7 +13,10 @@ module.exports = {
     montant_net_without_caution,
     mois,
     annee,
-    isOverduedAvance = false
+    isOverduedAvance = false,
+    isOverdued = false,
+    cautionVersee = false,
+    avanceVersee = false
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
@@ -50,11 +53,11 @@ module.exports = {
       taux_impot: proprietaire.taux_impot,
       date_comptabilisation: dateDebutLoyer,
       declaration_option: proprietaire.declaration_option,
-      caution_versee: Contrat.caution_versee,
-      avance_versee: Contrat.avance_versee,
+      caution_versee: cautionVersee,
+      avance_versee: avanceVersee,
       mois: mois,
       annee: annee,
-      is_overdued: false,
+      is_overdued: isOverdued,
       is_annee_antr: false,
       updatedAt: Contrat.updatedAt,
       // Montant calculés
@@ -114,7 +117,8 @@ module.exports = {
     montant_a_verse,
     montant_loyer_brut,
     montant_tax,
-    updatedAt
+    updatedAt,
+    isOverdued = false
   ) => {
     let orderVirement = {
       type_enregistrement: "0602",
@@ -140,7 +144,7 @@ module.exports = {
       montant_taxe: +montant_tax.toFixed(2),
       updatedAt: updatedAt ? updatedAt : "",
       is_annee_antr: false,
-      is_overdued: false,
+      is_overdued: isOverdued,
     };
     return orderVirement;
   },

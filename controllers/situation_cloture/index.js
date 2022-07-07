@@ -4,6 +4,7 @@ const etatVirementSch = require("../../models/situation_cloture/etatVirement.sch
 const archiveComptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const traitementContratActif = require("../helpers/cloture/contrats_actif");
 const traitementContratResilie = require("../helpers/cloture/contrats_resilie");
+const traitementContratAvenant = require("../helpers/cloture/contrats_avenants_rappel");
 const checkContrats = require("../helpers/shared/check_contrats");
 const overduedContrats = require("../helpers/cloture/contrats_en_retard");
 const etatMonsuelTaxes = require("./etat_taxes");
@@ -80,6 +81,45 @@ module.exports = {
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
           if (contrat[i].etat_contrat.libelle == "Actif") {
+            if (contrat[i].is_avenant) {
+              console.log("testtttttt");
+              contrat[i].etat_contrat.etat.motif.forEach(async (motif) => {
+                if (motif.type_motif == "Révision du prix du loyer") {
+                  // let dateEffetAv = new Date(
+                  //   contrat.etat_contrat.etat.date_effet_av
+                  // );
+                  // if (
+                  //   (dateEffetAv.getMonth() + 1 < req.body.mois &&
+                  //     dateEffetAv.getFullYear() == req.body.annee) ||
+                  //   dateEffetAv.getFullYear() < req.body.annee
+                  // ) {
+                  if (
+                    contrat[i].etat_contrat.etat
+                      .etat_contrat_rappel_montant_loyer_ma > 0
+                  ) {
+                    let resultTrait = await traitementContratAvenant(
+                      res,
+                      contrat[i],
+                      req.body.mois,
+                      req.body.annee
+                    );
+
+                    ordreVirement.push(...resultTrait.ordreVirement);
+                    comptabilisationLoyerCrediter.push(
+                      ...resultTrait.comptabilisationLoyerCrediter
+                    );
+                  }
+                  if (
+                    contrat[i].etat_contrat.etat
+                      .etat_contrat_rappel_montant_loyer_ea > 0
+                  ) {
+                    console.log("Test");
+                  }
+                  // }
+                }
+              });
+            }
+
             let treatmentResult;
             if (contrat[i].is_overdued) {
               treatmentResult = await overduedContrats(
