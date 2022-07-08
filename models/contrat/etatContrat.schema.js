@@ -101,6 +101,10 @@ const EtatContratSchema = new Schema(
     etat_contrat_rappel_montant_taxe_ma: {
       type: Number,
     },
+    is_overdued_av: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

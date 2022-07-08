@@ -4,10 +4,10 @@
   <exerciceFiscalDu>2024-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2024-12-31</exerciceFiscalAu>
   <annee>2024</annee>
-  <mois>1</mois>
-  <totalMntBrutLoyer>20000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>2100.00</totalMntRetenueSource>
-  <totalMntNetLoyer>17900.00</totalMntNetLoyer>
+  <mois>2</mois>
+  <totalMntBrutLoyer>20001.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1800.15</totalMntRetenueSource>
+  <totalMntNetLoyer>18200.85</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
@@ -19,9 +19,9 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>2100.00</mntRetenueSource>
-      <mntNetLoyer>17900.00</mntNetLoyer>
+      <mntBrutLoyer>20001.00</mntBrutLoyer>
+      <mntRetenueSource>1800.15</mntRetenueSource>
+      <mntNetLoyer>18200.85</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.15.2018</code>
       </tauxRetenueRevFoncier>

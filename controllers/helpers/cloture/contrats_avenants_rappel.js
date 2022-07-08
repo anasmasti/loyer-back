@@ -3,6 +3,8 @@ const createObjectHelper = require("../shared/create_objects");
 const lateAvenantTreatment = async (
   res,
   Contrat,
+  ContratSchema,
+  Cloture,
   treatmentMonth,
   treatmentAnnee
 ) => {
@@ -118,6 +120,20 @@ const lateAvenantTreatment = async (
         }
       }
     });
+
+    if (Cloture) {
+      let etatContrat = {
+        libelle: Contrat.etat_contrat.libelle,
+        etat: Contrat.etat_contrat.etat,
+      };
+
+      etatContrat.etat.is_overdued_av = false;
+      await ContratSchema.findByIdAndUpdate(Contrat._id, {
+        etat_contrat: etatContrat,
+      }).catch((error) => {
+        console.log("Error : ", error);
+      });
+    }
   } catch (error) {
     console.log(error);
   }

@@ -94,7 +94,7 @@ module.exports = {
           data,
           numeroContrat,
           existedContrat,
-          false,
+          isOverdued,
           piece_jointe_avenant
         );
         etatContrat = {
@@ -661,7 +661,9 @@ module.exports = {
 
             // Set date comptabilisation
             dateComptabilisation = new Date(
-              contratAV.etat_contrat.etat.date_effet_av
+              treatmentYear,
+              treatmentMonth - 1,
+              15
             );
 
             // Change is_avenant to false

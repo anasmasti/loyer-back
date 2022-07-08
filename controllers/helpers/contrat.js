@@ -66,7 +66,7 @@ module.exports = {
       foncier: ContratData.foncier,
       is_avenant: true,
       has_avenant: false,
-      is_overdued: isOverdued,
+      is_overdued: false,
       nombre_part: ContratData.nombre_part,
       etat_contrat: {
         libelle: "Initié",
@@ -86,6 +86,7 @@ module.exports = {
             ContratData.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ea,
           etat_contrat_rappel_montant_taxe_ma:
             ContratData.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ma,
+          is_overdued_av: isOverdued,
         },
       },
       old_contrat: [

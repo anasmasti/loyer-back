@@ -81,7 +81,10 @@ module.exports = {
         for (let i = 0; i < contrat.length; i++) {
           //traitement pour comptabiliser les contrats Actif
           if (contrat[i].etat_contrat.libelle == "Actif") {
-            if (contrat[i].is_avenant) {
+            if (
+              contrat[i].is_avenant &&
+              contrat[i].etat_contrat.etat.is_overdued_av
+            ) {
               contrat[i].etat_contrat.etat.motif.forEach(async (motif) => {
                 if (motif.type_motif == "Révision du prix du loyer") {
                   // let dateEffetAv = new Date(
@@ -99,6 +102,8 @@ module.exports = {
                     let resultTrait = await traitementContratAvenant(
                       res,
                       contrat[i],
+                      Contrat,
+                      false,
                       req.body.mois,
                       req.body.annee
                     );
