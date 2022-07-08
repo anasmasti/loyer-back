@@ -87,6 +87,7 @@ module.exports = {
           etat_contrat_rappel_montant_taxe_ma:
             ContratData.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ma,
           is_overdued_av: isOverdued,
+          is_rappel_manuel: ContratData.etat_contrat.etat.is_rappel_manuel,
         },
       },
       old_contrat: [

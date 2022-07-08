@@ -105,6 +105,10 @@ const EtatContratSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    is_rappel_manuel: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
