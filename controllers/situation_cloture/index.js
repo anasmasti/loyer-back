@@ -104,6 +104,7 @@ module.exports = {
                       contrat[i],
                       Contrat,
                       false,
+                      false,
                       req.body.mois,
                       req.body.annee
                     );
@@ -117,7 +118,20 @@ module.exports = {
                     contrat[i].etat_contrat.etat
                       .etat_contrat_rappel_montant_loyer_ea > 0
                   ) {
-                    console.log("Test");
+                    let resultTrait = await traitementContratAvenant(
+                      res,
+                      contrat[i],
+                      Contrat,
+                      false,
+                      true,
+                      req.body.mois,
+                      req.body.annee
+                    );
+
+                    ordreVirement.push(...resultTrait.ordreVirement);
+                    comptabilisationLoyerCrediter.push(
+                      ...resultTrait.comptabilisationLoyerCrediter
+                    );
                   }
                   // }
                 }

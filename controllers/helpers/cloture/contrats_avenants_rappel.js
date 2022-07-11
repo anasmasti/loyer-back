@@ -5,6 +5,7 @@ const lateAvenantTreatment = async (
   Contrat,
   ContratSchema,
   Cloture,
+  isAnneeAntr,
   treatmentMonth,
   treatmentAnnee
 ) => {
@@ -14,26 +15,26 @@ const lateAvenantTreatment = async (
   let montantTaxeMandataire = 0;
   let montantNetMandataire = 0;
   let dateDebutLoyer;
+  let montantLoyerContrat = isAnneeAntr
+    ? Contrat.etat_contrat.etat.etat_contrat_rappel_montant_loyer_ea
+    : Contrat.etat_contrat.etat.etat_contrat_rappel_montant_loyer_ma;
+  let montantTaxeContrat = isAnneeAntr
+    ? Contrat.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ea
+    : Contrat.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ma;
   try {
-    console.log("==========");
-
     Contrat.proprietaires.forEach((proprietaire) => {
       for (let g = 0; g < Contrat.foncier.lieu.length; g++) {
         if (Contrat.foncier.lieu[g].deleted == false) {
           if (proprietaire.is_mandataire) {
             dateDebutLoyer = Contrat.date_debut_loyer;
             montantBrutMandataire =
-              (proprietaire.part_proprietaire *
-                Contrat.etat_contrat.etat
-                  .etat_contrat_rappel_montant_loyer_ma) /
+              (proprietaire.part_proprietaire * montantLoyerContrat) /
               Contrat.nombre_part;
             montantTaxeMandataire =
-              (proprietaire.part_proprietaire *
-                Contrat.etat_contrat.etat.etat_contrat_rappel_montant_taxe_ma) /
+              (proprietaire.part_proprietaire * montantTaxeContrat) /
               Contrat.nombre_part;
             montantNetMandataire =
               montantBrutMandataire - montantTaxeMandataire;
-            console.log(Contrat.foncier.lieu[g]);
             comptabilisationLoyerCrediter.push(
               createObjectHelper.createComptLoyerCredObject(
                 Contrat,
@@ -51,6 +52,7 @@ const lateAvenantTreatment = async (
                 treatmentAnnee,
                 false,
                 true,
+                isAnneeAntr,
                 true,
                 true
               )
@@ -63,13 +65,11 @@ const lateAvenantTreatment = async (
 
                 montantBrut =
                   (proprietaire.proprietaire_list[k].part_proprietaire *
-                    Contrat.etat_contrat.etat
-                      .etat_contrat_rappel_montant_loyer_ma) /
+                    montantLoyerContrat) /
                   Contrat.nombre_part;
                 montantTaxe =
                   (proprietaire.proprietaire_list[k].part_proprietaire *
-                    Contrat.etat_contrat.etat
-                      .etat_contrat_rappel_montant_taxe_ma) /
+                    montantTaxeContrat) /
                   Contrat.nombre_part;
                 montantNet = +montantBrut.toFixed(2) - +montantTaxe.toFixed(2);
 
@@ -94,6 +94,7 @@ const lateAvenantTreatment = async (
                     treatmentAnnee,
                     false,
                     true,
+                    isAnneeAntr,
                     true,
                     true
                   )
@@ -113,7 +114,8 @@ const lateAvenantTreatment = async (
                 montantBrutMandataire,
                 montantTaxeMandataire,
                 Contrat.updatedAt,
-                true
+                true,
+                isAnneeAntr
               )
             );
           }

@@ -15,6 +15,7 @@ module.exports = {
     annee,
     isOverduedAvance = false,
     isOverdued = false,
+    isAnneeAntr = false,
     cautionVersee = false,
     avanceVersee = false
   ) => {
@@ -58,7 +59,7 @@ module.exports = {
       mois: mois,
       annee: annee,
       is_overdued: isOverdued,
-      is_annee_antr: false,
+      is_annee_antr: isAnneeAntr,
       updatedAt: Contrat.updatedAt,
       // Montant calculés
       montant_brut: +montant_brut.toFixed(2),
@@ -118,7 +119,8 @@ module.exports = {
     montant_loyer_brut,
     montant_tax,
     updatedAt,
-    isOverdued = false
+    isOverdued = false,
+    isAnneeAntr = false
   ) => {
     let orderVirement = {
       type_enregistrement: "0602",
@@ -143,7 +145,7 @@ module.exports = {
       montant_brut: +montant_loyer_brut.toFixed(2),
       montant_taxe: +montant_tax.toFixed(2),
       updatedAt: updatedAt ? updatedAt : "",
-      is_annee_antr: false,
+      is_annee_antr: isAnneeAntr,
       is_overdued: isOverdued,
     };
     return orderVirement;
