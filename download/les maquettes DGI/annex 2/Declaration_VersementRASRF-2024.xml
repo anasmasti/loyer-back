@@ -4,10 +4,10 @@
   <exerciceFiscalDu>2024-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2024-12-31</exerciceFiscalAu>
   <annee>2024</annee>
-  <mois>3</mois>
-  <totalMntBrutLoyer>45000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>5800.00</totalMntRetenueSource>
-  <totalMntNetLoyer>39200.00</totalMntNetLoyer>
+  <mois>4</mois>
+  <totalMntBrutLoyer>40000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>6000.00</totalMntRetenueSource>
+  <totalMntNetLoyer>34000.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
@@ -15,13 +15,13 @@
       <numCEBailleur/>
       <nomPrenomBailleur>KHADIJA LALA</nomPrenomBailleur>
       <adresseBailleur>KHDEHOI35456</adresseBailleur>
-      <adresseBien>QQQQ</adresseBien>
+      <adresseBien>YEYEYEYE</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>45000.00</mntBrutLoyer>
-      <mntRetenueSource>5800.00</mntRetenueSource>
-      <mntNetLoyer>39200.00</mntNetLoyer>
+      <mntBrutLoyer>40000.00</mntBrutLoyer>
+      <mntRetenueSource>6000.00</mntRetenueSource>
+      <mntNetLoyer>34000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.15.2018</code>
       </tauxRetenueRevFoncier>

@@ -16,8 +16,8 @@ module.exports = {
     isOverduedAvance = false,
     isOverdued = false,
     isAnneeAntr = false,
-    cautionVersee = false,
-    avanceVersee = false
+    cautionVersee = Contrat.caution_versee,
+    avanceVersee = Contrat.avance_versee
   ) => {
     let comptabilisationLoyerCrediter = {
       nom_de_piece: dateGenerationDeComptabilisation,
