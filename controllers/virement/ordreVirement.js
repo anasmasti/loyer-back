@@ -51,6 +51,7 @@ module.exports = {
           }
         );
 
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         // Entee du fichier ordre de virement
         let headerOrdreVirement =
           "0302" +
@@ -75,7 +76,7 @@ module.exports = {
           zoneInitialiseSpace.padEnd(1, " ") +
           "\r\n";
 
-        console.log(headerOrdreVirement);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
@@ -224,6 +225,8 @@ module.exports = {
           zoneInitialiseSpace.padEnd(98, " ") +
           totalMontantsNet.toString().replace(".", "").padStart(16, 0) +
           zoneInitialiseSpace.padEnd(42, " ");
+          
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
