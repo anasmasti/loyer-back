@@ -4,58 +4,58 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>9</mois>
-  <totalMntBrutLoyer>30000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>4500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>25500.00</totalMntNetLoyer>
+  <mois>5</mois>
+  <totalMntBrutLoyer>37000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>4700.00</totalMntRetenueSource>
+  <totalMntNetLoyer>32300.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>K5443645</numCNIBailleur>
+      <numCNIBailleur>J2545456</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>KHADIJA LALA</nomPrenomBailleur>
-      <adresseBailleur>KHDEHOI35456</adresseBailleur>
-      <adresseBien>AAAAAA</adresseBien>
+      <nomPrenomBailleur>JALAL MED</nomPrenomBailleur>
+      <adresseBailleur>JHUJHUIH</adresseBailleur>
+      <adresseBien>AGADIR </adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>8500.00</mntNetLoyer>
+      <mntRetenueSource>1000.00</mntRetenueSource>
+      <mntNetLoyer>9000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
+        <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>L3578354</numCNIBailleur>
+      <numCNIBailleur>BJ36877</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>NABIL KAMAL</nomPrenomBailleur>
-      <adresseBailleur>PMLPL35434</adresseBailleur>
-      <adresseBien>WWWWW</adresseBien>
+      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
+      <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
+      <adresseBien>HAY ZNAGUI AOURIR AGADIR en face de la RAMSA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>8500.00</mntNetLoyer>
+      <mntBrutLoyer>7000.00</mntBrutLoyer>
+      <mntRetenueSource>700.00</mntRetenueSource>
+      <mntNetLoyer>6300.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
+        <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>D524564</numCNIBailleur>
+      <numCNIBailleur>J207703</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>SAMIRA TATA</nomPrenomBailleur>
-      <adresseBailleur>LKJOIFEJIOZ</adresseBailleur>
-      <adresseBien>QW</adresseBien>
+      <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
+      <adresseBailleur>34 et 35 4éme étage, Immeuble Aicha, Bd Hassan II , Agadir</adresseBailleur>
+      <adresseBien>SUD</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>1500.00</mntRetenueSource>
-      <mntNetLoyer>8500.00</mntNetLoyer>
+      <mntBrutLoyer>20000.00</mntBrutLoyer>
+      <mntRetenueSource>3000.00</mntRetenueSource>
+      <mntNetLoyer>17000.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.15.2018</code>
       </tauxRetenueRevFoncier>
