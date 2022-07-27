@@ -28,7 +28,7 @@ module.exports = {
       month: "long",
     });
 
-    function generateLignComptable(
+    async function generateLignComptable(
       comptabilisation_loyer_crediter,
       sens,
       code,
@@ -81,7 +81,7 @@ module.exports = {
           numeroContrat = `Rappel-${numeroContrat}`;
         }
       }
-
+      
       //ecriture debiter
       let ecritureLoyer =
         "FBPMC" +
@@ -123,8 +123,9 @@ module.exports = {
         "-" +
         dateGenerationVirement.getFullYear() +
         "|-|-\r\n";
-
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       if (!isMntZero) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         fs.writeFileSync(
           "download/comptabilisation loyer/FichierComptableLoyer " +
             dateMonthName +

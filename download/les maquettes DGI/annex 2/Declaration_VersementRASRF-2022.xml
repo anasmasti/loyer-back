@@ -5,6 +5,7 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>5</mois>
+<<<<<<< HEAD
   <totalMntBrutLoyer>37000.00</totalMntBrutLoyer>
   <totalMntRetenueSource>4700.00</totalMntRetenueSource>
   <totalMntNetLoyer>32300.00</totalMntNetLoyer>
@@ -61,4 +62,10 @@
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
+=======
+  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>0.00</totalMntRetenueSource>
+  <totalMntNetLoyer>0.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier/>
+>>>>>>> 7a74b5830650695c1ca84e7a8a722fdff1887fa5
 </VersementRASRF>
