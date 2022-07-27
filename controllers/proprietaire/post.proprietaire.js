@@ -47,6 +47,7 @@ module.exports = {
       }
 
       const proprietaire = new Proprietaire({
+        _id: req.body._id,
         deleted: false,
         cin: req.body.cin.toUpperCase(),
         passport: req.body.passport.toUpperCase(),

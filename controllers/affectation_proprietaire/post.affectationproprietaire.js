@@ -9,6 +9,7 @@ module.exports = {
   postAffectationProprietaire: async (req, res) => {
     try {
       const affectationProprietaire = new AffectationProprietaire({
+        _id: req.body._id,
         deleted: false,
         proprietaire: req.body.proprietaire,
         contrat: req.params.IdContrat,
@@ -27,6 +28,7 @@ module.exports = {
         declaration_option: req.body.declaration_option,
         statut: req.body.statut,
       });
+
 
       await affectationProprietaire
         .save()
