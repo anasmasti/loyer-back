@@ -4,11 +4,10 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>5</mois>
-<<<<<<< HEAD
-  <totalMntBrutLoyer>37000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>4700.00</totalMntRetenueSource>
-  <totalMntNetLoyer>32300.00</totalMntNetLoyer>
+  <mois>10</mois>
+  <totalMntBrutLoyer>19000.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1900.00</totalMntRetenueSource>
+  <totalMntNetLoyer>17100.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
@@ -16,30 +15,13 @@
       <numCEBailleur/>
       <nomPrenomBailleur>JALAL MED</nomPrenomBailleur>
       <adresseBailleur>JHUJHUIH</adresseBailleur>
-      <adresseBien>AGADIR </adresseBien>
+      <adresseBien>MPOPÔ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10000.00</mntBrutLoyer>
-      <mntRetenueSource>1000.00</mntRetenueSource>
-      <mntNetLoyer>9000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>BJ36877</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
-      <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
-      <adresseBien>HAY ZNAGUI AOURIR AGADIR en face de la RAMSA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>7000.00</mntBrutLoyer>
-      <mntRetenueSource>700.00</mntRetenueSource>
-      <mntNetLoyer>6300.00</mntNetLoyer>
+      <mntBrutLoyer>8000.00</mntBrutLoyer>
+      <mntRetenueSource>800.00</mntRetenueSource>
+      <mntNetLoyer>7200.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -50,22 +32,33 @@
       <numCEBailleur/>
       <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
       <adresseBailleur>34 et 35 4éme étage, Immeuble Aicha, Bd Hassan II , Agadir</adresseBailleur>
-      <adresseBien>SUD</adresseBien>
+      <adresseBien>FES LJPO</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>17000.00</mntNetLoyer>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>BJ36877</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
+      <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
+      <adresseBien>KJIKJO</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6000.00</mntBrutLoyer>
+      <mntRetenueSource>600.00</mntRetenueSource>
+      <mntNetLoyer>5400.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>
-=======
-  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>0.00</totalMntRetenueSource>
-  <totalMntNetLoyer>0.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier/>
->>>>>>> 7a74b5830650695c1ca84e7a8a722fdff1887fa5
 </VersementRASRF>

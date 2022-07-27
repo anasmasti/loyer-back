@@ -123,9 +123,9 @@ module.exports = {
         "-" +
         dateGenerationVirement.getFullYear() +
         "|-|-\r\n";
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       if (!isMntZero) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         fs.writeFileSync(
           "download/comptabilisation loyer/FichierComptableLoyer " +
             dateMonthName +
