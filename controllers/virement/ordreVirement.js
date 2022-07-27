@@ -225,7 +225,7 @@ module.exports = {
           zoneInitialiseSpace.padEnd(98, " ") +
           totalMontantsNet.toString().replace(".", "").padStart(16, 0) +
           zoneInitialiseSpace.padEnd(42, " ");
-          
+
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         await fs.writeFileSync(
@@ -247,6 +247,11 @@ module.exports = {
             dateGenerationVirement.getFullYear() +
             ".txt"
         );
+      })
+      .catch((_) => {
+        res
+          .status(402)
+          .send({ message: "Aucun fichier a exporter sur cette date, merci de réessayer avec une autre date." });
       });
   },
 };
