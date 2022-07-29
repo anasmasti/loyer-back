@@ -9,8 +9,8 @@ const downloadExcel = require("../controllers/helpers/shared/download_excel");
 
 const router = express.Router();
 
-router.route("/annex1/:mois/:annee").get(getAnnex1.createAnnex1);
-router.route("/annex2/:mois/:annee").get(getAnnex2.createAnnex2);
+router.route("/an1/:mois/:annee").get(getAnnex1.createAnnex1);
+router.route("/an2/:mois/:annee").get(getAnnex2.createAnnex2);
 router
   .route("/fichier-comptable-loyer/:mois/:annee")
   .get(getFichierComptableLoyer.genererComptabilisationLoyer);

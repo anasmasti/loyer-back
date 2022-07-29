@@ -9,7 +9,6 @@ module.exports = {
   postAffectationProprietaire: async (req, res) => {
     try {
       const affectationProprietaire = new AffectationProprietaire({
-        _id: req.body._id,
         deleted: false,
         proprietaire: req.body.proprietaire,
         contrat: req.params.IdContrat,
