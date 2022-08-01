@@ -4,69 +4,9 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-<<<<<<< HEAD
-  <mois>10</mois>
-  <totalMntBrutLoyer>19000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>1900.00</totalMntRetenueSource>
-  <totalMntNetLoyer>17100.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>J2545456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>JALAL MED</nomPrenomBailleur>
-      <adresseBailleur>JHUJHUIH</adresseBailleur>
-      <adresseBien>MPOPÔ</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>8000.00</mntBrutLoyer>
-      <mntRetenueSource>800.00</mntRetenueSource>
-      <mntNetLoyer>7200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>J207703</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
-      <adresseBailleur>34 et 35 4éme étage, Immeuble Aicha, Bd Hassan II , Agadir</adresseBailleur>
-      <adresseBien>FES LJPO</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>5000.00</mntBrutLoyer>
-      <mntRetenueSource>500.00</mntRetenueSource>
-      <mntNetLoyer>4500.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>BJ36877</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
-      <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
-      <adresseBien>KJIKJO</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-  </listDetailRetenueRevFoncier>
-=======
-  <mois>7</mois>
+  <mois>8</mois>
   <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
   <totalMntRetenueSource>0.00</totalMntRetenueSource>
   <totalMntNetLoyer>0.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier/>
->>>>>>> 3417090 (Update files name on download)
 </VersementRASRF>
