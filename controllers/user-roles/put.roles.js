@@ -35,7 +35,6 @@ module.exports = {
         userRoles: allUserRoles,
         email: req.body.email,
         deleted: req.body.deleted,
-        password: req.body.password,
       })
       .then((data) => {
         res.json(data);
@@ -54,7 +53,6 @@ module.exports = {
       nom: user.nom,
       prenom: user.nom,
       email: user.email,
-      password: user.password,
     };
 
     userRoles
