@@ -28,6 +28,7 @@ module.exports = {
         statut: req.body.statut,
       });
 
+
       await affectationProprietaire
         .save()
         .then(async (data) => {
