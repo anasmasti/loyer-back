@@ -20,6 +20,7 @@ const foncierRoute = require("./routes/foncier.routes");
 const authRoute = require("./routes/auth.routes");
 const notificationRoute = require("./routes/notification.routes");
 const reportingRoute = require("./routes/reporting.routes");
+const signaletiqueRoute = require("./routes/signaletique.routes");
 const test = require("./routes/test.routes");
 
 const dotenv = require("dotenv");
@@ -96,6 +97,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
   foncierRoute,
   notificationRoute,
   reportingRoute,
+  signaletiqueRoute,
   test
 );
 
