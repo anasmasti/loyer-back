@@ -7,7 +7,7 @@ const postSignaletique = async (req, res) => {
   });
 
   if (signaletiqueActiveExist && req.body.active) {
-    res.status(409).send({ message: "Une signalétique active déja" });
+    res.status(409).send({ message: "Il y'a une signalétique déja active" });
     return;
   }
 
