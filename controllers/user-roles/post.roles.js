@@ -8,7 +8,7 @@ module.exports = {
       deleted: false,
       userMatricul: req.body.userMatricul,
     });
-
+    
     if (matriculExist) {
       res.status(409).send({ message: "le matricule est déja existe" });
       return;
