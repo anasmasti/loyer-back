@@ -3,6 +3,8 @@ const fs = require("fs");
 const archivecomptabilisation = require("../../models/archive/archiveComptabilisation.schema");
 const archivevirements = require("../../models/archive/archiveVirement.schema");
 const helper = require("../helpers/maquette_tele_declaration_paiement");
+const Signaletique = require("../../models/signaletique/signaletique.schema");
+
 
 module.exports = {
   createAnnex2: async (req, res) => {
@@ -124,13 +126,18 @@ module.exports = {
             } //end For
           } //end For
 
+          let signaletique = await Signaletique.findOne({
+            deleted: false,
+            active: true,
+          })
+
           let Annex2 = {
             DeclarationRASRF: {
               $: {
                 "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
                 "xsi:noNamespaceSchemaLocation": "DeclarationRASRF.xsd",
               },
-              identifiantFiscal: "IF",
+              identifiantFiscal: signaletique.if,
               exerciceFiscalDu: req.params.annee + "-" + "01" + "-" + "01",
               exerciceFiscalAu: req.params.annee + "-" + 12 + "-" + 31,
               annee: currentYear,
