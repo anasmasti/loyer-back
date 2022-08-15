@@ -1,5 +1,7 @@
 const fs = require("fs");
 const archiveOrdreVirement = require("../../models/archive/archiveVirement.schema");
+const Signaletique = require("../../models/signaletique/signaletique.schema");
+
 module.exports = {
   genererOrdreVirement: async (req, res) => {
     //add zeros (0)
@@ -17,13 +19,24 @@ module.exports = {
         let ordreVirementCalculé = [];
         let totalMontantsNet = 0;
         let zoneInitialiseSpace = " ";
+        let signaletique = await Signaletique.findOne({
+          deleted: false,
+          active: true,
+        });
+
+        let numeroCompteBancaire = signaletique.rib.substring(6, 22);
+        let banqueRib = signaletique.rib.substring(0, 3);
+        let villeRib = signaletique.rib.substring(3, 6);
+        let cleRib = signaletique.rib.substring(22, 24);
+
         let dateGenerationVirement = data.date_generation_de_virement;
         let currentDate = new Date();
         let dateGenerationFichier = `${("0" + currentDate.getDate()).slice(
           -2
-        )}${("0" + (currentDate.getMonth() + 1)).slice(
-          -2
-        )}${currentDate.getFullYear().toString().slice(-1)}`;
+        )}${("0" + (currentDate.getMonth() + 1)).slice(-2)}${currentDate
+          .getFullYear()
+          .toString()
+          .slice(-1)}`;
         let dateGenerationVirementToString =
           "01" +
           ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
@@ -52,6 +65,7 @@ module.exports = {
         );
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
+
         // Entee du fichier ordre de virement
         let headerOrdreVirement =
           "0302" +
@@ -60,21 +74,21 @@ module.exports = {
           zoneInitialiseSpace.padEnd(4, " ") +
           // dateGenerationVirementToString +
           dateGenerationFichier +
-          "FBP. Micro-Crédit  " +
+          "FBP. " +
+          signaletique.raison_sociale +
           zoneInitialiseSpace.padEnd(18, " ") +
           "Fra.LY" +
           (("0" + req.params.mois).slice(-2) +
             req.params.annee.toString().slice(-2)) +
           zoneInitialiseSpace.padEnd(9, " ") +
-          "0000000000000000" +
+          numeroCompteBancaire +
           ")" +
           "2" +
           zoneInitialiseSpace.padEnd(45, " ") +
-          "00000" +
-          "000" +
-          "00" +
-          zoneInitialiseSpace.padEnd(1, " ") +
-          "\r\n";
+          "00" + banqueRib +
+          villeRib +
+          cleRib +
+          zoneInitialiseSpace.padEnd(1, " ") + "\r\n";
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -249,9 +263,10 @@ module.exports = {
         );
       })
       .catch((_) => {
-        res
-          .status(402)
-          .send({ message: "Aucun fichier a exporter sur cette date, merci de réessayer avec une autre date." });
+        res.status(402).send({
+          message:
+            "Aucun fichier a exporter sur cette date, merci de réessayer avec une autre date.",
+        });
       });
   },
 };
