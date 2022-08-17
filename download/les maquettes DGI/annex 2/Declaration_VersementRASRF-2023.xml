@@ -1,61 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
-  <identifiantFiscal>IF</identifiantFiscal>
+  <identifiantFiscal>645007468</identifiantFiscal>
   <exerciceFiscalDu>2023-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2023-12-31</exerciceFiscalAu>
   <annee>2023</annee>
-  <mois>2</mois>
-  <totalMntBrutLoyer>40000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>5000.00</totalMntRetenueSource>
-  <totalMntNetLoyer>35000.00</totalMntNetLoyer>
+  <mois>3</mois>
+  <totalMntBrutLoyer>28500.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>3450.00</totalMntRetenueSource>
+  <totalMntNetLoyer>25050.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>J207703</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
-      <adresseBailleur>34 et 35 4éme étage, Immeuble Aicha, Bd Hassan II , Agadir</adresseBailleur>
-      <adresseBien>FES LJPO</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>K6563</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>UIHYIH OOKOK</nomPrenomBailleur>
-      <adresseBailleur>KHJIKJHOI</adresseBailleur>
-      <adresseBien>OJOIJ</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>20000.00</mntBrutLoyer>
-      <mntRetenueSource>3000.00</mntRetenueSource>
-      <mntNetLoyer>17000.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
       <numCNIBailleur>J2545456</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>JALAL MED</nomPrenomBailleur>
       <adresseBailleur>JHUJHUIH</adresseBailleur>
-      <adresseBien>MPOPÔ</adresseBien>
+      <adresseBien>DEDZDAZDAZ</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>8000.00</mntBrutLoyer>
-      <mntRetenueSource>800.00</mntRetenueSource>
-      <mntNetLoyer>7200.00</mntNetLoyer>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -66,13 +32,47 @@
       <numCEBailleur/>
       <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
       <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
-      <adresseBien>KJIKJO</adresseBien>
+      <adresseBien>TGRTGREGR</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
+      <mntBrutLoyer>12000.00</mntBrutLoyer>
+      <mntRetenueSource>1800.00</mntRetenueSource>
+      <mntNetLoyer>10200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.15.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>H354534</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>VAVA FAFA </nomPrenomBailleur>
+      <adresseBailleur>LKKPOKOP¨2142</adresseBailleur>
+      <adresseBien>BGGRGR</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>5000.00</mntBrutLoyer>
+      <mntRetenueSource>500.00</mntRetenueSource>
+      <mntNetLoyer>4500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>5665653</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>KJKKOPPP JKLML</nomPrenomBailleur>
+      <adresseBailleur>JKKJKLLK</adresseBailleur>
+      <adresseBien>XSXSQXQQ</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>6500.00</mntBrutLoyer>
+      <mntRetenueSource>650.00</mntRetenueSource>
+      <mntNetLoyer>5850.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
