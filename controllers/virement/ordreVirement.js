@@ -80,7 +80,7 @@ module.exports = {
           "Fra.LY" +
           (("0" + req.params.mois).slice(-2) +
             req.params.annee.toString().slice(-2)) +
-          zoneInitialiseSpace.padEnd(9, " ") +
+          zoneInitialiseSpace.padEnd(11, " ") +
           numeroCompteBancaire +
           ")" +
           "2" +
@@ -88,7 +88,7 @@ module.exports = {
           "00" + banqueRib +
           villeRib +
           cleRib +
-          zoneInitialiseSpace.padEnd(1, " ") + "\r\n";
+           "\r\n";
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
