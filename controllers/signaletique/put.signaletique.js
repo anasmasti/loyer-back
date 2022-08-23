@@ -17,10 +17,6 @@ const putSignaletique = async (req, res) => {
   }
 
   const signaletique = {
-    raison_sociale: req.body.raison_sociale,
-    if: req.body.if,
-    rib: req.body.rib,
-    adresse: req.body.adresse,
     active: req.body.active,
   };
 
