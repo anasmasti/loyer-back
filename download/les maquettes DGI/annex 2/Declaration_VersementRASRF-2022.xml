@@ -1,27 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
-  <identifiantFiscal>26356565</identifiantFiscal>
+  <identifiantFiscal>1087591</identifiantFiscal>
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>12</mois>
-  <totalMntBrutLoyer>5000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>500.00</totalMntRetenueSource>
-  <totalMntNetLoyer>4500.00</totalMntNetLoyer>
+  <mois>9</mois>
+  <totalMntBrutLoyer>70900.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>8250.00</totalMntRetenueSource>
+  <totalMntNetLoyer>62650.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>H354534</numCNIBailleur>
+      <numCNIBailleur>BJ36877</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>VAVA FAFA </nomPrenomBailleur>
-      <adresseBailleur>LKKPOKOP¨2142</adresseBailleur>
-      <adresseBien>BGGRGR</adresseBien>
+      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
+      <adresseBailleur>RUE TAMWANZA AOURIR AGADIR</adresseBailleur>
+      <adresseBien>HAY ZNAGUI AOURIR AGADIR EN FACE DE LA RAMSA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>5000.00</mntBrutLoyer>
-      <mntRetenueSource>500.00</mntRetenueSource>
-      <mntNetLoyer>4500.00</mntNetLoyer>
+      <mntBrutLoyer>7000.00</mntBrutLoyer>
+      <mntRetenueSource>700.00</mntRetenueSource>
+      <mntNetLoyer>6300.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>B12346</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>BAKKALI MOHAMED</nomPrenomBailleur>
+      <adresseBailleur>BLV IBNOU SINA HAYL EL HANA MARRAKECH</adresseBailleur>
+      <adresseBien>HAY MANDARONA BLD EL QUODS </adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>15000.00</mntBrutLoyer>
+      <mntRetenueSource>1500.00</mntRetenueSource>
+      <mntNetLoyer>13500.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>354646</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SOCIETE 1</nomPrenomBailleur>
+      <adresseBailleur>AGADIR KJHUIHI656</adresseBailleur>
+      <adresseBien>BLV AL AZHAR LOTISSEMENT ZINEB 1 ER ETAGE </adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>10400.00</mntBrutLoyer>
+      <mntRetenueSource>800.00</mntRetenueSource>
+      <mntNetLoyer>9600.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>L234567</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NACER YASSINE</nomPrenomBailleur>
+      <adresseBailleur>CITE MALL BLV MED 6 MARRAKECH</adresseBailleur>
+      <adresseBien>BLV AL AZHAR LOTISSEMENT ZINEB 1 ER ETAGE </adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>14000.00</mntBrutLoyer>
+      <mntRetenueSource>1800.00</mntRetenueSource>
+      <mntNetLoyer>12200.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.0.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>J207703</numCNIBailleur>
+      <numCEBailleur>98652</numCEBailleur>
+      <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
+      <adresseBailleur>34 ET 35 4ÉME ÉTAGE, IMMEUBLE AICHA, BD HASSAN II , AGADIR</adresseBailleur>
+      <adresseBien>BLV HASSAN 2 IMMEUBLE PATIO</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>24500.00</mntBrutLoyer>
+      <mntRetenueSource>3450.00</mntRetenueSource>
+      <mntNetLoyer>21050.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
