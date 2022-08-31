@@ -165,7 +165,6 @@ module.exports = {
               let montantNet = data.ordre_virement[j].montant_net;
               totalMontantsNet += montantNet;
               montantGlobal += montantNet;
-              console.log(montantNet);
               let addTwoNumbersAfterComma = montantGlobal.toFixed(2);
               let removePointFromMontant = addTwoNumbersAfterComma.replace(
                 ".",

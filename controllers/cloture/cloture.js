@@ -217,7 +217,6 @@ module.exports = {
             await comptabilisationArchive
               .save()
               .then((comptabilisationData) => {
-                console.log("inisde comptabilisationData save");
                 res.json({
                   virementData,
                   comptabilisationData,

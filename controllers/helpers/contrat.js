@@ -239,13 +239,10 @@ module.exports = {
 
   generateNumeroContrat: (numeroContrat) => {
     let splitedNumeroContrat = numeroContrat.split("/");
-    console.log("splitedNumeroContrat", splitedNumeroContrat);
-    console.log("splitedNumeroContrat[-1]", splitedNumeroContrat.length - 1);
     if (splitedNumeroContrat[splitedNumeroContrat.length - 1].includes("AV")) {
       let countedAV = splitedNumeroContrat[
         splitedNumeroContrat.length - 1
       ].replace("AV", "");
-      console.log("countedAV", countedAV);
       splitedNumeroContrat[splitedNumeroContrat.length - 1] = `AV${
         +countedAV + 1
       }`;

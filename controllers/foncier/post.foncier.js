@@ -147,7 +147,7 @@ module.exports = {
         has_amenagements: data.has_amenagements,
         amenagement: amenagements,
         superficie: data.superficie,
-        etage: data.etage.toUpperCase(),
+        etage: data.etage,
         lieu: lieu,
         type_lieu: data.type_lieu,
         latitude: data.latitude,

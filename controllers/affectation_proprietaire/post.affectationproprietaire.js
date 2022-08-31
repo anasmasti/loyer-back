@@ -26,6 +26,8 @@ module.exports = {
         proprietaire_list: req.body.proprietaire_list,
         declaration_option: req.body.declaration_option,
         statut: req.body.statut,
+        // For bpot data migration
+        // _id: req.body._id,
       });
 
 

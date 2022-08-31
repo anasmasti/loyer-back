@@ -107,14 +107,6 @@ module.exports = {
       }
     }
 
-    console.log({
-      numero: contrat.numero_contrat,
-      lateContratTreatmentDate,
-      dureeAvance,
-      dureeAvanceRappel,
-      dureeAvanceRappelAnneeAntr,
-    });
-
     return {
       lateContratTreatmentDate,
       dureeAvance,
@@ -186,7 +178,6 @@ module.exports = {
               match: { is_mandataire: true, deleted: false },
             });
 
-          //   console.log("requestedContrat", requestedContrat);
           const treatmentResult =
             await traitementContratActif.clotureContratActif(
               res,
@@ -223,7 +214,6 @@ module.exports = {
             comptabilisationLoyer = [];
           }
 
-          //   console.log(lateContratTreatmentDate);
 
           lateContratTreatmentDate = await incrementMonth(
             lateContratTreatmentDate.month,

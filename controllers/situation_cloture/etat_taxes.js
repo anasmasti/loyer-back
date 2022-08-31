@@ -86,8 +86,6 @@ const etatMonsuelTaxes = async (req, res) => {
             dataExcel.push(cmptMapped);
           });
 
-          // console.log("montantCautionGlobal", montantCautionGlobal);
-          // montantCautionGlobal  = 111111
           dataExcel.push([
             " ",
             " ",

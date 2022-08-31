@@ -29,7 +29,6 @@ module.exports = {
 
     try {
       data = JSON.parse(req.body.data);
-      console.log(data);
       // data = req.body.data;
     } catch (error) {
       res.status(422).send({ message: error.message });
@@ -142,12 +141,10 @@ module.exports = {
               data.etat_contrat.etat.date_fin_suspension
             );
             if (isLessThan) {
-              console.log(1);
               nextDateComptabilisation = new Date(
                 data.etat_contrat.etat.date_fin_suspension
               );
             } else {
-              console.log(2);
               nextDateComptabilisation = new Date(
                 existedContrat.date_comptabilisation
               );
@@ -159,7 +156,6 @@ module.exports = {
                 data.etat_contrat.etat.date_fin_suspension
               )
             ) {
-              console.log(3);
               nextDateComptabilisation = new Date(
                 existedContrat.date_comptabilisation
               );
@@ -178,7 +174,6 @@ module.exports = {
             },
           };
 
-          console.log(4);
           nextDateComptabilisation = new Date(
             existedContrat.date_comptabilisation
           );
@@ -195,7 +190,6 @@ module.exports = {
           },
         };
 
-        console.log(5);
         nextDateComptabilisation = new Date(
           existedContrat.date_comptabilisation
         );
@@ -293,7 +287,6 @@ module.exports = {
                 )
                   .then((data) => {
                     // res.json(data);
-                    console.log("Proprietaire updated");
                   })
                   .catch((error) => {
                     res.status(400).send({ message: error.message });
@@ -380,7 +373,6 @@ module.exports = {
             )
               .then((data) => {
                 // res.json(data);
-                console.log("Proprietaire updated");
               })
               .catch((error) => {
                 res.status(400).send({ message: error.message });

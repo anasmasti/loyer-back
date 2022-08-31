@@ -241,7 +241,6 @@ module.exports = {
           contrat
         );
 
-        // console.log("Contrat", contrat);
         lateContratTreatmentDate = result.lateContratTreatmentDate;
         dureeAvanceToPay = result.dureeAvanceToPay;
 

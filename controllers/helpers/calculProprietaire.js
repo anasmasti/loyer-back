@@ -169,17 +169,6 @@ function calculMontant(
   //   tax_par_periodicite: taxPeriodicite,
   //   caution_par_proprietaire: montantCautionProprietaire,
   // }
-
-  console.log("Calcule data",{
-    taux_impot: tauxImpot,
-    retenue_source: result,
-    montant_apres_impot: montantApresImpot,
-    montant_loyer: montantLoyer,
-    montant_avance_proprietaire: montantAvance,
-    tax_avance_proprietaire: taxAvance,
-    tax_par_periodicite: taxPeriodicite,
-    caution_par_proprietaire: montantCautionProprietaire,
-  })
   return {
     taux_impot: tauxImpot,
     retenue_source: result,

@@ -69,6 +69,8 @@ module.exports = {
       etat_logement_fonction: req.body.etat_logement_fonction,
       directeur_regional: directeurRegional,
       deleted: false,
+      // For boot data migration
+      // _id: req.body._id,
     });
     await lieu
       .save()

@@ -37,6 +37,8 @@ module.exports = {
           });
         });
 
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
         promise
           .then((data) => {
             res.send(data);

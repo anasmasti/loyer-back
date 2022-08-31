@@ -164,8 +164,6 @@ module.exports = {
             }
           );
 
-          console.log("headerOrdreVirement");
-
           //ecriture comptable du loyer Sens D
           for (
             let i = 0;

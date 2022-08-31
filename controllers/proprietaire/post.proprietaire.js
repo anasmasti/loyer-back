@@ -61,6 +61,9 @@ module.exports = {
         banque: req.body.banque.toUpperCase(),
         type_proprietaire: req.body.type_proprietaire,
         nom_agence_bancaire: req.body.nom_agence_bancaire.toUpperCase(),
+        // For boot data migration
+        // _id: req.body._id,
+
       });
 
       await proprietaire

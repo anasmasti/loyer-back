@@ -203,9 +203,7 @@ module.exports = {
 
     let dateDebutLoyer = new Date(Contrat.date_debut_loyer);
     let premierDateDePaiement = new Date(Contrat.date_premier_paiement);
-    // console.log("Before", Contrat.date_comptabilisation);
     let dateDeComptabilisation = new Date(Contrat.date_comptabilisation);
-    // console.log("After", dateDeComptabilisation);
     let dateFinDeContrat = Contrat.date_fin_Contrat;
 
     let montant_loyer_net,
@@ -704,7 +702,6 @@ module.exports = {
             premierDateDePaiement.getMonth() + periodicite
           );
         }
-        // console.log("Heeeeeeeey", nextDateComptabilisation);
         await ContratSchema.findByIdAndUpdate(
           { _id: Contrat._id },
           {
@@ -794,8 +791,6 @@ module.exports = {
                         k
                       ].montant_loyer.toFixed(2);
                   }
-
-                  console.log(calculCaution, montant_loyer_brut);
 
                   montant_loyer_brut_taxes =
                     +Contrat.proprietaires[j].proprietaire_list[

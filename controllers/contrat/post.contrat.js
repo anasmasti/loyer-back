@@ -58,7 +58,7 @@ module.exports = {
       });
     }
 
-    // Test if contrat is overdued
+    // Check if contrat is overdued
     let is_overdued = false;
     const treatmentDate = await TreatmentDate(req, res);
     const dateDebutLoyerMonth = new Date(data.date_debut_loyer).getMonth() + 1;
@@ -113,7 +113,11 @@ module.exports = {
       // type_lieu: data.type_lieu,
       foncier: req.params.IdFoncier,
       nombre_part: data.nombre_part,
+      // For boot data migration
       is_overdued: is_overdued,
+      // caution_versee: data.caution_versee,
+      // avance_versee: data.avance_versee,
+      // date_comptabilisation: data.date_comptabilisation,
       etat_contrat: {
         libelle: "Initié",
         etat: {},

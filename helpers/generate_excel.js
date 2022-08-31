@@ -20,7 +20,6 @@ const exportExcel = async (
     const workSheet = xlsx.utils.aoa_to_sheet(workSheetData);
 
     xlsx.utils.book_append_sheet(workBook, workSheet, workSheetName);
-    // console.log(workBook);
     await xlsx.writeFile(workBook, path.resolve(filePath));
     // storePaths(today.getMonth() + 1, today.getFullYear(), "xlsx", dateToString, etatType);
   } catch (error) {
