@@ -5,9 +5,9 @@
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
   <mois>9</mois>
-  <totalMntBrutLoyer>70900.00</totalMntBrutLoyer>
+  <totalMntBrutLoyer>66500.00</totalMntBrutLoyer>
   <totalMntRetenueSource>8250.00</totalMntRetenueSource>
-  <totalMntNetLoyer>62650.00</totalMntNetLoyer>
+  <totalMntNetLoyer>58250.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
@@ -53,9 +53,9 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>10400.00</mntBrutLoyer>
+      <mntBrutLoyer>8000.00</mntBrutLoyer>
       <mntRetenueSource>800.00</mntRetenueSource>
-      <mntNetLoyer>9600.00</mntNetLoyer>
+      <mntNetLoyer>7200.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
@@ -70,9 +70,9 @@
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>14000.00</mntBrutLoyer>
+      <mntBrutLoyer>12000.00</mntBrutLoyer>
       <mntRetenueSource>1800.00</mntRetenueSource>
-      <mntNetLoyer>12200.00</mntNetLoyer>
+      <mntNetLoyer>10200.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.0.2018</code>
       </tauxRetenueRevFoncier>

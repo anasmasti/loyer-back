@@ -1,47 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <DeclarationRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="DeclarationRASRF.xsd">
-  <identifiantFiscal>IF</identifiantFiscal>
+  <identifiantFiscal>1087591</identifiantFiscal>
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <totalMntBrutLoyer>88000.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>10900.00</totalMntRetenueSource>
-  <totalMntNetLoyer>77100.00</totalMntNetLoyer>
+  <totalMntBrutLoyer>81900.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>9350.00</totalMntRetenueSource>
+  <totalMntNetLoyer>72550.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>J2545456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>JALAL MED</nomPrenomBailleur>
-      <adresseBailleur>JHUJHUIH</adresseBailleur>
-      <adresseBien>ÀOO)O</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <numTSC>-</numTSC>
-      <mntBrutLoyerAnnuel>15000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>2000.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>13000.00</mntNetLoyerAnnuel>
-      <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
       <numCNIBailleur>J207703</numCNIBailleur>
       <numCEBailleur/>
       <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
       <adresseBailleur>34 et 35 4éme étage, Immeuble Aicha, Bd Hassan II , Agadir</adresseBailleur>
-      <adresseBien>SUD</adresseBien>
+      <adresseBien>FES LJPO</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>-</numTSC>
-      <mntBrutLoyerAnnuel>30000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>4000.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>26000.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>29500.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>3950.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>25550.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
+        <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
@@ -50,16 +32,70 @@
       <numCEBailleur/>
       <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
       <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
-      <adresseBien>HAY ZNAGUI AOURIR AGADIR EN FACE DE LA RAMSA</adresseBien>
+      <adresseBien>KJIKJO</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
       <numTSC>-</numTSC>
-      <mntBrutLoyerAnnuel>43000.00</mntBrutLoyerAnnuel>
-      <mntRetenueSourceAnnuel>4900.00</mntRetenueSourceAnnuel>
-      <mntNetLoyerAnnuel>38100.00</mntNetLoyerAnnuel>
+      <mntBrutLoyerAnnuel>13000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1300.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>11700.00</mntNetLoyerAnnuel>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>B12346</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>BAKKALI MOHAMED</nomPrenomBailleur>
+      <adresseBailleur>BLV IBNOU SINA HAYL EL HANA MARRAKECH</adresseBailleur>
+      <adresseBien>HAY MANDARONA BLD EL QUODS </adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <numTSC>-</numTSC>
+      <mntBrutLoyerAnnuel>15000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1500.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>13500.00</mntNetLoyerAnnuel>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>354646</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SOCIETE 1</nomPrenomBailleur>
+      <adresseBailleur>AGADIR KJHUIHI656</adresseBailleur>
+      <adresseBien>BLV AL AZHAR LOTISSEMENT ZINEB 1 ER ETAGE </adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <numTSC>-</numTSC>
+      <mntBrutLoyerAnnuel>10400.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>800.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>9600.00</mntNetLoyerAnnuel>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>L234567</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NACER YASSINE</nomPrenomBailleur>
+      <adresseBailleur>CITE MALL BLV MED 6 MARRAKECH</adresseBailleur>
+      <adresseBien>BLV AL AZHAR LOTISSEMENT ZINEB 1 ER ETAGE </adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <numTSC>-</numTSC>
+      <mntBrutLoyerAnnuel>14000.00</mntBrutLoyerAnnuel>
+      <mntRetenueSourceAnnuel>1800.00</mntRetenueSourceAnnuel>
+      <mntNetLoyerAnnuel>12200.00</mntNetLoyerAnnuel>
+      <tauxRetenueRevFoncier>
+        <code>TRS.0.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
   </listDetailRetenueRevFoncier>

@@ -74,13 +74,12 @@ module.exports = {
           zoneInitialiseSpace.padEnd(4, " ") +
           // dateGenerationVirementToString +
           dateGenerationFichier +
-          "FBP. " +
-          signaletique.raison_sociale +
-          zoneInitialiseSpace.padEnd(18, " ") +
+          signaletique.raison_sociale.padEnd(24, " ") +
+          zoneInitialiseSpace.padEnd(13, " ") +
           "Fra.LY" +
           (("0" + req.params.mois).slice(-2) +
             req.params.annee.toString().slice(-2)) +
-          zoneInitialiseSpace.padEnd(11, " ") +
+          zoneInitialiseSpace.padEnd(9, " ") +
           numeroCompteBancaire +
           ")" +
           "2" +
