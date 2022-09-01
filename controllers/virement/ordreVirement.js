@@ -4,21 +4,13 @@ const Signaletique = require("../../models/signaletique/signaletique.schema");
 
 module.exports = {
   genererOrdreVirement: async (req, res) => {
-    //add zeros (0)
-    // function pad(number, count) {
-    //     return (1e15 + number + '').slice(-count);
-    // }
-
     archiveOrdreVirement
       .findOne({ mois: req.params.mois, annee: req.params.annee })
       .then(async (data) => {
-        // let data = data_[0]
-        // return res.json(data);
         //traitement du date
-        let result = [];
         let ordreVirementCalculé = [];
         let totalMontantsNet = 0;
-        let zoneInitialiseSpace = " ";
+        var zoneInitialiseSpace = " ";
         let signaletique = await Signaletique.findOne({
           deleted: false,
           active: true,
@@ -29,7 +21,7 @@ module.exports = {
         let villeRib = signaletique.rib.substring(3, 6);
         let cleRib = signaletique.rib.substring(22, 24);
 
-        let dateGenerationVirement = data.date_generation_de_virement;
+        let dateGenerationVirement = new Date(`${req.params.annee}-${req.params.mois}-01`);
         let currentDate = new Date();
         let dateGenerationFichier = `${("0" + currentDate.getDate()).slice(
           -2
@@ -37,13 +29,7 @@ module.exports = {
           .getFullYear()
           .toString()
           .slice(-1)}`;
-        let dateGenerationVirementToString =
-          "01" +
-          ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
-          dateGenerationVirement.getFullYear();
-        // let dateWithoutDay =
-        //   ("0" + (dateGenerationVirement.getMonth() + 1)).slice(-2) +
-        //   dateGenerationVirement.getFullYear();
+
         let dateWithoutDay =
           ("0" + req.params.mois).slice(-2) + req.params.annee;
         let dateMonthName = dateGenerationVirement.toLocaleString("default", {
@@ -64,7 +50,7 @@ module.exports = {
           }
         );
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         // Entee du fichier ordre de virement
         let headerOrdreVirement =
@@ -72,7 +58,6 @@ module.exports = {
           zoneInitialiseSpace.padEnd(16, " ") +
           "1" +
           zoneInitialiseSpace.padEnd(4, " ") +
-          // dateGenerationVirementToString +
           dateGenerationFichier +
           signaletique.raison_sociale.padEnd(24, " ") +
           zoneInitialiseSpace.padEnd(13, " ") +
@@ -89,7 +74,7 @@ module.exports = {
           cleRib +
            "\r\n";
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
@@ -112,7 +97,7 @@ module.exports = {
           let montantGlobal = 0;
 
           // traitement d'identifiant du proprietaire
-          let proprietaireIdentifiant;
+          let proprietaireIdentifiant = '';
           if (
             data.ordre_virement[i].cin == "" &&
             data.ordre_virement[i].passport == ""
@@ -179,9 +164,8 @@ module.exports = {
               `${data.ordre_virement[i].cin}-${data.ordre_virement[i].numero_contrat}`
             )
           ) {
-            // let ecritureOrdreVirement = '0602' + zoneInitialiseSpace.padStart(14, ' ') + proprietaireIdentifiant.padEnd(12, ' ') + nomAndPrenom.padEnd(24, ' ') + nomAgenceBancaire.padEnd(20, ' ') + zoneInitialiseSpace.padEnd(12, ' ') + numeroCompteBancaire.padEnd(16, ' ') + fullMontant.padEnd(16, ' ') + ')' + zoneInitialiseSpace.padEnd(12, ' ') + 'LOYER' + dateWithoutDay.padEnd(13, ' ') + banqueRib + villeRib + cleRib + zoneInitialiseSpace + '\r\n'
             let ecritureOrdreVirement =
-              "0602" +
+              "0602" + 
               zoneInitialiseSpace.padStart(14, " ") +
               proprietaireIdentifiant.padEnd(12, " ") +
               nomAndPrenom.padEnd(24, " ") +
@@ -192,8 +176,6 @@ module.exports = {
               (numeroCompteBancaire == null
                 ? zoneInitialiseSpace.padEnd(16, " ")
                 : numeroCompteBancaire.padEnd(16, " ")) +
-              // numeroCompteBancaire.padEnd(13, " ") +
-              // fullMontant.padEnd(16, " ") +
               fullMontant.padStart(16, 0) +
               ")" +
               zoneInitialiseSpace.padEnd(12, " ") +
@@ -238,7 +220,7 @@ module.exports = {
           totalMontantsNet.toString().replace(".", "").padStart(16, 0) +
           zoneInitialiseSpace.padEnd(42, " ");
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         await fs.writeFileSync(
           "download/ordre virement/Ordre Virement " +
@@ -260,7 +242,8 @@ module.exports = {
             ".txt"
         );
       })
-      .catch((_) => {
+      .catch((error) => {
+        console.log(error.message);
         res.status(402).send({
           message:
             "Aucun fichier a exporter sur cette date, merci de réessayer avec une autre date.",
