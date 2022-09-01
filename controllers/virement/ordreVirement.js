@@ -118,6 +118,11 @@ module.exports = {
             data.ordre_virement[i].passport != ""
           ) {
             proprietaireIdentifiant = data.ordre_virement[i].cin;
+          } else if (
+            data.ordre_virement[i].cin != "" &&
+            data.ordre_virement[i].carte_sejour != ""
+          ) {
+            proprietaireIdentifiant = data.ordre_virement[i].cin;
           }
 
           //informations proprietaire
