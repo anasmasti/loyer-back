@@ -40,10 +40,6 @@ const ProprietaireValidation = Joi.object({
   adresse: Joi.string().empty("").max(250).messages({
     "string.max": "Adresse peut contient seulement 250 charactères au maximum",
   }),
-  n_compte_bancaire: Joi.string().empty().required().min(0).max(24).messages({
-    "any.required": "Numéro de compte bancaire est obligatoire",
-    "string.empty": "Numéro de compte bancaire ne peut pas être vide",
-  }),
   banque: Joi.string().empty().max(250).messages({
     "string.max":
       "La banque peut contient seulement 250 charactères au maximum",

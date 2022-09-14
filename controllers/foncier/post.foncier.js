@@ -182,7 +182,7 @@ module.exports = {
         imgs_lieu_entrer: imagesLieu,
         has_amenagements: data.has_amenagements,
         superficie: data.superficie,
-        etage: data.etage.toUpperCase(),
+        etage: data.etage,
         lieu: lieu,
         type_lieu: data.type_lieu,
         contrat: null,
