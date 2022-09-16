@@ -228,7 +228,7 @@ module.exports = {
                       montant_tax,
                       montant_brut_global, // 'Montant brut' including 'avance' and 'caution' if they exist
                       0, // Montant brut de loyer
-                      dateDebutLoyer,
+                      contrat.date_debut_loyer,
                       calculCaution
                         ? +contrat.proprietaires[j].proprietaire_list[
                             k
