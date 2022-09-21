@@ -4,75 +4,24 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>10</mois>
-  <totalMntBrutLoyer>49500.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>6550.00</totalMntRetenueSource>
-  <totalMntNetLoyer>42950.00</totalMntNetLoyer>
+  <mois>9</mois>
+  <totalMntBrutLoyer>4500.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>450.00</totalMntRetenueSource>
+  <totalMntNetLoyer>4050.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>L234567</numCNIBailleur>
-      <numCEBailleur>34343434</numCEBailleur>
-      <nomPrenomBailleur>NACER YASSINE</nomPrenomBailleur>
-      <adresseBailleur>CITE MALL BLV MED 6 MARRAKECH</adresseBailleur>
-      <adresseBien>HAY TARGA IMMEUBLE 5 APPART 9</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>12000.00</mntBrutLoyer>
-      <mntRetenueSource>1800.00</mntRetenueSource>
-      <mntNetLoyer>10200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
       <numCNIBailleur>J207703</numCNIBailleur>
       <numCEBailleur>98652</numCEBailleur>
       <nomPrenomBailleur>ACHENGLI LAILA</nomPrenomBailleur>
       <adresseBailleur>34 ET 35 4ÉME ÉTAGE, IMMEUBLE AICHA, BD HASSAN II , AGADIR</adresseBailleur>
-      <adresseBien>BLV HASSAN 2 IMMEUBLE PATIO</adresseBien>
+      <adresseBien>SUD</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>24500.00</mntBrutLoyer>
-      <mntRetenueSource>3450.00</mntRetenueSource>
-      <mntNetLoyer>21050.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>BJ36877</numCNIBailleur>
-      <numCEBailleur>3535453</numCEBailleur>
-      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
-      <adresseBailleur>RUE TAMWANZA AOURIR AGADIR</adresseBailleur>
-      <adresseBien>HAY ZNAGUI AOURIR AGADIR EN FACE DE LA RAMSA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>7000.00</mntBrutLoyer>
-      <mntRetenueSource>700.00</mntRetenueSource>
-      <mntNetLoyer>6300.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>B12346</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>BAKKALI MOHAMED</nomPrenomBailleur>
-      <adresseBailleur>BLV IBNOU SINA HAYL EL HANA MARRAKECH</adresseBailleur>
-      <adresseBien>BLV AL AZHAR LOTISSEMENT ZINEB 1 ER ETAGE </adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6000.00</mntBrutLoyer>
-      <mntRetenueSource>600.00</mntRetenueSource>
-      <mntNetLoyer>5400.00</mntNetLoyer>
+      <mntBrutLoyer>4500.00</mntBrutLoyer>
+      <mntRetenueSource>450.00</mntRetenueSource>
+      <mntNetLoyer>4050.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>

@@ -1,72 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <VersementRASRF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VersementRASRF.xsd">
-  <identifiantFiscal>645007468</identifiantFiscal>
+  <identifiantFiscal>AMFIF</identifiantFiscal>
   <exerciceFiscalDu>2023-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2023-12-31</exerciceFiscalAu>
   <annee>2023</annee>
-  <mois>3</mois>
-  <totalMntBrutLoyer>28500.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>3450.00</totalMntRetenueSource>
-  <totalMntNetLoyer>25050.00</totalMntNetLoyer>
+  <mois>10</mois>
+  <totalMntBrutLoyer>30916.66</totalMntBrutLoyer>
+  <totalMntRetenueSource>3091.66</totalMntRetenueSource>
+  <totalMntNetLoyer>27825.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>J2545456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>JALAL MED</nomPrenomBailleur>
-      <adresseBailleur>JHUJHUIH</adresseBailleur>
-      <adresseBien>DEDZDAZDAZ</adresseBien>
+      <numCNIBailleur>A6743213</numCNIBailleur>
+      <numCEBailleur>54546466</numCEBailleur>
+      <nomPrenomBailleur>ZEROUALI IBTISSAM</nomPrenomBailleur>
+      <adresseBailleur>TEST</adresseBailleur>
+      <adresseBien>RIAD SALAM ERRAHMA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>5000.00</mntBrutLoyer>
-      <mntRetenueSource>500.00</mntRetenueSource>
-      <mntNetLoyer>4500.00</mntNetLoyer>
+      <mntBrutLoyer>7833.33</mntBrutLoyer>
+      <mntRetenueSource>783.33</mntRetenueSource>
+      <mntNetLoyer>7050.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>BJ36877</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>CHARIJI ABDELLAH</nomPrenomBailleur>
-      <adresseBailleur>Rue Tamwanza aourir Agadir</adresseBailleur>
-      <adresseBien>TGRTGREGR</adresseBien>
+      <numCNIBailleur/>
+      <numCEBailleur>A6789534</numCEBailleur>
+      <nomPrenomBailleur>EL OUAZZANI SIHAM</nomPrenomBailleur>
+      <adresseBailleur>TEST </adresseBailleur>
+      <adresseBien>RIAD SALAM ERRAHMA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>12000.00</mntBrutLoyer>
-      <mntRetenueSource>1800.00</mntRetenueSource>
-      <mntNetLoyer>10200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.15.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>H354534</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>VAVA FAFA </nomPrenomBailleur>
-      <adresseBailleur>LKKPOKOP¨2142</adresseBailleur>
-      <adresseBien>BGGRGR</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>5000.00</mntBrutLoyer>
-      <mntRetenueSource>500.00</mntRetenueSource>
-      <mntNetLoyer>4500.00</mntNetLoyer>
+      <mntBrutLoyer>6583.33</mntBrutLoyer>
+      <mntRetenueSource>658.33</mntRetenueSource>
+      <mntNetLoyer>5925.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>5665653</numCNIBailleur>
+      <numCNIBailleur>B12346</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>KJKKOPPP JKLML</nomPrenomBailleur>
-      <adresseBailleur>JKKJKLLK</adresseBailleur>
-      <adresseBien>XSXSQXQQ</adresseBien>
+      <nomPrenomBailleur>BAKKALI MOHAMED</nomPrenomBailleur>
+      <adresseBailleur>BLV IBNOU SINA HAYL EL HANA MARRAKECH</adresseBailleur>
+      <adresseBien>TEST</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.0.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur>A123456</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>YOUSSEF</nomPrenomBailleur>
+      <adresseBailleur>TEST</adresseBailleur>
+      <adresseBien>TEST</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>4000.00</mntBrutLoyer>
+      <mntRetenueSource>400.00</mntRetenueSource>
+      <mntNetLoyer>3600.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur/>
+      <numCEBailleur/>
+      <nomPrenomBailleur>BENNIS MOHAMED</nomPrenomBailleur>
+      <adresseBailleur>TEST</adresseBailleur>
+      <adresseBien>AGADIR SUP</adresseBien>
+      <typeBienBailleur>
+        <code>LUC</code>
+      </typeBienBailleur>
+      <mntBrutLoyer>3000.00</mntBrutLoyer>
+      <mntRetenueSource>300.00</mntRetenueSource>
+      <mntNetLoyer>2700.00</mntNetLoyer>
+      <tauxRetenueRevFoncier>
+        <code>TRS.10.2018</code>
+      </tauxRetenueRevFoncier>
+    </DetailRetenueRevFoncier>
+    <DetailRetenueRevFoncier>
+      <ifuBailleur/>
+      <numCNIBailleur/>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SELLAMI AMAL</nomPrenomBailleur>
+      <adresseBailleur>TEST</adresseBailleur>
+      <adresseBien>HAY TARGA IMMEUBLE 5 APPART 9</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
