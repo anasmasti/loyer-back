@@ -20,11 +20,6 @@ module.exports = {
         });
       }
 
-      // Joi Validation
-      const validatedProprietaire = await ProprietaireValidation.validateAsync(
-        req.body
-      );
-
       // La validation d'unicité du Proprietaire
       const ValidateCinProprietaire = await Proprietaire.findOne({
         cin: req.body.cin,
