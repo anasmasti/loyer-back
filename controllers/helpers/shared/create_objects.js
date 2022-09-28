@@ -70,7 +70,7 @@ module.exports = {
       montant_loyer: +proprietaire.montant_loyer.toFixed(2),
       tax_loyer: +proprietaire.tax_par_periodicite.toFixed(2),
       retenue_source: +proprietaire.retenue_source.toFixed(2),
-      montant_brut_loyer: typeof montant_brut_loyer == 'number' ?? +montant_brut_loyer.toFixed(2),
+      montant_brut_loyer: +montant_brut_loyer.toFixed(2),
       // Montants de caution
       montant_caution: +montant_caution.toFixed(2),
       caution_proprietaire: +proprietaire.caution_par_proprietaire.toFixed(2),

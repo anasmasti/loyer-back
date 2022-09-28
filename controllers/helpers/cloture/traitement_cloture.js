@@ -119,6 +119,7 @@ module.exports = {
                     montant_loyer_net,
                     montant_tax,
                     montant_loyer_brut,
+                    montant_loyer_brut_taxes,
                     dateDebutLoyer,
                     0,
                     montant_net_without_caution,
