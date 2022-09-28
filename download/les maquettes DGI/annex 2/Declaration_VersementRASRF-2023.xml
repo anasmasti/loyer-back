@@ -4,109 +4,58 @@
   <exerciceFiscalDu>2023-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2023-12-31</exerciceFiscalAu>
   <annee>2023</annee>
-  <mois>10</mois>
-  <totalMntBrutLoyer>30916.66</totalMntBrutLoyer>
-  <totalMntRetenueSource>3091.66</totalMntRetenueSource>
-  <totalMntNetLoyer>27825.00</totalMntNetLoyer>
+  <mois>1</mois>
+  <totalMntBrutLoyer>17250.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>1725.00</totalMntRetenueSource>
+  <totalMntNetLoyer>15525.00</totalMntNetLoyer>
   <listDetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>A6743213</numCNIBailleur>
-      <numCEBailleur>54546466</numCEBailleur>
-      <nomPrenomBailleur>ZEROUALI IBTISSAM</nomPrenomBailleur>
-      <adresseBailleur>TEST</adresseBailleur>
-      <adresseBien>RIAD SALAM ERRAHMA</adresseBien>
+      <numCNIBailleur>CIN605</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>SOFIA BADRANE</nomPrenomBailleur>
+      <adresseBailleur>-</adresseBailleur>
+      <adresseBien>BLOC R N° 33 RDC BLOC 16 NOVEMBRE HAY NAHDA KHOURIBGA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>7833.33</mntBrutLoyer>
-      <mntRetenueSource>783.33</mntRetenueSource>
-      <mntNetLoyer>7050.00</mntNetLoyer>
+      <mntBrutLoyer>3750.00</mntBrutLoyer>
+      <mntRetenueSource>375.00</mntRetenueSource>
+      <mntNetLoyer>3375.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur/>
-      <numCEBailleur>A6789534</numCEBailleur>
-      <nomPrenomBailleur>EL OUAZZANI SIHAM</nomPrenomBailleur>
-      <adresseBailleur>TEST </adresseBailleur>
-      <adresseBien>RIAD SALAM ERRAHMA</adresseBien>
+      <numCNIBailleur>Q251990</numCNIBailleur>
+      <numCEBailleur/>
+      <nomPrenomBailleur>NOUBAIL MOUNTASSIR</nomPrenomBailleur>
+      <adresseBailleur>5 D, YASSMINA 1 APP 2 CH 2,KHOURIBGA</adresseBailleur>
+      <adresseBien>LOTISSEMENT YASSMINE I , TRANCHE II , 3EME. ETAGE KHOURIBGA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>6583.33</mntBrutLoyer>
-      <mntRetenueSource>658.33</mntRetenueSource>
-      <mntNetLoyer>5925.00</mntNetLoyer>
+      <mntBrutLoyer>6750.00</mntBrutLoyer>
+      <mntRetenueSource>675.00</mntRetenueSource>
+      <mntNetLoyer>6075.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>
     </DetailRetenueRevFoncier>
     <DetailRetenueRevFoncier>
       <ifuBailleur/>
-      <numCNIBailleur>B12346</numCNIBailleur>
+      <numCNIBailleur>IR801997</numCNIBailleur>
       <numCEBailleur/>
-      <nomPrenomBailleur>BAKKALI MOHAMED</nomPrenomBailleur>
-      <adresseBailleur>BLV IBNOU SINA HAYL EL HANA MARRAKECH</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
+      <nomPrenomBailleur>NOUBAIL MOHAMMED</nomPrenomBailleur>
+      <adresseBailleur>VIA GIUSEPPE COSTA NO 14 MELZO MILANO ITALIE</adresseBailleur>
+      <adresseBien>LOTISSEMENT YASSMINE I , TRANCHE II , 3EME. ETAGE KHOURIBGA</adresseBien>
       <typeBienBailleur>
         <code>LUC</code>
       </typeBienBailleur>
-      <mntBrutLoyer>3000.00</mntBrutLoyer>
-      <mntRetenueSource>300.00</mntRetenueSource>
-      <mntNetLoyer>2700.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.0.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>A123456</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>YOUSSEF</nomPrenomBailleur>
-      <adresseBailleur>TEST</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>4000.00</mntBrutLoyer>
-      <mntRetenueSource>400.00</mntRetenueSource>
-      <mntNetLoyer>3600.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur/>
-      <numCEBailleur/>
-      <nomPrenomBailleur>BENNIS MOHAMED</nomPrenomBailleur>
-      <adresseBailleur>TEST</adresseBailleur>
-      <adresseBien>AGADIR SUP</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>3000.00</mntBrutLoyer>
-      <mntRetenueSource>300.00</mntRetenueSource>
-      <mntNetLoyer>2700.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur/>
-      <numCEBailleur/>
-      <nomPrenomBailleur>SELLAMI AMAL</nomPrenomBailleur>
-      <adresseBailleur>TEST</adresseBailleur>
-      <adresseBien>HAY TARGA IMMEUBLE 5 APPART 9</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6500.00</mntBrutLoyer>
-      <mntRetenueSource>650.00</mntRetenueSource>
-      <mntNetLoyer>5850.00</mntNetLoyer>
+      <mntBrutLoyer>6750.00</mntBrutLoyer>
+      <mntRetenueSource>675.00</mntRetenueSource>
+      <mntNetLoyer>6075.00</mntNetLoyer>
       <tauxRetenueRevFoncier>
         <code>TRS.10.2018</code>
       </tauxRetenueRevFoncier>

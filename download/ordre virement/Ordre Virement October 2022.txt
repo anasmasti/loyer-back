@@ -1,1 +1,5 @@
-0302                1    21092FBP. Micro-Credit                    Fra.LY1022         5356775664646657)2                                             0093847673
+0302                1    28092FBP. Micro-Credit                    Fra.LY1022         5356775664646657)2                                             0093847673
+0602              IB19558     ZERNAKH ABDELLAH        MARRAKECH BENI MELLAL            21140607382800000000000001100000)            LOYER 102022      0014510184 
+0602              Q251990     NOUBAIL MOUNTASSIR      KHOURIBGA ZELLAKA               00031320001960440000000000607500)            LOYER 102022      0000740063 
+0602              IR801997    NOUBAIL MOHAMMED        KHOURIBGA ZELLAKA               00031320001960440000000000607500)            LOYER 102022      0000740063 
+0802                                                                                                  0000000002315000                                          

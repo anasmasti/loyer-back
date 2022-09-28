@@ -5,7 +5,6 @@ const archivevirements = require("../../models/archive/archiveVirement.schema");
 const helper = require("../helpers/maquette_tele_declaration_paiement");
 const Signaletique = require("../../models/signaletique/signaletique.schema");
 
-
 module.exports = {
   createAnnex2: async (req, res) => {
     let ArchCmptbList;
@@ -20,14 +19,21 @@ module.exports = {
     let currentDate = new Date();
     let currentYear = req.params.annee;
 
-    function calculProprietaireMnts(ArchCmptbList, cinProprietaire) {
+    function calculProprietaireMnts(ArchCmptbList, proprietaireToCalculate) {
       let mntBrutTotal = 0;
       let mntRetenueSourceTotal = 0;
       let mntNetLoyerTotal = 0;
       ArchCmptbList.forEach((ArchCmptb) => {
         ArchCmptb.comptabilisation_loyer_crediter.forEach(
           (comptabilisationloyer) => {
-            if (comptabilisationloyer.cin == cinProprietaire) {
+            let identifiantProprietaire =
+              comptabilisationloyer.cin != ""
+                ? comptabilisationloyer.cin
+                : comptabilisationloyer.passport != ""
+                ? comptabilisationloyer.passport
+                : comptabilisationloyer.carte_sejour;
+
+            if (identifiantProprietaire == proprietaireToCalculate) {
               mntBrutTotal +=
                 comptabilisationloyer.montant_brut -
                 comptabilisationloyer.montant_caution;
@@ -60,18 +66,23 @@ module.exports = {
               j < ArchCmptbList[i].comptabilisation_loyer_crediter.length;
               j++
             ) {
-              if (
-                !proprietaireList.includes(
-                  ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
-                )
-              ) {
+              let identifiantPrp =
+                ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin != ""
+                  ? ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
+                  : ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                      .passport != ""
+                  ? ArchCmptbList[i].comptabilisation_loyer_crediter[j].passport
+                  : ArchCmptbList[i].comptabilisation_loyer_crediter[j]
+                      .carte_sejour;
+
+              if (!proprietaireList.includes(identifiantPrp)) {
                 if (
                   ArchCmptbList[i].comptabilisation_loyer_crediter[j]
                     .declaration_option == "non"
                 ) {
                   let proprietaireMnts = await calculProprietaireMnts(
                     ArchCmptbList,
-                    ArchCmptbList[i].comptabilisation_loyer_crediter[j].cin
+                    identifiantPrp
                   );
 
                   //List DetailRetenueRevFoncier
@@ -129,7 +140,7 @@ module.exports = {
           let signaletique = await Signaletique.findOne({
             deleted: false,
             active: true,
-          })
+          });
 
           let Annex2 = {
             DeclarationRASRF: {
