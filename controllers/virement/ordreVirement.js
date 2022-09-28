@@ -21,7 +21,9 @@ module.exports = {
         let villeRib = signaletique.rib.substring(3, 6);
         let cleRib = signaletique.rib.substring(22, 24);
 
-        let dateGenerationVirement = new Date(`${req.params.annee}-${req.params.mois}-01`);
+        let dateGenerationVirement = new Date(
+          `${req.params.annee}-${req.params.mois}-01`
+        );
         let currentDate = new Date();
         let dateGenerationFichier = `${("0" + currentDate.getDate()).slice(
           -2
@@ -69,10 +71,11 @@ module.exports = {
           ")" +
           "2" +
           zoneInitialiseSpace.padEnd(45, " ") +
-          "00" + banqueRib +
+          "00" +
+          banqueRib +
           villeRib +
           cleRib +
-           "\r\n";
+          "\r\n";
 
         await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -97,7 +100,7 @@ module.exports = {
           let montantGlobal = 0;
 
           // traitement d'identifiant du proprietaire
-          let proprietaireIdentifiant = '';
+          let proprietaireIdentifiant = "";
           if (
             data.ordre_virement[i].cin == "" &&
             data.ordre_virement[i].passport == ""
@@ -176,13 +179,13 @@ module.exports = {
             )
           ) {
             let ecritureOrdreVirement =
-              "0602" + 
+              "0602" +
               zoneInitialiseSpace.padStart(14, " ") +
               proprietaireIdentifiant.padEnd(12, " ") +
               nomAndPrenom.padEnd(24, " ") +
               (nomAgenceBancaire == null
                 ? zoneInitialiseSpace.padEnd(20, " ")
-                : nomAgenceBancaire.padEnd(20, " ")) +
+                : nomAgenceBancaire.substring(0, 20).padEnd(20, " ")) +
               zoneInitialiseSpace.padEnd(12, " ") +
               (numeroCompteBancaire == null
                 ? zoneInitialiseSpace.padEnd(16, " ")
