@@ -44,7 +44,7 @@ module.exports = {
           }
         );
       });
-      proprietaireList.push(cinProprietaire);
+      proprietaireList.push(proprietaireToCalculate);
       return {
         mntBrutTotal: mntBrutTotal,
         mntRetenueSourceTotal: mntRetenueSourceTotal,
