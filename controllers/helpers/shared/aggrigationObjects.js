@@ -3,6 +3,17 @@ const ContratHelper = require("../contrat");
 const archiveComptabilisation = require("../../../models/archive/archiveComptabilisation.schema");
 const archiveVirement = require("../../../models/archive/archiveVirement.schema");
 
+function getIdentifiantProprietaire(proprietaire) {
+  let identifiantProprietaire =
+    proprietaire.cin != ""
+      ? proprietaire.cin
+      : proprietaire.passport != ""
+      ? proprietaire.passport
+      : proprietaire.carte_sejour;
+
+  return identifiantProprietaire;
+}
+
 module.exports = {
   aggrigateOrderVirementObjects: (orderVirements, is_overdued, isAnneeAntr) => {
     let aggrigatedOrderVirements = [];
@@ -12,15 +23,21 @@ module.exports = {
       let montant_net_total = 0,
         montant_brut_total = 0,
         montant_taxe_total = 0;
+        let identifiantProprietaire = getIdentifiantProprietaire(orderVirements[index])
 
-      if (!aggrigatedList.includes(orderVirements[index].cin)) {
+      if (
+        !aggrigatedList.includes(
+          identifiantProprietaire
+        )
+      ) {
         for (let j = 0; j < orderVirements.length; j++) {
           const orderVrmt = orderVirements[j];
-          if (orderVrmt.cin == orderVirements[index].cin) {
+
+          if (getIdentifiantProprietaire(orderVrmt) == identifiantProprietaire) {
             montant_net_total += orderVrmt.montant_net;
             montant_brut_total += orderVrmt.montant_brut;
             montant_taxe_total += orderVrmt.montant_taxe;
-            aggrigatedList.push(orderVrmt.cin);
+            aggrigatedList.push(identifiantProprietaire);
           }
         }
 
@@ -84,12 +101,13 @@ module.exports = {
         montant_avance_proprietaire_total = 0,
         retenue_source_total = 0,
         montant_net_without_caution_total = 0;
+       let identifiantProprietaire = getIdentifiantProprietaire(cmptLoyer[index])
 
-      if (!aggrigatedList.includes(cmptLoyer[index].cin)) {
+      if (!aggrigatedList.includes(identifiantProprietaire)) {
         for (let j = 0; j < cmptLoyer.length; j++) {
           const _cmptLoyer = cmptLoyer[j];
 
-          if (_cmptLoyer.cin == cmptLoyer[index].cin) {
+          if ( getIdentifiantProprietaire(_cmptLoyer) == identifiantProprietaire) {
             montant_net_total += _cmptLoyer.montant_net;
             montant_tax_total += _cmptLoyer.montant_tax;
             montant_brut_total += _cmptLoyer.montant_brut;
@@ -104,7 +122,7 @@ module.exports = {
             montant_net_without_caution_total +=
               _cmptLoyer.montant_net_without_caution;
 
-            aggrigatedList.push(cmptLoyer[index].cin);
+            aggrigatedList.push(identifiantProprietaire);
           }
         }
 
