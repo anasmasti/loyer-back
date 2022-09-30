@@ -80,14 +80,6 @@ module.exports = {
             ) {
               contrat[i].etat_contrat.etat.motif.forEach(async (motif) => {
                 if (motif.type_motif == "Révision du prix du loyer") {
-                  // let dateEffetAv = new Date(
-                  //   contrat.etat_contrat.etat.date_effet_av
-                  // );
-                  // if (
-                  //   (dateEffetAv.getMonth() + 1 < req.body.mois &&
-                  //     dateEffetAv.getFullYear() == req.body.annee) ||
-                  //   dateEffetAv.getFullYear() < req.body.annee
-                  // ) {
                   if (
                     contrat[i].etat_contrat.etat
                       .etat_contrat_rappel_montant_loyer_ma > 0
@@ -115,7 +107,7 @@ module.exports = {
                       res,
                       contrat[i],
                       Contrat,
-                      false,
+                      true,
                       true,
                       req.body.mois,
                       req.body.annee

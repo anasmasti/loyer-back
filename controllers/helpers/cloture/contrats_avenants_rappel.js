@@ -130,6 +130,7 @@ const lateAvenantTreatment = async (
       };
 
       etatContrat.etat.is_overdued_av = false;
+
       await ContratSchema.findByIdAndUpdate(Contrat._id, {
         etat_contrat: etatContrat,
       }).catch((error) => {
