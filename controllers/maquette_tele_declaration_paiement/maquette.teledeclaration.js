@@ -41,8 +41,10 @@ module.exports = {
               comptabilisationloyer.montant_tax > 0
             ) {
               mntBrutTotal +=
+                !comptabilisationloyer.caution_versee ?
                 comptabilisationloyer.montant_brut -
-                comptabilisationloyer.montant_caution;
+                  comptabilisationloyer.montant_caution :
+                  comptabilisationloyer.montant_brut
               mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
               mntNetLoyerTotal +=
                 comptabilisationloyer.montant_net_without_caution;
