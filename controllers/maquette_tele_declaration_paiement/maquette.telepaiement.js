@@ -34,9 +34,10 @@ module.exports = {
                 : comptabilisationloyer.carte_sejour;
 
             if (identifiantProprietaire == proprietaireToCalculate) {
-              mntBrutTotal +=
-                comptabilisationloyer.montant_brut -
-                comptabilisationloyer.montant_caution;
+              mntBrutTotal += !comptabilisationloyer.caution_versee
+                ? comptabilisationloyer.montant_brut -
+                  comptabilisationloyer.montant_caution
+                : comptabilisationloyer.montant_brut;
               mntRetenueSourceTotal += comptabilisationloyer.montant_tax;
               mntNetLoyerTotal +=
                 comptabilisationloyer.montant_net_without_caution;
