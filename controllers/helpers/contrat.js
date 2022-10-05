@@ -15,6 +15,20 @@ module.exports = {
     isOverdued = false,
     piece_jointe_avenant
   ) => {
+    function findProp(id) {
+      let proprietaire = null;
+      for (
+        let index = 0;
+        index < existedContrat.proprietaires.length;
+        index++
+      ) {
+        const existedProprietaire = existedContrat.proprietaires[index];
+        if (existedProprietaire._id.toString() == id.toString()) {
+          proprietaire = existedProprietaire;
+        }
+      }
+      return proprietaire;
+    }
     // Update ( montant loyer )
     mntLoyer = ContratData.montant_loyer;
     for (
@@ -102,28 +116,120 @@ module.exports = {
       .then((newContrat) => {
         for (let j = 0; j < existedContrat.proprietaires.length; j++) {
           const proprietaire = existedContrat.proprietaires[j];
+          let deletedProprietaire = [];
 
-          let check = false;
-          for (
-            let k = 0;
-            k < ContratData.etat_contrat.etat.deleted_proprietaires.length;
-            k++
-          ) {
-            const deletedProprietaire =
-              ContratData.etat_contrat.etat.deleted_proprietaires[k];
-            if (deletedProprietaire == proprietaire._id) check = true;
-          }
-          if (!check) {
-            try {
-              ProprietaireHelper.duplicateProprietaire(
-                req,
-                res,
+          // Get deleted proprietaire
+          deletedProprietaire =
+            ContratData.etat_contrat.etat.deleted_proprietaires;
+
+          // Get mandataire
+          if (proprietaire.is_mandataire) {
+            // Check if deleted proprietaire not includes this mandataire
+            if (!deletedProprietaire.includes(proprietaire._id.toString())) {
+              // Add mandataire
+              ProprietaireHelper.saveDuplicateProprietaire(
                 proprietaire,
-                newContrat,
-                ContratData.etat_contrat.etat.deleted_proprietaires
+                true,
+                null,
+                newContrat
+              )
+                .then(async (proprietaireMandataire) => {
+                  await Contrat.findByIdAndUpdate(
+                    { _id: newContrat._id },
+                    { $push: { proprietaires: proprietaireMandataire._id } }
+                  ).catch((error) => {
+                    res.status(422).send({
+                      message: error.message,
+                    });
+                  });
+                  // Get proprietaire list
+                  for (
+                    let index = 0;
+                    index < proprietaire.proprietaire_list.length;
+                    index++
+                  ) {
+                    // ForEach proprietaires
+                    if (
+                      !deletedProprietaire.includes(
+                        proprietaire.proprietaire_list[index].toString()
+                      )
+                    ) {
+                      let selectedProprietaire = findProp(
+                        proprietaire.proprietaire_list[index]
+                      );
+                      ProprietaireHelper.saveDuplicateProprietaire(
+                        selectedProprietaire,
+                        false,
+                        proprietaireMandataire._id,
+                        newContrat
+                      ).then(async (proprietaireNotMandataire) => {
+                        await Contrat.findByIdAndUpdate(
+                          { _id: newContrat._id },
+                          {
+                            $push: {
+                              proprietaires: proprietaireNotMandataire._id,
+                            },
+                          }
+                        ).catch((error) => {
+                          res.status(422).send({
+                            message: error.message,
+                          });
+                        });
+                        // Push proprietaire in Mandataire proprietaire list
+                        await AffectationProprietaire.findByIdAndUpdate(
+                          { _id: proprietaireMandataire._id },
+                          {
+                            $push: {
+                              proprietaire_list: proprietaireNotMandataire._id,
+                            },
+                          }
+                        ).catch((error) => {
+                          res.status(422).send({
+                            message: error.message,
+                          });
+                        });
+                      });
+                    }
+                  }
+                })
+                .catch((error) => {
+                  res.status(422).send({
+                    message: error.message,
+                  });
+                });
+            }
+
+            // Check if deleted proprietaire includes this mandataire
+            else {
+              // Then Add proprietaire
+              proprietaire.proprietaire_list.forEach(
+                (proprietaireHasntMandataire) => {
+                  let selectedProprietaire = findProp(
+                    proprietaireHasntMandataire
+                  );
+                  if (
+                    !deletedProprietaire.includes(
+                      selectedProprietaire._id.toString()
+                    )
+                  ) {
+                    ProprietaireHelper.saveDuplicateProprietaire(
+                      selectedProprietaire,
+                      false,
+                      null,
+                      newContrat
+                    ).then(async (proprietaire) => {
+                      await Contrat.findByIdAndUpdate(
+                        { _id: newContrat._id },
+                        { $push: { proprietaires: proprietaire._id } }
+                      ).catch((error) => {
+                        res.status(422).send({
+                          message: error.message,
+                        });
+                      });
+                    });
+                  }
+                }
               );
-            } catch (error) {
-              console.log(error.message);
             }
           }
         }

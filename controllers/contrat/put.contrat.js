@@ -103,7 +103,7 @@ module.exports = {
       } catch (error) {
         res.status(400).send({ message: error.message });
       }
-    } else if (
+    } else if ( 
       data.etat_contrat.libelle === "Suspendu" ||
       data.etat_contrat.libelle === "toactivate"
     ) {
