@@ -201,6 +201,39 @@ module.exports = {
               });
             }
           }
+
+          let dateEffResilie = new Date(
+            contrat[i].etat_contrat.etat.date_resiliation
+          );
+          let dateEffResilieMonth = dateEffResilie.getMonth() + 1;
+          let dateEffResilieYear = dateEffResilie.getFullYear();
+
+          if (
+            contrat[i].etat_contrat.libelle == "Résilié" &&
+            ((dateEffResilieMonth > req.body.mois &&
+              dateEffResilieYear == req.body.annee) ||
+              dateEffResilieYear > req.body.annee) &&
+            contrat[i].etat_contrat.etat.reprise_caution == ""
+          ) {
+            result = await traitementContratResilie.clotureContratResilie(
+              res,
+              contrat[i],
+              dateGenerationDeComptabilisation,
+              Contrat,
+              false,
+              req.body.mois,
+              req.body.annee
+            );
+            result.ordre_virement.forEach((ordVrm) => {
+              ordreVirement.push(ordVrm);
+            });
+            result.cmptLoyerCrdt.forEach((cmptCrdt) => {
+              comptabilisationLoyerCrediter.push(cmptCrdt);
+            });
+            result.cmptLoyerDebt.forEach((cmptDept) => {
+              comptabilisationLoyerDebiter.push(cmptDept);
+            });
+          }
         } //end for
 
         // Store archives

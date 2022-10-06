@@ -4,61 +4,9 @@
   <exerciceFiscalDu>2022-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2022-12-31</exerciceFiscalAu>
   <annee>2022</annee>
-  <mois>9</mois>
-  <totalMntBrutLoyer>24000.03</totalMntBrutLoyer>
-  <totalMntRetenueSource>2400.03</totalMntRetenueSource>
-  <totalMntNetLoyer>21600.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur/>
-      <numCEBailleur/>
-      <nomPrenomBailleur>NASIRI HASNAA</nomPrenomBailleur>
-      <adresseBailleur>TEST</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>8000.01</mntBrutLoyer>
-      <mntRetenueSource>800.01</mntRetenueSource>
-      <mntNetLoyer>7200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>CIN605</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>SOFIA BADRANE</nomPrenomBailleur>
-      <adresseBailleur>-</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>8000.01</mntBrutLoyer>
-      <mntRetenueSource>800.01</mntRetenueSource>
-      <mntNetLoyer>7200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>BK646476</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>DOUNIA LAMKADDAM</nomPrenomBailleur>
-      <adresseBailleur>-</adresseBailleur>
-      <adresseBien>TEST</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>8000.01</mntBrutLoyer>
-      <mntRetenueSource>800.01</mntRetenueSource>
-      <mntNetLoyer>7200.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-  </listDetailRetenueRevFoncier>
+  <mois>11</mois>
+  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>0.00</totalMntRetenueSource>
+  <totalMntNetLoyer>0.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier/>
 </VersementRASRF>
