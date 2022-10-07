@@ -80,7 +80,7 @@ module.exports = {
       foncier: ContratData.foncier,
       is_avenant: true,
       has_avenant: false,
-      is_overdued: false,
+      is_overdued: isOverdued,
       nombre_part: ContratData.nombre_part,
       etat_contrat: {
         libelle: "Initié",

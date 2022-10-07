@@ -4,61 +4,9 @@
   <exerciceFiscalDu>2023-01-01</exerciceFiscalDu>
   <exerciceFiscalAu>2023-12-31</exerciceFiscalAu>
   <annee>2023</annee>
-  <mois>1</mois>
-  <totalMntBrutLoyer>17250.00</totalMntBrutLoyer>
-  <totalMntRetenueSource>1725.00</totalMntRetenueSource>
-  <totalMntNetLoyer>15525.00</totalMntNetLoyer>
-  <listDetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>CIN605</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>SOFIA BADRANE</nomPrenomBailleur>
-      <adresseBailleur>-</adresseBailleur>
-      <adresseBien>BLOC R N° 33 RDC BLOC 16 NOVEMBRE HAY NAHDA KHOURIBGA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>3750.00</mntBrutLoyer>
-      <mntRetenueSource>375.00</mntRetenueSource>
-      <mntNetLoyer>3375.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>Q251990</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>NOUBAIL MOUNTASSIR</nomPrenomBailleur>
-      <adresseBailleur>5 D, YASSMINA 1 APP 2 CH 2,KHOURIBGA</adresseBailleur>
-      <adresseBien>LOTISSEMENT YASSMINE I , TRANCHE II , 3EME. ETAGE KHOURIBGA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6750.00</mntBrutLoyer>
-      <mntRetenueSource>675.00</mntRetenueSource>
-      <mntNetLoyer>6075.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-    <DetailRetenueRevFoncier>
-      <ifuBailleur/>
-      <numCNIBailleur>IR801997</numCNIBailleur>
-      <numCEBailleur/>
-      <nomPrenomBailleur>NOUBAIL MOHAMMED</nomPrenomBailleur>
-      <adresseBailleur>VIA GIUSEPPE COSTA NO 14 MELZO MILANO ITALIE</adresseBailleur>
-      <adresseBien>LOTISSEMENT YASSMINE I , TRANCHE II , 3EME. ETAGE KHOURIBGA</adresseBien>
-      <typeBienBailleur>
-        <code>LUC</code>
-      </typeBienBailleur>
-      <mntBrutLoyer>6750.00</mntBrutLoyer>
-      <mntRetenueSource>675.00</mntRetenueSource>
-      <mntNetLoyer>6075.00</mntNetLoyer>
-      <tauxRetenueRevFoncier>
-        <code>TRS.10.2018</code>
-      </tauxRetenueRevFoncier>
-    </DetailRetenueRevFoncier>
-  </listDetailRetenueRevFoncier>
+  <mois>4</mois>
+  <totalMntBrutLoyer>0.00</totalMntBrutLoyer>
+  <totalMntRetenueSource>0.00</totalMntRetenueSource>
+  <totalMntNetLoyer>0.00</totalMntNetLoyer>
+  <listDetailRetenueRevFoncier/>
 </VersementRASRF>

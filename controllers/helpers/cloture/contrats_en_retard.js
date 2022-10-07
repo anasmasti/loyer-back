@@ -257,12 +257,13 @@ const lateContratTreatment = async (
         lateContratTreatmentDate.month == treatmentMonth &&
         lateContratTreatmentDate.year == treatmentAnnee
       ) {
-        if (contrat.is_avenant) {
-          isTreatmentEnded = true;
-          break;
-        } else {
+        if (!contrat.is_avenant) {
           calculCaution = true;
-        }
+        } 
+
+        //   isTreatmentEnded = true;
+        //   break;
+        
         aggrigatedOrdreVirement.push(
           ...sharedHelper.aggrigateOrderVirementObjects(
             ordreVirement,
