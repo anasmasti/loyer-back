@@ -180,6 +180,7 @@ const lateContratTreatment = async (
     }
 
     while (!isTreatmentEnded) {
+    
       // Request updated contrat
       const requestedContrat = await Contrat.findById({
         _id: contrat._id,
@@ -218,6 +219,8 @@ const lateContratTreatment = async (
         true,
         calculCaution // Calcul caution
       );
+
+      console.log("lateContratTreatmentDate", lateContratTreatmentDate, requestedContrat);
 
       calculCaution = false;
 
@@ -259,11 +262,8 @@ const lateContratTreatment = async (
       ) {
         if (!contrat.is_avenant) {
           calculCaution = true;
-        } 
+        }        
 
-        //   isTreatmentEnded = true;
-        //   break;
-        
         aggrigatedOrdreVirement.push(
           ...sharedHelper.aggrigateOrderVirementObjects(
             ordreVirement,
@@ -278,6 +278,8 @@ const lateContratTreatment = async (
             false
           )
         );
+
+       
         ordreVirement = [];
         comptabilisationLoyer = [];
       }

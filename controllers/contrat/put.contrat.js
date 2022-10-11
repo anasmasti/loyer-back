@@ -103,7 +103,7 @@ module.exports = {
       } catch (error) {
         res.status(400).send({ message: error.message });
       }
-    } else if ( 
+    } else if (
       data.etat_contrat.libelle === "Suspendu" ||
       data.etat_contrat.libelle === "toactivate"
     ) {
@@ -651,12 +651,18 @@ module.exports = {
               }
             });
 
-            // Set date comptabilisation
-            dateComptabilisation = new Date(
-              treatmentYear,
-              treatmentMonth - 1,
-              15
-            );
+            if (!contratAV.is_overdued) {
+              console.log('!contratAV.is_overdued');
+              // Set date comptabilisation
+              dateComptabilisation = new Date(
+                treatmentYear,
+                treatmentMonth - 1,
+                15
+              );
+            } else {
+              // Set date comptabilisation
+              dateComptabilisation = contratAV.date_comptabilisation;
+            }
 
             // Change is_avenant to false
           } else {
