@@ -652,7 +652,16 @@ module.exports = {
             });
 
             if (!contratAV.is_overdued) {
-              console.log('!contratAV.is_overdued');
+              // Set date comptabilisation
+              dateComptabilisation = new Date(
+                treatmentYear,
+                treatmentMonth - 1,
+                15
+              );
+            } else if (
+              contratAV.is_overdued &&
+              contratAV.etat_contrat.etat.is_rappel_manuel
+            ) {
               // Set date comptabilisation
               dateComptabilisation = new Date(
                 treatmentYear,
@@ -660,9 +669,11 @@ module.exports = {
                 15
               );
             } else {
+              console.log('dateComptabilisation')
               // Set date comptabilisation
               dateComptabilisation = contratAV.date_comptabilisation;
             }
+            
 
             // Change is_avenant to false
           } else {

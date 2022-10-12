@@ -131,7 +131,7 @@ module.exports = {
             }
 
             let treatmentResult;
-            if (contrat[i].is_overdued) {
+            if (contrat[i].is_overdued && !contrat[i].etat_contrat.etat.is_rappel_manuel) {
               treatmentResult = await overduedContrats(
                 res,
                 contrat[i],
